@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Family_Artifact_Register</string>
+    <string name="welcomeText">Welcome to Family Artifact Register!</string>
+    <string name="button_next">Next</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_sign_in">Sign In</string>
+    <string name="button_sign_up">Sign Up</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_username">UserName</string>
+    <string name="error_password">Password must be at least 8 characters!</string>
+</resources>
