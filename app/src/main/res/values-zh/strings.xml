@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">家族文物登记册</string>
+    <string name="welcomeText">欢迎使用“家族文物登记册”！</string>
+    <string name="button_next">下一步</string>
+    <string name="button_cancel">取消</string>
+    <string name="button_sign_in">登录</string>
+    <string name="button_sign_up">注册</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_username">用户名</string>
+    <string name="error_password">密码至少为8位！</string>
+</resources>
