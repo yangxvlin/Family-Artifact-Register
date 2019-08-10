@@ -2,11 +2,17 @@ package com.example.family_artifact_register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
+import static util.ActivityNavigator.navigateFromTo;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * @author XuLin Yang 904904,
+ * @time 2019-8-10 17:01:49
+ * @description main activity let user to choose to sign in or sign up
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,18 +20,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // user click "Sign In" to be directed to sign in activity
         final Button signInButton = (Button) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(MainActivity.this, SignInActivity.class);
-
-                // currentContext.startActivity(activityChangeIntent);
-                MainActivity.this.startActivity(activityChangeIntent);
+                navigateFromTo(MainActivity.this, SignInActivity.class);
             }
         });
 
+        // user click "Sign Up" to be directed to sign up activity
         final Button signUpButton = (Button) findViewById(R.id.sign_up_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

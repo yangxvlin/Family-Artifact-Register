@@ -1,3 +1,9 @@
+<!--
+ * @author XuLin Yang 904904,
+ * @time 2019-8-10 17:07:12
+ * @description 中文字符串资源文件
+-->
+
 <resources>
     <string name="app_name">家族文物登记册</string>
     <string name="welcomeText">欢迎使用“家族文物登记册”！</string>
@@ -8,4 +14,5 @@
     <string name="hint_password">密码</string>
     <string name="hint_username">用户名</string>
     <string name="error_password">密码至少为8位！</string>
+    <string name="error_username">用户名不能为空!</string>
 </resources>
