@@ -8,11 +8,25 @@
     <string name="app_name">Family_Artifact_Register</string>
     <string name="welcomeText">Welcome to Family Artifact Register!</string>
     <string name="button_next">Next</string>
+    <string name="button_confirm">Confirm</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_sign_in">Sign In</string>
     <string name="button_sign_up">Sign Up</string>
     <string name="hint_password">Password</string>
+    <string name="hint_password_again">Enter Password Again</string>
     <string name="hint_username">UserName</string>
+    <string name="hint_email">E-mail Address</string>
+    <string name="hint_gender">Gender</string>
+    <string name="hint_phone_number">Phone Number</string>
     <string name="error_password">Password must be at least 8 characters!</string>
     <string name="error_username">Username must be not empty!</string>
+
+    <!--  error message temporarily used by sign up page, to be changed in the future   -->
+    <string name="error_sign_up_username">Username can\'t be empty</string>
+    <string name="error_sign_up_email">E-mail address can\'t be empty</string>
+    <string name="error_sign_up_password">Password can\'t be empty</string>
+    <string name="error_sign_up_password_confirm">Password Confirmation can\'t be empty</string>
+    <string name="error_sign_up_gender">Gender can\'t be empty</string>
+    <string name="error_sign_up_number">Phone number can\'t be empty</string>
+
 </resources>
