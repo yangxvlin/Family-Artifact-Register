@@ -8,11 +8,24 @@
     <string name="app_name">家族文物登记册</string>
     <string name="welcomeText">欢迎使用“家族文物登记册”！</string>
     <string name="button_next">下一步</string>
+    <string name="button_confirm">确认</string>
     <string name="button_cancel">取消</string>
     <string name="button_sign_in">登录</string>
     <string name="button_sign_up">注册</string>
     <string name="hint_password">密码</string>
+    <string name="hint_password_again">再次输入密码</string>
     <string name="hint_username">用户名</string>
+    <string name="hint_email">电子邮箱地址</string>
+    <string name="hint_gender">性别</string>
+    <string name="hint_phone_number">手机号码</string>
     <string name="error_password">密码至少为8位！</string>
     <string name="error_username">用户名不能为空!</string>
+
+    <!--  暂时的错误提示信息，之后会改  -->
+    <string name="error_sign_up_username">用户名不能为空</string>
+    <string name="error_sign_up_email">邮箱地址不能为空</string>
+    <string name="error_sign_up_password">密码不能为空</string>
+    <string name="error_sign_up_password_confirm">确认密码不能为空</string>
+    <string name="error_sign_up_gender">性别不能为空</string>
+    <string name="error_sign_up_number">电话号码不能为空</string>
 </resources>
