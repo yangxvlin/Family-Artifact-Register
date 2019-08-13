@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "617450353729",
+    "firebase_url": "https://family-artifact-register.firebaseio.com",
+    "project_id": "family-artifact-register",
+    "storage_bucket": "family-artifact-register.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617450353729:android:5bfe8d0218db0bde",
+        "android_client_info": {
+          "package_name": "com.example.family_artifact_register"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617450353729-fqm33lck9rdpugid102j0k3q3i6s20pn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxVhiWdxyI5btZUyTOjnAKwbxGapywLio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617450353729-fqm33lck9rdpugid102j0k3q3i6s20pn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
