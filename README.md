@@ -1,4 +1,5 @@
 # Family-Artifact-Register
+[![Build Status](https://travis-ci.com/yangxvlin/Family-Artifact-Register.svg?token=p9qqDGGpt9pGxmkHR8yq&branch=master)](https://travis-ci.com/yangxvlin/Family-Artifact-Register)
 
 ## Tools:
 - Google Material Design: https://material.io/develop/android/docs/getting-started/
