@@ -13,30 +13,35 @@
         android:orientation="vertical" >
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/username_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_username"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
             app:endIconMode="clear_text"
-            app:errorEnabled="true" >
+            app:errorEnabled="true"
+            app:helperText="@string/helper_sign_up_username">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp" />
+                android:maxLines="1"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/email_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_email"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             app:endIconMode="clear_text"
             app:errorEnabled="true" >
 
@@ -44,12 +49,12 @@
                 android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/password_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,61 +62,67 @@
             app:passwordToggleEnabled="true"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            app:errorEnabled="true" >
+            android:layout_marginTop="5dp"
+            app:errorEnabled="true"
+            app:helperText="@string/helper_sign_up_password"
+            app:counterEnabled="true" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/password_confirm_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_password_again"
+            android:hint="@string/hint_confirm"
             app:passwordToggleEnabled="true"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            app:errorEnabled="true" >
+            android:layout_marginTop="5dp"
+            app:errorEnabled="true"
+            app:helperText="@string/helper_sign_up_password_confirm" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_confirm_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:id="@+id/gender_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_gender"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            app:endIconMode="clear_text"
+            android:layout_marginTop="5dp"
             app:errorEnabled="true" >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/gender_edit_text"
+            <AutoCompleteTextView
+                android:id="@+id/gender_dropdown_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:hint="@string/hint_gender"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/number_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_phone_number"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             app:endIconMode="clear_text"
             app:errorEnabled="true" >
 
@@ -119,7 +130,6 @@
                 android:id="@+id/number_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:inputType="phone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -135,8 +145,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:text="@string/button_confirm" />
 
             <com.google.android.material.button.MaterialButton
@@ -146,8 +156,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/confirm_button"
                 android:layout_toLeftOf="@id/confirm_button"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
                 android:text="@string/button_cancel" />
 
         </RelativeLayout>
