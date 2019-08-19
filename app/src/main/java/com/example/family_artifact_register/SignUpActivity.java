@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 
@@ -46,6 +44,14 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        // define constants required
+        String[] genders = new String[] {"Male", "Female"};
+
+        // define adapters required
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, genders);
+
+        // define variables required
         final TextInputLayout usernameTextInput = findViewById(R.id.username_text_input);
         final TextInputEditText usernameEditText = findViewById(R.id.username_edit_text);
 
@@ -59,12 +65,15 @@ public class SignUpActivity extends AppCompatActivity {
         final TextInputEditText passwordConfirmEditText = findViewById(R.id.password_confirm_edit_text);
 
         final TextInputLayout genderTextInput = findViewById(R.id.gender_text_input);
-        final TextInputEditText genderEditText = findViewById(R.id.gender_edit_text);
+        final AutoCompleteTextView genderTextView = findViewById(R.id.gender_dropdown_menu);
 
         final TextInputLayout numberTextInput = findViewById(R.id.number_text_input);
         final TextInputEditText numberEditText = findViewById(R.id.number_edit_text);
 
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        // setup the content for drop down menu
+        genderTextView.setAdapter(genderAdapter);
 
         // user click "Confirm" to be directed to sign in activity
         final MaterialButton confirmButton = findViewById(R.id.confirm_button);
@@ -97,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else { passwordConfirmTextInput.setError(null); }
 
-                if(isEmpty(genderEditText.getText())) {
+                if(isEmpty(genderTextView.getText())) {
                     genderTextInput.setError(getString(R.string.error_sign_up_gender));
                     allInputValid = false;
                 }

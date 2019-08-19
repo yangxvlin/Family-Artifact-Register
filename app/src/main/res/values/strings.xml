@@ -13,7 +13,7 @@
     <string name="button_sign_in">Sign In</string>
     <string name="button_sign_up">Sign Up</string>
     <string name="hint_password">Password</string>
-    <string name="hint_password_again">Enter Password Again</string>
+    <string name="hint_confirm">Confirm</string>
     <string name="hint_username">UserName</string>
     <string name="hint_email">E-mail Address</string>
     <string name="hint_gender">Gender</string>
@@ -28,5 +28,10 @@
     <string name="error_sign_up_password_confirm">Password Confirmation can\'t be empty</string>
     <string name="error_sign_up_gender">Gender can\'t be empty</string>
     <string name="error_sign_up_number">Phone number can\'t be empty</string>
+
+    <!--  helper message temporarily used by sign up page, to be changed in the future   -->
+    <string name="helper_sign_up_username">You can use letters and numbers</string>
+    <string name="helper_sign_up_password">Password must have at least 8 digits</string>
+    <string name="helper_sign_up_password_confirm">Re-enter password to confirm</string>
 
 </resources>

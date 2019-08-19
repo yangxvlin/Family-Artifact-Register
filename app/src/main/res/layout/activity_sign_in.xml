@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="150dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:hint="@string/hint_username"
             app:endIconMode="clear_text">
 
@@ -28,7 +30,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:backgroundTint="#FFFFFF"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -36,6 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="234dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:hint="@string/hint_password"
             app:passwordToggleEnabled="true">
 
@@ -43,7 +49,8 @@
                 android:id="@+id/password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:backgroundTint="#FFFFFF"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -53,6 +60,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="370dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:text="@string/button_next" />
 
         <com.google.android.material.button.MaterialButton
@@ -61,8 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="370dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:layout_toStartOf="@id/next_button"
             android:layout_toLeftOf="@id/next_button"
             android:text="@string/button_cancel" />
