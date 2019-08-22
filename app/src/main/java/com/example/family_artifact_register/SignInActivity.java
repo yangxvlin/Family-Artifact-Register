@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import static util.ActivityNavigator.navigateFromTo;
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
 
 /**
  * @author XuLin Yang 904904,

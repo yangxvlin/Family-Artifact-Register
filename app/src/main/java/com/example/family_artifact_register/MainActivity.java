@@ -2,7 +2,7 @@ package com.example.family_artifact_register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static util.ActivityNavigator.navigateFromTo;
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
 
 import android.os.Bundle;
 import android.view.View;
