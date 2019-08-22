@@ -34,4 +34,14 @@
     <string name="helper_sign_up_password">Password must have at least 8 digits</string>
     <string name="helper_sign_up_password_confirm">Re-enter password to confirm</string>
 
+    <!--    strings for bottom navigation menu item title -->
+    <string name="bottom_bar_chat">Chat</string>
+    <string name="bottom_bar_contacts">Contacts</string>
+    <string name="bottom_bar_discovery">Discovery</string>
+    <string name="bottom_bar_profile">Me</string>
+
+    <!--    strings for top app bar menu item title -->
+    <string name="top_app_bar_search">Search</string>
+    <string name="top_app_bar_settings">Settings</string>
+
 </resources>
