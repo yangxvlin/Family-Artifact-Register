@@ -42,8 +42,8 @@ public class SignInActivity extends AppCompatActivity {
 
         final TextInputLayout passwordTextInput = findViewById(R.id.password_text_input);
         final TextInputEditText passwordEditText =findViewById(R.id.password_edit_text);
-        final TextInputLayout usernameTextInput = findViewById(R.id.username_text_input);
-        final TextInputEditText usernameEditText = findViewById(R.id.username_edit_text);
+        final TextInputLayout emailTextInput = findViewById(R.id.email_text_input);
+        final TextInputEditText emailEditText = findViewById(R.id.email_edit_text);
         final MaterialButton nextButton = findViewById(R.id.next_button);
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
@@ -51,7 +51,7 @@ public class SignInActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isPasswordValid = isPasswordValid(passwordEditText.getText()),
-                        isUsernameValid = isUserNameValid(usernameEditText.getText());
+                        isEmailValid = isUserNameValid(emailEditText.getText());
 
                 // check password
                 if (isPasswordValid) {
@@ -61,15 +61,15 @@ public class SignInActivity extends AppCompatActivity {
                 }
 
                 // check username
-                if (isUsernameValid) {
-                    usernameTextInput.setError(null); //Clear the error
+                if (isEmailValid) {
+                    emailTextInput.setError(null); //Clear the error
                 } else {
-                    usernameTextInput.setError(getString(R.string.error_username));
+                    emailTextInput.setError(getString(R.string.error_username));
                 }
 
                 // sign in request
-                if (isUsernameValid && isPasswordValid) {
-                    firebaseAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
+                if (isEmailValid && isPasswordValid) {
+                    firebaseAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
                             .addOnCompleteListener(
                                     new OnCompleteListener<AuthResult>() {
                                         @Override
