@@ -101,6 +101,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private boolean isEmailValid(@Nullable Editable text) {
+        // FIXME this part should be fixed with a valid email verification step
         return text != null && text.length() >= 1;
     }
 }
