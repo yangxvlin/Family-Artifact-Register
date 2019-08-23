@@ -51,7 +51,7 @@ public class SignInActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isPasswordValid = isPasswordValid(passwordEditText.getText()),
-                        isEmailValid = isUserNameValid(emailEditText.getText());
+                        isEmailValid = isEmailValid(emailEditText.getText());
 
                 // check password
                 if (isPasswordValid) {
@@ -100,7 +100,7 @@ public class SignInActivity extends AppCompatActivity {
         return text != null && text.length() >= 8;
     }
 
-    private boolean isUserNameValid(@Nullable Editable text) {
+    private boolean isEmailValid(@Nullable Editable text) {
         return text != null && text.length() >= 1;
     }
 }
