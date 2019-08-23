@@ -14,6 +14,7 @@
     <string name="button_sign_up">Sign Up</string>
     <string name="button_verify">Verify</string>
     <string name="button_resend">Resend</string>
+    <string name="button_phone">Phone</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm">Confirm</string>
     <string name="hint_username">UserName</string>
