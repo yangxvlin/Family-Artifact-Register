@@ -15,7 +15,7 @@
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Chat"
+            app:title="@string/bottom_bar_chat"
             app:menu="@menu/toolbar_menu"/>
 
 <!--        another way to do, works when I tested it, decide which one to use later -->
