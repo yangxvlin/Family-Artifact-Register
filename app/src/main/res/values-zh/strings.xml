@@ -43,5 +43,6 @@
     <!--    顶部导航栏图标标题 -->
     <string name="top_app_bar_search">搜索</string>
     <string name="top_app_bar_settings">设置</string>
+    <string name="error_invalid_email">无效的邮箱格式</string>
 
 </resources>
