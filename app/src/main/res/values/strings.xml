@@ -45,4 +45,8 @@
     <string name="top_app_bar_search">Search</string>
     <string name="top_app_bar_settings">Settings</string>
 
+    <!-- only for navigation drawer -->
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+
 </resources>
