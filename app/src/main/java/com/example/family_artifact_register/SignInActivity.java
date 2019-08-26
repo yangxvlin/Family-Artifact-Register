@@ -77,8 +77,7 @@ public class SignInActivity extends AppCompatActivity {
                                             // user exists in fire base database
                                             if (task.isSuccessful()) {
                                                 // direct to Home page
-                                                Intent activityChangeIntent = new Intent(SignInActivity.this, HomeActivity.class);
-                                                SignInActivity.this.startActivity(activityChangeIntent);
+                                                navigateFromTo(SignInActivity.this, HomeActivity.class);
                                             } else {
                                                 // TODO
                                                 System.out.println("invalid sign in");
