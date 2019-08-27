@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import org.jetbrains.annotations.NotNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
@@ -17,6 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 public class HomeActivity extends AppCompatActivity {
 
+    private ActionBarDrawerToggle drawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +29,12 @@ public class HomeActivity extends AppCompatActivity {
         // set up top app bar
         final Toolbar toolBar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolBar);
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // quote from the doc "please use ActionBarDrawerToggle(this, drawerLayout, open, close) (i.e. without toolbar)
+        // if you are setting the Toolbar as the Actionbar of your activity"
+//        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolBar, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
 
         // set up bottom navigation bar
         BottomNavigationView bottomBar = (BottomNavigationView) findViewById(R.id.bottom_bar);
@@ -45,6 +55,12 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NotNull MenuItem menuItem) {
+
+        // handle navigation icon selection
+        if(drawerToggle.onOptionsItemSelected(menuItem)) {
+            return true;
+        }
+
         // re-implement this method for more complex activity
         // so far, this method is used only for debugging
         switch (menuItem.getItemId()) {
