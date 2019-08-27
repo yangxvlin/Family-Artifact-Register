@@ -35,7 +35,7 @@
             android:id="@+id/draw_sign_out"
             android:title="@string/menu_sign_out"
             app:showAsAction="withText"
-            android:icon="@drawable/search_icon"/>
+            android:icon="@drawable/ic_power"/>
 
     </group>
 

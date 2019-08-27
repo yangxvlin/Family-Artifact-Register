@@ -1,5 +1,6 @@
 package com.example.family_artifact_register;
 
+import android.content.Intent;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
 
 /**
  * @author XuLin Yang 904904,
@@ -42,6 +47,19 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 toolBar.setTitle(item.getTitle());
+                return true;
+            }
+        });
+
+        NavigationView drawer = findViewById(R.id.nav_drawer);
+        drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // code to sign out
+                FirebaseAuth.getInstance().signOut();
+                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // To clean up all activities
+                navigateFromTo(HomeActivity.this, MainActivity.class);
                 return true;
             }
         });
