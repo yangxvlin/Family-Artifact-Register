@@ -35,5 +35,13 @@ public class MainActivity extends AppCompatActivity {
                 navigateFromTo(MainActivity.this, SignUpActivity.class);
             }
         });
+
+        // user click "Phone verify" to be directed to sign up activity
+        final Button phoneVeriButton = (Button) findViewById(R.id.phone_button);
+        phoneVeriButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                navigateFromTo(MainActivity.this, PhoneVerificationActivity.class);
+            }
+        });
     }
 }

@@ -12,12 +12,16 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_sign_in">Sign In</string>
     <string name="button_sign_up">Sign Up</string>
+    <string name="button_verify">Verify</string>
+    <string name="button_resend">Resend</string>
+    <string name="button_phone">Phone</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm">Confirm</string>
     <string name="hint_username">Username</string>
     <string name="hint_email">E-mail Address</string>
     <string name="hint_gender">Gender</string>
     <string name="hint_phone_number">Phone Number</string>
+    <string name="hint_verify_number">Verify Number</string>
     <string name="error_password">Password must be at least 8 characters!</string>
     <string name="error_username">Username must be not empty!</string>
     <string name="error_invalid_email">Invalid E-mail address</string>
