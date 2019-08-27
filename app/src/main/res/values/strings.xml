@@ -17,15 +17,16 @@
     <string name="button_phone">Phone</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm">Confirm</string>
-    <string name="hint_username">UserName</string>
+    <string name="hint_username">Username</string>
     <string name="hint_email">E-mail Address</string>
     <string name="hint_gender">Gender</string>
     <string name="hint_phone_number">Phone Number</string>
     <string name="hint_verify_number">Verify Number</string>
     <string name="error_password">Password must be at least 8 characters!</string>
     <string name="error_username">Username must be not empty!</string>
+    <string name="error_invalid_email">Invalid E-mail address</string>
 
-    <!--  error message temporarily used by sign up page, to be changed in the future   -->
+    <!--  error message temporarily used by sign-up page, to be changed in the future   -->
     <string name="error_sign_up_username">Username can\'t be empty</string>
     <string name="error_sign_up_email">E-mail address can\'t be empty</string>
     <string name="error_sign_up_password">Password can\'t be empty</string>
@@ -34,8 +35,18 @@
     <string name="error_sign_up_number">Phone number can\'t be empty</string>
 
     <!--  helper message temporarily used by sign up page, to be changed in the future   -->
-    <string name="helper_sign_up_username">You can use letters and numbers</string>
+    <string name="helper_sign_up_username">You can use letters &amp; numbers</string>
     <string name="helper_sign_up_password">Password must have at least 8 digits</string>
     <string name="helper_sign_up_password_confirm">Re-enter password to confirm</string>
+
+    <!--    strings for bottom navigation menu item title -->
+    <string name="bottom_bar_chat">Chat</string>
+    <string name="bottom_bar_contacts">Contacts</string>
+    <string name="bottom_bar_discovery">Discovery</string>
+    <string name="bottom_bar_profile">Me</string>
+
+    <!--    strings for top app bar menu item title -->
+    <string name="top_app_bar_search">Search</string>
+    <string name="top_app_bar_settings">Settings</string>
 
 </resources>

@@ -38,4 +38,15 @@
     <string name="helper_sign_up_password">密码至少8位数</string>
     <string name="helper_sign_up_password_confirm">再次输入密码来确认</string>
 
+    <!--    底部导航栏图标标题 -->
+    <string name="bottom_bar_chat">聊天</string>
+    <string name="bottom_bar_contacts">联系人</string>
+    <string name="bottom_bar_discovery">探索</string>
+    <string name="bottom_bar_profile">我</string>
+
+    <!--    顶部导航栏图标标题 -->
+    <string name="top_app_bar_search">搜索</string>
+    <string name="top_app_bar_settings">设置</string>
+    <string name="error_invalid_email">无效的邮箱格式</string>
+
 </resources>

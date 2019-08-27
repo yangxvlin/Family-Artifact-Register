@@ -1,4 +1,4 @@
-package util;
+package com.example.family_artifact_register.util;
 
 import android.content.Intent;
 

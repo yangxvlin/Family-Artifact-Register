@@ -22,7 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import static util.ActivityNavigator.navigateFromTo;
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
 
 public class SignUpActivity extends AppCompatActivity {
 

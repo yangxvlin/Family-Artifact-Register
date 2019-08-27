@@ -25,7 +25,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-import static util.ActivityNavigator.navigateFromTo;
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
 
 public class PhoneVerificationActivity extends AppCompatActivity implements
         View.OnClickListener {
