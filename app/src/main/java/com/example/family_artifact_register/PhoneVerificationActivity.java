@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +25,8 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
+import static util.ActivityNavigator.navigateFromTo;
+
 public class PhoneVerificationActivity extends AppCompatActivity implements
         View.OnClickListener {
 
@@ -33,26 +34,12 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
 
     private static final String KEY_VERIFY_IN_PROGRESS = "key_verify_in_progress";
 
-    private static final int STATE_INITIALIZED = 1;
-    private static final int STATE_CODE_SENT = 2;
-    private static final int STATE_VERIFY_FAILED = 3;
-    private static final int STATE_VERIFY_SUCCESS = 4;
-    private static final int STATE_SIGNIN_FAILED = 5;
-    private static final int STATE_SIGNIN_SUCCESS = 6;
-
-
     private FirebaseAuth mAuth;
 
     private boolean mVerificationInProgress = false;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
-
-//    private ViewGroup mPhoneNumberViews = findViewById(R.id.);;
-//    private ViewGroup mSignedInViews = findViewById(R.id.reveal_view);;
-//
-//    private TextView mStatusText;
-//    private TextView mDetailText;
 
     private EditText mPhoneNumberField;
     private EditText mVerifyField;
@@ -108,9 +95,11 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
 
                 // [START_EXCLUDE silent]
                 // Update the UI and attempt sign in with the phone credential
-//                updateUI(STATE_VERIFY_SUCCESS, credential);
                 // [END_EXCLUDE]
                 signInWithPhoneAuthCredential(credential);
+                Toast.makeText(PhoneVerificationActivity.this, "Instant Verified.",
+                        Toast.LENGTH_SHORT).show();
+                navigateFromTo(PhoneVerificationActivity.this, HomeActivity.class);
             }
 
             @Override
@@ -136,9 +125,8 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                 }
 
                 // Show a message and update the UI
-                // [START_EXCLUDE]
-//                updateUI(STATE_VERIFY_FAILED);
-                // [END_EXCLUDE]
+                Toast.makeText(PhoneVerificationActivity.this, "Verification failed.",
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -154,8 +142,8 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                 mResendToken = token;
 
                 // [START_EXCLUDE]
-                // Update UI
-//                updateUI(STATE_CODE_SENT);
+                Toast.makeText(PhoneVerificationActivity.this, "Code sent",
+                        Toast.LENGTH_SHORT).show();
                 // [END_EXCLUDE]
             }
         };
@@ -168,7 +156,6 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
 
         // [START_EXCLUDE]
         if (mVerificationInProgress && validatePhoneNumber()) {
@@ -236,7 +223,9 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
 
                             FirebaseUser user = task.getResult().getUser();
                             // [START_EXCLUDE]
-//                            updateUI(STATE_SIGNIN_SUCCESS, user);
+                            Toast.makeText(PhoneVerificationActivity.this,
+                                    "Sign in Succeed", Toast.LENGTH_SHORT).show();
+                            navigateFromTo(PhoneVerificationActivity.this, HomeActivity.class);
                             // [END_EXCLUDE]
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -248,8 +237,8 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                                 // [END_EXCLUDE]
                             }
                             // [START_EXCLUDE silent]
-                            // Update UI
-//                            updateUI(STATE_SIGNIN_FAILED);
+                            Toast.makeText(PhoneVerificationActivity.this, "Sign in  failed.",
+                                    Toast.LENGTH_SHORT).show();
                             // [END_EXCLUDE]
                         }
                     }
@@ -259,93 +248,11 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
 
     private void signOut() {
         mAuth.signOut();
-//        updateUI(STATE_INITIALIZED);
+        Toast.makeText(PhoneVerificationActivity.this, "Sign out",
+                Toast.LENGTH_SHORT).show();
+        navigateFromTo(PhoneVerificationActivity.this, MainActivity.class);
     }
 
-//    private void updateUI(int uiState) {
-//        updateUI(uiState, mAuth.getCurrentUser(), null);
-//    }
-//
-//    private void updateUI(FirebaseUser user) {
-//        if (user != null) {
-//            updateUI(STATE_SIGNIN_SUCCESS, user);
-//        } else {
-//            updateUI(STATE_INITIALIZED);
-//        }
-//    }
-//
-//    private void updateUI(int uiState, FirebaseUser user) {
-//        updateUI(uiState, user, null);
-//    }
-//
-//    private void updateUI(int uiState, PhoneAuthCredential cred) {
-//        updateUI(uiState, null, cred);
-//    }
-
-//    private void updateUI(int uiState, FirebaseUser user, PhoneAuthCredential cred) {
-//        switch (uiState) {
-//            case STATE_INITIALIZED:
-//                // Initialized state, show only the phone number field and start button
-//                enableViews(mVerifyButton, mPhoneNumberField);
-//                disableViews(mConfirmButton, mResendButton, mVerifyField);
-//                mDetailText.setText(null);
-//                break;
-//            case STATE_CODE_SENT:
-//                // Code sent state, show the verification field, the
-//                enableViews(mConfirmButton, mResendButton, mPhoneNumberField, mVerifyField);
-//                disableViews(mVerifyButton);
-//                mDetailText.setText("Verification code has been sent");
-//                break;
-//            case STATE_VERIFY_FAILED:
-//                // Verification has failed, show all options
-//                enableViews(mVerifyButton, mConfirmButton, mResendButton, mPhoneNumberField,
-//                        mVerifyField);
-//                mDetailText.setText("Verification failed");
-//                break;
-//            case STATE_VERIFY_SUCCESS:
-//                // Verification has succeeded, proceed to firebase sign in
-//                disableViews(mConfirmButton, mVerifyButton, mResendButton, mPhoneNumberField,
-//                        mVerifyField);
-//                mDetailText.setText("Verification succeed");
-//
-//                // Set the verification text based on the credential
-//                if (cred != null) {
-//                    if (cred.getSmsCode() != null) {
-//                        mVerifyField.setText(cred.getSmsCode());
-//                    } else {
-//                        mVerifyField.setText("Verified Instantly");
-//                    }
-//                }
-//
-//                break;
-//            case STATE_SIGNIN_FAILED:
-//                // No-op, handled by sign-in check
-//                mDetailText.setText("Cancellation Failed");
-//                break;
-//            case STATE_SIGNIN_SUCCESS:
-//                // Np-op, handled by sign-in check
-//                break;
-//        }
-//
-//        if (user == null) {
-//            // Signed out
-//            mPhoneNumberViews.setVisibility(View.VISIBLE);
-//            mSignedInViews.setVisibility(View.GONE);
-//
-//            mStatusText.setText("Verification Canceled");
-//        } else {
-//            // Signed in
-//            mPhoneNumberViews.setVisibility(View.GONE);
-//            mSignedInViews.setVisibility(View.VISIBLE);
-//
-//            enableViews(mPhoneNumberField, mVerifyField);
-//            mPhoneNumberField.setText(null);
-//            mVerifyField.setText(null);
-//
-//            mStatusText.setText("Verification Succeed");
-////            mDetailText.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//        }
-//    }
 
     private boolean validatePhoneNumber() {
         String phoneNumber = mPhoneNumberField.getText().toString();
@@ -357,17 +264,6 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void enableViews(View... views) {
-        for (View v : views) {
-            v.setEnabled(true);
-        }
-    }
-
-    private void disableViews(View... views) {
-        for (View v : views) {
-            v.setEnabled(false);
-        }
-    }
 
     @Override
     public void onClick(View view) {
