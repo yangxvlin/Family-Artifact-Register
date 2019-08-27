@@ -32,8 +32,8 @@
             android:icon="@drawable/search_icon"/>
 
         <item
-            android:id="@+id/draw_item_4"
-            android:title="item4"
+            android:id="@+id/draw_sign_out"
+            android:title="@string/menu_sign_out"
             app:showAsAction="withText"
             android:icon="@drawable/search_icon"/>
 

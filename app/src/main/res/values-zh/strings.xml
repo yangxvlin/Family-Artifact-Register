@@ -52,5 +52,6 @@
     <!-- 弹出导航栏专用 -->
     <string name="drawer_open">开</string>
     <string name="drawer_close">关</string>
+    <string name="menu_sign_out">退出登录</string>
 
 </resources>
