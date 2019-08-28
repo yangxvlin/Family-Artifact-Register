@@ -1,1 +1,1 @@
-# ffmgeg -i xxx.mp4 xxx.gif
+# ffmpeg -i xxx.mp4 xxx.gif
