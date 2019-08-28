@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
  * @author XuLin Yang 904904,
  * @time 2019-8-10 17:01:49
@@ -19,6 +21,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // skip sign in if user have signed in before
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        // User is signed in (getCurrentUser() will be null if not signed in)
+        if (firebaseAuth.getCurrentUser() != null) {
+            // navigate to HomeActivity
+            navigateFromTo(MainActivity.this, HomeActivity.class);
+        }
 
         // user click "Sign In" to be directed to sign in activity
         final Button signInButton = (Button) findViewById(R.id.sign_in_button);
