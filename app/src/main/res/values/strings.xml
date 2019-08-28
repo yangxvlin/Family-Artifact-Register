@@ -52,5 +52,6 @@
     <!-- only for navigation drawer -->
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="menu_sign_out">Sign Out</string>
 
 </resources>

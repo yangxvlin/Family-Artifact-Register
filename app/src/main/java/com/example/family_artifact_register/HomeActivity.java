@@ -1,5 +1,6 @@
 package com.example.family_artifact_register;
 
+import android.content.Intent;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromToEmpty;
 
 /**
  * @author XuLin Yang 904904,
@@ -43,6 +49,25 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 toolBar.setTitle(item.getTitle());
                 return true;
+            }
+        });
+
+        NavigationView drawer = findViewById(R.id.nav_drawer);
+        drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.draw_sign_out:
+                        // code to sign out
+                        FirebaseAuth.getInstance().signOut();
+                        // To clean up all activities
+                        navigateFromToEmpty(HomeActivity.this, MainActivity.class);
+                        return true;
+                    default:
+                        Log.i("", "Selected other draw menu item! ");
+                        System.out.println("Enter default case, something is wrong !");
+                        return true;
+                }
             }
         });
     }
