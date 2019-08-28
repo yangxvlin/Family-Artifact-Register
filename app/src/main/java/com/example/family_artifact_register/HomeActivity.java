@@ -16,6 +16,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
+import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromToEmpty;
 
 /**
  * @author XuLin Yang 904904,
@@ -55,12 +56,18 @@ public class HomeActivity extends AppCompatActivity {
         drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                // code to sign out
-                FirebaseAuth.getInstance().signOut();
-                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // To clean up all activities
-                navigateFromTo(HomeActivity.this, MainActivity.class);
-                return true;
+                switch (item.getItemId()) {
+                    case R.id.draw_sign_out:
+                        // code to sign out
+                        FirebaseAuth.getInstance().signOut();
+                        // To clean up all activities
+                        navigateFromToEmpty(HomeActivity.this, MainActivity.class);
+                        return true;
+                    default:
+                        Log.i("", "Selected other draw menu item! ");
+                        System.out.println("Enter default case, something is wrong !");
+                        return true;
+                }
             }
         });
     }
