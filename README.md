@@ -1,6 +1,15 @@
 # Family-Artifact-Register
 [![Build Status](https://travis-ci.com/yangxvlin/Family-Artifact-Register.svg?token=p9qqDGGpt9pGxmkHR8yq&branch=master)](https://travis-ci.com/yangxvlin/Family-Artifact-Register) ![GitHub repo size](https://img.shields.io/github/repo-size/yangxvlin/Family-Artifact-Register) ![GitHub](https://img.shields.io/github/license/yangxvlin/Family-Artifact-Register) ![](https://img.shields.io/badge/plaform-android-blue)
 
+## Screen shoots
+<table border="0">
+ <tr>
+    <td><img src="./docs/sign_in_cn.gif"!></td>
+    <td><img src="./docs/sign_up_cn.gif"!></td>
+    <td><img src="./docs/sign_out_cn.gif"!></td>
+ </tr>
+</table>
+
 ## Tools:
 - Google Material Design: https://material.io/develop/android/docs/getting-started/
 - Firebase:
