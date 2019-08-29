@@ -2,6 +2,7 @@ package com.example.family_artifact_register;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
@@ -136,6 +137,66 @@ public class SignUpActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 navigateFromTo(SignUpActivity.this, MainActivity.class);
+            }
+        });
+
+        // clear the error message when username entered is valid
+        usernameEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!isEmpty(usernameEditText.getText()))
+                    usernameTextInput.setError(null);
+                return false;
+            }
+        });
+
+        // clear the error message when email entered is valid
+        emailEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!isEmpty(emailEditText.getText()))
+                    emailTextInput.setError(null);
+                return false;
+            }
+        });
+
+        // clear the error message when password entered is valid
+        passwordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!isEmpty(passwordEditText.getText()))
+                    passwordTextInput.setError(null);
+                return false;
+            }
+        });
+
+        // clear the error message when confirm password entered is valid
+        passwordConfirmEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!isEmpty(passwordConfirmEditText.getText()))
+                    passwordConfirmTextInput.setError(null);
+                return false;
+            }
+        });
+
+        // clear the error message when gender entered is valid
+        genderTextView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!isEmpty(genderTextView.getText()))
+                    genderTextInput.setError(null);
+                return false;
+            }
+        });
+
+        // clear the error message when phone entered is valid
+        numberEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!isEmpty(numberEditText.getText()))
+                    numberTextInput.setError(null);
+                return false;
             }
         });
     }
