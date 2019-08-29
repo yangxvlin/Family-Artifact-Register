@@ -90,7 +90,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        // clear the error message when password entered is valid
+        // clear the error message when email entered is valid
         emailEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
