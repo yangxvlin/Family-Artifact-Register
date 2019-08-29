@@ -5,21 +5,25 @@
     <item
         android:id="@+id/item_chat"
         android:title="@string/bottom_bar_chat"
-        app:showAsAction="withText"/>
+        app:showAsAction="withText"
+        android:icon="@drawable/bottom_bar_chat_icon"/>
 
     <item
         android:id="@+id/item_contacts"
         android:title="@string/bottom_bar_contacts"
-        app:showAsAction="withText"/>
+        app:showAsAction="withText"
+        android:icon="@drawable/bottom_bar_contact_icon"/>
 
     <item
         android:id="@+id/item_discovery"
         android:title="@string/bottom_bar_discovery"
-        app:showAsAction="withText"/>
+        app:showAsAction="withText"
+        android:icon="@drawable/bottom_bar_discovery_icon"/>
 
     <item
         android:id="@+id/item_me"
         android:title="@string/bottom_bar_profile"
-        app:showAsAction="withText"/>
+        app:showAsAction="withText"
+        android:icon="@drawable/bottom_bar_me_icon"/>
 
 </menu>
