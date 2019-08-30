@@ -3,6 +3,7 @@ package com.example.family_artifact_register;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -89,6 +90,25 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        // clear the error message when email entered is valid
+        emailEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (isEmailValid(emailEditText.getText()))
+                    emailTextInput.setError(null);
+                return false;
+            }
+        });
+
+        // clear the error message when password entered is valid
+        passwordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (isPasswordValid(passwordEditText.getText()))
+                    passwordTextInput.setError(null);
+                return false;
+            }
+        });
     }
 
     /**
