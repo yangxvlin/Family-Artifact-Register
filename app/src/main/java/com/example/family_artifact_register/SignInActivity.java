@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -27,6 +28,10 @@ import static com.example.family_artifact_register.util.ActivityNavigator.naviga
  * @description sign in activity for user to use account and password to sign in
  */
 public class SignInActivity extends AppCompatActivity {
+    public static Intent createIntent(MainActivity mainActivity, IdpResponse response) {
+        return new Intent(mainActivity, MainActivity.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
