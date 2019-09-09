@@ -50,6 +50,39 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.google.firebase:firebase-auth:18.1.0'
     implementation 'com.google.firebase:firebase-firestore:20.1.0'
+
+    // Firebase UI
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+
+    // Required only if Facebook login support is required
+    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+    implementation 'com.facebook.android:facebook-android-sdk:4.x'
+    // Facebook SDK Core only (Analytics)
+    implementation 'com.facebook.android:facebook-core:5.5.1'
+    // Facebook Login only
+    implementation 'com.facebook.android:facebook-login:5.5.1'
+    // Facebook Share only
+    implementation 'com.facebook.android:facebook-share:5.5.1'
+    // Facebook Places only
+    implementation 'com.facebook.android:facebook-places:5.5.1'
+    // Facbeook Messenger only
+    implementation 'com.facebook.android:facebook-messenger:'
+    // Facebook App Links only
+    implementation 'com.facebook.android:facebook-applinks:5.5.1'
+    // Facebook Android SDK (everything)
+    implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
+    // Audience Network SDK.
+    implementation 'com.facebook.android:audience-network-sdk:5.5.0'
+    // Account Kit
+    implementation 'com.facebook.android:account-kit-sdk:5.4.0'
+
+    // Required only if Twitter login support is required
+    // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    // Include all the Twitter APIs
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+    // (Optional) Monetize using mopub
+    implementation 'com.twitter.sdk.android:twitter-mopub:3.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
