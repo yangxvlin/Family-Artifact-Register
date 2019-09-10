@@ -21,6 +21,10 @@
         <activity android:name=".SignInActivity"></activity>
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".PhoneVerificationActivity"></activity>
+
+
     </application>
+
+
 
 </manifest>
