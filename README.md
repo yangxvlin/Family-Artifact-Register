@@ -14,6 +14,7 @@
 - Google Material Design: https://material.io/develop/android/docs/getting-started/
 - Firebase:
 - Travis (Ci):
+- Images & Logos: www.pinterest.com.au
 
 ## Feature:
 - User Sign In
