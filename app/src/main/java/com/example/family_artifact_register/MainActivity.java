@@ -7,6 +7,8 @@ import static com.example.family_artifact_register.util.ActivityNavigator.naviga
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -17,41 +19,57 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class MainActivity extends AppCompatActivity {
 
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+//        // skip sign in if user have signed in before
+//        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+//        // User is signed in (getCurrentUser() will be null if not signed in)
+//        if (firebaseAuth.getCurrentUser() != null) {
+//            // navigate to HomeActivity
+//            navigateFromTo(MainActivity.this, HomeActivity.class);
+//        }
+//
+//        // user click "Sign In" to be directed to sign in activity
+//        final Button signInButton = (Button) findViewById(R.id.sign_in_button);
+//        signInButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                navigateFromTo(MainActivity.this, SignInActivity.class);
+//            }
+//        });
+//
+//        // user click "Sign Up" to be directed to sign up activity
+//        final Button signUpButton = (Button) findViewById(R.id.sign_up_button);
+//        signUpButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                navigateFromTo(MainActivity.this, SignUpActivity.class);
+//            }
+//        });
+//
+//        // user click "Phone verify" to be directed to phone verification activity
+//        final Button phoneVeriButton = (Button) findViewById(R.id.phone_button);
+//        phoneVeriButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                navigateFromTo(MainActivity.this, PhoneVerificationActivity.class);
+//            }
+//        });
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_friend_detail);
 
-        // skip sign in if user have signed in before
-        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        // User is signed in (getCurrentUser() will be null if not signed in)
-        if (firebaseAuth.getCurrentUser() != null) {
-            // navigate to HomeActivity
-            navigateFromTo(MainActivity.this, HomeActivity.class);
-        }
+        ImageView avatar = (ImageView) findViewById(R.id.avatar);
+        TextView username = (TextView) findViewById(R.id.username);
+        TextView nickname = (TextView) findViewById(R.id.nickname);
+        TextView area = (TextView) findViewById(R.id.area);
 
-        // user click "Sign In" to be directed to sign in activity
-        final Button signInButton = (Button) findViewById(R.id.sign_in_button);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                navigateFromTo(MainActivity.this, SignInActivity.class);
-            }
-        });
-
-        // user click "Sign Up" to be directed to sign up activity
-        final Button signUpButton = (Button) findViewById(R.id.sign_up_button);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                navigateFromTo(MainActivity.this, SignUpActivity.class);
-            }
-        });
-
-        // user click "Phone verify" to be directed to phone verification activity
-        final Button phoneVeriButton = (Button) findViewById(R.id.phone_button);
-        phoneVeriButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                navigateFromTo(MainActivity.this, PhoneVerificationActivity.class);
-            }
-        });
+//        avatar.setImageResource(R.drawable.my_logo);
+        username.setText("Me");
+        nickname.setText("haha");
+        area.setText("unimelb");
     }
 }
