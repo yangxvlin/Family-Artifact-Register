@@ -12,23 +12,57 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Main Activity"
-        android:layout_centerInParent="true"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:fontFamily="casual"
-        android:id="@+id/text"
-        />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="242dp"
+        android:background="#FFF"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_forget_me_not_1"
+    />
 
     <Button
+        android:id="@+id/artifact_hub_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/text"
-        android:text="Sign Out"
-        android:textSize="20dp"
-        android:onClick="signout"/>
+        android:layout_below="@id/logo"
+        app:icon="@drawable/bottom_bar_discovery_icon"
+        android:text="@string/artifact_hub"
+        android:textSize="20sp"
+    />
+
+    <Button
+        android:id="@+id/friends_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/artifact_hub_button"
+        app:icon="@drawable/bottom_bar_contact_icon"
+        android:text="@string/friends"
+        android:textSize="20sp"
+    />
+
+    <Button
+        android:id="@+id/manage_my_artifact_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/friends_button"
+        app:icon="@drawable/button_management_icon"
+        android:text="@string/artifact_management"
+        android:textSize="20sp"
+    />
+
+    <Button
+        android:id="@+id/artifact_map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/manage_my_artifact_button"
+        app:icon="@drawable/bottom_bar_map_icon"
+        android:text="@string/artifact_map"
+        android:textSize="20sp"
+        />
 </RelativeLayout>

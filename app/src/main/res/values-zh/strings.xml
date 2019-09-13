@@ -54,4 +54,9 @@
     <string name="drawer_close">关</string>
     <string name="menu_sign_out">退出登录</string>
 
+    <!-- 主界面功能键 -->
+    <string name="artifact_hub">家庭文物圈</string>
+    <string name="friends">朋友</string>
+    <string name="artifact_management">管理我的家庭文物</string>
+    <string name="artifact_map">家庭文物地图册</string>
 </resources>
