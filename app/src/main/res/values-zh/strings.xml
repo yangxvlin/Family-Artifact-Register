@@ -59,4 +59,7 @@
     <string name="friends">朋友</string>
     <string name="artifact_management">管理我的家庭文物</string>
     <string name="artifact_map">家庭文物地图册</string>
+
+    <!-- 家庭文物管理界面 -->
+    <string name="new_artifact">新的家庭文物</string>
 </resources>

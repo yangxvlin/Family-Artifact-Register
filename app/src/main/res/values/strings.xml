@@ -60,6 +60,9 @@
     <string name="artifact_management">Artifact Management</string>
     <string name="artifact_map">Artifact Map</string>
 
+    <!-- artifact manage activity functionality -->
+    <string name="new_artifact">New Artifact</string>
+
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
 <!--    <string name="facebook_application_id" translatable="false">1:51048253579:android:404c89cafb75b4c3</string>-->
 <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
