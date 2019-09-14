@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     // probably become a separate class in the future
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private String[] dataSet;
-        private final int[] avatars = new int[] {R.drawable.a1, R.drawable.a2, R.drawable.a3, R.drawable.a4, R.drawable.a5};
+        private final int[] avatars = new int[] {R.drawable.my_logo};
 
         // probably become a separate class in the future
         public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
             Random rand = new Random();
             holder.textView.setText(dataSet[position]);
-            holder.imageView.setImageResource(avatars[rand.nextInt(avatars.length)]);
+//            holder.imageView.setImageResource(R.drawable.my_logo);
         }
 
         @Override
