@@ -28,10 +28,6 @@ import static com.example.family_artifact_register.util.ActivityNavigator.naviga
  * @description sign in activity for user to use account and password to sign in
  */
 public class SignInActivity extends AppCompatActivity {
-    public static Intent createIntent(MainActivity mainActivity, IdpResponse response) {
-        return new Intent(mainActivity, MainActivity.class);
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

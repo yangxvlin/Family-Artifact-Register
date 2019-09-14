@@ -21,6 +21,9 @@
         <activity android:name=".SignInActivity"></activity>
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".PhoneVerificationActivity"></activity>
+        <activity android:name=".PresentationLayer.ArtifactManager.ArtifactManageActivity" />
+        <activity android:name=".PresentationLayer.ArtifactManager.NewArtifactActivity" />
+        <activity android:name=".PresentationLayer.ArtifactManager.BaseCancelToolBarActivity" />
 
 
     </application>

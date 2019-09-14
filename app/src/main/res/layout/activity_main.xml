@@ -53,6 +53,7 @@
         app:icon="@drawable/button_management_icon"
         android:text="@string/artifact_management"
         android:textSize="20sp"
+        android:onClick="manageArtifact"
     />
 
     <Button

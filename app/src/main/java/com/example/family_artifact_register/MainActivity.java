@@ -4,17 +4,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.family_artifact_register.PresentationLayer.ArtifactManager.ArtifactManageActivity;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.example.family_artifact_register.PresentationLayer.util.ActivityNavigator.navigateFromTo;
 
 /**
  * @author XuLin Yang 904904,
@@ -69,4 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /* ********************************** view controller *************************************** */
+    public void manageArtifact(View view){
+        navigateFromTo(this, ArtifactManageActivity.class);
+    }
 }
