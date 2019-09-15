@@ -12,46 +12,85 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="20dp"
         >
 
         <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:id="@+id/imageView"
-            android:src="@mipmap/ic_launcher">
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/avatar"
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_marginBottom="10dp">
         </ImageView>
 
         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/titleTv"
-        android:text="Title"
-        android:textSize="22sp"
-        android:textColor="#000"
-        android:textStyle="bold"
-        android:layout_toRightOf="@id/imageView"
-        android:layout_toEndOf="@id/imageView"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/userTv"
+            android:text="Username"
+            android:textSize="16dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_toEndOf="@id/avatar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            >
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/arrowView"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/ic_rightarrow"
+            android:layout_alignParentRight="true">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_below="@id/avatar"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp">
+
+        </ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleTv"
+            android:text="Title"
+            android:textSize="22sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/imageView"
+            android:layout_toLeftOf="@id/arrowView"
+            android:layout_below="@id/userTv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            >
         </TextView>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/DescriptionTv"
             android:text="Description"
             android:textSize="18sp"
             android:textColor="#a9a9a9"
             android:layout_toRightOf="@id/imageView"
-            android:layout_toEndOf="@id/imageView"
+            android:layout_toLeftOf="@id/arrowView"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_below="@id/titleTv"
             >
         </TextView>
+
+
 
     </RelativeLayout>
 
