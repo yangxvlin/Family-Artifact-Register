@@ -62,6 +62,10 @@
 
     <!-- artifact manage activity functionality -->
     <string name="new_artifact">New Artifact</string>
+    <string name="add_artifact_description_hint">Add description for your artifact. E.g.: memory you would like to mention</string>
+    <string name="artifact_description_input">Your Artifact\'s Description:</string>
+    <string name="artifact_happened_title">Artifact Happened</string>
+    <string name="delete">Delete</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
 <!--    <string name="facebook_application_id" translatable="false">1:51048253579:android:404c89cafb75b4c3</string>-->
