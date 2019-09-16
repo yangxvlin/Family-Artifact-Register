@@ -21,7 +21,7 @@ import com.example.family_artifact_register.R;
  * 2. set centered title text
  * 3. disable navigation icon
  */
-public abstract class BaseActionBarActivity extends AppCompatActivity {
+public abstract class BaseSignOutActionBarActivity extends AppCompatActivity {
     private Toolbar toolBar;
     TextView textView;
 

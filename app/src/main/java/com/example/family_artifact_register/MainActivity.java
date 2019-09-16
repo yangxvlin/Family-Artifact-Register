@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity;
-import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
+import com.example.family_artifact_register.UI.Util.BaseSignOutActionBarActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,7 +20,7 @@ import static com.example.family_artifact_register.UI.Util.ActivityNavigator.nav
  * @time 2019-8-10 17:01:49
  * @description main activity let user to choose to sign in or sign up
  */
-public class MainActivity extends BaseActionBarActivity {
+public class MainActivity extends BaseSignOutActionBarActivity {
     private FirebaseAuth mFirebaseAuth;
     public static final int RC_SIGN_IN = 1;
     private FirebaseAuth.AuthStateListener mAuthStateListner;
