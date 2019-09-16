@@ -1,10 +1,10 @@
-package com.example.family_artifact_register.PresentationLayer.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.os.Bundle;
 
 import com.example.family_artifact_register.R;
 
-import static com.example.family_artifact_register.PresentationLayer.util.ActivityNavigator.navigateFromToEmpty;
+import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromToEmpty;
 
 /**
  * @author XuLin Yang 904904,

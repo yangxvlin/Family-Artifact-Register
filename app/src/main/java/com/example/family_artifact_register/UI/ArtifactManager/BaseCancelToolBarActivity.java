@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.PresentationLayer.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.os.Bundle;
 

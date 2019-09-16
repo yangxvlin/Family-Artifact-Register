@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.FoundationLayer.Artifact;
+package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import java.util.Date;
 
@@ -7,10 +7,10 @@ import java.util.Date;
  * @time 2019-9-14 20:09:27
  * @description abstract artifact data type
  */
-public abstract class AbstractArtifact {
+public abstract class Artifact {
     private Date createdDate;
 
-    public AbstractArtifact() {
+    public Artifact() {
 
     }
 

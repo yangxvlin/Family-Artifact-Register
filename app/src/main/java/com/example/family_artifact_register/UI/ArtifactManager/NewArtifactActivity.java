@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.PresentationLayer.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -16,7 +16,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.Artifact.UploadArtifactAdapter;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.UploadArtifactAdapter;
 import com.example.family_artifact_register.R;
 
 import java.io.File;
@@ -35,8 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.example.family_artifact_register.PresentationLayer.util.ActivityNavigator.navigateFromTo;
-import static com.example.family_artifact_register.PresentationLayer.util.ActivityNavigator.navigateFromToEmpty;
+import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromToEmpty;
 
 /**
  * @author XuLin Yang 904904,

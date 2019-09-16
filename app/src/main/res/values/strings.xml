@@ -60,9 +60,9 @@
     <string name="artifact_management">Artifact Management</string>
     <string name="artifact_map">Artifact Map</string>
 
-    <!-- artifact manage activity functionality -->
+    <!-- artifactItem manage activity functionality -->
     <string name="new_artifact">New Artifact</string>
-    <string name="add_artifact_description_hint">Add description for your artifact. E.g.: memory you would like to mention</string>
+    <string name="add_artifact_description_hint">Add description for your artifactItem. E.g.: memory you would like to mention</string>
     <string name="artifact_description_input">Your Artifact\'s Description:</string>
     <string name="artifact_happened_title">Artifact Happened</string>
     <string name="delete">Delete</string>

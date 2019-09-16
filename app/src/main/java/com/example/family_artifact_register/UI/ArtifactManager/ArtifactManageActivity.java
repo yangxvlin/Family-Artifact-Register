@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.PresentationLayer.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.family_artifact_register.R;
 
-import static com.example.family_artifact_register.PresentationLayer.util.ActivityNavigator.navigateFromTo;
+import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromTo;
 
 /**
  * @author XuLin Yang 904904,

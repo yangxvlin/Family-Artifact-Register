@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.PresentationLayer.util;
+package com.example.family_artifact_register.UI.Util;
 
 import android.content.Intent;
 

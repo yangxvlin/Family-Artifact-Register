@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.FoundationLayer.Artifact;
+package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
