@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.util;
+package com.example.family_artifact_register.UI.Util;
 
 import android.content.Intent;
 
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
  * @author XuLin Yang 904904,
  * @time 2019-8-10 17:00:59
  * @description class pure fabric for navigation between activities
- * TODO need to be decrepit
  */
 public class ActivityNavigator {
     /**

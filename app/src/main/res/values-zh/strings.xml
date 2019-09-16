@@ -54,4 +54,16 @@
     <string name="drawer_close">关</string>
     <string name="menu_sign_out">退出登录</string>
 
+    <!-- 主界面功能键 -->
+    <string name="artifact_hub">家庭文物圈</string>
+    <string name="friends">朋友</string>
+    <string name="artifact_management">管理我的家庭文物</string>
+    <string name="artifact_map">家庭文物地图册</string>
+
+    <!-- 家庭文物管理界面 -->
+    <string name="new_artifact">新的家庭文物</string>
+    <string name="add_artifact_description_hint">为您的文物添加描述。 例如：关于文物您想添加的回忆。</string>
+    <string name="artifact_description_input">您的文物的描述：</string>
+    <string name="artifact_happened_title">发生在哪里？</string>
+    <string name="delete">删除</string>
 </resources>

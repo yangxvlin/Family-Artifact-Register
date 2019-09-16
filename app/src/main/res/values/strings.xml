@@ -54,4 +54,24 @@
     <string name="drawer_close">close</string>
     <string name="menu_sign_out">Sign Out</string>
 
+    <!-- main activity functionality -->
+    <string name="artifact_hub">Family Artifact Hub</string>
+    <string name="friends">Friends</string>
+    <string name="artifact_management">Artifact Management</string>
+    <string name="artifact_map">Artifact Map</string>
+
+    <!-- artifactItem manage activity functionality -->
+    <string name="new_artifact">New Artifact</string>
+    <string name="add_artifact_description_hint">Add description for your artifactItem. E.g.: memory you would like to mention</string>
+    <string name="artifact_description_input">Your Artifact\'s Description:</string>
+    <string name="artifact_happened_title">Artifact Happened</string>
+    <string name="delete">Delete</string>
+
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+<!--    <string name="facebook_application_id" translatable="false">1:51048253579:android:404c89cafb75b4c3</string>-->
+<!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
+    <!-- Twitter consumer key and secret -->
+<!--    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>-->
+<!--    <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>-->
+
 </resources>
