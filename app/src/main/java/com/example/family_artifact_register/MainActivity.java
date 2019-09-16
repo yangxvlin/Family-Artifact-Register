@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity;
+import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,7 +20,7 @@ import static com.example.family_artifact_register.UI.Util.ActivityNavigator.nav
  * @time 2019-8-10 17:01:49
  * @description main activity let user to choose to sign in or sign up
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActionBarActivity {
     private FirebaseAuth mFirebaseAuth;
     public static final int RC_SIGN_IN = 1;
     private FirebaseAuth.AuthStateListener mAuthStateListner;
@@ -33,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        // set firebase sign in layout
         mFirebaseAuth=FirebaseAuth.getInstance();
         mAuthStateListner= firebaseAuth -> {
             FirebaseUser user=firebaseAuth.getCurrentUser();
-            if (user!=null)
-            {
+            if (user!=null) {
                 Toast.makeText(MainActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
             }
             else {
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                                 .createSignInIntentBuilder()
                                 .setIsSmartLockEnabled(false)
                                 .setAvailableProviders(providers)
+                                .setLogo(R.drawable.icon_forget_me_not_1)
                                 .build(),
                         RC_SIGN_IN
                 );
@@ -54,6 +54,28 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        // set main activity layout
+        // 1. centered title
+        // 2. no navigation icon
+        setTitleText(R.string.app_name);
+        setDisplayHomeEnabled(true);
+        setDisplayShowTitle(false);
+        disableNavigationIcon();
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void baseFinish() {
+        mFirebaseAuth.signOut();
+    }
+
+    @Override
+    protected int getToolBarId() {
+        return R.id.main_activity_toolbar;
     }
 
     @Override

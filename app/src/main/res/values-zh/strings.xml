@@ -5,8 +5,8 @@
 -->
 
 <resources>
-    <string name="app_name">家族文物登记册</string>
-    <string name="welcomeText">欢迎使用“家族文物登记册”！</string>
+    <string name="app_name">勿忘我</string>
+    <string name="welcomeText">欢迎使用“勿忘我”！</string>
     <string name="button_next">下一步</string>
     <string name="button_confirm">确认</string>
     <string name="button_cancel">取消</string>
