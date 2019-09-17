@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.family_artifact_register.util.ActivityNavigator.navigateFromTo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,13 +99,26 @@ public class MainActivity extends AppCompatActivity {
         private final int[] avatars = new int[] {R.drawable.my_logo};
 
         // probably become a separate class in the future
-        public class MyViewHolder extends RecyclerView.ViewHolder {
+        public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             public TextView textView;
             public ImageView imageView;
             public MyViewHolder(View itemView) {
                 super(itemView);
+                itemView.setOnClickListener(this);
                 this.textView = itemView.findViewById(R.id.username);
                 this.imageView = itemView.findViewById(R.id.avatar);
+            }
+
+            @Override
+            public void onClick(View view) {
+                System.out.println("#############");
+//                System.out.println(textView.getText());
+                String value = (String) textView.getText();
+                Intent i = new Intent((AppCompatActivity) view.getContext(), FriendDetailActivity.class);
+                i.putExtra("key", value);
+                startActivity(i);
+
+//                navigateFromTo((AppCompatActivity) view.getContext(), FriendDetailActivity.class);
             }
         }
 

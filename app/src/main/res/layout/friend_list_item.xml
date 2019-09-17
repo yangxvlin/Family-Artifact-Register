@@ -23,7 +23,7 @@
             android:id="@+id/avatar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/default_avatar"
+            android:src="@drawable/default_avatar_list"
             android:contentDescription="default avatar"
             android:scaleType="centerCrop"
             android:layout_gravity="center_vertical"
