@@ -18,7 +18,8 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Friends"
             app:menu="@menu/toolbar_menu"
-            app:navigationIcon="@drawable/back_arrow"/>
+            app:navigationIcon="@drawable/back_arrow"
+            app:titleTextColor="#FFFFFF"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

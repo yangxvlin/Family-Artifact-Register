@@ -21,7 +21,7 @@
         <activity android:name=".SignInActivity"></activity>
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".PhoneVerificationActivity"></activity>
-        <activity android:name="FriendDetailActivity"></activity>
+        <activity android:name="FriendDetailActivity" android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
