@@ -38,6 +38,7 @@ dependencies {
 
     // ******************************************************************************************
     // test
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     testImplementation 'junit:junit:4.12'
     // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'
