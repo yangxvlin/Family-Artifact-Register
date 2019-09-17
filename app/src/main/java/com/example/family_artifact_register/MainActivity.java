@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         final Button signInButton = (Button) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                navigateFromTo(MainActivity.this, SignInActivity.class);
+                navigateFromTo(MainActivity.this, HubActivity.class);
             }
         });
 

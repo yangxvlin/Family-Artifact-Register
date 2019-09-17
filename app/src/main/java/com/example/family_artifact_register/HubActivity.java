@@ -36,6 +36,7 @@ public class HubActivity extends AppCompatActivity {
         m.setImg(R.drawable.my_logo);
         models.add(m);
 
+        m = new Model();
         m.setUsername("Username2");
         m.setTitle("This is Art2");
         m.setDescription("This is Art2 Description.");
@@ -43,6 +44,7 @@ public class HubActivity extends AppCompatActivity {
         m.setImg(R.drawable.my_logo);
         models.add(m);
 
+        m = new Model();
         m.setUsername("Username3");
         m.setTitle("This is Art3");
         m.setDescription("This is Art3 Description.");
