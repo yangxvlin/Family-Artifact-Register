@@ -16,6 +16,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,10 +31,12 @@ import com.example.family_artifact_register.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
+import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
+import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
 import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromToEmpty;
 
 /**
@@ -59,6 +62,7 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     private LinearLayoutManager layoutManager;
     private UploadArtifactAdapter uploadArtifactAdapter;
     private DividerItemDecoration dividerItemDecoration;
+    private EditText editText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,7 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
 //        dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
 //        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
+        editText = findViewById(R.id.add_artifact_description_input);
 
 //        mPicture = findViewById(R.id.iv_picture);
 
@@ -134,6 +139,23 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
         openAlbumIntent.setType("image/*");
         startActivityForResult(openAlbumIntent, CHOOSE_PHOTO);//打开相册
+    }
+
+    public void confirm(View view) {
+        // has item and can proceed to next activity
+        if (uploadArtifactAdapter.getItemCount() > 0) {
+            Intent activityChangeIntent = new Intent(this, HappenedActivity.class);
+            activityChangeIntent.putExtra(ARTIFACT_DESCRIPTION, editText.getText());
+            activityChangeIntent.putExtra(ARTIFACT_IMAGES, (Serializable) uploadArtifactAdapter.getImages());
+            // set navigation stack to empty
+            activityChangeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            activityChangeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(activityChangeIntent);
+        // require users to input images
+        } else {
+            Toast.makeText(NewArtifactActivity.this, R.string.new_artifact_activity_proceed_next_hint, Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     // ********************************* take photo logic *****************************************

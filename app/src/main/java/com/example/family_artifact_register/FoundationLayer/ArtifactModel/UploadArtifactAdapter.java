@@ -51,4 +51,6 @@ public class UploadArtifactAdapter extends RecyclerView.Adapter<UploadArtifactVi
         images.add(image);
         notifyDataSetChanged();
     }
+
+    public List<Bitmap> getImages() {return images;}
 }
