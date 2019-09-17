@@ -54,7 +54,7 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     private File imageFile;
 //    private ImageView mPicture;
 
-    private ArrayList<Bitmap> images;
+//    private ArrayList<Bitmap> images;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private UploadArtifactAdapter uploadArtifactAdapter;
@@ -68,12 +68,13 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         setCancelButton();
         setTitle(R.string.new_artifact);
 
-        images = new ArrayList<>();
+//        images = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recycler_image_preview);
 //        mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        uploadArtifactAdapter = new UploadArtifactAdapter(images);
+//        uploadArtifactAdapter = new UploadArtifactAdapter(images);
+        uploadArtifactAdapter = new UploadArtifactAdapter();
         mRecyclerView.setAdapter(uploadArtifactAdapter);
 //        dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
 //        mRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -181,7 +182,8 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
                         Log.i(TAG, "onActivityResult: imageUri " + mImageUri);
                         galleryAddPic(mImageUriFromFile);
 //                        mPicture.setImageBitmap(bitmap);//显示到ImageView上
-                        images.add(bitmap);
+//                        images.add(bitmap);
+                        uploadArtifactAdapter.addData(bitmap);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -255,7 +257,8 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         if (imagePath != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 //            mPicture.setImageBitmap(bitmap);
-            images.add(bitmap);
+//            images.add(bitmap);
+            uploadArtifactAdapter.addData(bitmap);
         } else {
             Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
         }
