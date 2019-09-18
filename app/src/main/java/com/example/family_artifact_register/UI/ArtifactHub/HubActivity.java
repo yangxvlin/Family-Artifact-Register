@@ -55,6 +55,14 @@ public class HubActivity extends AppCompatActivity {
         m.setImg(R.drawable.my_logo);
         models.add(m);
 
+        m = new Model();
+        m.setUsername("Username4");
+        m.setTitle("This is Art4");
+        m.setDescription("This is Art4 Description.");
+        m.setAvatar(R.drawable.my_logo);
+        m.setImg(R.drawable.my_logo);
+        models.add(m);
+
         return models;
     }
 }
