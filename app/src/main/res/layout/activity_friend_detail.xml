@@ -82,18 +82,43 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#808080"/>
+        android:layout_height="10dp"
+        android:background="#ECECEC"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_marginTop="100dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:cornerRadius="0dp"
-        android:background="#00ff00"
-        app:strokeColor="#0000ff"
-        android:shadowColor="#ff0000"
-        android:text="Send message"
-        android:textSize="20sp"/>
+        android:layout_height="70dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/message_icon"
+            android:paddingTop="19dp"
+            android:paddingLeft="70dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Send Message"
+            android:textSize="25sp"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D8D8D8"/>
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:layout_marginTop="100dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="70dp"-->
+<!--        app:cornerRadius="0dp"-->
+<!--        android:background="#00ff00"-->
+<!--        app:strokeColor="#0000ff"-->
+<!--        android:shadowColor="#ff0000"-->
+<!--        android:text="Send message"-->
+<!--        android:textSize="20sp"/>-->
 
 </LinearLayout>
