@@ -1,5 +1,6 @@
 package com.example.family_artifact_register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Random;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 
 public class FriendActivity extends AppCompatActivity {
 
@@ -34,32 +37,54 @@ public class FriendActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        String[] dataSet = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
+//        String[] dataSet = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
+
+        ArrayList<String> dataSet = new ArrayList<>();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        try {
+            dataSet.add(firebaseAuth.getCurrentUser().getEmail());
+        }
+        catch (Exception e) {
+            System.out.println("@@@@  user is null");
+        }
 
         adapter = new MyAdapter(dataSet);
         recyclerView.setAdapter(adapter);
 
         divider = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);
+
     }
 
     // probably become a separate class in the future
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-        private String[] dataSet;
+        private ArrayList<String> dataSet;
         private final int[] avatars = new int[] {R.drawable.my_logo};
 
         // probably become a separate class in the future
-        public class MyViewHolder extends RecyclerView.ViewHolder {
+        public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             public TextView textView;
             public ImageView imageView;
             public MyViewHolder(View itemView) {
                 super(itemView);
+                itemView.setOnClickListener(this);
                 this.textView = itemView.findViewById(R.id.username);
                 this.imageView = itemView.findViewById(R.id.avatar);
             }
+
+            @Override
+            public void onClick(View view) {
+                System.out.println("#############");
+//                System.out.println(textView.getText());
+                String value = (String) textView.getText();
+                AppCompatActivity currentActivity = (AppCompatActivity) view.getContext();
+                Intent i = new Intent(currentActivity, FriendDetailActivity.class);
+                i.putExtra("key", value);
+                startActivity(i);
+            }
         }
 
-        public MyAdapter(String[] dataSet) {
+        public MyAdapter(ArrayList<String> dataSet) {
             this.dataSet = dataSet;
         }
 
@@ -67,19 +92,17 @@ public class FriendActivity extends AppCompatActivity {
         @Override
         public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
-            return new MyViewHolder(view);
+            return new MyAdapter.MyViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
-            Random rand = new Random();
-            holder.textView.setText(dataSet[position]);
-            holder.imageView.setImageResource(R.drawable.my_logo);
+            holder.textView.setText(dataSet.get(position));
         }
 
         @Override
         public int getItemCount () {
-            return dataSet.length;
+            return dataSet.size();
         }
     }
 }
