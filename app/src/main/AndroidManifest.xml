@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UI.ArtifactHub.ArtifactDetailActivity"
-            android:parentActivityName=".HubActivity"></activity>
+            android:parentActivityName=".UI.ArtifactHub.HubActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HubActivity"
+        <activity android:name=".UI.ArtifactHub.HubActivity"
             android:parentActivityName=".MainActivity"/>
 
         <activity android:name=".UI.ArtifactManager.ArtifactManageActivity"
