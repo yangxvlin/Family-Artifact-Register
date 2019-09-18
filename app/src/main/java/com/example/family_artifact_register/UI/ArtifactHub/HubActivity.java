@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.UI.ArtifactHub.Model;
+import com.example.family_artifact_register.UI.ArtifactHub.MyAdapter;
+
 import java.util.ArrayList;
 
 public class HubActivity extends AppCompatActivity {

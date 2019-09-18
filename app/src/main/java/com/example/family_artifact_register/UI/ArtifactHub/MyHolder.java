@@ -1,10 +1,13 @@
-package com.example.family_artifact_register;
+package com.example.family_artifact_register.UI.ArtifactHub;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.family_artifact_register.ItemClickListener;
+import com.example.family_artifact_register.R;
 
 import org.jetbrains.annotations.NotNull;
 
