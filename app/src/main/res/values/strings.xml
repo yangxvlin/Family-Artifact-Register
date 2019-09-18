@@ -66,6 +66,7 @@
     <string name="artifact_description_input">Your Artifact\'s Description:</string>
     <string name="artifact_happened_title">Artifact Happened</string>
     <string name="delete">Delete</string>
+    <string name="new_artifact_activity_proceed_next_hint">At least one image/video to proceed.</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
 <!--    <string name="facebook_application_id" translatable="false">1:51048253579:android:404c89cafb75b4c3</string>-->

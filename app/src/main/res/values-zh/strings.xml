@@ -66,4 +66,6 @@
     <string name="artifact_description_input">您的文物的描述：</string>
     <string name="artifact_happened_title">发生在哪里？</string>
     <string name="delete">删除</string>
+    <string name="new_artifact_activity_proceed_next_hint">请输入至少一张图片/视频再继续。</string>
+
 </resources>
