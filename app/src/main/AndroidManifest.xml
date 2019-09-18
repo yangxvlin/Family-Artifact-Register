@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.family_artifact_register">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- CAMERA -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -12,7 +19,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ArtifactDetailActivity"
             android:parentActivityName=".HubActivity"></activity>
-        <activity android:name=".HomeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +26,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignInActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".PhoneVerificationActivity" />
-        <activity android:name=".HubActivity" />
+        <activity android:name=".HubActivity"
+            android:parentActivityName=".MainActivity"/>
+
+        <activity android:name=".UI.ArtifactManager.ArtifactManageActivity"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".UI.ArtifactManager.NewArtifactActivity"
+            android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity"
+            />
+        <activity android:name=".UI.ArtifactManager.HappenedActivity"
+            android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity"
+            />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.mydomain.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
+
 
 </manifest>
