@@ -32,7 +32,6 @@ public class MainActivity extends BaseSignOutActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // set firebase sign in layout
         mFirebaseAuth=FirebaseAuth.getInstance();
         mAuthStateListner= firebaseAuth -> {
@@ -84,7 +83,6 @@ public class MainActivity extends BaseSignOutActionBarActivity {
     }
 
     /* ********************************** view controller *************************************** */
-    public void manageArtifact(View view){
-        navigateFromTo(this, ArtifactManageActivity.class);
-    }
+    public void manageArtifact(View view){ navigateFromTo(this, ArtifactManageActivity.class); }
+    public void artifactHub(View view){ navigateFromTo(this, HubActivity.class); }
 }
