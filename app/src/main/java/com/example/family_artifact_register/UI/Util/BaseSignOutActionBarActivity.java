@@ -1,15 +1,16 @@
 package com.example.family_artifact_register.UI.Util;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.ActionBar;
 
 import com.example.family_artifact_register.R;
 
@@ -21,24 +22,8 @@ import com.example.family_artifact_register.R;
  * 2. set centered title text
  * 3. disable navigation icon
  */
-public abstract class BaseSignOutActionBarActivity extends AppCompatActivity {
-    private Toolbar toolBar;
+public abstract class BaseSignOutActionBarActivity extends BaseActionBarActivity {
     TextView textView;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(getLayoutResource());
-
-        textView = (TextView) findViewById(R.id.main_activity_toolbar_title);
-        toolBar = findViewById(getToolBarId());
-
-        if (toolBar != null) {
-            setSupportActionBar(toolBar);
-        }
-    }
-
-    protected abstract int getLayoutResource();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,40 +43,24 @@ public abstract class BaseSignOutActionBarActivity extends AppCompatActivity {
         return true;
     }
 
-    public void setDisplayHomeEnabled(boolean b) {
-        if (getSupportActionBar() != null) {
-            // enable the display
-            getSupportActionBar().setDisplayHomeAsUpEnabled(b);
-        }
-    }
-
-    public void disableNavigationIcon() {
-        if (toolBar != null) {
-            // enable the display
-            toolBar.setNavigationIcon(null);
-        }
-    }
-
-    public void setDisplayShowTitle(boolean b) {
-        if (getSupportActionBar() != null) {
-            // enable the display
-            getSupportActionBar().setDisplayShowTitleEnabled(b);
-        }
-    }
-
-    public void setTitleText(int id) {
-        textView.setText(id);
-    }
-
-    public Toolbar getToolBar() {
-        return toolBar;
+    public void setCenterTitleText(int id) {
+        ViewGroup parent = findViewById(getLayoutResource());
+        View viewActionBar = getLayoutInflater().inflate(R.layout.actionbar_center_title_layout, parent);
+        //Center the text view in the ActionBar !
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        TextView textViewTitle = (TextView) viewActionBar.findViewById(R.id.action_bar_title);
+        textViewTitle.setText(id);
+        getMyActionBar().setCustomView(viewActionBar, params);
+        getMyActionBar().setDisplayShowCustomEnabled(true);
+        setDisplayShowTitle(false);
+        setDisplayHomeEnabled(false);
     }
 
     /**
      * abstract method to end the activity
      */
     public abstract void baseFinish();
-
-    protected abstract int getToolBarId();
-
 }

@@ -10,23 +10,8 @@
     android:layout_width="match_parent"
     android:id="@+id/activity_main"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_activity_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="@string/app_name"
-        app:menu="@menu/toolbar_menu"
-        >
-        <TextView
-            android:id="@+id/main_activity_toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:singleLine="true"
-            android:textSize="20sp" />
-    </androidx.appcompat.widget.Toolbar>
+    tools:context=".MainActivity"
+    >
 
     <ImageView
         android:id="@+id/logo"
@@ -35,7 +20,6 @@
         android:background="#FFF"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:layout_below="@+id/main_activity_toolbar"
         android:src="@drawable/icon_forget_me_not_1"
     />
 
