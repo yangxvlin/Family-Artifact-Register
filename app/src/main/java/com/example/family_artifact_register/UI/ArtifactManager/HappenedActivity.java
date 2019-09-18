@@ -44,14 +44,4 @@ public class HappenedActivity extends BaseCancelToolBarActivity {
     protected int getLayoutResource() {
         return R.layout.activity_happened;
     }
-
-    @Override
-    public void baseFinish() {
-        navigateFromToEmpty(this, ArtifactManageActivity.class);
-    }
-
-    @Override
-    protected int getToolBarId() {
-        return R.id.happened_cancel_toolbar;
-    }
 }

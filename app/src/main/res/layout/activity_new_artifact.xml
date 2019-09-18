@@ -2,14 +2,14 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/new_artifact_cancel_toolbar"
@@ -94,6 +94,7 @@
                 android:layout_gravity="bottom|end"
                 android:src="@drawable/next_button"
                 android:layout_margin="16dp"
+                android:onClick="confirm"
                 />
         </RelativeLayout>
 
@@ -111,12 +112,18 @@
 <!--            android:layout_marginTop="8dp"-->
 <!--            />-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_image_preview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
-            android:scrollbars="none"
-        />
+            android:layout_height="match_parent"
+        >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_image_preview"
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:scrollbars="none"
+            />
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

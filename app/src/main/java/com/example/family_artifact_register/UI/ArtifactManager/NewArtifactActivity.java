@@ -25,19 +25,22 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.UploadArtifactAdapter;
+import com.example.family_artifact_register.UI.Util.UploadArtifactAdapter;
 import com.example.family_artifact_register.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
-import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromToEmpty;
+import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.getCompressImageOption;
 
 /**
  * @author XuLin Yang 904904,
@@ -95,20 +98,9 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         }
     }
 
-
-    @Override
-    public void baseFinish() {
-        navigateFromToEmpty(this, ArtifactManageActivity.class);
-    }
-
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_new_artifact;
-    }
-
-    @Override
-    protected int getToolBarId(){
-        return R.id.new_artifact_cancel_toolbar;
     }
 
     // ********************************* view controller *****************************************
@@ -129,6 +121,10 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);//将用于输出的文件Uri传递给相机
                 startActivityForResult(takePhotoIntent, TAKE_PHOTO);//打开相机
             }
+        } else {
+            Toast.makeText(this,
+                     "There was a problem accessing your device's external storage.",
+                           Toast.LENGTH_LONG).show();
         }
     }
 
@@ -200,7 +196,15 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
                 if (resultCode == RESULT_OK) {
                     try {
                         /*如果拍照成功，将Uri用BitmapFactory的decodeStream方法转为Bitmap*/
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
+
+                        InputStream is = getContentResolver().openInputStream(mImageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(
+                                                    is,
+                                                    null,
+                                                    getCompressImageOption(this, mImageUri));
+
+                        bitmap = rotateImage(Objects.requireNonNull(bitmap), 90);
+//                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
                         Log.i(TAG, "onActivityResult: imageUri " + mImageUri);
                         galleryAddPic(mImageUriFromFile);
 //                        mPicture.setImageBitmap(bitmap);//显示到ImageView上
@@ -277,7 +281,8 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
      */
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, getCompressImageOption(imagePath));
+            bitmap = rotateImage(Objects.requireNonNull(bitmap), 90);
 //            mPicture.setImageBitmap(bitmap);
 //            images.add(bitmap);
             uploadArtifactAdapter.addData(bitmap);
