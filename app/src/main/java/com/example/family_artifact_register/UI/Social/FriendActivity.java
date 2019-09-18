@@ -1,4 +1,4 @@
-package com.example.family_artifact_register;
+package com.example.family_artifact_register.UI.Social;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +14,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
-public class FriendActivity extends AppCompatActivity {
+public class FriendActivity extends BaseActionBarActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -28,29 +32,37 @@ public class FriendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend);
 
+        getMyActionBar().setTitle("Friend");
+
+        ArrayList<String> dataSet = new ArrayList<>();
+
+        // fake data for testing use only
+        String[] friend = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
+        Collections.addAll(dataSet, friend);
+
+        // retrieve user's friend data from DB
+//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+//        try {
+//            dataSet.add(firebaseAuth.getCurrentUser().getEmail());
+//        }
+//        catch (Exception e) {
+//            System.out.println("@@@@  user is null");
+//        }
+
+        // get the view
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         recyclerView.setHasFixedSize(true);
 
+        // set layout manager for the view
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-//        String[] dataSet = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
-
-        ArrayList<String> dataSet = new ArrayList<>();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        try {
-            dataSet.add(firebaseAuth.getCurrentUser().getEmail());
-        }
-        catch (Exception e) {
-            System.out.println("@@@@  user is null");
-        }
-
+        // set the adapter for the view
         adapter = new MyAdapter(dataSet);
         recyclerView.setAdapter(adapter);
 
+        // set the divider between list item
         divider = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);
 
@@ -104,5 +116,10 @@ public class FriendActivity extends AppCompatActivity {
         public int getItemCount () {
             return dataSet.size();
         }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_friend;
     }
 }

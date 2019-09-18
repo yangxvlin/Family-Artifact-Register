@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.family_artifact_register">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- CAMERA -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -10,7 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +24,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignInActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".PhoneVerificationActivity"></activity>
-        <activity android:name=".FriendActivity"></activity>
-        <activity android:name="FriendDetailActivity" android:parentActivityName=".FriendActivity"></activity>
+
+        <activity android:name=".UI.Social.FriendActivity"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".UI.Social.FriendDetailActivity"
+            android:parentActivityName=".UI.Social.FriendActivity"
+            />
+        <activity android:name=".UI.ArtifactManager.ArtifactManageActivity"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".UI.ArtifactManager.NewArtifactActivity"
+            android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity"
+            />
+        <activity android:name=".UI.ArtifactManager.HappenedActivity"
+            android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity"
+            />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.mydomain.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+>>>>>>> e5c7f3133bab7b2fc08e01862afd6cd3e2825396
     </application>
+
+
 
 </manifest>

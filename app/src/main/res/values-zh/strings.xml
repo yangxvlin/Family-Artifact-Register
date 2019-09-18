@@ -5,8 +5,8 @@
 -->
 
 <resources>
-    <string name="app_name">家族文物登记册</string>
-    <string name="welcomeText">欢迎使用“家族文物登记册”！</string>
+    <string name="app_name">勿忘我</string>
+    <string name="welcomeText">欢迎使用“勿忘我”！</string>
     <string name="button_next">下一步</string>
     <string name="button_confirm">确认</string>
     <string name="button_cancel">取消</string>
@@ -53,5 +53,19 @@
     <string name="drawer_open">开</string>
     <string name="drawer_close">关</string>
     <string name="menu_sign_out">退出登录</string>
+
+    <!-- 主界面功能键 -->
+    <string name="artifact_hub">家庭文物圈</string>
+    <string name="friends">朋友</string>
+    <string name="artifact_management">管理我的家庭文物</string>
+    <string name="artifact_map">家庭文物地图册</string>
+
+    <!-- 家庭文物管理界面 -->
+    <string name="new_artifact">新的家庭文物</string>
+    <string name="add_artifact_description_hint">为您的文物添加描述。 例如：关于文物您想添加的回忆。</string>
+    <string name="artifact_description_input">您的文物的描述：</string>
+    <string name="artifact_happened_title">发生在哪里？</string>
+    <string name="delete">删除</string>
+    <string name="new_artifact_activity_proceed_next_hint">请输入至少一张图片/视频再继续。</string>
 
 </resources>

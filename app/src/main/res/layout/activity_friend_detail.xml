@@ -6,19 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/app_bar">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/app_bar">-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tool_bar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/toolbar_menu"
-            app:navigationIcon="@drawable/back_arrow"/>
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/tool_bar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            app:menu="@menu/toolbar_menu"-->
+<!--            app:navigationIcon="@drawable/back_arrow"/>-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
