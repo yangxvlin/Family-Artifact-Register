@@ -1,11 +1,12 @@
-package com.example.family_artifact_register.UI.ArtifactHub;
+package com.example.family_artifact_register;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactHub.Model;
+import com.example.family_artifact_register.UI.ArtifactHub.MyAdapter;
 
 import java.util.ArrayList;
 
