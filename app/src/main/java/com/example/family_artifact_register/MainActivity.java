@@ -57,10 +57,7 @@ public class MainActivity extends BaseSignOutActionBarActivity {
         // set main activity layout
         // 1. centered title
         // 2. no navigation icon
-        setTitleText(R.string.app_name);
-        setDisplayHomeEnabled(true);
-        setDisplayShowTitle(false);
-        disableNavigationIcon();
+        setCenterTitleText(R.string.app_name);
     }
 
     @Override
@@ -71,11 +68,6 @@ public class MainActivity extends BaseSignOutActionBarActivity {
     @Override
     public void baseFinish() {
         mFirebaseAuth.signOut();
-    }
-
-    @Override
-    protected int getToolBarId() {
-        return R.id.main_activity_toolbar;
     }
 
     @Override
