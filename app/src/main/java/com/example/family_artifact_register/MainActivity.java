@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.family_artifact_register.UI.ArtifactHub.HubActivity;
 import com.example.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity;
 import com.example.family_artifact_register.UI.Social.FriendActivity;
 import com.example.family_artifact_register.UI.ArtifactHub.HubActivity;

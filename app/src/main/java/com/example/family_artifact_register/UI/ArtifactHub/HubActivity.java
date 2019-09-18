@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactHub.Model;
-import com.example.family_artifact_register.UI.ArtifactHub.MyAdapter;
 
 import java.util.ArrayList;
 
@@ -52,6 +50,14 @@ public class HubActivity extends AppCompatActivity {
         m.setUsername("Username3");
         m.setTitle("This is Art3");
         m.setDescription("This is Art3 Description.");
+        m.setAvatar(R.drawable.my_logo);
+        m.setImg(R.drawable.my_logo);
+        models.add(m);
+
+        m = new Model();
+        m.setUsername("Username4");
+        m.setTitle("This is Art4");
+        m.setDescription("This is Art4 Description.");
         m.setAvatar(R.drawable.my_logo);
         m.setImg(R.drawable.my_logo);
         models.add(m);
