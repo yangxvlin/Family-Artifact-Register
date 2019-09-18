@@ -19,7 +19,6 @@ import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class FriendActivity extends BaseActionBarActivity {

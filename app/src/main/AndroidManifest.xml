@@ -17,6 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UI.ArtifactHub.ArtifactDetailActivity"
+            android:parentActivityName=".UI.ArtifactHub.HubActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".UI.ArtifactHub.HubActivity"
+            android:parentActivityName=".MainActivity"/>
 
         <activity android:name=".UI.Social.FriendActivity"
             android:parentActivityName=".MainActivity"
@@ -51,9 +55,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
->>>>>>> e5c7f3133bab7b2fc08e01862afd6cd3e2825396
     </application>
-
-
 
 </manifest>

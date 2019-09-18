@@ -32,6 +32,7 @@
         app:icon="@drawable/bottom_bar_discovery_icon"
         android:text="@string/artifact_hub"
         android:textSize="20sp"
+        android:onClick="artifactHub"
     />
 
     <Button
