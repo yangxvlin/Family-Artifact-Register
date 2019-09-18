@@ -1,7 +1,5 @@
-package com.example.family_artifact_register;
+package com.example.family_artifact_register.UI.ArtifactHub;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,7 +8,10 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ArtifactDetailActivity extends AppCompatActivity {
+import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
+
+public class ArtifactDetailActivity extends BaseActionBarActivity {
 
     TextView mTitleTv, mDescTv, mUserTv;
     ImageView mImageIv, mAvatarIv;
@@ -18,9 +19,9 @@ public class ArtifactDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_artifact_detail);
+//        setContentView(R.layout.activity_artifact_detail);
 
-        ActionBar actionBar = getSupportActionBar();
+//        ActionBar actionBar = getSupportActionBar();
 
         mTitleTv = findViewById(R.id.title);
         mDescTv = findViewById(R.id.desc);
@@ -37,6 +38,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         byte[] mBytes = getIntent().getByteArrayExtra("iImage");
         Bitmap bitmap = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
 
+        getMyActionBar().setTitle(mTitle);
+
         mTitleTv.setText(mTitle);
         mDescTv.setText(mDesc);
         mUserTv.setText(mUser);
@@ -44,4 +47,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_artifact_detail;
+    }
 }
