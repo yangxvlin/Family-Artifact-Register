@@ -27,20 +27,21 @@ import com.google.android.libraries.places.compat.PlaceLikelihoodBufferResponse;
 import com.google.android.libraries.places.compat.Places;
 
 public class CurrentLocationFragment extends Fragment {
-
+    // Add tag for logging
     private static final String TAG = CurrentLocationFragment.class.getSimpleName();
+
+    // Success code for location access permission
     private static final int PERMISSIONS_REQUEST_LOCATION = 1;
 
     // The entry points to the Places API.
     private PlaceDetectionClient mPlaceDetectionClient;
 
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    // Records the permission status
     private boolean mLocationPermissionGranted = false;
 
     // Used for selecting the current place.
     private static final int M_MAX_ENTRIES = 5;
+    // Stores location information related to the placed detected by GPS
     private Place[] mLikelyPlace = new Place[M_MAX_ENTRIES];
     private String[] mLikelyPlaceNames = new String[M_MAX_ENTRIES];
 
@@ -66,6 +67,9 @@ public class CurrentLocationFragment extends Fragment {
         return view;
     }
 
+    /**
+     * This method updates the displayed location field by the currently stored place
+     */
     private void updateLocationField() {
         TextView mTextView = view.findViewById(R.id.my_location);
         if (currentPlace != null) {
@@ -76,16 +80,13 @@ public class CurrentLocationFragment extends Fragment {
         }
     }
 
-    /**
-     * Prompts the user to select the current place from a list of likely places, and shows the
-     * current place on the map - provided the user has granted location permission.
-     */
     private void getLocationListAndUpdateLocation() {
         if (mLocationPermissionGranted) {
             // Get the likely places - that is, the businesses and other points of interest that
             // are the best match for the device's current location.
             @SuppressWarnings("MissingPermission") final Task<PlaceLikelihoodBufferResponse> placeResult =
                     mPlaceDetectionClient.getCurrentPlace(null);
+            // This is an async task that need a listener to execute actions when completed
             placeResult.addOnCompleteListener
                     (task -> {
                         if (task.isSuccessful() && task.getResult() != null) {
@@ -139,10 +140,10 @@ public class CurrentLocationFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
-        // TODO Adapt the content here
         mLocationPermissionGranted = false;
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            // If the request is success
+            case PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -183,7 +184,7 @@ public class CurrentLocationFragment extends Fragment {
     }
 
     /**
-     * Displays a form allowing the user to select a place from a list of likely places.
+     * Prompts the user to select the current place from a list of likely places with a dialog.
      */
     private void openPlacesDialog() {
         if (mLikelyPlace[0] != null) {
@@ -194,7 +195,7 @@ public class CurrentLocationFragment extends Fragment {
                 updateLocationField();
             };
 
-            // Display the dialog.
+            // Display the dialog for location selection.
             AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.pick_place)
                     .setItems(mLikelyPlaceNames, listener)
