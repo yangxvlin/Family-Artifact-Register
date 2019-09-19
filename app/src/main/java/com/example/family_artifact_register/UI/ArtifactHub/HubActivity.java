@@ -32,6 +32,10 @@ public class HubActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Get a list of models of card view
+     * @return a list of models
+     */
     private ArrayList<Model> getMyList(){
         ArrayList<Model> models = new ArrayList<Model>();
         Model m = new Model();

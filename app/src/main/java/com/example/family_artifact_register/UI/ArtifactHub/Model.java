@@ -7,6 +7,7 @@ package com.example.family_artifact_register.UI.ArtifactHub;
  */
 public class Model {
 
+    // Define information we have for each model
     private String title, description, username;
     private int img, avatar;
 
