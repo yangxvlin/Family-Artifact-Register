@@ -78,13 +78,13 @@
             android:layout_height="wrap_content"
             >
 
-            <TextView
+            <FrameLayout
+                android:id="@+id/new_artifact_upload_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Google map auto location"
-                android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/confirm_button"
-                />
+                android:layout_centerVertical="true"
+            />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/confirm_button"
