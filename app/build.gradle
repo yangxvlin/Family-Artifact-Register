@@ -40,6 +40,7 @@ dependencies {
 
     // ******************************************************************************************
     // test
+    implementation 'com.google.firebase:firebase-database:16.0.4'
     testImplementation 'junit:junit:4.12'
     // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'
