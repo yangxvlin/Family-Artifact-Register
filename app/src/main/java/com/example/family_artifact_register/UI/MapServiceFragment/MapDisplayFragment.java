@@ -1,7 +1,6 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
 import android.content.Context;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,10 +16,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.compat.Place;
+import com.google.common.collect.MapMaker;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +41,8 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private List<Place> places;
     private Gson gson = new Gson();
+    private View view;
+    private List<MapMaker> mapMakers = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -53,8 +60,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
     public static MapDisplayFragment newInstance(List<Place> places) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        String jsonList = fragment.gson.toJson(places);
-        bundle.putString(PLACES, jsonList);
+        bundle.putSerializable(PLACES, (Serializable) places);
         return fragment;
     }
 
@@ -67,35 +73,52 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_map_display, container, false);
-
+        view = inflater.inflate(R.layout.fragment_map_display, container, false);
+        Bundle bundle = this.getArguments();
+        places = (List<Place>) bundle.get(PLACES);
         SupportMapFragment mapFragment = (SupportMapFragment) getFragmentManager()
                 .findFragmentById(R.id.display_map);
         mapFragment.getMapAsync(this);
         return view;
     }
 
-    public void displayLocations(List<LatLng> locations) {
-
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public void displayLocations() {
+        if (mMap != null) {
+            mMap.clear();
+            List<Marker> markers = new ArrayList<>();
+            for (Place place: this.places) {
+                // TODO can build map (with icon) here
+                markers.add(mMap.addMarker(new MarkerOptions()
+                        .position(place.getLatLng())
+                        .title((String) place.getName())
+                        .snippet((String) place.getAddress())));
+            }
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker marker : markers) {
+                builder.include(marker.getPosition());
+            }
+            LatLngBounds bounds = builder.build();
+            mMap.setLatLngBoundsForCameraTarget(bounds);
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+//    // TODO: Rename method, update argument and hook method into UI event
+//    public void onButtonPressed(Uri uri) {
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
+//    }
+
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+//    }
 
     @Override
     public void onDetach() {
@@ -107,9 +130,6 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
      * This interface must be implemented by activities that contain this fragment to allow an
      * interaction in this fragment to be communicated to the activity and potentially other
      * fragments contained in that activity.
-     * <p>
-     * See the Android Training lesson <a href= "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -118,9 +138,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap = googleMap;
+        displayLocations();
     }
 }
