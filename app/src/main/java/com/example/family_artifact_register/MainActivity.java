@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.family_artifact_register.UI.ArtifactHub.HubActivity;
 import com.example.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity;
+import com.example.family_artifact_register.UI.Social.FriendActivity;
+import com.example.family_artifact_register.UI.ArtifactHub.HubActivity;
 import com.example.family_artifact_register.UI.Util.BaseSignOutActionBarActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +35,6 @@ public class MainActivity extends BaseSignOutActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // set firebase sign in layout
         mFirebaseAuth=FirebaseAuth.getInstance();
         mAuthStateListner= firebaseAuth -> {
@@ -57,10 +59,7 @@ public class MainActivity extends BaseSignOutActionBarActivity {
         // set main activity layout
         // 1. centered title
         // 2. no navigation icon
-        setTitleText(R.string.app_name);
-        setDisplayHomeEnabled(true);
-        setDisplayShowTitle(false);
-        disableNavigationIcon();
+        setCenterTitleText(R.string.app_name);
     }
 
     @Override
@@ -71,11 +70,6 @@ public class MainActivity extends BaseSignOutActionBarActivity {
     @Override
     public void baseFinish() {
         mFirebaseAuth.signOut();
-    }
-
-    @Override
-    protected int getToolBarId() {
-        return R.id.main_activity_toolbar;
     }
 
     @Override
@@ -92,7 +86,14 @@ public class MainActivity extends BaseSignOutActionBarActivity {
     }
 
     /* ********************************** view controller *************************************** */
+
     public void manageArtifact(View view){
         navigateFromTo(this, ArtifactManageActivity.class);
+    }
+
+    public void artifactHub(View view){ navigateFromTo(this, HubActivity.class); }
+
+    public void social (View view){
+        navigateFromTo(this, FriendActivity.class);
     }
 }
