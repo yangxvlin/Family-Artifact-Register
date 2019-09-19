@@ -1,4 +1,4 @@
-package com.example.family_artifact_register;
+package com.example.family_artifact_register.UI.ArtifactHub;
 
 import android.view.View;
 

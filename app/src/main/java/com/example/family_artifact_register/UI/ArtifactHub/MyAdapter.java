@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.ItemClickListener;
 import com.example.family_artifact_register.R;
 
 import org.jetbrains.annotations.NotNull;
