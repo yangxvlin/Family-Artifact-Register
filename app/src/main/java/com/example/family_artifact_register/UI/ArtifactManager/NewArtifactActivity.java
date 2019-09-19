@@ -17,16 +17,20 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.UI.Util.UploadArtifactAdapter;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,6 +72,10 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     private UploadArtifactAdapter uploadArtifactAdapter;
     private DividerItemDecoration dividerItemDecoration;
     private EditText editText;
+
+    private FrameLayout uploadLocationFrame;
+
+    private Fragment uploadLocationFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/avatar_window"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="25dp"
+        app:cardBackgroundColor="#B8B8B8"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="7.5dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/default_avatar_list"
+            android:contentDescription="default avatar"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_vertical"
+            android:foregroundGravity="center_vertical"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/avatar_window"
+        android:layout_marginStart="25dp"
+        android:text="Tim"
+        android:gravity="center_vertical"/>
+
+</RelativeLayout>
