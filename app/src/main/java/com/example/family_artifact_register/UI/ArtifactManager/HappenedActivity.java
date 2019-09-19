@@ -9,7 +9,6 @@ import java.util.List;
 
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
-import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromToEmpty;
 
 /**
  * @author XuLin Yang 904904,
