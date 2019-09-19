@@ -44,6 +44,7 @@
         app:icon="@drawable/bottom_bar_contact_icon"
         android:text="@string/friends"
         android:textSize="20sp"
+        android:onClick="social"
     />
 
     <Button

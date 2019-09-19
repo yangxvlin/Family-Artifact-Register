@@ -29,6 +29,12 @@
         <activity android:name=".UI.ArtifactHub.HubActivity"
             android:parentActivityName=".MainActivity"/>
 
+        <activity android:name=".UI.Social.FriendActivity"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".UI.Social.FriendDetailActivity"
+            android:parentActivityName=".UI.Social.FriendActivity"
+            />
         <activity android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity"
             />
@@ -48,7 +54,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-    </application>
 
+    </application>
 
 </manifest>
