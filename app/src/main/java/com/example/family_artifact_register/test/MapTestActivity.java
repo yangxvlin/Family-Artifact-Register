@@ -4,16 +4,18 @@ import android.annotation.SuppressLint;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.compat.GeoDataClient;
 import com.google.android.libraries.places.compat.Place;
+import com.google.android.libraries.places.compat.PlaceBufferResponse;
+import com.google.android.libraries.places.compat.Places;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,9 @@ import java.util.List;
  * navigation/system bar) with user interaction.
  */
 public class MapTestActivity extends AppCompatActivity {
+    private static final String TAG = MapTestActivity.class.getSimpleName();
+    GeoDataClient mGeoDataClient;
+
     /**
      * Whether or not the system UI should be auto-hidden after {@link #AUTO_HIDE_DELAY_MILLIS}
      * milliseconds.
@@ -95,13 +100,12 @@ public class MapTestActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_map_test);
 
+        List<Place> places = new ArrayList<>();
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        List<Place> places = new ArrayList<>();
-
-        Fragment mapFragment = MapDisplayFragment.newInstance(places);
+        MapDisplayFragment mapFragment = MapDisplayFragment.newInstance(places);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fullscreen_content, mapFragment)
@@ -114,6 +118,23 @@ public class MapTestActivity extends AppCompatActivity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+
+        mGeoDataClient = Places.getGeoDataClient(this);
+        Task<PlaceBufferResponse> placesResult = mGeoDataClient
+                .getPlaceById("ChIJP3Sa8ziYEmsRUKgyFmh9AQM",
+                        "ChIJEVCBAZpmAGAR3vBoBTxlQdM");
+        placesResult.addOnCompleteListener(task -> {
+            PlaceBufferResponse placeBufferResponse = task.getResult();
+            if (placeBufferResponse != null) {
+                List<Place> places1 = new ArrayList<>();
+                for (Place place : placeBufferResponse) {
+                    places1.add(place);
+                }
+                mapFragment.setDisplayPlaces(places1);
+                placeBufferResponse.release();
+            }
+        });
     }
 
     @Override

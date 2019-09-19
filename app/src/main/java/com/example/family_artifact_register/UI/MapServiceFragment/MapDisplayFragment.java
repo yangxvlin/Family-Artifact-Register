@@ -1,6 +1,5 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,13 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.family_artifact_register.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -26,7 +23,6 @@ import com.google.common.collect.MapMaker;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +87,12 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
         mapView.getMapAsync(this);
     }
 
-    public void displayLocations() {
+    public void setDisplayPlaces(List<Place> places) {
+        this.places = places;
+        displayPlaces();
+    }
+
+    private void displayPlaces() {
         if (mMap != null && places.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
@@ -106,8 +107,10 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
             for (Marker marker : markers) {
                 builder.include(marker.getPosition());
             }
+            int padding = 100; // offset from edges of the map in pixels
             LatLngBounds bounds = builder.build();
-            mMap.setLatLngBoundsForCameraTarget(bounds);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.animateCamera(cu);
         }
     }
 
@@ -148,6 +151,6 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        displayLocations();
+        displayPlaces();
     }
 }
