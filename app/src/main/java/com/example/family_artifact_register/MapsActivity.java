@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -91,9 +92,11 @@ public class MapsActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_maps);
         setContentView(R.layout.activity_fragment_test);
         CurrentLocationFragment fragment = CurrentLocationFragment.newInstance();
+        Log.i(TAG, "Created new fragment instance");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.test_fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
 //

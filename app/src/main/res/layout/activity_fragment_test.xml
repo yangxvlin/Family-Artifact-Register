@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity"
-    android:id="@+id/test_fragment_container">
+android:id="@+id/test_fragment_container"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="@android:drawable/edit_text"
+android:divider="@android:drawable/divider_horizontal_textfield"
+android:addStatesFromChildren="true">
+
+    <LinearLayout android:id="@+id/container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="0dip" />
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.media.MediaPlayer;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.example.family_artifact_register.MapsActivity;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -33,6 +35,7 @@ import com.google.android.libraries.places.compat.GeoDataClient;
 import com.google.android.libraries.places.compat.PlaceDetectionClient;
 import com.google.android.libraries.places.compat.PlaceLikelihood;
 import com.google.android.libraries.places.compat.PlaceLikelihoodBufferResponse;
+import com.google.android.libraries.places.compat.Places;
 
 public class CurrentLocationFragment extends Fragment {
 
@@ -76,11 +79,31 @@ public class CurrentLocationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_current_location, container, false);
         // Find the TextView and add listener to it
+        Log.i(TAG, "Started onCreateView!");
         TextView mTextView = view.findViewById(R.id.my_location);
-        mTextView.setText("TEST");
         mTextView.setOnClickListener(view1 -> openPlacesDialog());
 
-        // Get current location of user
+        // Construct a GeoDataClient.
+        mGeoDataClient = Places.getGeoDataClient(getActivity());
+
+        // Construct a PlaceDetectionClient.
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(getActivity());
+
+        // Construct a FusedLocationProviderClient.
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        // Get current (possible) locations of user
+        getLocationList();
+
+        // set the location if the list is not empty
+        if (mLikelyPlaceNames[0] !=  null) {
+            currentPlaceName = mLikelyPlaceNames[0];
+            currentAddress = mLikelyPlaceAddresses[0];
+            currentLatLng = mLikelyPlaceLatLngs[0];
+        }
+        // Echo the place name
+        Log.i(TAG, currentAddress);
+        Log.i(TAG, currentPlaceName);
 
         return view;
     }
@@ -172,11 +195,12 @@ public class CurrentLocationFragment extends Fragment {
      * Prompts the user for permission to use the device location.
      */
     private void getLocationPermission() {
-            /*
-             * Request location permission, so that we can get the location of the
-             * device. The result of the permission request is handled by a callback,
-             * onRequestPermissionsResult.
-             */
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        Log.i(TAG, String.valueOf(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)));
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
            // Asking user if explanation is needed
