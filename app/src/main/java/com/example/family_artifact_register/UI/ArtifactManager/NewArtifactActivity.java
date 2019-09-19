@@ -28,20 +28,23 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.UploadArtifactAdapter;
+import com.example.family_artifact_register.UI.Util.UploadArtifactAdapter;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
-import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromToEmpty;
+import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.getCompressImageOption;
 
 /**
  * @author XuLin Yang 904904,
@@ -58,10 +61,12 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     private static final int CHOOSE_PHOTO = 385;
     private static final String FILE_PROVIDER_AUTHORITY = "com.mydomain.fileprovider";
     private Uri mImageUri, mImageUriFromFile;
-    private File imageFile;
-//    private ImageView mPicture;
 
-//    private ArrayList<Bitmap> images;
+    /**
+     * used to store token photos
+     */
+    private File imageFile;
+
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private UploadArtifactAdapter uploadArtifactAdapter;
@@ -84,23 +89,18 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         uploadLocationFragment = CurrentLocationFragment.newInstance();
         FragmentManager fragmentManager =  getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                        .add(R.id.new_artifact_upload_location, uploadLocationFragment)
-                        .commit();
+                .add(R.id.new_artifact_upload_location, uploadLocationFragment)
+                .commit();
 
-//        images = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recycler_image_preview);
-//        mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-//        uploadArtifactAdapter = new UploadArtifactAdapter(images);
         uploadArtifactAdapter = new UploadArtifactAdapter();
         mRecyclerView.setAdapter(uploadArtifactAdapter);
-//        dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
-//        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         editText = findViewById(R.id.add_artifact_description_input);
-
-//        mPicture = findViewById(R.id.iv_picture);
 
         // request write permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -110,52 +110,65 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         }
     }
 
-
-    @Override
-    public void baseFinish() {
-        navigateFromToEmpty(this, ArtifactManageActivity.class);
-    }
-
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_new_artifact;
     }
 
-    @Override
-    protected int getToolBarId(){
-        return R.id.new_artifact_cancel_toolbar;
-    }
-
+    /**
+     * start taking photo by using system camera
+     *
+     * @param view view
+     */
     // ********************************* view controller *****************************************
     public void takePhoto(View view) {
-        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//打开相机的Intent
-        if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {//这句作用是如果没有相机则该应用不会闪退，要是不加这句则当系统没有相机应用的时候该应用会闪退
-            imageFile = createImageFile();//创建用来保存照片的文件
+        // open camera intent
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        // if the system has no camera app, then the app will inform user.
+        if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+            imageFile = createImageFile();
             mImageUriFromFile = Uri.fromFile(imageFile);
             Log.i(TAG, "takePhoto: uriFromFile " + mImageUriFromFile);
             if (imageFile != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    /*7.0以上要通过FileProvider将File转化为Uri*/
+                    // 7.0 or above api, FileProvider will turn File into Uri
                     mImageUri = FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, imageFile);
                 } else {
-                    /*7.0以下则直接使用Uri的fromFile方法将File转化为Uri*/
+                    // below 7.0 api just directly use Uri.fromFile method to turn File into Uri
                     mImageUri = Uri.fromFile(imageFile);
                 }
-                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);//将用于输出的文件Uri传递给相机
-                startActivityForResult(takePhotoIntent, TAKE_PHOTO);//打开相机
+                // pass output file's uri to camera
+                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+                // open camera
+                startActivityForResult(takePhotoIntent, TAKE_PHOTO);
             }
+        } else {
+            Toast.makeText(this,
+                     "There was a problem accessing your device's external storage.",
+                           Toast.LENGTH_LONG).show();
         }
     }
 
     /**
-     * 打开相册
+     * user open the album to choose images to be chosen
+     *
+     * @param view view
      */
     public void openAlbum(View view) {
         Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
         openAlbumIntent.setType("image/*");
-        startActivityForResult(openAlbumIntent, CHOOSE_PHOTO);//打开相册
+
+        // open the album
+        startActivityForResult(openAlbumIntent, CHOOSE_PHOTO);
     }
 
+    /**
+     * user confirm the information required for this page, and send description, photos, {TODO videos}, {TODO location place}
+     * to next activity
+     *
+     * @param view view
+     */
     public void confirm(View view) {
         // has item and can proceed to next activity
         if (uploadArtifactAdapter.getItemCount() > 0) {
@@ -175,9 +188,10 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
 
     // ********************************* take photo logic *****************************************
     /**
-     * 创建用来存储图片的文件，以时间来命名就不会产生命名冲突
+     * used to create file for the image.
+     * Note: use time as image name in order to avoid name collision.
      *
-     * @return 创建的图片文件
+     * @return created image file
      */
     private File createImageFile() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -192,7 +206,10 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         return imageFile;
     }
 
-    /*申请权限的回调*/
+    // ************************************ input call back **************************************
+    /**
+     * permission request callback
+     * */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -204,8 +221,9 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         }
     }
 
-    // ************************************ input call back **************************************
-    /*相机或者相册返回来的数据*/
+    /**
+     * activity's callback to the returned taken photo or chosen album image.
+     * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -214,12 +232,18 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     try {
-                        /*如果拍照成功，将Uri用BitmapFactory的decodeStream方法转为Bitmap*/
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
+                        // if camera successful, use BitmapFactory.decodeStream to turn image's Uri
+                        // into Bitmap
+                        InputStream is = getContentResolver().openInputStream(mImageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(
+                                                    is,
+                                                    null,
+                                                    getCompressImageOption(this, mImageUri));
+
+                        bitmap = rotateImage(Objects.requireNonNull(bitmap), 90);
                         Log.i(TAG, "onActivityResult: imageUri " + mImageUri);
                         galleryAddPic(mImageUriFromFile);
-//                        mPicture.setImageBitmap(bitmap);//显示到ImageView上
-//                        images.add(bitmap);
+
                         uploadArtifactAdapter.addData(bitmap);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -227,29 +251,30 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
                 }
                 break;
             case CHOOSE_PHOTO:
-                if (data == null) {//如果没有选取照片，则直接返回
+                // if no image chosen, return directly
+                if (data == null) {
                     return;
                 }
                 Log.i(TAG, "onActivityResult: ImageUriFromAlbum: " + data.getData());
                 if (resultCode == RESULT_OK) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        handleImageOnKitKat(data);//4.4之后图片解析
+                        // 4.4 later image loading
+                        handleImageOnKitKat(data);
                     } else {
-                        handleImageBeforeKitKat(data);//4.4之前图片解析
+                        // 4.4 before image loading
+                        handleImageBeforeKitKat(data);
                     }
                 }
                 break;
             default:
                 break;
         }
-
-//        System.out.println(mImageUri.toString());
     }
 
     /**
-     * 4.4版本以下对返回的图片Uri的处理：
-     * 就是从返回的Intent中取出图片Uri，直接显示就好
-     * @param data 调用系统相册之后返回的Uri
+     * 4.4 below method to the returned image
+     * Note: directly display image by using the Uri
+     * @param data Uri returned after calling system album
      */
     private void handleImageBeforeKitKat(Intent data) {
         Uri uri = data.getData();
@@ -258,19 +283,20 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     }
 
     /**
-     * 4.4版本以上对返回的图片Uri的处理：
-     * 返回的Uri是经过封装的，要进行处理才能得到真实路径
-     * @param data 调用系统相册之后返回的Uri
+     * 4.4 above method to the returned image
+     * Note: need to process Uri to get the true path
+     * @param data Uri returned after calling system album
      */
     @TargetApi(19)
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
         if (DocumentsContract.isDocumentUri(this, uri)) {
-            //如果是document类型的Uri，则提供document id处理
+            // if Uri is document type, then give document id to process
             String docId = DocumentsContract.getDocumentId(uri);
             if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                String id = docId.split(":")[1];//解析出数字格式的id
+                // 1: digital to get id
+                String id = docId.split(":")[1];
                 String selection = MediaStore.Images.Media._ID + "=" + id;
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
             } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
@@ -278,23 +304,22 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
                 imagePath = getImagePath(contentUri, null);
             }
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            //如果是content类型的uri，则进行普通处理
+            // if content is Uri type, by normal processing
             imagePath = getImagePath(uri, null);
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            //如果是file类型的uri，则直接获取路径
+            // if file type is Uri, directly get the path
             imagePath = uri.getPath();
         }
         displayImage(imagePath);
     }
 
     /**
-     * 将imagePath指定的图片显示到ImageView上
+     * add image to the view
      */
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-//            mPicture.setImageBitmap(bitmap);
-//            images.add(bitmap);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, getCompressImageOption(imagePath));
+            bitmap = rotateImage(Objects.requireNonNull(bitmap), 90);
             uploadArtifactAdapter.addData(bitmap);
         } else {
             Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
@@ -302,10 +327,10 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     }
 
     /**
-     * 将Uri转化为路径
-     * @param uri 要转化的Uri
-     * @param selection 4.4之后需要解析Uri，因此需要该参数
-     * @return 转化之后的路径
+     * turn Uri to path
+     * @param uri Uri going to be turned
+     * @param selection 4.4 above requires to process it, this param is required
+     * @return path after transformed
      */
     private String getImagePath(Uri uri, String selection) {
         String path = null;
@@ -320,9 +345,9 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     }
 
     /**
-     * 将拍的照片添加到相册
+     * add photo to system album
      *
-     * @param uri 拍的照片的Uri
+     * @param uri photo's Uri
      */
     private void galleryAddPic(Uri uri) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);

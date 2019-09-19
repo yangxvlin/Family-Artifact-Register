@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
+package com.example.family_artifact_register.UI.Util;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -14,10 +14,6 @@ import java.util.List;
 
 public class UploadArtifactAdapter extends RecyclerView.Adapter<UploadArtifactViewHolder> {
     private List<Bitmap> images;
-
-//    public UploadArtifactAdapter(List<Bitmap> images) {
-//        this.images = images;
-//    }
 
     public UploadArtifactAdapter() {
         this.images = new ArrayList<>();
