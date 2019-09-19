@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
+package com.example.family_artifact_register.UI.Util;
 
 import android.view.View;
 import android.widget.Button;

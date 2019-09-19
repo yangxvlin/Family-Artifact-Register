@@ -9,7 +9,6 @@ import java.util.List;
 
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
-import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromToEmpty;
 
 /**
  * @author XuLin Yang 904904,
@@ -43,15 +42,5 @@ public class HappenedActivity extends BaseCancelToolBarActivity {
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_happened;
-    }
-
-    @Override
-    public void baseFinish() {
-        navigateFromToEmpty(this, ArtifactManageActivity.class);
-    }
-
-    @Override
-    protected int getToolBarId() {
-        return R.id.happened_cancel_toolbar;
     }
 }

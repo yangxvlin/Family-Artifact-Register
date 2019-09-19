@@ -12,8 +12,6 @@ import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
  */
 public abstract class BaseCancelToolBarActivity extends BaseActionBarActivity {
 
-    protected abstract int getLayoutResource();
-
     @Override
     public void setTitle(CharSequence title) {
         // https://stackoverflow.com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-name-is-shown
@@ -27,17 +25,10 @@ public abstract class BaseCancelToolBarActivity extends BaseActionBarActivity {
     }
 
     /**
-     * set left top cancel button and its listener
+     * set left top cancel button icon
      */
     public void setCancelButton() {
         // set the button for the action bar
         getMyActionBar().setHomeAsUpIndicator(R.drawable.common_close_button);
     }
-
-    /**
-     * abstract method to end the activity
-     */
-    public abstract void baseFinish();
-
-    protected abstract int getToolBarId();
 }
