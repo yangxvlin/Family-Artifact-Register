@@ -80,9 +80,6 @@
     <string name="my_location_icon" translatable="false">My location icon</string>
     <string name="no_location">No Location</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <!--    <string name="facebook_application_id" translatable="false">1:51048253579:android:404c89cafb75b4c3</string>-->
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
