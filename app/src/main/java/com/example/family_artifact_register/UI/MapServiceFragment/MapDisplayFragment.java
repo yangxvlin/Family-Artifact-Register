@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,6 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.family_artifact_register.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.compat.Place;
+import com.google.gson.Gson;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
@@ -18,15 +29,13 @@ import com.example.family_artifact_register.R;
  * Use the {@link MapDisplayFragment#newInstance} factory method to create an instance of this
  * fragment.
  */
-public class MapDisplayFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
+    private static final String PLACES = "places";
 
-    // TODO: Rename and change types of parameters
-    private String mMap;
-    private String mParam2;
+    // Stores the map object to be operated
+    private GoogleMap mMap;
+    private List<Place> places;
+    private Gson gson = new Gson();
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,34 +47,36 @@ public class MapDisplayFragment extends Fragment {
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MapDisplayFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MapDisplayFragment newInstance(String param1, String param2) {
+    public static MapDisplayFragment newInstance(List<Place> places) {
         MapDisplayFragment fragment = new MapDisplayFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        Bundle bundle = new Bundle();
+        String jsonList = fragment.gson.toJson(places);
+        bundle.putString(PLACES, jsonList);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mMap = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map_display, container, false);
+        View view = inflater.inflate(R.layout.fragment_map_display, container, false);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getFragmentManager()
+                .findFragmentById(R.id.display_map);
+        mapFragment.getMapAsync(this);
+        return view;
+    }
+
+    public void displayLocations(List<LatLng> locations) {
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -103,5 +114,13 @@ public class MapDisplayFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng sydney = new LatLng(-33.852, 151.211);
+        googleMap.addMarker(new MarkerOptions().position(sydney)
+                .title("Marker in Sydney"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
