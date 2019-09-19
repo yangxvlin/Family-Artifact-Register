@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.ItemClickListener;
 import com.example.family_artifact_register.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-18 14:28:43
+ * @description Adapter for models recycler view
+ */
 public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
 
 

@@ -11,6 +11,12 @@ import android.widget.TextView;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
 
+
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-19 11:54:23
+ * @description activity for artifact detail view.
+ */
 public class ArtifactDetailActivity extends BaseActionBarActivity {
 
     TextView mTitleTv, mDescTv, mUserTv;
@@ -19,9 +25,6 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_artifact_detail);
-
-//        ActionBar actionBar = getSupportActionBar();
 
         mTitleTv = findViewById(R.id.title);
         mDescTv = findViewById(R.id.desc);

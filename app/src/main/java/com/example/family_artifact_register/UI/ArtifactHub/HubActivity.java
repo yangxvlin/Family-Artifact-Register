@@ -9,11 +9,15 @@ import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-18 12:15:48
+ * @description activity for artifact hub.
+ */
 public class HubActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
     MyAdapter mMyAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
