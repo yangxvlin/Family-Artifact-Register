@@ -85,6 +85,13 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         setCancelButton();
         setTitle(R.string.new_artifact);
 
+        uploadLocationFrame = findViewById(R.id.new_artifact_upload_location);
+        uploadLocationFragment = CurrentLocationFragment.newInstance();
+        FragmentManager fragmentManager =  getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.new_artifact_upload_location, uploadLocationFragment)
+                .commit();
+
         mRecyclerView = findViewById(R.id.recycler_image_preview);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
