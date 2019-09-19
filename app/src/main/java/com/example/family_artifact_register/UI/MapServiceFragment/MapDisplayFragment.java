@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -42,6 +44,8 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
     private List<Place> places;
     private Gson gson = new Gson();
     private View view;
+
+    private MapView mapView;
     private List<MapMaker> mapMakers = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
@@ -61,6 +65,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(PLACES, (Serializable) places);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -72,18 +77,22 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_map_display, container, false);
         Bundle bundle = this.getArguments();
         places = (List<Place>) bundle.get(PLACES);
-        SupportMapFragment mapFragment = (SupportMapFragment) getFragmentManager()
-                .findFragmentById(R.id.display_map);
-        mapFragment.getMapAsync(this);
-        return view;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_map_display, container, false);
+    }
+
+    @Override
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        mapView = (MapView) view.findViewById(R.id.map);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+        mapView.getMapAsync(this);
     }
 
     public void displayLocations() {
-        if (mMap != null) {
+        if (mMap != null && places.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
             for (Place place: this.places) {
