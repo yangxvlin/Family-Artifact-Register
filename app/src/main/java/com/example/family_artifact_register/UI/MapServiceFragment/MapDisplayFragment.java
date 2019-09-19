@@ -37,26 +37,28 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
 
     // Stores the map object to be operated
     private GoogleMap mMap;
+    // Stores the places to be displayed on screen
     private List<Place> places;
-    private Gson gson = new Gson();
-    private View view;
-
+    // MapView the current fragment is operating on
     private MapView mapView;
-    private List<MapMaker> mapMakers = new ArrayList<>();
 
+    // TODO to be implemented in the future for a correct way for interaction
     private OnFragmentInteractionListener mListener;
 
+
+    /**
+     * Required empty public constructor
+     */
     public MapDisplayFragment() {
-        // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
+     * @param places The places to be displayed on the google map
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MapDisplayFragment newInstance(List<Place> places) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
@@ -92,7 +94,15 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
         displayPlaces();
     }
 
+    public List<Place> getPlaces() {
+        return places;
+    }
+
+    /**
+     * Display the places currently held in this fragment
+     */
     private void displayPlaces() {
+        // Only display with marker if map is not null and there are places stored
         if (mMap != null && places.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
@@ -114,6 +124,12 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        displayPlaces();
+    }
+
 //    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
@@ -132,11 +148,11 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
 //        }
 //    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
     /**
      * This interface must be implemented by activities that contain this fragment to allow an
@@ -146,11 +162,5 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        displayPlaces();
     }
 }
