@@ -39,7 +39,12 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     // ******************************************************************************************
+    // Google map api
+    implementation 'com.google.android.libraries.places:places-compat:2.0.0'
+
+    // ******************************************************************************************
     // test
+
     testImplementation 'junit:junit:4.12'
     // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'

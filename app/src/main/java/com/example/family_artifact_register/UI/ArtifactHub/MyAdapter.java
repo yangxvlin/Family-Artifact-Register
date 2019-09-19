@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.ItemClickListener;
 import com.example.family_artifact_register.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +17,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-18 14:28:43
+ * @description Adapter for models recycler view
+ */
 public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
-
 
     Context c;
     ArrayList<Model> models;
@@ -46,6 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         myHolder.mAvatar.setImageResource(models.get(i).getAvatar());
         myHolder.mUsername.setText(models.get(i).getUsername());
 
+        // The ClickListener checks which model is clicked and create intent
         myHolder.setItemClickListener(new ItemClickListener() {
             @Override
             public void OnItemClickListener(View v, int Position) {
@@ -56,12 +60,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
 
                 Bitmap bitmap = bitmapDrawable.getBitmap();
 
+                // Compress the bitmap as stream convert to array of bytes
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100,stream);
-
                 byte[] bytes = stream.toByteArray();
 
+                //Creat intent and put information into it
                 Intent intent = new Intent(c, ArtifactDetailActivity.class);
                 intent.putExtra("iTitle", gTitle);
                 intent.putExtra("iDesc", gDesc);
