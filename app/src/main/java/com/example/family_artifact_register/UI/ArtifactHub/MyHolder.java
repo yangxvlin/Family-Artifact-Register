@@ -6,11 +6,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.ItemClickListener;
 import com.example.family_artifact_register.R;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-18 13:54:32
+ * @description Hold recycler view and implement click listener to cards in recycler.
+ */
 public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     ImageView mImeaView, mAvatar;

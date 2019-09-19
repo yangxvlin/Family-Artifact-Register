@@ -11,6 +11,12 @@ import android.widget.TextView;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
 
+
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-19 11:54:23
+ * @description activity for artifact detail view.
+ */
 public class ArtifactDetailActivity extends BaseActionBarActivity {
 
     TextView mTitleTv, mDescTv, mUserTv;
@@ -19,9 +25,6 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_artifact_detail);
-
-//        ActionBar actionBar = getSupportActionBar();
 
         mTitleTv = findViewById(R.id.title);
         mDescTv = findViewById(R.id.desc);
@@ -29,6 +32,7 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
         mImageIv = findViewById(R.id.imageIv);
         mAvatarIv = findViewById(R.id.avatarIv);
 
+        // Use intent to send information to artifact detail activity
         Intent intent = getIntent();
 
         String mTitle = intent.getStringExtra("iTitle");
@@ -38,14 +42,15 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
         byte[] mBytes = getIntent().getByteArrayExtra("iImage");
         Bitmap bitmap = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
 
+        // Set action bar title to be artifact title
         getMyActionBar().setTitle(mTitle);
 
+        // Set artifact information the same as activity hub
         mTitleTv.setText(mTitle);
         mDescTv.setText(mDesc);
         mUserTv.setText(mUser);
         mImageIv.setImageBitmap(bitmap);
     }
-
 
     @Override
     protected int getLayoutResource() {
