@@ -81,10 +81,9 @@ public class CurrentLocationFragment extends Fragment {
         // Find the TextView and add listener to it
         Log.i(TAG, "Started onCreateView!");
         TextView mTextView = view.findViewById(R.id.my_location);
+        mTextView.setText("TEST");
+        Log.i(TAG, "Set Text");
         mTextView.setOnClickListener(view1 -> openPlacesDialog());
-
-        // Construct a GeoDataClient.
-        mGeoDataClient = Places.getGeoDataClient(getActivity());
 
         // Construct a PlaceDetectionClient.
         mPlaceDetectionClient = Places.getPlaceDetectionClient(getActivity());
@@ -92,25 +91,20 @@ public class CurrentLocationFragment extends Fragment {
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+        autoSetLocation();
+
+        return view;
+    }
+
+    private void autoSetLocation() {
         // Get current (possible) locations of user
         getLocationList();
-
         // set the location if the list is not empty
         if (mLikelyPlaceNames[0] !=  null) {
             currentPlaceName = mLikelyPlaceNames[0];
             currentAddress = mLikelyPlaceAddresses[0];
             currentLatLng = mLikelyPlaceLatLngs[0];
         }
-        // Echo the place name
-        Log.i(TAG, currentAddress);
-        Log.i(TAG, currentPlaceName);
-
-        return view;
-    }
-
-    public void autoSetLocation() {
-        // Get permission
-        // TODO implement
 
     }
 
