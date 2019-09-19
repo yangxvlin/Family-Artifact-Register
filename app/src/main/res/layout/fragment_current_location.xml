@@ -5,4 +5,3 @@
     android:id="@+id/my_location"
     android:text="@string/no_location"
     android:drawableStart="@drawable/ic_my_location_24dp" />
-    <!-- TODO insert correct image here -->

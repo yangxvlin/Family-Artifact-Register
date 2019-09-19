@@ -72,4 +72,5 @@
 
     <string name="default_info_title">默认地点</string>
     <string name="default_info_snippet">系统定位服务已禁用，无法找到您的位置</string>
+    <string name="no_location">暂无定位</string>
 </resources>
