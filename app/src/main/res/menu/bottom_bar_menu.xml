@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_chat"
-        android:title="@string/bottom_bar_chat"
+        android:id="@+id/item_discovery"
+        android:title="@string/bottom_bar_discovery"
         app:showAsAction="withText"
-        android:icon="@drawable/bottom_bar_chat_icon"/>
+        android:icon="@drawable/bottom_bar_discovery_icon"/>
 
     <item
         android:id="@+id/item_contacts"
@@ -15,10 +15,10 @@
         android:icon="@drawable/bottom_bar_contact_icon"/>
 
     <item
-        android:id="@+id/item_discovery"
-        android:title="@string/bottom_bar_discovery"
+        android:id="@+id/item_chat"
+        android:title="@string/artifact_map"
         app:showAsAction="withText"
-        android:icon="@drawable/bottom_bar_discovery_icon"/>
+        android:icon="@drawable/bottom_bar_map_icon"/>
 
     <item
         android:id="@+id/item_me"

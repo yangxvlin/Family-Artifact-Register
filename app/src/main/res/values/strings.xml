@@ -58,7 +58,7 @@
     <string name="artifact_hub">Family Artifact Hub</string>
     <string name="friends">Friends</string>
     <string name="artifact_management">Artifact Management</string>
-    <string name="artifact_map">Artifact Map</string>
+    <string name="artifact_map">Map</string>
 
     <!-- artifactItem manage activity functionality -->
     <string name="new_artifact">New Artifact</string>
