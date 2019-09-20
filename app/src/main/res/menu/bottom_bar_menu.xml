@@ -3,27 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_discovery"
-        android:title="@string/bottom_bar_discovery"
-        app:showAsAction="withText"
+        android:id="@+id/item_hub"
+        android:title="@string/artifact_hub"
+
         android:icon="@drawable/bottom_bar_discovery_icon"/>
+    <!--    app:showAsAction="withText"-->
 
     <item
         android:id="@+id/item_contacts"
         android:title="@string/bottom_bar_contacts"
-        app:showAsAction="withText"
+
         android:icon="@drawable/bottom_bar_contact_icon"/>
 
     <item
-        android:id="@+id/item_chat"
+        android:id="@+id/item_map"
         android:title="@string/artifact_map"
-        app:showAsAction="withText"
+
         android:icon="@drawable/bottom_bar_map_icon"/>
 
     <item
         android:id="@+id/item_me"
         android:title="@string/bottom_bar_profile"
-        app:showAsAction="withText"
+
         android:icon="@drawable/bottom_bar_me_icon"/>
 
 </menu>

@@ -7,21 +7,24 @@
     android:orientation="vertical"
     tools:context="com.example.family_artifact_register.MainActivity2">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/mainview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
 
-    </LinearLayout>
+    </FrameLayout>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bnv"
+        android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
         android:layout_weight="7"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_bar_menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
