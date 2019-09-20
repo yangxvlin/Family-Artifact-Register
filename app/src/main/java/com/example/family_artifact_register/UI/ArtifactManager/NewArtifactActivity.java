@@ -8,17 +8,21 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
@@ -45,6 +49,7 @@ import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotate
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
 import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.getCompressImageOption;
+import static com.example.family_artifact_register.UI.Util.UriUtils.getPath;
 
 /**
  * @author XuLin Yang 904904,
@@ -61,6 +66,12 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
     private static final int CHOOSE_PHOTO = 385;
     private static final String FILE_PROVIDER_AUTHORITY = "com.mydomain.fileprovider";
     private Uri mImageUri, mImageUriFromFile;
+
+    //使用一个intent请求录像,视频存储在指定位置
+    private Uri outputFileUri;
+    private File videoPath;
+    private static final int RECORD_VIDEO_SAVE = 1;
+    private static final int REQUEST_VIDEO_CAPTURE = 3;
 
     /**
      * used to store token photos
@@ -115,12 +126,12 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         return R.layout.activity_new_artifact;
     }
 
+    // ********************************* view controller *****************************************
     /**
      * start taking photo by using system camera
      *
      * @param view view
      */
-    // ********************************* view controller *****************************************
     public void takePhoto(View view) {
         // open camera intent
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -145,8 +156,8 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
             }
         } else {
             Toast.makeText(this,
-                     "There was a problem accessing your device's external storage.",
-                           Toast.LENGTH_LONG).show();
+                    "There was a problem accessing your device's external storage.",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -161,6 +172,39 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
 
         // open the album
         startActivityForResult(openAlbumIntent, CHOOSE_PHOTO);
+    }
+
+    private boolean hasSdcard(){
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
+
+    public void takeVideo(View view) {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        if(hasSdcard()) {
+//            videoPath = Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_MOVIES);
+//            if (!videoPath.exists()) {
+//                videoPath.mkdirs();
+//            }
+            videoPath = createVideoFile();
+//            videoPath = new File(videoPath.getPath() + "/" + "test.mp4");
+//        直接调用已经存在的录像并播放
+//        Uri uri=Uri.fromFile(videoPath);
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        Log.d(TAG,uri+"");
+//        intent.setDataAndType(uri, "video/mp4");
+//        startActivity(intent);
+
+            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
+                intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoPath));
+                startActivityForResult(intent, REQUEST_VIDEO_CAPTURE);
+            }
+        }
     }
 
     /**
@@ -179,7 +223,7 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
             activityChangeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             activityChangeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.startActivity(activityChangeIntent);
-        // require users to input images
+            // require users to input images
         } else {
             Toast.makeText(NewArtifactActivity.this, R.string.new_artifact_activity_proceed_next_hint, Toast.LENGTH_SHORT)
                     .show();
@@ -204,6 +248,19 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
             e.printStackTrace();
         }
         return imageFile;
+    }
+
+    private File createVideoFile() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String videoFileName = "Video_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File videoFile = null;
+        try {
+            videoFile = File.createTempFile(videoFileName, ".mp4", storageDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return videoFile;
     }
 
     // ************************************ input call back **************************************
@@ -236,9 +293,9 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
                         // into Bitmap
                         InputStream is = getContentResolver().openInputStream(mImageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(
-                                                    is,
-                                                    null,
-                                                    getCompressImageOption(this, mImageUri));
+                                is,
+                                null,
+                                getCompressImageOption(this, mImageUri));
 
                         bitmap = rotateImage(Objects.requireNonNull(bitmap), 90);
                         Log.i(TAG, "onActivityResult: imageUri " + mImageUri);
@@ -266,6 +323,37 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
                     }
                 }
                 break;
+            case REQUEST_VIDEO_CAPTURE:
+                // ********
+                File mediaFile = new File(videoPath.getPath());
+                long fileSizeInBytes = mediaFile.length();
+                long fileSizeInKB = fileSizeInBytes/1024;
+                Log.v(TAG, "video: size = "+fileSizeInKB+"KB");
+                // ********
+
+                VideoView mVideoView = findViewById(R.id.activity1_video1);
+
+                Uri uri = Uri.fromFile(videoPath);
+//                String path = getPath(this, uri);
+//                Log.d(TAG, "path: " + path);
+                Log.d(TAG,uri+"");
+//                uri = Uri.parse(path);
+                mVideoView.setVideoURI(uri);
+                mVideoView.setMediaController(new MediaController(this));
+                mVideoView.start();
+                mVideoView.requestFocus();
+                mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        Log.d(TAG, "完成");
+                    }
+                });
+
+                mVideoView.setOnErrorListener((mp, what, extra) -> {
+                    Log.d(TAG, "播放中出现错误");
+                    return false;
+                });
+
             default:
                 break;
         }
