@@ -68,10 +68,7 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#ECECEC"/>
+    <include layout="@layout/small_divider"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -93,10 +90,7 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#D8D8D8"/>
+    <include layout="@layout/line_divider"/>
 
 <!--    <com.google.android.material.button.MaterialButton-->
 <!--        android:layout_marginTop="100dp"-->
