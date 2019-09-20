@@ -75,7 +75,8 @@
             android:parentActivityName=".UI.Social.FriendActivity"
             />
 
-        <activity android:name=".UI.Social.FriendSearchActivity">
+        <activity android:name=".UI.Social.FriendSearchActivity"
+            android:parentActivityName=".UI.Social.FriendDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

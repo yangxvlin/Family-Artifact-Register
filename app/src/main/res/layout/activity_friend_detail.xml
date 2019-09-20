@@ -77,14 +77,15 @@
         android:layout_width="match_parent"
         android:layout_height="70dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/message_icon"
-            android:paddingTop="19dp"
-            android:paddingStart="70dp"/>
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/message_icon"-->
+<!--            android:paddingTop="19dp"-->
+<!--            android:paddingStart="70dp"/>-->
 
         <TextView
+            android:id="@+id/function"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="Send Message"
