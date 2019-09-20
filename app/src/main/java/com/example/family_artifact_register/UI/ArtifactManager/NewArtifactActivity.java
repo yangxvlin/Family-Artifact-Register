@@ -2,6 +2,7 @@ package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,12 +13,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,6 +49,16 @@ import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotate
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
 import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.getCompressImageOption;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 /**
  * @author XuLin Yang 904904,
@@ -77,6 +91,13 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
 
     private Fragment uploadLocationFragment;
 
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseRef;
+
+    private StorageTask mUploadTask;
+    private ProgressBar mProgressBar;
+    private EditText mEditTextFileName;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +122,9 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         editText = findViewById(R.id.add_artifact_description_input);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         // request write permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -179,6 +203,7 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
             activityChangeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             activityChangeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.startActivity(activityChangeIntent);
+            uploadFile();
         // require users to input images
         } else {
             Toast.makeText(NewArtifactActivity.this, R.string.new_artifact_activity_proceed_next_hint, Toast.LENGTH_SHORT)
@@ -353,5 +378,54 @@ public class NewArtifactActivity extends BaseCancelToolBarActivity {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         mediaScanIntent.setData(uri);
         sendBroadcast(mediaScanIntent);
+    }
+
+    private String getFileExtension (Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+
+    private void uploadFile() {
+        if (mImageUri != null) {
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+                    + "." + getFileExtension(mImageUri));
+
+            mUploadTask = fileReference.putFile(mImageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressBar.setProgress(0);
+                                }
+                            }, 500);
+
+                            Toast.makeText(NewArtifactActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
+                            com.example.family_artifact_register.Upload upload = new com.example.family_artifact_register.Upload(mEditTextFileName.getText().toString().trim(),
+                                    taskSnapshot.getStorage().getDownloadUrl().toString());
+                            String uploadId = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(uploadId).setValue(upload);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(NewArtifactActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            mProgressBar.setProgress((int) progress);
+                        }
+                    });
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+        }
     }
 }
