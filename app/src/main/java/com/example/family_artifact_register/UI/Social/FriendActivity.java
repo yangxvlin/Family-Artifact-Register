@@ -42,8 +42,8 @@ public class FriendActivity extends BaseActionBarActivity {
         ArrayList<String> dataSet = new ArrayList<>();
 
         // fake data for testing use only
-        String[] friend = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
-        Collections.addAll(dataSet, friend);
+        String[] friends = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
+        Collections.addAll(dataSet, friends);
 
         // retrieve user's friend data from DB
 //        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -54,22 +54,7 @@ public class FriendActivity extends BaseActionBarActivity {
 //            System.out.println("@@@@  user is null");
 //        }
 
-        // get the view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-
-        // set layout manager for the view
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // set the adapter for the view
-        adapter = new MyAdapter(dataSet);
-        recyclerView.setAdapter(adapter);
-
-        // set the divider between list item
-        divider = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(divider);
-
+        setupRecyclerView(dataSet);
     }
 
     @Override
@@ -88,6 +73,24 @@ public class FriendActivity extends BaseActionBarActivity {
         searchView.setQueryHint("Search new friend");
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setupRecyclerView(ArrayList<String> dataSet) {
+        // get the view
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        // set layout manager for the view
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // set the adapter for the view
+        adapter = new MyAdapter(dataSet);
+        recyclerView.setAdapter(adapter);
+
+        // set the divider between list item
+        divider = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(divider);
     }
 
     // probably become a separate class in the future
