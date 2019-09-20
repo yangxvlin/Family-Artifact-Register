@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:divider="?attr/dividerHorizontal">
+    android:layout_height="match_parent">
 
 <!--    <com.google.android.material.appbar.AppBarLayout-->
 <!--        android:id="@+id/app_bar"-->
@@ -23,11 +22,6 @@
 
 <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/friend_list_item"/>
+    <include layout="@layout/recycler_view"/>
 
 </LinearLayout>

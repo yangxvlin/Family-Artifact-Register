@@ -22,36 +22,24 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="170dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/avatar_window"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            app:cardCornerRadius="60dp"
-            app:cardBackgroundColor="#B8B8B8"
+        <ImageView
+            android:id="@+id/avatar"
+            android:contentDescription="avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/default_avatar_detail"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_alignParentStart="true">
-
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/default_avatar_detail"
-                android:contentDescription="default avatar"
-                android:scaleType="centerCrop"
-                android:layout_gravity="center"
-                android:foregroundGravity="center"/>
-
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_alignParentStart="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_toRightOf="@id/avatar_window"
-            android:layout_marginLeft="20dp"
+            android:layout_toEndOf="@id/avatar"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp">
 
             <TextView
@@ -80,23 +68,21 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#ECECEC"/>
+    <include layout="@layout/small_divider"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/message_icon"
-            android:paddingTop="19dp"
-            android:paddingLeft="70dp"/>
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/message_icon"-->
+<!--            android:paddingTop="19dp"-->
+<!--            android:paddingStart="70dp"/>-->
 
         <TextView
+            android:id="@+id/function"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="Send Message"
@@ -105,10 +91,7 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#D8D8D8"/>
+    <include layout="@layout/line_divider"/>
 
 <!--    <com.google.android.material.button.MaterialButton-->
 <!--        android:layout_marginTop="100dp"-->

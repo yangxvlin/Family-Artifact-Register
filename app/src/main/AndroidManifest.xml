@@ -2,12 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.family_artifact_register">
 
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- CAMERA -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+  
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
         android:name=".MyApplication"
@@ -17,8 +23,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.ArtifactHub.ArtifactDetailActivity"
-            android:parentActivityName=".UI.ArtifactHub.HubActivity"></activity>
+      
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!--
+        The API key for Google Maps-based APIs is defined as a string resource.
+        (See the file "res/values/google_maps_api.xml").
+        Note that the API key is linked to the encryption key used to sign the APK.
+        You need a different API key for each encryption key, including the release key that is used to
+        sign the APK for publishing.
+        You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+      
+      
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,15 +48,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.ArtifactHub.HubActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".test.MapTestActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/FullscreenTheme">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".UI.ArtifactHub.HubActivity"
+            android:parentActivityName=".MainActivity" />
+
+        <activity android:name=".UI.ArtifactHub.ArtifactDetailActivity"
+            android:parentActivityName=".UI.ArtifactHub.HubActivity"></activity>
+      
         <activity android:name=".UI.Social.FriendActivity"
-            android:parentActivityName=".MainActivity"
-            />
+            android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".UI.Social.FriendSearchActivity"/>
+        </activity>
         <activity android:name=".UI.Social.FriendDetailActivity"
             android:parentActivityName=".UI.Social.FriendActivity"
             />
+
+        <activity android:name=".UI.Social.FriendSearchActivity"
+            android:parentActivityName=".UI.Social.FriendDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
+        </activity>
+
         <activity android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity"
             />
@@ -54,7 +102,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-    </application>
+    </application> <!-- CAMERA -->
 
 </manifest>
