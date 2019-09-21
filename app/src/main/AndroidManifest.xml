@@ -97,6 +97,9 @@
         <activity android:name=".UI.ArtifactManager.NewArtifactActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity"
             />
+        <activity android:name=".UI.ArtifactManager.NewArtifactActivity2"
+            android:parentActivityName=".MainActivity2"
+            />
         <activity android:name=".UI.ArtifactManager.HappenedActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity"
             />

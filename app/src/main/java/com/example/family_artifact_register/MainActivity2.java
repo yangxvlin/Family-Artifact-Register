@@ -166,9 +166,9 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
-
     }
 
+    // **************************************** action bar menu ***********************************
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
