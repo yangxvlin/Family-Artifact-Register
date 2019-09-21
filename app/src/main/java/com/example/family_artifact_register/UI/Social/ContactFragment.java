@@ -10,12 +10,17 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ContactFragment extends Fragment {
+public class ContactFragment extends Fragment implements IFragment {
+    /**
+     * class tag
+     */
+    public static final String TAG = ContactFragment.class.getSimpleName();
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -61,5 +66,8 @@ public class ContactFragment extends Fragment {
         divider = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);
     }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
 }
 

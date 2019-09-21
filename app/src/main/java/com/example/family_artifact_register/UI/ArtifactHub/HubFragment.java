@@ -7,9 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 
-public class HubFragment extends Fragment {
+public class HubFragment extends Fragment implements IFragment {
+    /**
+     * class tag
+     */
+    public static final String TAG = HubFragment.class.getSimpleName();
+
     public HubFragment() {
         // Required empty public constructor
     }
@@ -21,5 +27,8 @@ public class HubFragment extends Fragment {
     }
 
     public static HubFragment newInstance() { return new HubFragment(); }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
 }
 

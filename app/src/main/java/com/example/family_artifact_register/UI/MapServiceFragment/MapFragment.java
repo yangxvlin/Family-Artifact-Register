@@ -7,9 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements IFragment {
+    /**
+     * class tag
+     */
+    public static final String TAG = MapFragment.class.getSimpleName();
+
     public MapFragment() {
         // Required empty public constructor
     }
@@ -21,4 +27,7 @@ public class MapFragment extends Fragment {
     }
 
     public static MapFragment newInstance() { return new MapFragment(); }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
 }
