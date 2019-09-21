@@ -80,8 +80,8 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
         // add new artifact
         FloatingActionButton add = getView().findViewById(R.id.fragment_me_floating_button_add);
         add.setOnClickListener(view1 -> {
-                Intent intent = new Intent(getActivity(), NewArtifactActivity2.class);
-                view1.getContext().startActivity(intent);
+            Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
+            startActivity(intent);
         });
     }
 

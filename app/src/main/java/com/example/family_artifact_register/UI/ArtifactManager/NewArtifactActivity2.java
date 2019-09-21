@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,4 +27,15 @@ public class NewArtifactActivity2 extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.common_close_button);
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // https://stackoverflow.com/a/30059647
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

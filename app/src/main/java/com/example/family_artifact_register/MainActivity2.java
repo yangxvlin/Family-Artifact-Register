@@ -29,8 +29,6 @@ import java.util.List;
  * @description main activity let user to use the app
  */
 public class MainActivity2 extends AppCompatActivity {
-    public static final String KEY_FRAGMENT_TAG = "fragment";
-
     /**
      * class tag
      */
@@ -97,25 +95,21 @@ public class MainActivity2 extends AppCompatActivity {
                         setTitle(R.string.artifact_hub);
                         fm.beginTransaction().hide(active).show(hubFragment).commit();
                         active = hubFragment;
-//                        saveFragmentState();
                         return true;
                     case R.id.item_contacts:
                         setTitle(R.string.bottom_bar_contacts);
                         fm.beginTransaction().hide(active).show(contactFragment).commit();
                         active = contactFragment;
-//                        saveFragmentState();
                         return true;
                     case R.id.item_map:
                         setTitle(R.string.artifact_map);
                         fm.beginTransaction().hide(active).show(mapFragment).commit();
                         active = mapFragment;
-//                        saveFragmentState();
                         return true;
                     case R.id.item_me:
                         setTitle(R.string.bottom_bar_profile);
                         fm.beginTransaction().hide(active).show(meFragment).commit();
                         active = meFragment;
-//                        saveFragmentState();
                         return true;
                 }
                 return false;
@@ -150,18 +144,6 @@ public class MainActivity2 extends AppCompatActivity {
         // setup bottom navigation bar
         navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-//        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-//        String curFragTAG = sharedPref.getString(KEY_FRAGMENT_TAG, null);
-//        if (curFragTAG != null) {
-//            restoreFragment(curFragTAG);
-//            saveFragmentState();
-//        } else {
-//            fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, contactFragment).hide(contactFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, hubFragment).commit();
-//        }
 
         fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
         fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
@@ -198,35 +180,6 @@ public class MainActivity2 extends AppCompatActivity {
         mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        // restore to correct fragment
-//        // when navigate to NewArtifactActivity2, MainActivity2 is destroyed so store fragment state to restore
-//        saveFragmentState();
-//    }
-
-//    @Override
-//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        System.out.println("restore !!!");
-//
-//        String curFragTAG = savedInstanceState.getString(KEY_FRAGMENT_TAG);
-//        if (curFragTAG != null) {
-//            restoreFragment(curFragTAG);
-//        } else {
-//            Log.e(TAG, "fragment restore error!!!");
-//        }
-//
-//    }
-//
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        outState.putString(KEY_FRAGMENT_TAG, ((IFragment)active).getFragmentTag());
-//        System.out.println("save !!!");
-//        super.onSaveInstanceState(outState);
-//    }
-
     // **************************************** action bar menu ***********************************
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -241,58 +194,8 @@ public class MainActivity2 extends AppCompatActivity {
             case R.id.menu_sign_out:
                 Toast.makeText(this, R.string.menu_sign_out, Toast.LENGTH_SHORT).show();
                 mFirebaseAuth.signOut();
-
-//                deleteFilesByDirectory(new File(getFilesDir().getPath()
-//                        + getApplicationContext().getPackageName() + "/shared_prefs"));
                 break;
         }
         return true;
     }
-
-//    private void restoreFragment(String tag) {
-//        if (tag.equals(HubFragment.TAG)) {
-//            fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, contactFragment).hide(contactFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, hubFragment).commit();
-//            active = hubFragment;
-//            navigation.setSelectedItemId(R.id.item_hub);
-//        } else if (tag.equals(ContactFragment.TAG)) {
-//            fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, hubFragment).hide(hubFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, contactFragment).commit();
-//            active = contactFragment;
-//            navigation.setSelectedItemId(R.id.item_contacts);
-//        } else if (tag.equals(MapFragment.TAG)) {
-//            fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, hubFragment).hide(hubFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, contactFragment).hide(contactFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, mapFragment).commit();
-//            active = mapFragment;
-//            navigation.setSelectedItemId(R.id.item_map);
-//        } else if (tag.equals(MeFragment.TAG)) {
-//            fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, hubFragment).hide(hubFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, contactFragment).hide(contactFragment).commit();
-//            fm.beginTransaction().add(R.id.main_view, meFragment).commit();
-//            active = meFragment;
-//            navigation.setSelectedItemId(R.id.item_me);
-//        }
-//    }
-
-//    private void saveFragmentState() {
-//        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
-//        editor.putString(KEY_FRAGMENT_TAG, ((IFragment)active).getFragmentTag());
-//        editor.apply();
-//    }
-//
-//    private static void deleteFilesByDirectory(File directory) {
-//        if (directory != null && directory.exists() && directory.isDirectory()) {
-//            for (File item : directory.listFiles()) {
-//                item.delete();
-//            }
-//        }
-//    }
 }
