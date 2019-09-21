@@ -16,7 +16,7 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="?attr/actionBarSize"-->
 <!--            app:menu="@menu/toolbar_menu"-->
-<!--            app:navigationIcon="@drawable/back_arrow"/>-->
+<!--            app:navigationIcon="@drawable/arrow_back"/>-->
 
 <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
