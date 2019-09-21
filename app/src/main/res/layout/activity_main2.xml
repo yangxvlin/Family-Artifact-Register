@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +23,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:itemBackground="@color/wechat_white"
         android:background="?android:attr/windowBackground"
@@ -31,4 +32,4 @@
         app:menu="@menu/bottom_bar_menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
