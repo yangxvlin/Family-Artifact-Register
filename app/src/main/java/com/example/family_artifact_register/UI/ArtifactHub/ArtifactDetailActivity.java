@@ -39,8 +39,10 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
         String mDesc = intent.getStringExtra("iDesc");
         String mUser = intent.getStringExtra("iUser");
 
-        byte[] mBytes = getIntent().getByteArrayExtra("iImage");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
+        byte[] mImageBytes = getIntent().getByteArrayExtra("iImage");
+        byte[] mAvatarBytes = getIntent().getByteArrayExtra("iImage");
+        Bitmap imageBitmap = BitmapFactory.decodeByteArray(mAvatarBytes, 0, mImageBytes.length);
+        Bitmap avatarBitmap = BitmapFactory.decodeByteArray(mAvatarBytes, 0, mAvatarBytes.length);
 
         // Set action bar title to be artifact title
         getMyActionBar().setTitle(mTitle);
@@ -49,7 +51,8 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
         mTitleTv.setText(mTitle);
         mDescTv.setText(mDesc);
         mUserTv.setText(mUser);
-        mImageIv.setImageBitmap(bitmap);
+        mImageIv.setImageBitmap(imageBitmap);
+        mAvatarIv.setImageBitmap(avatarBitmap);
     }
 
     @Override
