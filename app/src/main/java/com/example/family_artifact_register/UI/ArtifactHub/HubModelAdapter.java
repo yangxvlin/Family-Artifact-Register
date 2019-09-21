@@ -36,7 +36,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
     @Override
     public HubModelHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_row, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_hubmodel, null);
 
         return new HubModelHolder(view);
     }
