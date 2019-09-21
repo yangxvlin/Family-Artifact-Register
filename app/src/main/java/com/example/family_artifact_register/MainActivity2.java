@@ -29,6 +29,9 @@ import java.util.List;
  * @description main activity let user to use the app
  */
 public class MainActivity2 extends AppCompatActivity {
+    /**
+     * class tag
+     */
     private final String TAG = getClass().getSimpleName();
 
     /**
@@ -61,8 +64,19 @@ public class MainActivity2 extends AppCompatActivity {
      */
     Fragment active = hubFragment;
 
+    /**
+     * firebase authentication
+     */
     private FirebaseAuth mFirebaseAuth;
+
+    /**
+     * firebase request code
+     */
     public static final int RC_SIGN_IN = 1;
+
+    /**
+     * control firebase state info
+     */
     private FirebaseAuth.AuthStateListener mAuthStateListner;
 
     List<AuthUI.IdpConfig> providers = Arrays.asList(
