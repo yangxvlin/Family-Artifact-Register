@@ -33,25 +33,10 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView {
 
     // *********************************** recycler view *****************************************
     /**
-     * recycler view to display user's artifacts
-     */
-    private RecyclerView mRecyclerView;
-
-    /**
-     * recycler view's layout manager
-     */
-    private LinearLayoutManager layoutManager;
-
-
-    /**
      * recycler view adapter
      */
     private MyArtifactsRecyclerViewAdapter myArtifactsRecyclerViewAdapter;
 
-    /**
-     * the divider for the recycler view
-     */
-    private DividerItemDecoration dividerItemDecoration;
     // *******************************************************************************************
 
     private MeFragmentPresenter mfp;
@@ -73,12 +58,12 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView {
 
         // create artifacts recycler view
         if (getView() != null) {
-            mRecyclerView = getView().findViewById(R.id.recycler_view_my_artifacts);
-            layoutManager = new LinearLayoutManager(getContext());
+            RecyclerView mRecyclerView = getView().findViewById(R.id.recycler_view_my_artifacts);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(layoutManager);
             myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter();
             mRecyclerView.setAdapter(myArtifactsRecyclerViewAdapter);
-            dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
             mRecyclerView.addItemDecoration(dividerItemDecoration);
             Log.v(TAG, "recycler view created");
         } else {

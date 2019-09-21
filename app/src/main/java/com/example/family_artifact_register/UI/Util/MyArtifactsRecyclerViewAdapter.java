@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
@@ -27,6 +29,13 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 
     private List<List<Uri>> videosList;
 
+    LinearLayoutManager layoutManager1;
+    LinearLayoutManager layoutManager2;
+
+    private MyArtifactsImagesRecyclerViewAdapter myArtifactsImagesRVAdapter;
+
+    private MyArtifactsVideosRecyclerViewAdapter myArtifactsVideosRVAdapter;
+
     public MyArtifactsRecyclerViewAdapter() {
         times = new ArrayList<>();
         descriptions = new ArrayList<>();
@@ -38,6 +47,8 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     @Override
     public MyArtifactsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact, parent, false);
+        layoutManager1 = new LinearLayoutManager(view.getContext()); // TODO is this correct way?
+        layoutManager2 = new LinearLayoutManager(view.getContext()); // TODO is this correct way?
         return new MyArtifactsRecyclerViewHolder(view);
     }
 
@@ -49,6 +60,18 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             System.out.println("#"+ position+" arrow pressed!!!");
             ;
         });
+
+        holder.imagesRecyclerView.setLayoutManager(layoutManager1);
+        myArtifactsImagesRVAdapter = new MyArtifactsImagesRecyclerViewAdapter();
+        holder.imagesRecyclerView.setAdapter(myArtifactsImagesRVAdapter);
+        DividerItemDecoration dID = new DividerItemDecoration(holder.imagesRecyclerView.getContext(), layoutManager1.getOrientation());
+        holder.imagesRecyclerView.addItemDecoration(dID);
+
+        holder.videosRecyclerView.setLayoutManager(layoutManager2);
+        myArtifactsVideosRVAdapter = new MyArtifactsVideosRecyclerViewAdapter();
+        holder.videosRecyclerView.setAdapter(myArtifactsVideosRVAdapter);
+        dID = new DividerItemDecoration(holder.videosRecyclerView.getContext(), layoutManager2.getOrientation());
+        holder.videosRecyclerView.addItemDecoration(dID);
     }
 
     @Override
@@ -59,6 +82,14 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         times.add(time);
         descriptions.add(description);
         imagesList.add(images);
+        for (Uri image: images) {
+            myArtifactsImagesRVAdapter.addData(image);
+        }
+
+        for (Uri video: videos) {
+            myArtifactsVideosRVAdapter.addData(video);
+        }
+
         videosList.add(videos);
         notifyDataSetChanged();
     }
