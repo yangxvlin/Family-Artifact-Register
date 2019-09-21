@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class HubActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    MyAdapter mMyAdapter;
+    HubModelAdapter mHubModelAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class HubActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mMyAdapter = new MyAdapter(this, getMyList());
-        mRecyclerView.setAdapter(mMyAdapter);
+        mHubModelAdapter = new HubModelAdapter(this, getMyList());
+        mRecyclerView.setAdapter(mHubModelAdapter);
 
     }
 

@@ -22,27 +22,27 @@ import java.util.ArrayList;
  * @time 2019-9-18 14:28:43
  * @description Adapter for models recycler view
  */
-public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
+public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
 
     Context c;
     ArrayList<Model> models;
 
-    public MyAdapter(Context c, ArrayList<Model> models) {
+    public HubModelAdapter(Context c, ArrayList<Model> models) {
         this.c = c;
         this.models = models;
     }
 
     @NotNull
     @Override
-    public MyHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
+    public HubModelHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_row, null);
 
-        return new MyHolder(view);
+        return new HubModelHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NotNull final MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NotNull final HubModelHolder myHolder, int i) {
         myHolder.mTitle.setText(models.get(i).getTitle());
         myHolder.mDes.setText(models.get(i).getDescription());
         myHolder.mImeaView.setImageResource(models.get(i).getImg());
