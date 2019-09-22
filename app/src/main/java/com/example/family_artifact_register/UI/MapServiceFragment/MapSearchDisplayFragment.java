@@ -2,6 +2,7 @@ package com.example.family_artifact_register.UI.MapServiceFragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.compat.Place;
 import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
@@ -37,6 +39,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * class tag
      */
     public static final String TAG = MapSearchDisplayFragment.class.getSimpleName();
+    private Marker currentMarker = null;
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
@@ -46,7 +49,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(List<Place> places) {
-        MapDisplayFragment fragment = new MapSearchDisplayFragment();
+        MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(PLACES, (Serializable) places);
         fragment.setArguments(bundle);
@@ -60,7 +63,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance() {
-        MapDisplayFragment fragment = new MapSearchDisplayFragment();
+        MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
         List<Place> places = new ArrayList<>();
         bundle.putSerializable(PLACES, (Serializable) places);
@@ -110,8 +113,17 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
             // Placing a marker on the touched position
-            mMap.addMarker(markerOptions);
+            currentMarker = mMap.addMarker(markerOptions);
         });
+    }
 
+    public Location getSelectedLocation() {
+        Location location = null;
+        if (currentMarker != null) {
+            location = new Location("");
+            location.setLongitude(currentMarker.getPosition().longitude);
+            location.setLatitude(currentMarker.getPosition().latitude);
+        }
+        return location;
     }
 }
