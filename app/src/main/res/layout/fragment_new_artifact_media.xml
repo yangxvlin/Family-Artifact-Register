@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/artifact_description_input"
+            android:textSize="32sp" />
+
+        <EditText
+            android:id="@+id/fragment_new_artifact_media_description_input"
+            android:layout_width="match_parent"
+            android:layout_height="147dp"
+            android:gravity="top"
+            android:hint="@string/add_artifact_description_hint"
+            android:inputType="textMultiLine"
+            android:padding="5dp"
+            android:scrollHorizontally="false"
+            android:singleLine="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fragment_new_artifact_media_floating_button_camera"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:src="@drawable/camera_button"
+                android:layout_margin="16dp"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fragment_new_artifact_media_floating_button_video"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:src="@drawable/video_button"
+                android:layout_margin="16dp"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fragment_new_artifact_media_floating_button_album"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:src="@drawable/image_button"
+                android:layout_margin="16dp"
+                />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <FrameLayout
+                android:id="@+id/fragment_new_artifact_media_upload_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/fragment_new_artifact_media_floating_button_confirm"
+                android:layout_centerVertical="true"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fragment_new_artifact_media_floating_button_confirm"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/next_button"
+                android:layout_margin="16dp"
+                />
+        </RelativeLayout>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            >-->
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/fragment_new_artifact_media_recycler_image_preview"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1000dp"-->
+<!--                android:scrollbars="none"-->
+<!--            />-->
+<!--        </LinearLayout>-->
+
+    </LinearLayout>
+
+</ScrollView>

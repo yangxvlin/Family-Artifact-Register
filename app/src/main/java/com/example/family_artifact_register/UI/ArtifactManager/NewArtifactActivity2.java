@@ -1,12 +1,21 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.ImageProcessHelper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author XuLin Yang 904904,
@@ -14,18 +23,28 @@ import com.example.family_artifact_register.R;
  * @description activity let user to upload new artifact
  */
 public class NewArtifactActivity2 extends AppCompatActivity {
+    private static final String TAG = NewArtifactActivity2.class.getSimpleName();
+
+    FragmentManager fm;
+
+    Fragment mediaFragment = NewArtifactMediaFragment.newInstance();
+
+    List<Uri> mediaData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_artifact_2);
+        mediaData = new ArrayList<>();
 
-        // set cancel icon
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.common_close_button);
         }
+
+        // initialize first fragment
+        fm = getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.activity_new_artifact_main_view, mediaFragment).commit();
     }
 
     @Override
@@ -33,9 +52,31 @@ public class NewArtifactActivity2 extends AppCompatActivity {
         // https://stackoverflow.com/a/30059647
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            clearData();
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public List<Uri> getData() { return mediaData; }
+
+    public void clearData() { mediaData.clear(); }
+
+    public void addData(Uri data, int type) {
+        switch (type) {
+            case ImageProcessHelper.TYPE_IMAGE:
+                try {
+                    mediaData.add(ImageProcessHelper.compressUriImage(this, data, false));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case ImageProcessHelper.TYPE_VIDEO:
+
+                break;
+        }
+        Log.i(TAG, "added data: "+data.getPath() + " with cur size = " + mediaData.size());
+    }
+
+    // ************************************ implement interface ***********************************
 }
