@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +35,13 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      * class tag
      */
     public static final String TAG = MapDisplayFragment.class.getSimpleName();
-    protected static final String LOCATIONS = "locations";
+    static final String LOCATIONS = "locations";
     // Stores the map object to be operated
-    protected GoogleMap mMap;
+    GoogleMap mMap;
     // Stores the locations to be displayed on screen
-    protected List<MyLocation> locations = new ArrayList<>();
+    private List<MyLocation> locations = new ArrayList<>();
     // MapView the current fragment is operating on
-    protected MapView mapView;
+    private MapView mapView;
 
     // TODO to be implemented in the future for a correct way for interaction
     private OnFragmentInteractionListener mListener;
@@ -105,6 +106,9 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
 
     public void setDisplayLocations(List<MyLocation> locations) {
         this.locations = locations;
+        for (MyLocation myLocation:locations) {
+            Log.i(TAG, myLocation.toString());
+        }
         displayLocations();
     }
 
@@ -127,13 +131,10 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                         .title(myLocation.getName())
                         .snippet(myLocation.getAddress())));
             }
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (Marker marker : markers) {
-                builder.include(marker.getPosition());
-            }
-            int padding = 100; // offset from edges of the map in pixels
-            LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            CameraUpdate cu = MarkerZoomStrategyFactory
+                    .getMarkerZoomStrategyFactory()
+                    .getMarkerZoomStrategy(markers.size())
+                    .makeCameraUpdate(markers);
             mMap.animateCamera(cu);
         }
     }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;
@@ -47,6 +48,7 @@ public final class MyLocation extends Location {
         if (place.getAddress() != null) {
             this.setAddress(place.getAddress());
         }
+        Log.i(getClass().getSimpleName(), this.toString());
     }
 
     public MyLocation(String provider) {

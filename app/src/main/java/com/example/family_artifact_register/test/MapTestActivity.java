@@ -138,6 +138,7 @@ public class MapTestActivity extends AppCompatActivity {
         for (String placeId: placeIds) {
             // Specify the fields to return.
             List<Place.Field> placeFields = Arrays.asList(Place.Field.ID,
+                    Place.Field.LAT_LNG,
                     Place.Field.NAME,
                     Place.Field.ADDRESS);
             // Construct a request object, passing the place ID and fields array.
