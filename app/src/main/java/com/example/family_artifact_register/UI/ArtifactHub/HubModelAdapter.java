@@ -22,27 +22,27 @@ import java.util.ArrayList;
  * @time 2019-9-18 14:28:43
  * @description Adapter for models recycler view
  */
-public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
+public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
 
     Context c;
     ArrayList<Model> models;
 
-    public MyAdapter(Context c, ArrayList<Model> models) {
+    public HubModelAdapter(Context c, ArrayList<Model> models) {
         this.c = c;
         this.models = models;
     }
 
     @NotNull
     @Override
-    public MyHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
+    public HubModelHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_row, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_hubmodel, null);
 
-        return new MyHolder(view);
+        return new HubModelHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NotNull final MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NotNull final HubModelHolder myHolder, int i) {
         myHolder.mTitle.setText(models.get(i).getTitle());
         myHolder.mDes.setText(models.get(i).getDescription());
         myHolder.mImeaView.setImageResource(models.get(i).getImg());
@@ -56,21 +56,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
                 String gTitle = models.get(Position).getTitle();
                 String gDesc = models.get(Position).getDescription();
                 String gUser = models.get(Position).getUsername();
-                BitmapDrawable bitmapDrawable = (BitmapDrawable)myHolder.mImeaView.getDrawable();
+                BitmapDrawable bitmapDrawableImage = (BitmapDrawable)myHolder.mImeaView.getDrawable();
+                BitmapDrawable bitmapDrawableAvatar = (BitmapDrawable)myHolder.mAvatar.getDrawable();
 
-                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                Bitmap bitmapImage = bitmapDrawableImage.getBitmap();
+                Bitmap bitmapAvatar = bitmapDrawableAvatar.getBitmap();
 
                 // Compress the bitmap as stream convert to array of bytes
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100,stream);
-                byte[] bytes = stream.toByteArray();
+                ByteArrayOutputStream imageStream = new ByteArrayOutputStream();
+                ByteArrayOutputStream avatarStream = new ByteArrayOutputStream();
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100,imageStream);
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100,avatarStream);
+
+                byte[] imageBytes = imageStream.toByteArray();
+                byte[] avatarBytes = avatarStream.toByteArray();
 
                 //Creat intent and put information into it
                 Intent intent = new Intent(c, ArtifactDetailActivity.class);
                 intent.putExtra("iTitle", gTitle);
                 intent.putExtra("iDesc", gDesc);
                 intent.putExtra("iUser", gUser);
-                intent.putExtra("iImage", bytes);
+                intent.putExtra("iImage", imageBytes);
+                intent.putExtra("iAvatar", avatarBytes);
                 c.startActivity(intent);
             }
         });
