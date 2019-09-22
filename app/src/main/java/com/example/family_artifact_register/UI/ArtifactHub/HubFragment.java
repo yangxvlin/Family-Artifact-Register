@@ -100,6 +100,14 @@ public class HubFragment extends Fragment implements IFragment {
         m.setImg(R.drawable.my_logo);
         models.add(m);
 
+        m = new Model();
+        m.setUsername("Username5");
+        m.setTitle("This is Art5");
+        m.setDescription("This is Art5 Description.");
+        m.setAvatar(R.drawable.my_logo);
+        m.setImg(R.drawable.my_logo);
+        models.add(m);
+
         return models;
     }
 
