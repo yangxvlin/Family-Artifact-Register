@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -19,22 +18,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.family_artifact_register.R;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.compat.Place;
-import com.google.android.libraries.places.compat.PlaceDetectionClient;
-import com.google.android.libraries.places.compat.PlaceLikelihood;
-import com.google.android.libraries.places.compat.PlaceLikelihoodBufferResponse;
-import com.google.android.libraries.places.compat.Places;
+import com.google.android.libraries.places.api.model.PlaceLikelihood;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CurrentLocationFragment extends Fragment {
+public class CurrentLocationFragment extends BasePlacesFragment {
     // Add tag for logging
     private static final String TAG = CurrentLocationFragment.class.getSimpleName();
 
     // Success code for location access permission
     private static final int PERMISSIONS_REQUEST_LOCATION = 1;
-
-    // The entry points to the Places API.
-    private PlaceDetectionClient mPlaceDetectionClient;
 
     // Records the permission status
     private boolean mLocationPermissionGranted = false;
@@ -42,8 +40,7 @@ public class CurrentLocationFragment extends Fragment {
     // Used for selecting the current place.
     private static final int M_MAX_ENTRIES = 5;
     // Stores location information related to the placed detected by GPS
-    private Place[] mLikelyPlace = new Place[M_MAX_ENTRIES];
-    private String[] mLikelyPlaceNames = new String[M_MAX_ENTRIES];
+    private List<Place> mLikelyPlace = new ArrayList<>();
 
     // Stores the current user location
     private Place currentPlace;
@@ -60,8 +57,6 @@ public class CurrentLocationFragment extends Fragment {
         TextView mTextView = view.findViewById(R.id.my_location);
         mTextView.setText(R.string.no_location);
         mTextView.setOnClickListener(view1 -> openPlacesDialog());
-        // Construct a PlaceDetectionClient.
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(getActivity());
         // Try set location (if already have permission)
         getLocationListAndUpdateLocation();
         return view;
@@ -82,45 +77,40 @@ public class CurrentLocationFragment extends Fragment {
 
     private void getLocationListAndUpdateLocation() {
         if (mLocationPermissionGranted) {
-            // Get the likely places - that is, the businesses and other points of interest that
+            // Use fields to define the data types to return.
+            List<Place.Field> placeFields = new ArrayList<>();
+            placeFields.add(Place.Field.ID);
+            placeFields.add(Place.Field.NAME);
+            placeFields.add(Place.Field.ADDRESS);
+            placeFields.add(Place.Field.PHOTO_METADATAS);
+            placeFields.add(Place.Field.LAT_LNG);
+            // Use the builder to create a FindCurrentPlaceRequest.
+            FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
+            // Get the likely locations - that is, the businesses and other points of interest that
             // are the best match for the device's current location.
-            @SuppressWarnings("MissingPermission") final Task<PlaceLikelihoodBufferResponse> placeResult =
-                    mPlaceDetectionClient.getCurrentPlace(null);
+            @SuppressWarnings("MissingPermission") final Task<FindCurrentPlaceResponse> placeResult =
+                    mPlacesClient.findCurrentPlace(request);
             // This is an async task that need a listener to execute actions when completed
             placeResult.addOnCompleteListener
                     (task -> {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
-
-                            // Set the count, handling cases where less than 5 entries are returned.
-                            int count;
-                            if (likelyPlaces.getCount() < M_MAX_ENTRIES) {
-                                count = likelyPlaces.getCount();
-                            } else {
-                                count = M_MAX_ENTRIES;
+                        if (task.isSuccessful()){
+                            FindCurrentPlaceResponse response = task.getResult();
+                            mLikelyPlace.clear();
+                            for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
+                                Log.i(TAG, String.format("Place '%s' has likelihood: %f",
+                                        placeLikelihood.getPlace().getName(),
+                                        placeLikelihood.getLikelihood()));
+                                mLikelyPlace.add(placeLikelihood.getPlace());
                             }
-
-                            int i = 0;
-
-                            mLikelyPlace = new Place[M_MAX_ENTRIES];
-
-                            for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                                // Build a list of likely places to show the user if user want to
-                                // open the dialog
-                                mLikelyPlace[i] = placeLikelihood.getPlace();
-                                mLikelyPlaceNames[i] = (String) mLikelyPlace[i].getName();
-                                i++;
-                                if (i > (count - 1)) {
-                                    break;
-                                }
-                            }
-                            // Release the place likelihood buffer, to avoid memory leaks.
-                            likelyPlaces.release();
                         } else {
-                            Log.e(TAG, "Exception: %s", task.getException());
+                            Exception exception = task.getException();
+                            if (exception instanceof ApiException) {
+                                ApiException apiException = (ApiException) exception;
+                                Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                            }
                         }
-                        if (mLikelyPlace[0] !=  null) {
-                            currentPlace = mLikelyPlace[0];
+                        if (mLikelyPlace.size() !=  0) {
+                            currentPlace = mLikelyPlace.get(0);
                         }
                         updateLocationField();
                     });
@@ -184,21 +174,24 @@ public class CurrentLocationFragment extends Fragment {
     }
 
     /**
-     * Prompts the user to select the current place from a list of likely places with a dialog.
+     * Prompts the user to select the current place from a list of likely locations with a dialog.
      */
     private void openPlacesDialog() {
-        if (mLikelyPlace[0] != null) {
+        if (mLikelyPlace.size() != 0) {
             // Ask the user to choose the place where they are now.
             DialogInterface.OnClickListener listener = (dialog, which) -> {
                 // The "which" argument contains the position of the selected item.
-                currentPlace = mLikelyPlace[which];
+                currentPlace = mLikelyPlace.get(which);
                 updateLocationField();
             };
-
+            ;
             // Display the dialog for location selection.
             AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.pick_place)
-                    .setItems(mLikelyPlaceNames, listener)
+                    .setItems(mLikelyPlace.stream()
+                                    .map(Place::getName)
+                                    .toArray(String[]::new),
+                            listener)
                     .show();
         } else {
             getLocationListAndUpdateLocation();
@@ -206,7 +199,13 @@ public class CurrentLocationFragment extends Fragment {
         }
     }
 
-    public Place getPlace() {
-        return currentPlace;
+    public MyLocation getLocation() {
+        MyLocation location = null;
+        if (currentPlace != null) {
+            location = new MyLocation(currentPlace);
+        } else {
+            location = new MyLocation();
+        }
+        return location;
     }
 }
