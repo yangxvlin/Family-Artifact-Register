@@ -20,8 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.compat.Place;
-import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
+import com.google.android.libraries.places.api.model.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;

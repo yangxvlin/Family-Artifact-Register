@@ -19,7 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.compat.Place;
+import com.google.android.libraries.places.api.model.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;
