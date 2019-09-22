@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +15,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeFragmentPresenter;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -25,11 +28,12 @@ import java.util.List;
  * @time 2019-9-21 14:15:48
  * @description fragment for user to manage own artifacts
  */
-public class MeFragment extends Fragment implements MeFragmentPresenter.IView {
+//public class MeFragment extends Fragment implements MeFragmentPresenter.IView, View.OnClickListener {
+public class MeFragment extends Fragment implements MeFragmentPresenter.IView, IFragment {
     /**
      * class tag
      */
-    private final String TAG = getClass().getSimpleName();
+    public static final String TAG = MeFragment.class.getSimpleName();
 
     // *********************************** recycler view *****************************************
     /**
@@ -72,6 +76,13 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView {
 
         // create presenter
         mfp = new MeFragmentPresenter(this);
+
+        // add new artifact
+        FloatingActionButton add = getView().findViewById(R.id.fragment_me_floating_button_add);
+        add.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
+            startActivity(intent);
+        });
     }
 
     /**
@@ -84,4 +95,7 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView {
     public void addData(String time, String description, List<Uri> images, List<Uri> videos) {
         myArtifactsRecyclerViewAdapter.addData(time, description, images, videos);
     }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
 }
