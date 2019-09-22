@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -29,15 +28,12 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;;import java.util.ArrayList;
 import java.util.List;
 
-public class CurrentLocationFragment extends Fragment {
+public class CurrentLocationFragment extends BasePlacesFragment {
     // Add tag for logging
     private static final String TAG = CurrentLocationFragment.class.getSimpleName();
 
     // Success code for location access permission
     private static final int PERMISSIONS_REQUEST_LOCATION = 1;
-
-    // Client for accessing places
-    private PlacesClient mPlacesClient;
 
     // Records the permission status
     private boolean mLocationPermissionGranted = false;
@@ -62,8 +58,6 @@ public class CurrentLocationFragment extends Fragment {
         TextView mTextView = view.findViewById(R.id.my_location);
         mTextView.setText(R.string.no_location);
         mTextView.setOnClickListener(view1 -> openPlacesDialog());
-        // Get places client
-        mPlacesClient = Places.createClient(getActivity());
         // Try set location (if already have permission)
         getLocationListAndUpdateLocation();
         return view;
@@ -206,7 +200,15 @@ public class CurrentLocationFragment extends Fragment {
         }
     }
 
-    public Place getPlace() {
-        return currentPlace;
+    public MyLocation getLocation() {
+        MyLocation location = new MyLocation();
+        if (currentPlace != null) {
+            location.setLatitude(currentPlace.getLatLng().latitude);
+            location.setLongitude(currentPlace.getLatLng().longitude);
+            location.setPlaceId(currentPlace.getId());
+            location.setName(currentPlace.getName());
+            location.setAddress(currentPlace.getAddress());
+        }
+        return location;
     }
 }

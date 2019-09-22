@@ -1,30 +1,20 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.example.family_artifact_register.R;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.model.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,7 +40,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
     public static MapDisplayFragment newInstance(List<Place> places) {
         MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(PLACES, (Serializable) places);
+        bundle.putSerializable(LOCATIONS, (Serializable) places);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -65,7 +55,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
         MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
         List<Place> places = new ArrayList<>();
-        bundle.putSerializable(PLACES, (Serializable) places);
+        bundle.putSerializable(LOCATIONS, (Serializable) places);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -116,10 +106,10 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
         });
     }
 
-    public Location getSelectedLocation() {
-        Location location = null;
+    public MyLocation getSelectedLocation() {
+        MyLocation location = null;
         if (currentMarker != null) {
-            location = new Location("");
+            location = new MyLocation();
             location.setLongitude(currentMarker.getPosition().longitude);
             location.setLatitude(currentMarker.getPosition().latitude);
         }

@@ -7,18 +7,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.compat.GeoDataClient;
-import com.google.android.libraries.places.compat.Place;
-import com.google.android.libraries.places.compat.PlaceBufferResponse;
-import com.google.android.libraries.places.compat.Places;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,7 +31,9 @@ import java.util.List;
  */
 public class MapTestActivity extends AppCompatActivity {
     private static final String TAG = MapTestActivity.class.getSimpleName();
-    GeoDataClient mGeoDataClient;
+
+    // Create a new Places client instance
+    protected PlacesClient mPlacesClient = null;
 
     /**
      * Whether or not the system UI should be auto-hidden after {@link #AUTO_HIDE_DELAY_MILLIS}
@@ -101,6 +107,9 @@ public class MapTestActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_map_test);
 
+        // Initialize the SDK
+        Places.initialize(this, getString(R.string.google_api_key));
+
         List<Place> places = new ArrayList<>();
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -120,23 +129,28 @@ public class MapTestActivity extends AppCompatActivity {
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
+        List<String> placeIds = new ArrayList<>();
+        placeIds.add("ChIJP3Sa8ziYEmsRUKgyFmh9AQM");
+        placeIds.add("ChIJEVCBAZpmAGAR3vBoBTxlQdM");
+        for (String placeId: placeIds) {
+            // Specify the fields to return.
+            List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS);
+            // Construct a request object, passing the place ID and fields array.
+            FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
+            mPlacesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+                Place place = response.getPlace();
+                Log.i(TAG, "Place found: " + place.getName());
 
-        mGeoDataClient = Places.getGeoDataClient(this);
-        Task<PlaceBufferResponse> placesResult = mGeoDataClient
-                .getPlaceById("ChIJP3Sa8ziYEmsRUKgyFmh9AQM",
-                        "ChIJEVCBAZpmAGAR3vBoBTxlQdM");
-        placesResult.addOnCompleteListener(task -> {
-            PlaceBufferResponse placeBufferResponse = task.getResult();
-            if (placeBufferResponse != null) {
-                List<Place> places1 = new ArrayList<>();
-                for (Place place : placeBufferResponse) {
-                    places1.add(place);
+            }).addOnFailureListener((exception) -> {
+                if (exception instanceof ApiException) {
+                    ApiException apiException = (ApiException) exception;
+                    int statusCode = apiException.getStatusCode();
+                    // Handle error with given status code.
+                    Log.e(TAG, "Place not found: " + exception.getMessage());
                 }
-                mapFragment.setDisplayPlaces(places1);
-                placeBufferResponse.release();
-            }
-        });
-    }
+            });
+        }
+   }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

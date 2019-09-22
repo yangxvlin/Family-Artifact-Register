@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,15 +30,15 @@ import java.util.List;
  * Use the {@link MapDisplayFragment#newInstance} factory method to create an instance of this
  * fragment.
  */
-public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, IFragment {
+public class MapDisplayFragment extends BasePlacesFragment implements OnMapReadyCallback {
     /**
      * class tag
      */
     public static final String TAG = MapDisplayFragment.class.getSimpleName();
-    protected static final String PLACES = "places";
+    protected static final String LOCATIONS = "locations";
     // Stores the map object to be operated
     protected GoogleMap mMap;
-    // Stores the places to be displayed on screen
+    // Stores the locations to be displayed on screen
     protected List<Place> places;
     // MapView the current fragment is operating on
     protected MapView mapView;
@@ -50,8 +49,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
     /**
      * Required empty public constructor
      */
-    public MapDisplayFragment() {
-    }
+    public MapDisplayFragment() { }
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
@@ -63,7 +61,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
     public static MapDisplayFragment newInstance(List<Place> places) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(PLACES, (Serializable) places);
+        bundle.putSerializable(LOCATIONS, (Serializable) places);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -78,7 +76,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
         List<Place> places = new ArrayList<>();
-        bundle.putSerializable(PLACES, (Serializable) places);
+        bundle.putSerializable(LOCATIONS, (Serializable) places);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -87,7 +85,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.places = (List<Place>) this.getArguments().get(PLACES);
+            this.places = (List<Place>) this.getArguments().get(LOCATIONS);
         }
     }
 
@@ -180,7 +178,4 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-    @Override
-    public String getFragmentTag() { return TAG; }
 }
