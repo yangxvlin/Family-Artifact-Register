@@ -42,6 +42,7 @@ public class NewArtifactPreviewImageGridViewAdapter extends BaseAdapter {
             view = View.inflate(mContext, R.layout.item_grid_view_new_artifact_preview_image, null);
             viewHolder = new ViewHolder();
             viewHolder.imageView = view.findViewById(R.id.item_new_artifact_preview_image_grid_view_image);
+            viewHolder.delete = view.findViewById(R.id.item_new_artifact_preview_image_grid_delete);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -49,6 +50,11 @@ public class NewArtifactPreviewImageGridViewAdapter extends BaseAdapter {
 
         Uri image = images.get(i);
         viewHolder.imageView.setImageURI(image);
+//        viewHolder.delete.setImageResource(R.drawable.ic_delete);
+        viewHolder.delete.setOnClickListener(view1 -> {
+            images.remove(i);
+            notifyDataSetChanged();
+        });
 
         return view;
     }
@@ -59,5 +65,6 @@ public class NewArtifactPreviewImageGridViewAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView imageView;
+        ImageView delete;
     }
 }
