@@ -36,14 +36,14 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
      * class tag
      */
     public static final String TAG = MapDisplayFragment.class.getSimpleName();
-    private static final String PLACES = "places";
+    protected static final String PLACES = "places";
 
     // Stores the map object to be operated
-    private GoogleMap mMap;
+    protected GoogleMap mMap;
     // Stores the places to be displayed on screen
-    private List<Place> places;
+    protected List<Place> places;
     // MapView the current fragment is operating on
-    private MapView mapView;
+    protected MapView mapView;
 
     // TODO to be implemented in the future for a correct way for interaction
     private OnFragmentInteractionListener mListener;

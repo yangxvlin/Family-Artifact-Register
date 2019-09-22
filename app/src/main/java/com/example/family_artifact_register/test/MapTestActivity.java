@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.compat.GeoDataClient;
 import com.google.android.libraries.places.compat.Place;
@@ -105,7 +106,7 @@ public class MapTestActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        MapDisplayFragment mapFragment = MapDisplayFragment.newInstance(places);
+        MapDisplayFragment mapFragment = MapSearchDisplayFragment.newInstance(places);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fullscreen_content, mapFragment)
