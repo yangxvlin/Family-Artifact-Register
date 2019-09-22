@@ -115,6 +115,7 @@ dependencies {
 
     //Third party
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 }
 
 apply plugin: 'com.google.gms.google-services'
