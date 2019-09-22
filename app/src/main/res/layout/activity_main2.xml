@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.example.family_artifact_register.MainActivity2">
 
-    <FrameLayout
-        android:id="@+id/main_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:background="@color/wechat_grey"
-        >
+        android:layout_above="@id/bottom_navigation_view"
+        android:fitsSystemWindows="true">
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/main_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/wechat_grey"/>
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         app:itemBackground="@color/wechat_white"
         android:background="?android:attr/windowBackground"
-        android:layout_weight="7"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_bar_menu">
+        app:menu="@menu/bottom_bar_menu"/>
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>
