@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,7 +33,7 @@ import java.util.List;
  * Use the {@link MapDisplayFragment#newInstance} factory method to create an instance of this
  * fragment.
  */
-public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
+public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, IFragment {
     private static final String PLACES = "places";
 
     // Stores the map object to be operated
