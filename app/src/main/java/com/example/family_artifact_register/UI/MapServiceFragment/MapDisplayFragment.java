@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -89,13 +88,14 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.places = (List<Place>) this.getArguments().get(PLACES);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle bundle = this.getArguments();
-        places = (List<Place>) bundle.get(PLACES);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_map_display, container, false);
     }
@@ -122,7 +122,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
      */
     private void displayPlaces() {
         // Only display with marker if map is not null and there are places stored
-        if (mMap != null && places.size() != 0) {
+        if (mMap != null && places != null && places.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
             for (Place place: this.places) {
