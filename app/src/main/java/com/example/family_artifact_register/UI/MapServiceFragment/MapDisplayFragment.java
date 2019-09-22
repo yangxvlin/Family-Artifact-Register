@@ -67,6 +67,21 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
         return fragment;
     }
 
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters.
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance() {
+        MapDisplayFragment fragment = new MapDisplayFragment();
+        Bundle bundle = new Bundle();
+        List<Place> places = new ArrayList<>();
+        bundle.putSerializable(PLACES, (Serializable) places);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
