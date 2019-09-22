@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +52,18 @@ public class ContactFragment extends Fragment implements IFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), FriendSearchActivity.class));
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0) {
+                    fab.hide();
+                }
+                else if(dy < 0) {
+                    fab.show();
+                }
             }
         });
 
