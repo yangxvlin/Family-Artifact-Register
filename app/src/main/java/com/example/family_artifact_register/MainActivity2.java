@@ -162,7 +162,7 @@ public class MainActivity2 extends AppCompatActivity {
             setTitle(R.string.artifact_hub);
         } else if (tag.equals(ContactFragment.TAG)) {
             setTitle(R.string.bottom_bar_contacts);
-        } else if (tag.equals(MapFragment.TAG)) {
+        } else if (tag.equals(MapDisplayFragment.TAG)) {
             setTitle(R.string.artifact_map);
         } else if (tag.equals(MeFragment.TAG)) {
             setTitle(R.string.bottom_bar_profile);

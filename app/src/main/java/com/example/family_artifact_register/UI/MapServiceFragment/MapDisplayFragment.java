@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +33,10 @@ import java.util.List;
  * fragment.
  */
 public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, IFragment {
-    private static final String TAG = MapDisplayFragment.class.getSimpleName();
+    /**
+     * class tag
+     */
+    public static final String TAG = MapDisplayFragment.class.getSimpleName();
     private static final String PLACES = "places";
 
     // Stores the map object to be operated
