@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.model.Place;
 
 public final class MyLocation extends Location {
     /* Custom Field for setting bundle attributes for a Location object */
@@ -30,6 +31,24 @@ public final class MyLocation extends Location {
         this.setLongitude(latLng.longitude);
     }
 
+    public MyLocation(Place place) {
+        super("");
+        if (place.getLatLng() != null) {
+            this.setLatitude(place.getLatLng().latitude);
+            this.setLongitude(place.getLatLng().longitude);
+        }
+        if (place.getId() != null) {
+            this.setPlaceId(place.getId());
+        }
+        if (place.getName() != null) {
+            this.setName(place.getName());
+        }
+
+        if (place.getAddress() != null) {
+            this.setAddress(place.getAddress());
+        }
+    }
+
     public MyLocation(String provider) {
         super(provider);
     }
@@ -39,7 +58,7 @@ public final class MyLocation extends Location {
     }
 
     public LatLng getLatLng() {
-        return this.getLatLng();
+        return new LatLng(getLatitude(), getLongitude());
     }
 
     public void setPlaceId(String placeId) {

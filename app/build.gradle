@@ -41,7 +41,6 @@ dependencies {
     // ******************************************************************************************
     // Google map api
     implementation 'com.google.android.libraries.places:places:2.0.0'
-//    implementation 'com.google.android.libraries.places:places-compat:2.0.0'
 
     // ******************************************************************************************
     // test
@@ -86,7 +85,7 @@ dependencies {
     // Facebook Share only
 //    implementation 'com.facebook.android:facebook-share:5.5.1'
     // Facebook Places only
-//    implementation 'com.facebook.android:facebook-places:5.5.1'
+//    implementation 'com.facebook.android:facebook-locations:5.5.1'
     // Facbeook Messenger only
 //    implementation 'com.facebook.android:facebook-messenger:'
     // Facebook App Links only

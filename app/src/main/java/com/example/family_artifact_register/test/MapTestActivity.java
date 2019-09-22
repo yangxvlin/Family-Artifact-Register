@@ -13,6 +13,7 @@ import android.view.View;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.MyLocation;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -110,16 +111,17 @@ public class MapTestActivity extends AppCompatActivity {
         // Initialize the SDK
         Places.initialize(this, getString(R.string.google_api_key));
 
-        List<Place> places = new ArrayList<>();
+        List<MyLocation> myLocations = new ArrayList<>();
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        MapDisplayFragment mapFragment = MapSearchDisplayFragment.newInstance(places);
+        MapDisplayFragment mapFragment = MapSearchDisplayFragment.newInstance(myLocations);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fullscreen_content, mapFragment)
                 .commit();
+        mPlacesClient = Places.createClient(this);
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(view -> toggle());
@@ -132,15 +134,21 @@ public class MapTestActivity extends AppCompatActivity {
         List<String> placeIds = new ArrayList<>();
         placeIds.add("ChIJP3Sa8ziYEmsRUKgyFmh9AQM");
         placeIds.add("ChIJEVCBAZpmAGAR3vBoBTxlQdM");
+
         for (String placeId: placeIds) {
             // Specify the fields to return.
-            List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS);
+            List<Place.Field> placeFields = Arrays.asList(Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.ADDRESS);
             // Construct a request object, passing the place ID and fields array.
             FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
             mPlacesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+                Log.i(TAG, response.toString());
                 Place place = response.getPlace();
                 Log.i(TAG, "Place found: " + place.getName());
-
+                List<MyLocation> myLocations1 = mapFragment.getLocations();
+                myLocations1.add(new MyLocation(place));
+                mapFragment.setDisplayLocations(myLocations1);
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
                     ApiException apiException = (ApiException) exception;

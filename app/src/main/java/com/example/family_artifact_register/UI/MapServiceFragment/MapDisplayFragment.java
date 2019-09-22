@@ -18,7 +18,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.model.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     // Stores the map object to be operated
     protected GoogleMap mMap;
     // Stores the locations to be displayed on screen
-    protected List<Place> places;
+    protected List<MyLocation> locations = new ArrayList<>();
     // MapView the current fragment is operating on
     protected MapView mapView;
 
@@ -54,14 +53,14 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
-     * @param places The places to be displayed on the google map
+     * @param locations The locations to be displayed on the google map
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<Place> places) {
+    public static MapDisplayFragment newInstance(List<MyLocation> locations) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(LOCATIONS, (Serializable) places);
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -75,8 +74,8 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     public static MapDisplayFragment newInstance() {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        List<Place> places = new ArrayList<>();
-        bundle.putSerializable(LOCATIONS, (Serializable) places);
+        List<MyLocation> locations = new ArrayList<>();
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -85,7 +84,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.places = (List<Place>) this.getArguments().get(LOCATIONS);
+            this.locations = (List<MyLocation>) this.getArguments().get(LOCATIONS);
         }
     }
 
@@ -98,35 +97,35 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
 
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
-        mapView = (MapView) view.findViewById(R.id.map);
+        mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
     }
 
-    public void setDisplayPlaces(List<Place> places) {
-        this.places = places;
-        displayPlaces();
+    public void setDisplayLocations(List<MyLocation> locations) {
+        this.locations = locations;
+        displayLocations();
     }
 
-    public List<Place> getPlaces() {
-        return places;
+    public List<MyLocation> getLocations() {
+        return locations;
     }
 
     /**
-     * Display the places currently held in this fragment
+     * Display the locations currently held in this fragment
      */
-    private void displayPlaces() {
-        // Only display with marker if map is not null and there are places stored
-        if (mMap != null && places != null && places.size() != 0) {
+    private void displayLocations() {
+        // Only display with marker if map is not null and there are locations stored
+        if (mMap != null && locations != null && locations.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
-            for (Place place: this.places) {
+            for (MyLocation myLocation: this.locations) {
                 // TODO can build map (with icon) here
                 markers.add(mMap.addMarker(new MarkerOptions()
-                        .position(place.getLatLng())
-                        .title((String) place.getName())
-                        .snippet((String) place.getAddress())));
+                        .position(myLocation.getLatLng())
+                        .title(myLocation.getName())
+                        .snippet(myLocation.getAddress())));
             }
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (Marker marker : markers) {
@@ -142,7 +141,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        displayPlaces();
+        displayLocations();
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event

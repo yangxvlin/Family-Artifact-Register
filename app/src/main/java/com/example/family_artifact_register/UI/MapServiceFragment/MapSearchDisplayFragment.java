@@ -33,14 +33,14 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
-     * @param places The places to be displayed on the google map
+     * @param myLocations The locations to be displayed on the google map
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<Place> places) {
+    public static MapDisplayFragment newInstance(List<MyLocation> myLocations) {
         MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(LOCATIONS, (Serializable) places);
+        bundle.putSerializable(LOCATIONS, (Serializable) myLocations);
         fragment.setArguments(bundle);
         return fragment;
     }

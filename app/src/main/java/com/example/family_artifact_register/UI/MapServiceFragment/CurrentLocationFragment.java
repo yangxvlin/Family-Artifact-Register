@@ -20,12 +20,11 @@ import android.widget.Toast;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;;import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentLocationFragment extends BasePlacesFragment {
@@ -87,7 +86,7 @@ public class CurrentLocationFragment extends BasePlacesFragment {
             placeFields.add(Place.Field.LAT_LNG);
             // Use the builder to create a FindCurrentPlaceRequest.
             FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
-            // Get the likely places - that is, the businesses and other points of interest that
+            // Get the likely locations - that is, the businesses and other points of interest that
             // are the best match for the device's current location.
             @SuppressWarnings("MissingPermission") final Task<FindCurrentPlaceResponse> placeResult =
                     mPlacesClient.findCurrentPlace(request);
@@ -175,7 +174,7 @@ public class CurrentLocationFragment extends BasePlacesFragment {
     }
 
     /**
-     * Prompts the user to select the current place from a list of likely places with a dialog.
+     * Prompts the user to select the current place from a list of likely locations with a dialog.
      */
     private void openPlacesDialog() {
         if (mLikelyPlace.size() != 0) {
@@ -201,13 +200,11 @@ public class CurrentLocationFragment extends BasePlacesFragment {
     }
 
     public MyLocation getLocation() {
-        MyLocation location = new MyLocation();
+        MyLocation location = null;
         if (currentPlace != null) {
-            location.setLatitude(currentPlace.getLatLng().latitude);
-            location.setLongitude(currentPlace.getLatLng().longitude);
-            location.setPlaceId(currentPlace.getId());
-            location.setName(currentPlace.getName());
-            location.setAddress(currentPlace.getAddress());
+            location = new MyLocation(currentPlace);
+        } else {
+            location = new MyLocation();
         }
         return location;
     }
