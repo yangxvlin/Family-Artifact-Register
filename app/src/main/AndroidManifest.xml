@@ -90,6 +90,9 @@
             </intent-filter>
             <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
         </activity>
+        <activity android:name=".UI.Social.FriendSearchResultActivity"
+            android:parentActivityName=".UI.Social.FriendSearchActivity"
+            />
 
         <activity android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity"

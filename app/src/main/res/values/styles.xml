@@ -32,4 +32,10 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+
+    <style name="FriendSearchBoxStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:strokeColor">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
