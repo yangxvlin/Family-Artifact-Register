@@ -15,7 +15,7 @@ import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 
-public class HubFragment extends Fragment {
+public class HubFragment extends Fragment implements IFragment {
 
     RecyclerView mRecyclerView;
     HubModelAdapter mHubModelAdapter;
@@ -23,7 +23,6 @@ public class HubFragment extends Fragment {
     RecyclerView.Adapter adapter;
     DividerItemDecoration divider;
 
-public class HubFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
