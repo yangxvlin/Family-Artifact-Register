@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
@@ -21,6 +22,13 @@ public class HubFragment extends Fragment {
     LinearLayoutManager layoutManager;
     RecyclerView.Adapter adapter;
     DividerItemDecoration divider;
+
+public class HubFragment extends Fragment implements IFragment {
+    /**
+     * class tag
+     */
+    public static final String TAG = HubFragment.class.getSimpleName();
+
 
     public HubFragment() {
         // Required empty public constructor
@@ -53,6 +61,7 @@ public class HubFragment extends Fragment {
     }
 
     public static HubFragment newInstance() { return new HubFragment(); }
+
 
     /**
      * Get a list of models of card view
@@ -94,5 +103,9 @@ public class HubFragment extends Fragment {
 
         return models;
     }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
+
 }
 

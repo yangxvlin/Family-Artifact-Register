@@ -1,22 +1,22 @@
 package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
-import java.util.Date;
-
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-14 20:09:27
  * @description abstract artifact data type
  */
 public abstract class Artifact {
-    private Date createdDate;
+    private String createdDate;
 
     public Artifact() {
 
     }
 
-    public Date getCreatedDate() { return createdDate; }
+    public Artifact(String createdDate) {
+        this.createdDate = createdDate;
+    }
 
-    public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; }
+    public String getCreatedDate() { return createdDate; }
 
-    private void newCreateDate() { createdDate = new Date(); }
+    public void setCreatedDate(String createdDate) { this.createdDate = createdDate; }
 }

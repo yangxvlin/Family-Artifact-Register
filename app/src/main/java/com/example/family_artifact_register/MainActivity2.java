@@ -34,6 +34,8 @@ public class MainActivity2 extends AppCompatActivity {
      */
     private final String TAG = getClass().getSimpleName();
 
+    BottomNavigationView navigation;
+
     /**
      * fragment manager to manage fragments
      */
@@ -140,7 +142,7 @@ public class MainActivity2 extends AppCompatActivity {
         };
 
         // setup bottom navigation bar
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
+        navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
@@ -153,7 +155,17 @@ public class MainActivity2 extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // avoid initial not updated bug
-        setTitle(R.string.artifact_hub);
+        String tag = ((IFragment)active).getFragmentTag();
+
+        if (tag.equals(HubFragment.TAG)) {
+            setTitle(R.string.artifact_hub);
+        } else if (tag.equals(ContactFragment.TAG)) {
+            setTitle(R.string.bottom_bar_contacts);
+        } else if (tag.equals(MapFragment.TAG)) {
+            setTitle(R.string.artifact_map);
+        } else if (tag.equals(MeFragment.TAG)) {
+            setTitle(R.string.bottom_bar_profile);
+        }
     }
 
     @Override
@@ -166,9 +178,9 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
-
     }
 
+    // **************************************** action bar menu ***********************************
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
