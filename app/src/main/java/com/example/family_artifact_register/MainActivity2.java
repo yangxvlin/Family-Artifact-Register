@@ -13,9 +13,10 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
-import com.example.family_artifact_register.UI.MapServiceFragment.MapFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,7 +55,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * Map Artifact page
      */
-    private MapFragment mapFragment = MapFragment.newInstance();
+    private MapDisplayFragment mapFragment = MapDisplayFragment.newInstance();
 
     /**
      * Me page
@@ -161,7 +162,7 @@ public class MainActivity2 extends AppCompatActivity {
             setTitle(R.string.artifact_hub);
         } else if (tag.equals(ContactFragment.TAG)) {
             setTitle(R.string.bottom_bar_contacts);
-        } else if (tag.equals(MapFragment.TAG)) {
+        } else if (tag.equals(MapDisplayFragment.TAG)) {
             setTitle(R.string.artifact_map);
         } else if (tag.equals(MeFragment.TAG)) {
             setTitle(R.string.bottom_bar_profile);

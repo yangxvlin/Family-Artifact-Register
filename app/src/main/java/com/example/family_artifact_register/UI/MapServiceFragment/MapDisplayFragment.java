@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,8 +20,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.compat.Place;
-import com.google.common.collect.MapMaker;
-import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,7 +31,11 @@ import java.util.List;
  * Use the {@link MapDisplayFragment#newInstance} factory method to create an instance of this
  * fragment.
  */
-public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
+public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, IFragment {
+    /**
+     * class tag
+     */
+    public static final String TAG = MapDisplayFragment.class.getSimpleName();
     private static final String PLACES = "places";
 
     // Stores the map object to be operated
@@ -67,16 +70,32 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
         return fragment;
     }
 
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters.
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance() {
+        MapDisplayFragment fragment = new MapDisplayFragment();
+        Bundle bundle = new Bundle();
+        List<Place> places = new ArrayList<>();
+        bundle.putSerializable(PLACES, (Serializable) places);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.places = (List<Place>) this.getArguments().get(PLACES);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle bundle = this.getArguments();
-        places = (List<Place>) bundle.get(PLACES);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_map_display, container, false);
     }
@@ -103,7 +122,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
      */
     private void displayPlaces() {
         // Only display with marker if map is not null and there are places stored
-        if (mMap != null && places.size() != 0) {
+        if (mMap != null && places != null && places.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
             for (Place place: this.places) {
@@ -163,4 +182,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
 }
