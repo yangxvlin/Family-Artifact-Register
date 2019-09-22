@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.example.family_artifact_register"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -40,7 +40,8 @@ dependencies {
 
     // ******************************************************************************************
     // Google map api
-    implementation 'com.google.android.libraries.places:places-compat:2.0.0'
+    implementation 'com.google.android.libraries.places:places:2.0.0'
+//    implementation 'com.google.android.libraries.places:places-compat:2.0.0'
 
     // ******************************************************************************************
     // test
