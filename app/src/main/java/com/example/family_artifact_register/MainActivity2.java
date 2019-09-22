@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.firebase.ui.auth.AuthUI;
@@ -54,7 +55,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * Map Artifact page
      */
-    private MapFragment mapFragment = MapFragment.newInstance();
+    private MapDisplayFragment mapFragment = MapDisplayFragment.newInstance();
 
     /**
      * Me page

@@ -20,8 +20,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.compat.Place;
-import com.google.common.collect.MapMaker;
-import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +32,7 @@ import java.util.List;
  * fragment.
  */
 public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, IFragment {
+    private static final String TAG = MapDisplayFragment.class.getSimpleName();
     private static final String PLACES = "places";
 
     // Stores the map object to be operated
@@ -164,4 +163,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
 }
