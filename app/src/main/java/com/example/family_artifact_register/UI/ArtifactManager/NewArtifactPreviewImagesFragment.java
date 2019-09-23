@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.NewArtifactPreviewImageGridViewAdapter;
@@ -66,20 +68,25 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
                 .build();
 
         // to next fragment
-//        FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_media_floating_button_confirm);
-//        confirm.setOnClickListener(view1 -> {
-//            HappenedTimeFragment happenedTime = HappenedTimeFragment.newInstance();
-//            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.addToBackStack("next");
-//            fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
-//            fragmentTransaction.commit();
-//        });
+        FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_preview_images_floating_button_confirm);
+        confirm.setOnClickListener(view1 -> {
+            if (imageAdapter.getCount() > 0) {
+                HappenedTimeFragment happenedTime = HappenedTimeFragment.newInstance();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack("next");
+                fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(getContext(), "at least one image to continue", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
 
         // choose images from camera
-//        FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_media_camera);
-//        camera.setOnClickListener(view1 -> {
-//            easyImage.openCameraForImage(this);
-//        });
+        FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_preview_images_floating_button_camera);
+        camera.setOnClickListener(view1 -> {
+            easyImage.openCameraForImage(this);
+        });
 
         // choose images form album
         FloatingActionButton album = view.findViewById(R.id.fragment_new_artifact_preview_images_floating_button_album);
@@ -100,16 +107,15 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
 
         easyImage.handleActivityResult(requestCode, resultCode, data, getActivity(), new DefaultCallback() {
             @Override
-            public void onMediaFilesPicked(MediaFile[] imageFiles, MediaSource source) {
-                for (MediaFile imageFile : imageFiles) {
-                    Log.d("EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
-                    Uri image = Uri.fromFile(imageFile.getFile());
-//                    mediaData.add(image);
-                    ((NewArtifactActivity2)getActivity()).addData(image, TYPE_IMAGE);
-                }
-
-                if (source == MediaSource.DOCUMENTS) {
-                    imageAdapter.notifyDataSetChanged();
+            public void onMediaFilesPicked(MediaFile[] mediaFiles, MediaSource source) {
+                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE) {
+                    // call back to parent activity
+                    for (MediaFile imageFile : mediaFiles) {
+                        Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
+                        Uri image = Uri.fromFile(imageFile.getFile());
+                        ((NewArtifactActivity2)getActivity()).addData(image, TYPE_IMAGE);
+                        imageAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 

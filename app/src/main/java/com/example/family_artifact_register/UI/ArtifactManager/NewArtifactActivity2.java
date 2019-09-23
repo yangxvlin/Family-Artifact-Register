@@ -62,6 +62,12 @@ public class NewArtifactActivity2 extends AppCompatActivity {
 
     public void clearData() { mediaData.clear(); }
 
+    /**
+     * take in data and compress it and record it in the activity
+     *
+     * @param data media data, can be image or video
+     * @param type ImageProcessHelper's processing data Type
+     */
     public void addData(Uri data, int type) {
         switch (type) {
             case ImageProcessHelper.TYPE_IMAGE:
