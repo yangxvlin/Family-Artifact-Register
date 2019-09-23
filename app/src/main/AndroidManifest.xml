@@ -49,30 +49,24 @@
         <activity
             android:name=".UI.ArtifactHub.HubActivity"
             android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".UI.ArtifactHub.ArtifactDetailActivity"
             android:parentActivityName=".UI.ArtifactHub.HubActivity" />
-        <activity
-            android:name=".UI.Social.FriendActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".UI.Social.FriendSearchActivity" />
-        </activity>
-        <activity
-            android:name=".UI.Social.FriendDetailActivity"
-            android:parentActivityName=".UI.Social.FriendActivity" />
-        <activity
-            android:name=".UI.Social.FriendSearchActivity"
-            android:parentActivityName=".UI.Social.FriendDetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
 
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+        <activity android:name=".UI.Social.FriendActivity"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".UI.Social.FriendDetailActivity"
+            android:parentActivityName=".UI.Social.FriendActivity"
+            />
+        <activity android:name=".UI.Social.FriendSearchActivity"
+            android:parentActivityName=".UI.Social.FriendDetailActivity"
+            />
+        <activity android:name=".UI.Social.FriendSearchResultActivity"
+            android:parentActivityName=".UI.Social.FriendSearchActivity"
+            />
+
         <activity
             android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity" />
