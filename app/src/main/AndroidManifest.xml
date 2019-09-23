@@ -25,10 +25,10 @@
         You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <activity android:name=".MainActivity2" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".MainActivity">
             <!--            <intent-filter>-->
@@ -41,10 +41,10 @@
         <activity
             android:name=".test.MapTestActivity"
             android:label="@string/title_activity_fullscreen">
-<!--             <intent-filter> -->
-<!--                 <action android:name="android.intent.action.MAIN" /> -->
-<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".UI.ArtifactHub.HubActivity"
