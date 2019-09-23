@@ -50,7 +50,7 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Preview Images");
+        getActivity().setTitle(R.string.preview_image);
 
         easyImage = new EasyImage.Builder(getContext())
                 // Chooser only
@@ -77,7 +77,7 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
                 fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
                 fragmentTransaction.commit();
             } else {
-                Toast.makeText(getContext(), "at least one image to continue", Toast.LENGTH_SHORT)
+                Toast.makeText(getContext(), R.string.not_enough_image_warning, Toast.LENGTH_SHORT)
                         .show();
             }
         });
