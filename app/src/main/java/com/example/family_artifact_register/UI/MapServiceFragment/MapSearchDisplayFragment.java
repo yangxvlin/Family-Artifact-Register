@@ -1,6 +1,5 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
