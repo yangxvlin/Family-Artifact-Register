@@ -64,16 +64,6 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
                 .allowMultiple(true)
                 .build();
 
-        // to next fragment
-//        FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_media_floating_button_confirm);
-//        confirm.setOnClickListener(view1 -> {
-//            HappenedTimeFragment happenedTime = HappenedTimeFragment.newInstance();
-//            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.addToBackStack("next");
-//            fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
-//            fragmentTransaction.commit();
-//        });
-
         // take image from camera
         FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_media_floating_button_camera);
         camera.setOnClickListener(view1 -> {
@@ -123,6 +113,10 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
                         ((NewArtifactActivity2)getActivity()).addData(image, TYPE_VIDEO);
                     }
                     // next fragment
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.addToBackStack("next");
+                    fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactPreviewVideoFragment.newInstance());
+                    fragmentTransaction.commit();
                 }
             }
 

@@ -14,7 +14,6 @@ import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,11 +78,12 @@ public class NewArtifactActivity2 extends AppCompatActivity {
                 }
                 break;
             case MediaProcessHelper.TYPE_VIDEO:
-                try {
-                    mediaData.add(MediaProcessHelper.compreUriVideo(this, data));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+//                try {
+                    mediaData.add(data);
+//                    mediaData.add(MediaProcessHelper.compreUriVideo(this, data));
+//                } catch (URISyntaxException e) {
+//                    e.printStackTrace();
+//                }
                 break;
         }
         Log.i(TAG, "added data: "+data.getPath() + " with cur size = " + mediaData.size());
