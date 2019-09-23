@@ -85,12 +85,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
                 }
                 break;
             case MediaProcessHelper.TYPE_VIDEO:
-//                try {
-                    mediaData.add(data);
-//                    mediaData.add(MediaProcessHelper.compreUriVideo(this, data));
-//                } catch (URISyntaxException e) {
-//                    e.printStackTrace();
-//                }
+                mediaData.add(data);
                 break;
         }
         Log.i(TAG, "added data: "+data.getPath() + " with cur size = " + mediaData.size());

@@ -118,7 +118,7 @@ dependencies {
     // photo & video take
     // https://github.com/jkwiecien/EasyImage
     implementation 'com.github.jkwiecien:EasyImage:3.0.3'
-    // photo & video compress
+    // photo & video compress, only image part used
     // https://github.com/Tourenathan-G5organisation/SiliCompressor
     implementation 'com.iceteck.silicompressorr:silicompressor:2.2.2'
 

@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author XuLin Yang 904904,
@@ -33,6 +35,18 @@ public class MediaProcessHelper {
         return Uri.parse(SiliCompressor.with(context).compressVideo(video.getPath(), storageDir));
     }
 
+    public static File createVideoFile() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String videoFileName = "VID_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File videoFile = null;
+        try {
+            videoFile = File.createTempFile("Compressed_"+videoFileName, ".mp4", storageDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return videoFile;
+    }
     // ***************************** ****************************
 
     private static int calculateInSampleSize(BitmapFactory.Options options) {
