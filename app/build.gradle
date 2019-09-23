@@ -45,6 +45,8 @@ dependencies {
     // ******************************************************************************************
     // test
 
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
+    implementation 'com.google.firebase:firebase-database:16.0.4'
     testImplementation 'junit:junit:4.12'
     // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'
@@ -110,6 +112,21 @@ dependencies {
     // https://github.com/JakeWharton/butterknife
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+
+    // ******************************************************************************************
+    // photo & video take
+    // https://github.com/jkwiecien/EasyImage
+    implementation 'com.github.jkwiecien:EasyImage:3.0.3'
+    // photo & video compress
+    // https://github.com/Tourenathan-G5organisation/SiliCompressor
+    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.2'
+
+    // ******************************************************************************************
+    //Third party
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
