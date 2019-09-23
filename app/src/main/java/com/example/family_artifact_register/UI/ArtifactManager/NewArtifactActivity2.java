@@ -27,11 +27,11 @@ import java.util.List;
 public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener {
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
-    FragmentManager fm;
+    private FragmentManager fm;
 
-    Fragment mediaFragment = NewArtifactMediaFragment.newInstance();
+    private Fragment mediaFragment = NewArtifactMediaFragment.newInstance();
 
-    List<Uri> mediaData;
+    private List<Uri> mediaData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
