@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,7 +19,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.compat.Place;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,41 +30,38 @@ import java.util.List;
  * Use the {@link MapDisplayFragment#newInstance} factory method to create an instance of this
  * fragment.
  */
-public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, IFragment {
+public class MapDisplayFragment extends BasePlacesFragment implements OnMapReadyCallback {
     /**
      * class tag
      */
     public static final String TAG = MapDisplayFragment.class.getSimpleName();
-    private static final String PLACES = "places";
-
+    static final String LOCATIONS = "locations";
     // Stores the map object to be operated
-    private GoogleMap mMap;
-    // Stores the places to be displayed on screen
-    private List<Place> places;
+    GoogleMap mMap;
+    // Stores the locations to be displayed on screen
+    private List<MyLocation> locations = new ArrayList<>();
     // MapView the current fragment is operating on
     private MapView mapView;
 
     // TODO to be implemented in the future for a correct way for interaction
     private OnFragmentInteractionListener mListener;
 
-
     /**
      * Required empty public constructor
      */
-    public MapDisplayFragment() {
-    }
+    public MapDisplayFragment() { }
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
-     * @param places The places to be displayed on the google map
+     * @param locations The locations to be displayed on the google map
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<Place> places) {
+    public static MapDisplayFragment newInstance(List<MyLocation> locations) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(PLACES, (Serializable) places);
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -79,8 +75,8 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
     public static MapDisplayFragment newInstance() {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        List<Place> places = new ArrayList<>();
-        bundle.putSerializable(PLACES, (Serializable) places);
+        List<MyLocation> locations = new ArrayList<>();
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -89,7 +85,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.places = (List<Place>) this.getArguments().get(PLACES);
+            this.locations = (List<MyLocation>) this.getArguments().get(LOCATIONS);
         }
     }
 
@@ -102,43 +98,43 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
 
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
-        mapView = (MapView) view.findViewById(R.id.map);
+        mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
     }
 
-    public void setDisplayPlaces(List<Place> places) {
-        this.places = places;
-        displayPlaces();
+    public void setDisplayLocations(List<MyLocation> locations) {
+        this.locations = locations;
+        for (MyLocation myLocation:locations) {
+            Log.i(TAG, myLocation.toString());
+        }
+        displayLocations();
     }
 
-    public List<Place> getPlaces() {
-        return places;
+    public List<MyLocation> getLocations() {
+        return locations;
     }
 
     /**
-     * Display the places currently held in this fragment
+     * Display the locations currently held in this fragment
      */
-    private void displayPlaces() {
-        // Only display with marker if map is not null and there are places stored
-        if (mMap != null && places != null && places.size() != 0) {
+    private void displayLocations() {
+        // Only display with marker if map is not null and there are locations stored
+        if (mMap != null && locations != null && locations.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
-            for (Place place: this.places) {
+            for (MyLocation myLocation: this.locations) {
                 // TODO can build map (with icon) here
                 markers.add(mMap.addMarker(new MarkerOptions()
-                        .position(place.getLatLng())
-                        .title((String) place.getName())
-                        .snippet((String) place.getAddress())));
+                        .position(myLocation.getLatLng())
+                        .title(myLocation.getName())
+                        .snippet(myLocation.getAddress())));
             }
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (Marker marker : markers) {
-                builder.include(marker.getPosition());
-            }
-            int padding = 100; // offset from edges of the map in pixels
-            LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            CameraUpdate cu = MarkerZoomStrategyFactory
+                    .getMarkerZoomStrategyFactory()
+                    .getMarkerZoomStrategy(markers.size())
+                    .makeCameraUpdate(markers);
             mMap.animateCamera(cu);
         }
     }
@@ -146,7 +142,7 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        displayPlaces();
+        displayLocations();
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
@@ -182,7 +178,4 @@ public class MapDisplayFragment extends Fragment implements OnMapReadyCallback, 
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-    @Override
-    public String getFragmentTag() { return TAG; }
 }

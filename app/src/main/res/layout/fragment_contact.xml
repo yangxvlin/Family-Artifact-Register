@@ -7,17 +7,16 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/recycler_view"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/friend_list_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="80dp"
-        app:srcCompat="@drawable/add_friend_icon"
-        app:backgroundTint="@android:color/white"
-        app:tint="@color/primaryColor"
-        app:rippleColor="@color/primaryColor"/>
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/friend_list_fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="40dp"
+    app:srcCompat="@drawable/add_friend_icon"
+    app:backgroundTint="@android:color/white"
+    app:tint="@color/primaryColor"
+    app:rippleColor="@color/primaryColor"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
