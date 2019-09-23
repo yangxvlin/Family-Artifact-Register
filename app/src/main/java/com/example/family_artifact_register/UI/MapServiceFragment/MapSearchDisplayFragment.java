@@ -43,15 +43,39 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
-     * parameters.
-     * @param myLocations The locations to be displayed on the google map
+     * parameters. The map is by default interactive.
+     * @param locations The locations to be displayed on the google map
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<MyLocation> myLocations) {
-        MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
+    public static MapDisplayFragment newInstance(List<MyLocation> locations) {
+        return MapDisplayFragment.newInstance(locations, false);
+    }
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters. The points to be displayed is by default empty
+     * @param staticMap If the map is static (limited interaction)
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance(boolean staticMap) {
+        return MapDisplayFragment.newInstance(new ArrayList<>(), staticMap);
+    }
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters.
+     * @param locations The locations to be displayed on the google map
+     * @param staticMap If the map displayed should be static (limited interaction)
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance(List<MyLocation> locations, boolean staticMap) {
+        MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(LOCATIONS, (Serializable) myLocations);
+        bundle.putBoolean(STATIC, staticMap);
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,10 +87,10 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance() {
-        MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
+        MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        List<Place> places = new ArrayList<>();
-        bundle.putSerializable(LOCATIONS, (Serializable) places);
+        List<MyLocation> locations = new ArrayList<>();
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
