@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PostActivity;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Social.FriendSearchActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 public class HubFragment extends Fragment implements IFragment {
 
     RecyclerView mRecyclerView;
-    HubModelAdapter mHubModelAdapter;
     LinearLayoutManager layoutManager;
     RecyclerView.Adapter adapter;
     DividerItemDecoration divider;
@@ -44,7 +42,7 @@ public class HubFragment extends Fragment implements IFragment {
         View view = inflater.inflate(R.layout.fragment_hub, container, false);
         setupRecyclerView(view, getMyList());
 
-        FloatingActionButton fab = view.findViewById(R.id.friend_list_fab);
+        FloatingActionButton fab = view.findViewById(R.id.hub_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

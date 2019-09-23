@@ -1,5 +1,6 @@
 package com.example.family_artifact_register;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.Arrays;
 import java.util.List;
@@ -81,6 +83,16 @@ public class MainActivity2 extends AppCompatActivity {
      * control firebase state info
      */
     private FirebaseAuth.AuthStateListener mAuthStateListner;
+
+    /**
+     * firebase database
+     */
+    DatabaseReference reference;
+
+    /**
+     * ProgressDialog
+     */
+    ProgressDialog pd;
 
     List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.EmailBuilder().build(),
