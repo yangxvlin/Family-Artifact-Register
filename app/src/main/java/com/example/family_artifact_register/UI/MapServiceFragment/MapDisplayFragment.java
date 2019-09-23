@@ -12,12 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -100,12 +98,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance() {
-        MapDisplayFragment fragment = new MapDisplayFragment();
-        Bundle bundle = new Bundle();
-        List<MyLocation> locations = new ArrayList<>();
-        bundle.putSerializable(LOCATIONS, (Serializable) locations);
-        fragment.setArguments(bundle);
-        return fragment;
+        return MapDisplayFragment.newInstance(new ArrayList<>(), false);
     }
 
     @Override
@@ -207,7 +200,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      * fragments contained in that activity.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // TODO update this fragment listen to set locations in MapDisplayActivity
         void onFragmentInteraction(Uri uri);
     }
 }

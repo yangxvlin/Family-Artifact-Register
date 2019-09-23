@@ -24,11 +24,15 @@
         sign the APK for publishing.
         You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".MainActivity2" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".MainActivity2" android:theme="@style/splashTheme">
+           <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+               <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
             <!--            <intent-filter>-->
@@ -41,38 +45,28 @@
         <activity
             android:name=".test.MapTestActivity"
             android:label="@string/title_activity_fullscreen">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
         </activity>
         <activity
             android:name=".UI.ArtifactHub.HubActivity"
             android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".UI.ArtifactHub.ArtifactDetailActivity"
             android:parentActivityName=".UI.ArtifactHub.HubActivity" />
-        <activity
-            android:name=".UI.Social.FriendActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".UI.Social.FriendSearchActivity" />
-        </activity>
-        <activity
-            android:name=".UI.Social.FriendDetailActivity"
-            android:parentActivityName=".UI.Social.FriendActivity" />
-        <activity
-            android:name=".UI.Social.FriendSearchActivity"
-            android:parentActivityName=".UI.Social.FriendDetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
 
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+        <activity android:name=".UI.Social.FriendActivity"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".UI.Social.FriendDetailActivity"
+            android:parentActivityName=".UI.Social.FriendActivity"
+            />
+        <activity android:name=".UI.Social.FriendSearchActivity"
+            android:parentActivityName=".UI.Social.FriendDetailActivity"
+            />
+        <activity android:name=".UI.Social.FriendSearchResultActivity"
+            android:parentActivityName=".UI.Social.FriendSearchActivity"
+            />
+
         <activity
             android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity" />
