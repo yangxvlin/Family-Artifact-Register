@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.IFragment;
-import com.example.family_artifact_register.PostActivity;
+import com.example.family_artifact_register.UI.Post.PostActivity;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Social.FriendSearchActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

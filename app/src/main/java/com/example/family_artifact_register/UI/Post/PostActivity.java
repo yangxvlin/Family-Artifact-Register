@@ -1,4 +1,4 @@
-package com.example.family_artifact_register;
+package com.example.family_artifact_register.UI.Post;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,10 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.family_artifact_register.MainActivity2;
+import com.example.family_artifact_register.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -27,10 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
