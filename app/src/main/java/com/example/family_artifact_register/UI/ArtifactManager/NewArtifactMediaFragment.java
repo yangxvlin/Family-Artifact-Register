@@ -23,8 +23,8 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
 
-import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.TYPE_IMAGE;
-import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.TYPE_VIDEO;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
 public class NewArtifactMediaFragment extends Fragment implements IFragment {
     /**
@@ -74,6 +74,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
 //            fragmentTransaction.commit();
 //        });
 
+        // take image from camera
         FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_media_floating_button_camera);
         camera.setOnClickListener(view1 -> {
             easyImage.openCameraForImage(this);
@@ -83,6 +84,12 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
         FloatingActionButton album = view.findViewById(R.id.fragment_new_artifact_media_floating_button_album);
         album.setOnClickListener(view1 -> {
             easyImage.openGallery(this);
+        });
+
+        // take video from camera
+        FloatingActionButton video = view.findViewById(R.id.fragment_new_artifact_media_floating_button_video);
+        video.setOnClickListener(view1 -> {
+            easyImage.openCameraForVideo(this);
         });
     }
 
@@ -103,7 +110,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
                         Uri image = Uri.fromFile(imageFile.getFile());
                         ((NewArtifactActivity2)getActivity()).addData(image, TYPE_IMAGE);
                     }
-                    // next fragment
+                    // next images fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
                     fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactPreviewImagesFragment.newInstance());

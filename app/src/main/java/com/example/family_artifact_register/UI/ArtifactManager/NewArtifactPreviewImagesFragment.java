@@ -26,7 +26,7 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
 
-import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 
 public class NewArtifactPreviewImagesFragment extends Fragment {
     /**

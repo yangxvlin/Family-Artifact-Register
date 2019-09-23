@@ -11,9 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Util.ImageProcessHelper;
+import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,19 +67,23 @@ public class NewArtifactActivity2 extends AppCompatActivity {
      * take in data and compress it and record it in the activity
      *
      * @param data media data, can be image or video
-     * @param type ImageProcessHelper's processing data Type
+     * @param type MediaProcessHelper's processing data Type
      */
     public void addData(Uri data, int type) {
         switch (type) {
-            case ImageProcessHelper.TYPE_IMAGE:
+            case MediaProcessHelper.TYPE_IMAGE:
                 try {
-                    mediaData.add(ImageProcessHelper.compressUriImage(this, data, false));
+                    mediaData.add(MediaProcessHelper.compressUriImage(this, data, false));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
-            case ImageProcessHelper.TYPE_VIDEO:
-
+            case MediaProcessHelper.TYPE_VIDEO:
+                try {
+                    mediaData.add(MediaProcessHelper.compreUriVideo(this, data));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
         Log.i(TAG, "added data: "+data.getPath() + " with cur size = " + mediaData.size());

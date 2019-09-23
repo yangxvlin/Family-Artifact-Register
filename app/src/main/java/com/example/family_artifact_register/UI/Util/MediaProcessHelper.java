@@ -11,19 +11,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-18 23:06:53
  * @description methods used when process images in android
  */
-public class ImageProcessHelper {
+public class MediaProcessHelper {
     public static final int TYPE_IMAGE = 1;
     public static final int TYPE_VIDEO = 2;
 
     public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) throws IOException {
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return Uri.parse(SiliCompressor.with(context).compress(image.getPath(), storageDir, deleteSource));
+    }
+
+    public static Uri compreUriVideo(Context context,Uri video) throws URISyntaxException {
+        String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
+                                        .getPath();
+        return Uri.parse(SiliCompressor.with(context).compressVideo(video.getPath(), storageDir));
     }
 
     // ***************************** ****************************
