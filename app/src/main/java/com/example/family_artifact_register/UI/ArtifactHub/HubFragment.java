@@ -1,17 +1,22 @@
 package com.example.family_artifact_register.UI.ArtifactHub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.IFragment;
+import com.example.family_artifact_register.PostActivity;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Social.FriendSearchActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -38,6 +43,27 @@ public class HubFragment extends Fragment implements IFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_hub, container, false);
         setupRecyclerView(view, getMyList());
+
+        FloatingActionButton fab = view.findViewById(R.id.friend_list_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), PostActivity.class));
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0) {
+                    fab.hide();
+                }
+                else if(dy < 0) {
+                    fab.show();
+                }
+            }
+        });
+
         return view;
     }
 
@@ -96,6 +122,14 @@ public class HubFragment extends Fragment implements IFragment {
         m.setUsername("Username4");
         m.setTitle("This is Art4");
         m.setDescription("This is Art4 Description.");
+        m.setAvatar(R.drawable.my_logo);
+        m.setImg(R.drawable.my_logo);
+        models.add(m);
+
+        m = new Model();
+        m.setUsername("Username5");
+        m.setTitle("This is Art5");
+        m.setDescription("This is Art5 Description.");
         m.setAvatar(R.drawable.my_logo);
         m.setImg(R.drawable.my_logo);
         models.add(m);
