@@ -19,6 +19,7 @@ import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.NewArtifactPreviewImageGridViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import es.dmoral.toasty.Toasty;
 import pl.aprilapps.easyphotopicker.ChooserType;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -77,7 +78,7 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
                 fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
                 fragmentTransaction.commit();
             } else {
-                Toast.makeText(getContext(), R.string.not_enough_image_warning, Toast.LENGTH_SHORT)
+                Toasty.error(getContext(), R.string.not_enough_image_warning, Toast.LENGTH_SHORT, true)
                         .show();
             }
         });
