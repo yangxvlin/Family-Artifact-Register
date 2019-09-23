@@ -62,4 +62,6 @@
 
     </RelativeLayout>
 
+    <include layout="@layout/small_divider"/>
+
 </LinearLayout>
