@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -83,6 +86,10 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
         video.setOnClickListener(view1 -> {
             easyImage.openCameraForVideo(this);
         });
+
+        // set description if any
+        EditText description = view.findViewById(R.id.fragment_new_artifact_media_description_input);
+        description.setText(((DescriptionListener)getActivity()).getDescription(), TextView.BufferType.EDITABLE);
     }
 
     public static NewArtifactMediaFragment newInstance() { return new NewArtifactMediaFragment(); }

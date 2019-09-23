@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
@@ -24,7 +25,7 @@ import java.util.List;
  * @time 2019-9-21 13:33:24
  * @description activity let user to upload new artifact
  */
-public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener {
+public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener, DescriptionListener {
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
@@ -32,6 +33,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     private Fragment mediaFragment = NewArtifactMediaFragment.newInstance();
 
     private List<Uri> mediaData;
+
+    private String description;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,4 +101,13 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     @Override
     public void clearData() { mediaData.clear(); }
+
+    @Override
+    public void setDescription(String description) { this.description = description; }
+
+    @Override
+    public String getDescription() { return this.description; }
+
+    @Override
+    public void clearDescription() { description = ""; }
 }
