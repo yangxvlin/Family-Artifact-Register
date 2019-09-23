@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-<include layout="@layout/recycler_view"/>
-
+    <include layout="@layout/recycler_view"/>
 <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/friend_list_fab"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|end"
     android:layout_marginEnd="20dp"
-    android:layout_marginBottom="80dp"
+    android:layout_marginBottom="40dp"
     app:srcCompat="@drawable/add_friend_icon"
     app:backgroundTint="@android:color/white"
     app:tint="@color/primaryColor"

@@ -3,8 +3,13 @@ package com.example.family_artifact_register.UI.Util;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 
+import com.iceteck.silicompressorr.SiliCompressor;
+
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -13,6 +18,15 @@ import java.io.InputStream;
  * @description methods used when process images in android
  */
 public class ImageProcessHelper {
+    public static final int TYPE_IMAGE = 1;
+    public static final int TYPE_VIDEO = 2;
+
+    public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) throws IOException {
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        return Uri.parse(SiliCompressor.with(context).compress(image.getPath(), storageDir, deleteSource));
+    }
+
+    // ***************************** ****************************
 
     private static int calculateInSampleSize(BitmapFactory.Options options) {
         int height = options.outHeight;
