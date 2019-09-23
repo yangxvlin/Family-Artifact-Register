@@ -42,7 +42,7 @@ public class NewArtifactPreviewVideoFragment extends Fragment implements IFragme
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         VideoView video = view.findViewById(R.id.fragment_new_artifact_preview_video_view);
-        List<Uri> medias = ((NewArtifactActivity2)getActivity()).getData();
+        List<Uri> medias = ((MediaListener)getActivity()).getData();
         if (!medias.isEmpty()) {
             // only one video uri in the list
             video.setVideoURI(medias.get(0));

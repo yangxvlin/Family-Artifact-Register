@@ -99,7 +99,7 @@ public class NewArtifactPreviewImagesFragment extends Fragment implements IFragm
         });
 
         GridView gridView = (GridView) view.findViewById(R.id.fragment_new_artifact_preview_images_grid_view);
-        imageAdapter = new NewArtifactPreviewImageGridViewAdapter(getContext(), ((NewArtifactActivity2)getActivity()).getData());
+        imageAdapter = new NewArtifactPreviewImageGridViewAdapter(getContext(), ((MediaListener)getActivity()).getData());
         gridView.setAdapter(imageAdapter);
     }
 
@@ -117,7 +117,7 @@ public class NewArtifactPreviewImagesFragment extends Fragment implements IFragm
                     for (MediaFile imageFile : mediaFiles) {
                         Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
                         Uri image = Uri.fromFile(imageFile.getFile());
-                        ((NewArtifactActivity2)getActivity()).addData(image, TYPE_IMAGE);
+                        ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
                         imageAdapter.notifyDataSetChanged();
                     }
                 }

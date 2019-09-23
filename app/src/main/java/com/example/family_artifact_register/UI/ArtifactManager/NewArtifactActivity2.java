@@ -64,12 +64,14 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         return super.onOptionsItemSelected(item);
     }
 
+    // ************************************ implement interface ***********************************
     /**
      * take in data and compress it and record it in the activity
      *
      * @param data media data, can be image or video
      * @param type MediaProcessHelper's processing data Type
      */
+    @Override
     public void addData(Uri data, int type) {
         switch (type) {
             case MediaProcessHelper.TYPE_IMAGE:
@@ -91,7 +93,6 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         Log.i(TAG, "added data: "+data.getPath() + " with cur size = " + mediaData.size());
     }
 
-    // ************************************ implement interface ***********************************
     @Override
     public List<Uri> getData() { return mediaData; }
 

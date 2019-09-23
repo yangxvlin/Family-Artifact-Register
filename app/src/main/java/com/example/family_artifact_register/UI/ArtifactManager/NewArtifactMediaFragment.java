@@ -100,7 +100,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                     for (MediaFile imageFile : mediaFiles) {
                         Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
                         Uri image = Uri.fromFile(imageFile.getFile());
-                        ((NewArtifactActivity2)getActivity()).addData(image, TYPE_IMAGE);
+                        ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
                     }
                     // next images fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -112,7 +112,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                     for (MediaFile videoFile : mediaFiles) {
                         Log.d(TAG+"/EasyImage", "Video file returned: " + videoFile.getFile().toURI().toString());
                         Uri image = Uri.fromFile(videoFile.getFile());
-                        ((NewArtifactActivity2)getActivity()).addData(image, TYPE_VIDEO);
+                        ((MediaListener)getActivity()).addData(image, TYPE_VIDEO);
                     }
                     // next fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
