@@ -16,11 +16,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.MediaListener;
+import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class NewArtifactPreviewVideoFragment extends Fragment implements IFragment {
+public class NewArtifactPreviewVideoFragment extends Fragment implements IFragment, OnBackPressedListener {
     /**
      * class tag
      */
@@ -70,4 +72,10 @@ public class NewArtifactPreviewVideoFragment extends Fragment implements IFragme
     }
 
     public static NewArtifactPreviewVideoFragment newInstance() { return new NewArtifactPreviewVideoFragment(); }
+
+    // ************************************ implement interface ***********************************
+    @Override
+    public void onBackPressed() {
+        ((MediaListener)getActivity()).clearData();
+    }
 }

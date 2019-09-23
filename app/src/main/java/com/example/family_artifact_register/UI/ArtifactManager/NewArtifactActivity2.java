@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
+import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.List;
  * @time 2019-9-21 13:33:24
  * @description activity let user to upload new artifact
  */
-public class NewArtifactActivity2 extends AppCompatActivity {
+public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener {
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     FragmentManager fm;
@@ -52,15 +54,15 @@ public class NewArtifactActivity2 extends AppCompatActivity {
         // https://stackoverflow.com/a/30059647
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            clearData();
+            Fragment f = getSupportFragmentManager().findFragmentById(R.id.activity_new_artifact_main_view);
+            if (f instanceof OnBackPressedListener) {
+                ((OnBackPressedListener) f).onBackPressed();
+            }
+
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public List<Uri> getData() { return mediaData; }
-
-    public void clearData() { mediaData.clear(); }
 
     /**
      * take in data and compress it and record it in the activity
@@ -90,4 +92,9 @@ public class NewArtifactActivity2 extends AppCompatActivity {
     }
 
     // ************************************ implement interface ***********************************
+    @Override
+    public List<Uri> getData() { return mediaData; }
+
+    @Override
+    public void clearData() { mediaData.clear(); }
 }

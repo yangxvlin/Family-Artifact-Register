@@ -15,6 +15,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.MediaListener;
+import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import pl.aprilapps.easyphotopicker.ChooserType;
@@ -26,7 +28,7 @@ import pl.aprilapps.easyphotopicker.MediaSource;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
-public class NewArtifactMediaFragment extends Fragment implements IFragment {
+public class NewArtifactMediaFragment extends Fragment implements IFragment, OnBackPressedListener {
     /**
      * class tag
      */
@@ -132,5 +134,11 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
                 //Not necessary to remove any files manually anymore
             }
         });
+    }
+
+    // ************************************ implement interface ***********************************
+    @Override
+    public void onBackPressed() {
+        ((MediaListener)getActivity()).clearData();
     }
 }
