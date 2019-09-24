@@ -13,10 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
@@ -39,6 +41,8 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
 
     private EasyImage easyImage;
 
+    private Fragment uploadLocationFragment;
+
     public NewArtifactMediaFragment() {
         // required empty constructor
     }
@@ -53,6 +57,13 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.new_artifact);
+
+        // upload location fragment location
+        uploadLocationFragment = CurrentLocationFragment.newInstance();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_new_artifact_media_upload_location, uploadLocationFragment)
+                .commit();
 
         easyImage = new EasyImage.Builder(getContext())
                 // Chooser only
