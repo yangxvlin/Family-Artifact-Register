@@ -12,12 +12,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
+import com.example.family_artifact_register.UI.Util.HappenedTimeListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ import java.util.List;
  * @time 2019-9-21 13:33:24
  * @description activity let user to upload new artifact
  */
-public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener, DescriptionListener {
+public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener, DescriptionListener, HappenedTimeListener {
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
@@ -37,6 +39,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     private String description;
 
     private int mediaType;
+
+    private Calendar happenedTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,4 +118,10 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     @Override
     public void clearDescription() { description = ""; }
+
+    @Override
+    public Calendar getHappenedTimeCalender() { return this.happenedTime; }
+
+    @Override
+    public void setHappenedTimeCalender(Calendar calender) { this.happenedTime = calender; }
 }
