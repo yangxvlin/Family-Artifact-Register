@@ -1,10 +1,8 @@
 package com.example.family_artifact_register.PresentationLayer.SocialPresenter;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 
 import java.util.ArrayList;
 

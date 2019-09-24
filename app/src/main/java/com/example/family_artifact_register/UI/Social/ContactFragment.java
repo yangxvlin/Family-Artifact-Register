@@ -11,27 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.lifecycle.ViewModelStore;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SortedList;
 
 import com.example.family_artifact_register.FakeDB;
-import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class ContactFragment extends Fragment implements IFragment {
     /**
