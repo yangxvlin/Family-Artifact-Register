@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class HubFragment extends Fragment implements IFragment {
 
     RecyclerView mRecyclerView;
-    HubModelAdapter mHubModelAdapter;
     LinearLayoutManager layoutManager;
     RecyclerView.Adapter adapter;
     DividerItemDecoration divider;
