@@ -63,7 +63,7 @@ public class NewArtifactPreviewVideoFragment extends Fragment implements IFragme
 
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_preview_video_floating_button_confirm);
         confirm.setOnClickListener(view1 -> {
-            HappenedTimeFragment happenedTime = HappenedTimeFragment.newInstance();
+            NewArtifactHappenedTimeFragment happenedTime = NewArtifactHappenedTimeFragment.newInstance();
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.addToBackStack("next");
             fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);

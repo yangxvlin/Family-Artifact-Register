@@ -18,15 +18,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class HappenedTimeFragment extends Fragment implements IFragment {
+public class NewArtifactHappenedTimeFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
-    public static final String TAG = HappenedTimeFragment.class.getSimpleName();
+    public static final String TAG = NewArtifactHappenedTimeFragment.class.getSimpleName();
 
     Calendar happenedTime;
 
-    public HappenedTimeFragment() {
+    public NewArtifactHappenedTimeFragment() {
         // required empty constructor
     }
 
@@ -58,5 +58,5 @@ public class HappenedTimeFragment extends Fragment implements IFragment {
         });
     }
 
-    public static HappenedTimeFragment newInstance() { return new HappenedTimeFragment(); }
+    public static NewArtifactHappenedTimeFragment newInstance() { return new NewArtifactHappenedTimeFragment(); }
 }
