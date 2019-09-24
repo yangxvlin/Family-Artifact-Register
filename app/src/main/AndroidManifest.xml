@@ -64,6 +64,9 @@
         <activity android:name=".UI.Social.FriendDetailActivity"
             android:parentActivityName=".UI.Social.FriendActivity"
             />
+        <activity android:name=".UI.Social.NewFriendDetailActivity"
+            android:parentActivityName=".UI.Social.FriendSearchActivity"
+            />
         <activity android:name=".UI.Social.FriendSearchActivity"
             android:parentActivityName=".UI.Social.FriendDetailActivity"
             />

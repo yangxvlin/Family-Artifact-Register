@@ -82,12 +82,15 @@
 <!--            android:paddingStart="70dp"/>-->
 
         <TextView
-            android:id="@+id/function"
+            android:id="@+id/send_message"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="Send Message"
             android:textSize="25sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"/>
 
     </RelativeLayout>
 

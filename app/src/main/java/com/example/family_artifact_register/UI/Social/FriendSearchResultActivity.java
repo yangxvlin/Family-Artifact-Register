@@ -81,9 +81,8 @@ public class FriendSearchResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String value = textView.getText().toString();
-                Intent i = new Intent(view.getContext(), FriendDetailActivity.class);
+                Intent i = new Intent(view.getContext(), NewFriendDetailActivity.class);
                 i.putExtra("key", value);
-                i.putExtra("new friend", "");
                 startActivity(i);
             }
         }

@@ -5,19 +5,33 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SortedList;
 
+import com.example.family_artifact_register.FakeDB;
+import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.IFragment;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ContactFragment extends Fragment implements IFragment {
     /**
@@ -27,8 +41,10 @@ public class ContactFragment extends Fragment implements IFragment {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
+    private FriendListAdapter adapter;
     private DividerItemDecoration divider;
+
+    private ContactViewModel contactModel;
 
     public ContactFragment() {
         // Required empty public constructor
@@ -39,11 +55,12 @@ public class ContactFragment extends Fragment implements IFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-        ArrayList<String> dataSet = new ArrayList<>();
+        ArrayList<String> dataSet = FakeDB.getInstance();
 
-        // fake data for testing use only
-        String[] friends = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
-        Collections.addAll(dataSet, friends);
+//        // fake data for testing use only
+//        String[] friends = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
+//
+//        Collections.addAll(dataSet, friends);
 
         setupRecyclerView(view, dataSet);
 
@@ -52,6 +69,10 @@ public class ContactFragment extends Fragment implements IFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), FriendSearchActivity.class));
+//                // for testing that the observation works
+//                ArrayList<String> data = new ArrayList<>();
+//                data.add("xxx");
+//                contactModel.getContact().setValue(data);
             }
         });
 
@@ -66,6 +87,19 @@ public class ContactFragment extends Fragment implements IFragment {
                 }
             }
         });
+
+        contactModel = ViewModelProviders.of(this).get(ContactViewModel.class);
+
+        Observer<ArrayList<String>> contactObserver = new Observer<ArrayList<String>>() {
+            @Override
+            public void onChanged(ArrayList<String> newData) {
+                System.out.println("######################################");
+                // when there is a change in the friend list, give the new one to list adapter
+                adapter.setData(newData);
+            }
+        };
+
+        contactModel.getContact().observe(this, contactObserver);
 
         return view;
     }
@@ -92,5 +126,91 @@ public class ContactFragment extends Fragment implements IFragment {
 
     @Override
     public String getFragmentTag() { return TAG; }
-}
 
+
+    public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListViewModel> {
+
+        private ArrayList<String> dataSet;
+
+        public class FriendListViewModel extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            public TextView textView;
+            public ImageView imageView;
+
+            public FriendListViewModel(View itemView) {
+                super(itemView);
+                itemView.setOnClickListener(this);
+                this.textView = itemView.findViewById(R.id.username);
+                this.imageView = itemView.findViewById(R.id.avatar);
+            }
+
+            @Override
+            public void onClick(View view) {
+                String value = textView.getText().toString();
+                Intent i = new Intent(view.getContext(), NewFriendDetailActivity.class);
+                i.putExtra("key", value);
+                startActivity(i);
+            }
+        }
+
+        public FriendListAdapter(ArrayList<String> dataSet) { this.dataSet = dataSet; }
+
+        @NonNull
+        @Override
+        public FriendListAdapter.FriendListViewModel onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
+            return new FriendListViewModel(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewModel holder, int position) {
+            holder.textView.setText(dataSet.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataSet.size();
+        }
+
+        public void setData(ArrayList<String> newData) {
+            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
+
+            dataSet.clear();
+            dataSet.addAll(newData);
+            diffResult.dispatchUpdatesTo(this);
+        }
+
+        // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview
+        class StringDiffCallBack extends DiffUtil.Callback {
+
+            private ArrayList<String> newList;
+            private ArrayList<String> oldList;
+
+            public StringDiffCallBack(ArrayList<String> oldList, ArrayList<String> newList) {
+                this.oldList= oldList;
+                this.newList= newList;
+            }
+
+            @Override
+            public int getOldListSize() {
+                return oldList.size();
+            }
+
+            @Override
+            public int getNewListSize() {
+                return newList.size();
+            }
+
+            @Override
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                return true;
+            }
+
+            @Override
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+            }
+        }
+    }
+}
