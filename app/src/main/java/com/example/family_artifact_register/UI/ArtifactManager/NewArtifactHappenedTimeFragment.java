@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
@@ -55,6 +56,10 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_happened_time_floating_button_confirm);
         confirm.setOnClickListener(view1 -> {
             ((HappenedTimeListener)getActivity()).setHappenedTimeCalender(happenedTime);
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.addToBackStack("next");
+            fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactHappenedLocationFragment.newInstance());
+            fragmentTransaction.commit();
         });
     }
 
