@@ -11,6 +11,7 @@
         android:id="@+id/fragment_new_artifact_preview_video_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:layout_gravity="center_horizontal"
     />
 
 
