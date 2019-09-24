@@ -33,7 +33,10 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="DatePicker" pparent="AppTheme">
+    <style name="DatePicker" parent="AppTheme">
         <item name="android:colorAccent">@color/primaryDarkColor</item>
+        <item name="selectableItemBackground">@color/primaryDarkColor</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textSize">50sp</item>
     </style>
 </resources>
