@@ -12,11 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -36,10 +35,12 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      */
     public static final String TAG = MapDisplayFragment.class.getSimpleName();
     static final String LOCATIONS = "locations";
+    static final String STATIC = "static";
     // Stores the map object to be operated
     GoogleMap mMap;
     // Stores the locations to be displayed on screen
     private List<MyLocation> locations = new ArrayList<>();
+    private boolean isStatic = false;
     // MapView the current fragment is operating on
     private MapView mapView;
 
@@ -53,14 +54,38 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
-     * parameters.
+     * parameters. The map is by default interactive.
      * @param locations The locations to be displayed on the google map
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(List<MyLocation> locations) {
+        return MapDisplayFragment.newInstance(locations, false);
+    }
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters. The points to be displayed is by default empty
+     * @param staticMap If the map is static (limited interaction)
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance(boolean staticMap) {
+        return MapDisplayFragment.newInstance(new ArrayList<>(), staticMap);
+    }
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters.
+     * @param locations The locations to be displayed on the google map
+     * @param staticMap If the map displayed should be static (limited interaction)
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance(List<MyLocation> locations, boolean staticMap) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
+        bundle.putBoolean(STATIC, staticMap);
         bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
@@ -73,12 +98,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance() {
-        MapDisplayFragment fragment = new MapDisplayFragment();
-        Bundle bundle = new Bundle();
-        List<MyLocation> locations = new ArrayList<>();
-        bundle.putSerializable(LOCATIONS, (Serializable) locations);
-        fragment.setArguments(bundle);
-        return fragment;
+        return MapDisplayFragment.newInstance(new ArrayList<>(), false);
     }
 
     @Override
@@ -86,6 +106,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.locations = (List<MyLocation>) this.getArguments().get(LOCATIONS);
+            this.isStatic = (Boolean) this.getArguments().get(STATIC);
         }
     }
 
@@ -100,6 +121,10 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     public void onViewCreated (View view, Bundle savedInstanceState) {
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
+        // TODO Make it possbile to use lite map view, google map
+        if (isStatic) {
+            GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+        }
         mapView.onResume();
         mapView.getMapAsync(this);
     }
@@ -175,7 +200,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      * fragments contained in that activity.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // TODO update this fragment listen to set locations in MapDisplayActivity
         void onFragmentInteraction(Uri uri);
     }
 }

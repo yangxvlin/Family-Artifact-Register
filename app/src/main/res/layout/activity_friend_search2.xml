@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+<!--    <androidx.appcompat.widget.SearchView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        app:queryHint="Search new friend"-->
+<!--        app:iconifiedByDefault="false"/>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/friend_search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="search icon"
+            android:src="@drawable/search_icon"
+            android:tint="#000000"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"/>
+
+        <EditText
+            style="@style/FriendSearchBoxStyle"
+            android:id="@+id/search_edit_text"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Search username"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
+            android:layout_toEndOf="@id/friend_search_icon"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/search_text_input"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:hint="Search new friend"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginEnd="25dp"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:layout_toEndOf="@id/friend_search_icon">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/search_edit_text"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:imeOptions="actionSearch"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:maxLines="1"-->
+<!--                android:inputType="text"/>-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+    </RelativeLayout>
+
+    <include layout="@layout/small_divider"/>
+
+</LinearLayout>

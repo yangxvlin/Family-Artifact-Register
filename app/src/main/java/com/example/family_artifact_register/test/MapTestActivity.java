@@ -9,17 +9,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.Toolbar;
 
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MyLocation;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
@@ -46,6 +47,13 @@ public class MapTestActivity extends AppCompatActivity {
 
         // Initialize the SDK
         Places.initialize(this, getString(R.string.google_api_key));
+
+        // Get bottom bar
+        CurrentLocationFragment currentLocationFragment = CurrentLocationFragment.newInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.current_location_test, currentLocationFragment)
+                .commit();
 
         List<MyLocation> myLocations = new ArrayList<>();
         mContentView = findViewById(R.id.fullscreen_content);

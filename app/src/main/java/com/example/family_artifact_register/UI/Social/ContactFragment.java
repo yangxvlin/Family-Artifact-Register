@@ -1,10 +1,12 @@
 package com.example.family_artifact_register.UI.Social;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +46,26 @@ public class ContactFragment extends Fragment implements IFragment {
         Collections.addAll(dataSet, friends);
 
         setupRecyclerView(view, dataSet);
+
+        FloatingActionButton fab = view.findViewById(R.id.friend_list_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), FriendSearchActivity.class));
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0) {
+                    fab.hide();
+                }
+                else if(dy < 0) {
+                    fab.show();
+                }
+            }
+        });
 
         return view;
     }
