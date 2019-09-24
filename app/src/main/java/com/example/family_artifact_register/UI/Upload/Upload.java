@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.Post;
+package com.example.family_artifact_register.UI.Upload;
 
 public class Upload {
     private String mName;

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.IFragment;
-import com.example.family_artifact_register.UI.Post.PostActivity;
+import com.example.family_artifact_register.UI.Upload.PostActivity;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
