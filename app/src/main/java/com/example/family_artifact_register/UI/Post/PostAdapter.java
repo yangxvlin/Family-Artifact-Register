@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Upload.PostActivity;
 import com.example.family_artifact_register.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +46,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Post post = mPost.get(position);
+
+        Glide.with(mContext).load(post.getPostimage()).into(holder.mPostImage);
+
+        if (post.getDescription().equals("")){
+            holder.mDescrption.setVisibility(View.GONE);
+        } else {
+            holder.mDescrption.setVisibility(View.VISIBLE);
+            holder.mDescrption.setText(post.getDescription());
+        }
+
+        publisherInfo(holder.mAvatar, holder.mUsername, holder.mPublisher, post.getPublisher());
 
     }
 
