@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
 abstract class BasePlacesFragment extends Fragment implements IFragment {
@@ -27,8 +28,10 @@ abstract class BasePlacesFragment extends Fragment implements IFragment {
             // To do: Might use in the future
             // this.listener = (FragmentActivity) context;
 
-            // Initialize the SDK
-            Places.initialize(getActivity(), getString(R.string.google_api_key));
+            if (!Places.isInitialized()) {
+                // Initialize the SDK
+                Places.initialize(getActivity(), getString(R.string.google_api_key));
+            }
             /*
               Initialize Places. For simplicity, the API key is hard-coded.
              */
