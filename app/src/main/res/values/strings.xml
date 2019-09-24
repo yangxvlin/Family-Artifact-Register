@@ -66,8 +66,9 @@
     <string name="artifact_description_input">Your Artifact\'s Description:</string>
     <string name="artifact_happened_title">Artifact Happened</string>
     <string name="delete">Delete</string>
-
+    <string name="preview_image">Preview and Add Image</string>
     <string name="new_artifact_activity_proceed_next_hint">At least one image/video to proceed.</string>
+    <string name="not_enough_image_warning">At least one image to continue.</string>
 
 
     <!-- map location related service -->

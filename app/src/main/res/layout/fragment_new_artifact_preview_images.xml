@@ -32,6 +32,15 @@
             android:src="@drawable/image_button"
             android:layout_margin="16dp"
             />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fragment_new_artifact_preview_images_floating_button_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/next_button"
+            android:layout_margin="16dp"
+            />
     </LinearLayout>
 
     <GridView

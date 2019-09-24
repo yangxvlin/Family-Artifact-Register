@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.example.family_artifact_register"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -118,7 +118,7 @@ dependencies {
     // photo & video take
     // https://github.com/jkwiecien/EasyImage
     implementation 'com.github.jkwiecien:EasyImage:3.0.3'
-    // photo & video compress
+    // photo & video compress, only image part used
     // https://github.com/Tourenathan-G5organisation/SiliCompressor
     implementation 'com.iceteck.silicompressorr:silicompressor:2.2.2'
 
@@ -126,6 +126,10 @@ dependencies {
     //Third party
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+    // ******************************************************************************************
+    // https://github.com/GrenderG/Toasty
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
 
 }
 

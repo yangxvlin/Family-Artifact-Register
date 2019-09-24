@@ -44,7 +44,7 @@ import java.util.Objects;
 import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
 import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
-import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.getCompressImageOption;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.getCompressImageOption;
 
 /**
  * @author XuLin Yang 904904,
