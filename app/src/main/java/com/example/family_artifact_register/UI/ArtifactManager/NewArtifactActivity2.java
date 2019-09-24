@@ -36,6 +36,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     private String description;
 
+    private int mediaType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,11 +93,18 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         Log.i(TAG, "added data: "+data.getPath() + " with cur size = " + mediaData.size());
     }
 
+
     @Override
     public List<Uri> getData() { return mediaData; }
 
     @Override
     public void clearData() { mediaData.clear(); }
+
+    @Override
+    public void setMediaType(int type) { mediaType = type; }
+
+    @Override
+    public int getMediaType() { return mediaType; }
 
     @Override
     public void setDescription(String description) { this.description = description; }

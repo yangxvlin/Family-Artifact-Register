@@ -109,6 +109,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                         Uri image = Uri.fromFile(imageFile.getFile());
                         ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
                     }
+                    ((MediaListener)getActivity()).setMediaType(TYPE_IMAGE);
                     // next images fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
@@ -121,6 +122,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                         Uri image = Uri.fromFile(videoFile.getFile());
                         ((MediaListener)getActivity()).addData(image, TYPE_VIDEO);
                     }
+                    ((MediaListener)getActivity()).setMediaType(TYPE_VIDEO);
                     // next fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
