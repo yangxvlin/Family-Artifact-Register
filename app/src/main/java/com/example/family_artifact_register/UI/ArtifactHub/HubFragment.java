@@ -67,7 +67,7 @@ public class HubFragment extends Fragment implements IFragment {
 
     private void setupRecyclerView(View view, ArrayList<Model> myList) {
         // get the view
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -93,43 +93,43 @@ public class HubFragment extends Fragment implements IFragment {
     private ArrayList<Model> getMyList(){
         ArrayList<Model> models = new ArrayList<Model>();
         Model m = new Model();
-        m.setUsername("Username1");
-        m.setTitle("This is Art1");
+        m.setUsername("Dudu");
         m.setDescription("This is Art1 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.my_logo);
+        m.setPublisher("Liguo Chen");
         models.add(m);
 
         m = new Model();
-        m.setUsername("Username2");
-        m.setTitle("This is Art2");
+        m.setUsername("Peter");
         m.setDescription("This is Art2 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.my_logo);
+        m.setPublisher("Liguo Chen");
         models.add(m);
 
         m = new Model();
-        m.setUsername("Username3");
-        m.setTitle("This is Art3");
+        m.setUsername("Calvin");
         m.setDescription("This is Art3 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.my_logo);
+        m.setPublisher("Zhuoqun Huang");
         models.add(m);
 
         m = new Model();
-        m.setUsername("Username4");
-        m.setTitle("This is Art4");
+        m.setUsername("George");
         m.setDescription("This is Art4 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.my_logo);
+        m.setPublisher("Haichao Song");
         models.add(m);
 
         m = new Model();
-        m.setUsername("Username5");
-        m.setTitle("This is Art5");
+        m.setUsername("Genius");
         m.setDescription("This is Art5 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.my_logo);
+        m.setPublisher("Richard");
         models.add(m);
 
         return models;
