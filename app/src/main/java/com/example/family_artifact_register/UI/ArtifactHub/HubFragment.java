@@ -43,7 +43,7 @@ public class HubFragment extends Fragment implements IFragment {
         View view = inflater.inflate(R.layout.fragment_hub, container, false);
         setupRecyclerView(view, getMyList());
 
-        FloatingActionButton fab = view.findViewById(R.id.friend_list_fab);
+        FloatingActionButton fab = view.findViewById(R.id.hub_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

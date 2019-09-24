@@ -105,18 +105,20 @@ public class PostActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
                         myUri = task.toString();
+                        String myUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("posts");
+                        DatabaseReference reference = FirebaseDatabase.getInstance()
+                                .getReference("posts");
 
-                        String postid = reference.push().getKey();
+                        String postid = reference.child(myUser).push().getKey();
 
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("postid", postid);
                         hashMap.put("postimage", myUri);
                         hashMap.put("description", description.getText().toString());
-                        hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        hashMap.put("publisher", myUser);
 
-                        reference.child(postid).setValue(hashMap);
+                        reference.child(myUser).child(postid).setValue(hashMap);
 
                         progressDialog.dismiss();
 
