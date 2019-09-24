@@ -1,7 +1,6 @@
 package com.example.family_artifact_register.UI.Post;
 
 import android.os.Bundle;
-import android.service.autofill.Dataset;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactHub.HubModelAdapter;
-import com.example.family_artifact_register.UI.ArtifactHub.Model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -120,5 +117,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    public static HomeFragment newInstance() { return new HomeFragment(); }
 
 }
