@@ -30,7 +30,7 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/primaryTextColor"
                 android:text="username">
             </TextView>
 
@@ -53,7 +53,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_like"
-                android:tint="@color/colorPrimaryDark">
+                android:tint="@color/primaryTextColor">
             </ImageView>
 
             <ImageView
@@ -63,7 +63,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/like"
                 android:src="@drawable/ic_comment"
-                android:tint="@color/colorPrimaryDark">
+                android:tint="@color/primaryTextColor">
 
             </ImageView>
 
@@ -73,7 +73,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_savee_black"
-                android:tint="@color/colorPrimaryDark">
+                android:tint="@color/primaryTextColor">
 
             </ImageView>
 
@@ -86,7 +86,7 @@
             android:textStyle="bold"
             android:id="@+id/likes"
             android:text="10 likes"
-            android:textColor="@color/colorPrimaryDark">
+            android:textColor="@color/primaryTextColor">
 
         </TextView>
 
@@ -97,7 +97,7 @@
             android:textStyle="bold"
             android:id="@+id/publisher"
             android:text="publisher"
-            android:textColor="@color/colorPrimaryDark">
+            android:textColor="@color/primaryTextColor">
 
         </TextView>
 
@@ -108,7 +108,7 @@
             android:textStyle="bold"
             android:id="@+id/description"
             android:text="description"
-            android:textColor="@color/colorPrimaryDark">
+            android:textColor="@color/primaryTextColor">
 
         </TextView>
 
@@ -120,7 +120,7 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/comments"
             android:text="View All 20 Comments"
-            android:textColor="@color/colorAccent">
+            android:textColor="@color/primaryLightColor">
 
         </TextView>
 

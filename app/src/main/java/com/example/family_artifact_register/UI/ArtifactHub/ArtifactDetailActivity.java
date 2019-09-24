@@ -26,7 +26,7 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTitleTv = findViewById(R.id.title);
+        mTitleTv = findViewById(R.id.publisher);
         mDescTv = findViewById(R.id.desc);
         mUserTv = findViewById(R.id.user);
         mImageIv = findViewById(R.id.imageIv);
