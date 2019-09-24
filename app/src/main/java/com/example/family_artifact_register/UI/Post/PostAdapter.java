@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Upload.PostActivity;
-import com.firebase.ui.auth.data.model.User;
+import com.example.family_artifact_register.User;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,8 +83,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
+                Glide.with(mContext).load(user.getAvatar()).into(avatar);
+                username.setText(user.getUsername());
+                publisher.setText(user.getUsername());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
