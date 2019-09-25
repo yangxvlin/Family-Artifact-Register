@@ -2,6 +2,7 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 
 import android.util.Log;
 
+import com.example.family_artifact_register.FoundationLayer.DBConstant;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class UserManager {
@@ -21,8 +23,20 @@ public class UserManager {
         }
         return instance;
     }
-    private Map<String, UserInfo> userInfoMap = new HashMap<>();
+
+    /**
+     * A static map storing all retrieved user information
+     */
+    private static Map<String, UserInfo> userInfoMap = new HashMap<>();
+
+    /**
+     * The particular user that's using the app
+     */
     private String uid;
+
+    /**
+     * The database used.
+     */
     private FirebaseFirestore db;
 
     private UserManager() {
@@ -30,26 +44,26 @@ public class UserManager {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void getUserInfo(String id, Callback<UserInfo> callback) {
-        if (userInfoMap.containsKey(id)) {
-            if (callback != null) callback.callback(userInfoMap.get(id));
+    public void getUserInfo(String uid, Callback<UserInfo> callback) {
+        if (userInfoMap.containsKey(uid)) {
+            if (callback != null) callback.callback(userInfoMap.get(uid));
             return;
         }
 
-        db.collection("users").document(id).get().addOnCompleteListener(task -> {
+        db.collection("users").document(uid).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot doc = task.getResult();
                 if (doc.exists()) {
                     UserInfo userInfo;
-                    if (userInfoMap.containsKey(id)) {
-                        userInfo = userInfoMap.get(id);
+                    if (userInfoMap.containsKey(uid)) {
+                        userInfo = userInfoMap.get(uid);
                     } else {
                         userInfo = doc.toObject(UserInfo.class);
-                        userInfoMap.put(id, userInfo);
+                        userInfoMap.put(uid, userInfo);
                     }
                     if (callback!=null) callback.callback(userInfo);
                 } else {
-                    Log.d(TAG,"get failed: user not exists " + id);
+                    Log.d(TAG,"get failed: user not exists " + uid);
                 }
             } else {
                 Log.d(TAG, task.getException() + " get failed with ");
@@ -57,26 +71,40 @@ public class UserManager {
         });
     }
 
-    public void getUserInfo(ArrayList<String> ids,
+    /**
+     * Get Detailed user information of some users
+     * @param uids list of user id
+     * @param callback
+     */
+    public void getUserInfo(List<String> uids,
                             Callback<Map<String, UserInfo>> callback) {
         Map<String, UserInfo> res = new HashMap<>();
-        for (String id: new HashSet<>(ids)) {
-            getUserInfo(id, info -> {
-                res.put(id, info);
-                if (res.size()==ids.size()) {
+        for (String uid: new HashSet<>(uids)) {
+            getUserInfo(uid, info -> {
+                res.put(uid, info);
+                if (res.size()==uids.size()) {
                     callback.callback(res);
                 }
             });
         }
     }
 
-    public void warmCache(ArrayList<String> ids) {
-        for (String id: ids) {
-            getUserInfo(id,null);
+    /**
+     * Preload the Cache with a list of user id and their info
+     * @param uids The list of uid the user is loading
+     */
+    public void warmCache(ArrayList<String> uids) {
+        for (String uid: uids) {
+            getUserInfo(uid,null);
         }
     }
 
     public interface Callback<T> {
         void callback(T t);
+    }
+
+    public void storeUserInfo(UserInfo userInfo) {
+        String uid = userInfo.getUid();
+        db.collection(DBConstant.USERS).document(uid).set(userInfo);
     }
 }

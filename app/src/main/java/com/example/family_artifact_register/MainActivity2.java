@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.FoundationLayer.UserModel.FirebaseAuthHelper;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserManager;
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
@@ -191,6 +192,7 @@ public class MainActivity2 extends AppCompatActivity {
                                                     .userFromFirebaseUser(
                                                             firebaseUser
                                                     );
+                                            UserManager.getInstance().storeUserInfo(userInfo);
                                         }
                                     } else {
                                         Log.d(TAG, "get failed with ", task.getException());
