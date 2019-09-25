@@ -140,7 +140,7 @@ public class MainActivity2 extends AppCompatActivity {
         mAuthStateListner = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user!=null) {
-                Toast.makeText(this, "UserInfo Signed In", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
             }
             else {
                 startActivityForResult(
@@ -186,7 +186,7 @@ public class MainActivity2 extends AppCompatActivity {
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                             UserInfo userInfo = document.toObject(UserInfo.class);
                                         } else {
-                                            Log.d(TAG, "No such userInfo, adding to db");
+                                            Log.d(TAG, "No such user info, adding to db");
                                             UserInfo userInfo = FirebaseAuthHelper
                                                     .getInstance()
                                                     .userFromFirebaseUser(
