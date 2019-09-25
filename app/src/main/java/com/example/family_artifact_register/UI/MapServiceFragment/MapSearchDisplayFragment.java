@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,7 +47,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<MyLocation> locations) {
+    public static MapDisplayFragment newInstance(List<MapLocation> locations) {
         return MapDisplayFragment.newInstance(locations, false);
     }
 
@@ -69,7 +70,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<MyLocation> locations, boolean staticMap) {
+    public static MapDisplayFragment newInstance(List<MapLocation> locations, boolean staticMap) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(STATIC, staticMap);
@@ -87,7 +88,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
     public static MapSearchDisplayFragment newInstance() {
         MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
-        List<MyLocation> locations = new ArrayList<>();
+        List<MapLocation> locations = new ArrayList<>();
         bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
@@ -200,10 +201,10 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
         });
     }
 
-    public MyLocation getSelectedLocation() {
-        MyLocation location = null;
+    public MapLocation getSelectedLocation() {
+        MapLocation location = null;
         if (currentMarker != null) {
-            location = new MyLocation();
+            location = new MapLocation();
             location.setLongitude(currentMarker.getPosition().longitude);
             location.setLatitude(currentMarker.getPosition().latitude);
         }

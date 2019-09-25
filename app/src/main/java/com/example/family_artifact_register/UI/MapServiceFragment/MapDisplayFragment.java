@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -38,7 +40,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     // Stores the map object to be operated
     GoogleMap mMap;
     // Stores the locations to be displayed on screen
-    private List<MyLocation> locations = new ArrayList<>();
+    private List<MapLocation> locations = new ArrayList<>();
     private boolean isStatic = false;
     // MapView the current fragment is operating on
     private MapView mapView;
@@ -58,7 +60,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<MyLocation> locations) {
+    public static MapDisplayFragment newInstance(List<MapLocation> locations) {
         return MapDisplayFragment.newInstance(locations, false);
     }
 
@@ -81,7 +83,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<MyLocation> locations, boolean staticMap) {
+    public static MapDisplayFragment newInstance(List<MapLocation> locations, boolean staticMap) {
         MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(STATIC, staticMap);
@@ -104,7 +106,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.locations = (List<MyLocation>) this.getArguments().get(LOCATIONS);
+            this.locations = (List<MapLocation>) this.getArguments().get(LOCATIONS);
 
             Object argStatic = this.getArguments().get(STATIC);
             if (argStatic == null) {
@@ -134,15 +136,15 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         mapView.getMapAsync(this);
     }
 
-    public void setDisplayLocations(List<MyLocation> locations) {
+    public void setDisplayLocations(List<MapLocation> locations) {
         this.locations = locations;
-        for (MyLocation myLocation:locations) {
-            Log.i(TAG, myLocation.toString());
+        for (MapLocation mapLocation :locations) {
+            Log.i(TAG, mapLocation.toString());
         }
         displayLocations();
     }
 
-    public List<MyLocation> getLocations() {
+    public List<MapLocation> getLocations() {
         return locations;
     }
 
@@ -154,12 +156,13 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         if (mMap != null && locations != null && locations.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
-            for (MyLocation myLocation: this.locations) {
+            for (MapLocation mapLocation : this.locations) {
                 // TODO can build map (with icon) here
                 markers.add(mMap.addMarker(new MarkerOptions()
-                        .position(myLocation.getLatLng())
-                        .title(myLocation.getName())
-                        .snippet(myLocation.getAddress())));
+                        .position(new LatLng(mapLocation.getLatitude(),
+                                mapLocation.getLongitude()))
+                        .title(mapLocation.getName())
+                        .snippet(mapLocation.getAddress())));
             }
             CameraUpdate cu = MarkerZoomStrategyFactory
                     .getMarkerZoomStrategyFactory()

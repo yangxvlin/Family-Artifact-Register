@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
@@ -199,12 +200,12 @@ public class CurrentLocationFragment extends BasePlacesFragment {
         }
     }
 
-    public MyLocation getLocation() {
-        MyLocation location = null;
+    public MapLocation getLocation() {
+        MapLocation location = null;
         if (currentPlace != null) {
-            location = new MyLocation(currentPlace);
+            location = MapLocation.newInstance(currentPlace);
         } else {
-            location = new MyLocation();
+            location = new MapLocation();
         }
         return location;
     }
