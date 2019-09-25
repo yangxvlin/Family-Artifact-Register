@@ -131,6 +131,10 @@ dependencies {
     // https://github.com/GrenderG/Toasty
     implementation 'com.github.GrenderG:Toasty:1.4.2'
 
+    // ******************************************************************************************
+    // timeline
+    // https://github.com/vipulasri/Timeline-View
+    implementation 'com.github.vipulasri:timelineview:1.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
