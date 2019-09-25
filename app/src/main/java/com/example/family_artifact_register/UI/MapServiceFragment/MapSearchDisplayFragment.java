@@ -84,7 +84,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance() {
+    public static MapSearchDisplayFragment newInstance() {
         MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
         List<MyLocation> locations = new ArrayList<>();
