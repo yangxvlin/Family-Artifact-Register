@@ -35,6 +35,30 @@ public class MeFragmentPresenter {
         res.add(new ArtifactItem(1, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
                 new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
                 "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(2, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(3, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(4, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(5, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(6, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(7, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(8, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
+        res.add(new ArtifactItem(9, new ArrayList<>(), new ArrayList<>(), "2019-9-21 17:02:33",
+                new MapLocation(), new MapLocation(), new MapLocation(), timeline1,
+                "description2", "2019-9-21 17:02:44"));
         return res;
     }
 

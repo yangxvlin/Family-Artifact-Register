@@ -2,14 +2,13 @@ package com.example.family_artifact_register.UI.MapServiceFragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.R;
 import com.google.android.gms.common.api.Status;
@@ -85,8 +84,8 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance() {
-        MapDisplayFragment fragment = new MapDisplayFragment();
+    public static MapSearchDisplayFragment newInstance() {
+        MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
         List<MyLocation> locations = new ArrayList<>();
         bundle.putSerializable(LOCATIONS, (Serializable) locations);
@@ -145,9 +144,13 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
                 // Setting the position for the marker
                 markerOptions.position(latLng);
 
-                // Setting the title for the marker.
+                // Setting the snippet for the marker.
                 // This will be displayed on taping the marker
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                markerOptions.snippet(latLng.latitude + " : " + latLng.longitude);
+
+                // add user's search text to marker
+                // by XuLin Yang
+                markerOptions.title(place.getName());
 
                 // Clears the previously touched position
                 mMap.clear();
@@ -179,9 +182,12 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             // Setting the position for the marker
             markerOptions.position(latLng);
 
-            // Setting the title for the marker.
+            // Setting the snippet for the marker.
             // This will be displayed on taping the marker
-            markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+            markerOptions.snippet(latLng.latitude + " : " + latLng.longitude);
+
+            // TODO get the place name by latLng
+//            markerOptions.title();
 
             // Clears the previously touched position
             mMap.clear();
