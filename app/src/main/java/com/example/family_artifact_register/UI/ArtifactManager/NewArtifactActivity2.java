@@ -18,6 +18,7 @@ import com.example.family_artifact_register.UI.Util.HappenedTimeListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
+import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ import java.util.List;
 public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener,
         DescriptionListener,
         HappenedTimeListener,
-        HappenedLocationListener {
+        HappenedLocationListener,
+        StoredLocationListener {
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
@@ -48,6 +50,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     private Calendar happenedTime;
 
     private MapLocation happenedLocation;
+
+    private MapLocation storedLocation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,4 +141,10 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     @Override
     public MapLocation getHappenedLocation() { return this.happenedLocation; }
+
+    @Override
+    public void setStoredLocation(MapLocation storedLocation) { this.storedLocation = storedLocation; }
+
+    @Override
+    public MapLocation getStoredLocation() { return this.storedLocation; }
 }

@@ -26,7 +26,7 @@ public class NewArtifactHappenedLocationFragment extends Fragment implements IFr
      */
     public static final String TAG = NewArtifactHappenedLocationFragment.class.getSimpleName();
 
-    private MapSearchDisplayFragment mapDisplaySearchFragment;
+    private MapSearchDisplayFragment mapSearchDisplayFragment;
 
     public NewArtifactHappenedLocationFragment() {
         // required empty constructor
@@ -44,15 +44,15 @@ public class NewArtifactHappenedLocationFragment extends Fragment implements IFr
         getActivity().setTitle(R.string.artifact_where_happened_title);
 
         // search location fragment
-        this.mapDisplaySearchFragment = MapSearchDisplayFragment.newInstance();
+        this.mapSearchDisplayFragment = MapSearchDisplayFragment.newInstance();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_new_artifact_happened_location_main_view, mapDisplaySearchFragment)
+                .add(R.id.fragment_new_artifact_happened_location_main_view, mapSearchDisplayFragment)
                 .commit();
 
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_happened_location_floating_button_confirm);
         confirm.setOnClickListener(view1 -> {
-            MapLocation selectedLocation = mapDisplaySearchFragment.getSelectedLocation();
+            MapLocation selectedLocation = mapSearchDisplayFragment.getSelectedLocation();
             if (selectedLocation != null) {
                 // store location in NewArtifactActivity
                 ((HappenedLocationListener)getActivity()).setHappenedLocation(selectedLocation);
