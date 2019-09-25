@@ -118,8 +118,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:id="@+id/comments"
-            android:text="View All 20 Comments"
+            android:id="@+id/timeline"
+            android:text="View Artifact Timeline"
             android:textColor="@color/primaryLightColor">
 
         </TextView>
