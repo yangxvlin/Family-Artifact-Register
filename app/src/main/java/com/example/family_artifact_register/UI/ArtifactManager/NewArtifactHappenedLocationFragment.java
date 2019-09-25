@@ -15,6 +15,7 @@ import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import es.dmoral.toasty.Toasty;
@@ -49,13 +50,14 @@ public class NewArtifactHappenedLocationFragment extends Fragment implements IFr
                 .add(R.id.fragment_new_artifact_happened_location_main_view, mapDisplaySearchFragment)
                 .commit();
 
-        // to next fragment
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_happened_location_floating_button_confirm);
         confirm.setOnClickListener(view1 -> {
-//            ((HappenedTimeListener)getActivity()).setHappenedTimeCalender(happenedTime);
-            // TODO store location in NewArtifactActivity
             MapLocation selectedLocation = mapDisplaySearchFragment.getSelectedLocation();
             if (selectedLocation != null) {
+                // store location in NewArtifactActivity
+                ((HappenedLocationListener)getActivity()).setHappenedLocation(selectedLocation);
+
+                // to next fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack("next");
                 fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactStoredLocationFragment.newInstance());
