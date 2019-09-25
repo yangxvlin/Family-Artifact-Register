@@ -32,6 +32,7 @@ public class UserRepository {
     public LiveData<List<User>> getFriends() {
         return friends;
     }
+    public LiveData<User> getFriend(String username) { return userDAO.getUser(username); }
 
     // comment from codelab:
     // You must call this on a non-UI thread or your app will crash. Room ensures that you don't

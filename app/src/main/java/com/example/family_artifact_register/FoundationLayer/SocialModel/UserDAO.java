@@ -1,5 +1,7 @@
 package com.example.family_artifact_register.FoundationLayer.SocialModel;
 
+import android.view.LayoutInflater;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -21,6 +23,9 @@ public interface UserDAO {
 
     @Query("select * from user_table")
     LiveData<List<User>> getUsers();
+
+    @Query("select * from user_table where username  = :username")
+    LiveData<User> getUser(String username);
 
     @Insert
     void insertUser(User user);
