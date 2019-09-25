@@ -166,8 +166,8 @@ public class UserInfo implements Parcelable, Serializable {
     public String toString() {
         return String.format(
                 "uid: %s, displayName: %s, email: %s, phoneNumber: %s," +
-                        "photoUrl: %s", uid, displayName, email, phoneNumber,
-                photoUrl
+                        "photoUrl: %s",
+                uid, displayName, email, phoneNumber, photoUrl
         );
     }
 }

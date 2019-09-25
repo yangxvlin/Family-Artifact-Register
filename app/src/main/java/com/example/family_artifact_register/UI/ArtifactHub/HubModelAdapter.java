@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
  * @description Adapter for models recycler view
  */
 public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
+    public final static String TAG = HubModelAdapter.class.getSimpleName();
 
     Context c;
     ArrayList<Model> models;
@@ -43,9 +45,13 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
 
     @Override
     public void onBindViewHolder(@NotNull final HubModelHolder myHolder, int i) {
+        Log.i(TAG, String.format("%d, %d", i, models.size()));
         myHolder.mTitle.setText(models.get(i).getTitle());
         myHolder.mDes.setText(models.get(i).getDescription());
         myHolder.mImeaView.setImageResource(models.get(i).getImg());
+
+        Log.i(TAG, String.format("%s", models.get(i).toString()));
+        Log.i(TAG, String.format("%s", models.get(i).getAvatar()));
         myHolder.mAvatar.setImageResource(models.get(i).getAvatar());
         myHolder.mUsername.setText(models.get(i).getUsername());
 
