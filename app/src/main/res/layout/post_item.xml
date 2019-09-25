@@ -26,12 +26,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/displayName"
+                android:id="@+id/username"
                 android:layout_gravity="center_vertical"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="displayName">
+                android:text="username">
             </TextView>
 
         </LinearLayout>
