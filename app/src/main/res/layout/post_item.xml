@@ -19,19 +19,19 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:id="@+id/avatar"
+                android:id="@+id/photoUrl"
                 android:src="@mipmap/ic_launcher">
             </de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/username"
+                android:id="@+id/displayName"
                 android:layout_gravity="center_vertical"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="username">
+                android:text="displayName">
             </TextView>
 
         </LinearLayout>

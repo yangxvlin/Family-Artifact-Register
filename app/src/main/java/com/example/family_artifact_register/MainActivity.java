@@ -40,7 +40,7 @@ public class MainActivity extends BaseSignOutActionBarActivity {
         mAuthStateListner= firebaseAuth -> {
             FirebaseUser user=firebaseAuth.getCurrentUser();
             if (user!=null) {
-                Toast.makeText(MainActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "UserInfo Signed In", Toast.LENGTH_SHORT).show();
             }
             else {
                 startActivityForResult(

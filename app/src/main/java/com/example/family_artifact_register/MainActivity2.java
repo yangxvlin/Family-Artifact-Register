@@ -1,6 +1,8 @@
 package com.example.family_artifact_register;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,15 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.family_artifact_register.FoundationLayer.UserModel.FirebaseAuthHelper;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.maps.MapFragment;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +80,11 @@ public class MainActivity2 extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
 
     /**
+     * FireStore access point
+     */
+    private FirebaseFirestore mFirebaseFirestore;
+
+    /**
      * firebase request code
      */
     public static final int RC_SIGN_IN = 1;
@@ -123,10 +135,11 @@ public class MainActivity2 extends AppCompatActivity {
 
         // set firebase sign in layout
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseFirestore = FirebaseFirestore.getInstance();
         mAuthStateListner = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user!=null) {
-                Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "UserInfo Signed In", Toast.LENGTH_SHORT).show();
             }
             else {
                 startActivityForResult(
@@ -150,6 +163,46 @@ public class MainActivity2 extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
         fm.beginTransaction().add(R.id.main_view, contactFragment).hide(contactFragment).commit();
         fm.beginTransaction().add(R.id.main_view, hubFragment).commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = firebaseUser.getUid();
+                Task<DocumentSnapshot> userDocumentationTask = mFirebaseFirestore
+                        .collection("users")
+                        .document("uid").get().addOnCompleteListener(
+                                task -> {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                            UserInfo userInfo = document.toObject(UserInfo.class);
+                                        } else {
+                                            Log.d(TAG, "No such userInfo, adding to db");
+                                            UserInfo userInfo = FirebaseAuthHelper
+                                                    .getInstance()
+                                                    .userFromFirebaseUser(
+                                                            firebaseUser
+                                                    );
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                });
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+            }
+        }
     }
 
     @Override
