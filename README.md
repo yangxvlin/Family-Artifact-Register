@@ -1,5 +1,5 @@
 # Family-Artifact-Register
-[![Build Status](https://travis-ci.com/yangxvlin/Family-Artifact-Register.svg?uid=p9qqDGGpt9pGxmkHR8yq&branch=master)](https://travis-ci.com/yangxvlin/Family-Artifact-Register) ![GitHub repo size](https://img.shields.io/github/repo-size/yangxvlin/Family-Artifact-Register) ![GitHub](https://img.shields.io/github/license/yangxvlin/Family-Artifact-Register) ![](https://img.shields.io/badge/plaform-android-blue)
+[![Build Status](https://travis-ci.com/yangxvlin/Family-Artifact-Register.svg?token=p9qqDGGpt9pGxmkHR8yq&branch=master)](https://travis-ci.com/yangxvlin/Family-Artifact-Register) ![GitHub repo size](https://img.shields.io/github/repo-size/yangxvlin/Family-Artifact-Register) ![GitHub](https://img.shields.io/github/license/yangxvlin/Family-Artifact-Register) ![](https://img.shields.io/badge/plaform-android-blue)
 
 ## Contributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->

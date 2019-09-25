@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/avatar"
-        android:contentDescription="photoUrl"
+        android:contentDescription="avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/default_avatar_list"

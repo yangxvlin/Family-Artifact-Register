@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:id="@+id/photoUrl"
+            android:id="@+id/avatar"
             android:src="@mipmap/ic_launcher_round"
             android:layout_marginBottom="10dp">
         </ImageView>
@@ -31,8 +31,8 @@
             android:textSize="16dp"
             android:textColor="#000"
             android:textStyle="bold"
-            android:layout_toRightOf="@id/photoUrl"
-            android:layout_toEndOf="@id/photoUrl"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_toEndOf="@id/avatar"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             >
@@ -53,7 +53,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:src="@mipmap/ic_launcher"
-            android:layout_below="@id/photoUrl"
+            android:layout_below="@id/avatar"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp">
 
