@@ -4,8 +4,16 @@
 ## Contributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/yangxvlin" width="100px;" alt="XuLin Yang"/><br /><sub><b>XuLin Yang</b></sub>](https://www.linkedin.com/in/xulin-yang-a8566a13a/)<br />[💻](https://github.com/yangxvlin/Family-Artifact-Register/commits?author=yangxvlin "Code") | [<img src="https://avatars1.githubusercontent.com/chen-dudu" width="100px;" alt="LiGuo Chen"/><br /><sub><b>LiGuo Chen</b></sub>](https://github.com/chen-dudu)<br />[💻](https://github.com/yangxvlin/Family-Artifact-Register/commits?author=chen-dudu "Code") | [<img src="https://avatars2.githubusercontent.com/HaichaoS" width="100px;" alt="HaiChao Song"/><br /><sub><b>HaiChao Song</b></sub>](https://github.com/HaichaoS)<br />[💻](https://github.com/yangxvlin/Family-Artifact-Register/commits?author=HaichaoS "Code") | [<img src="https://avatars2.githubusercontent.com/Dovermore" width="100px;" alt="ZhuoQun Huang"/><br /><sub><b>ZhuoQun Huang</b></sub>](https://github.com/Dovermore)<br />[💻](https://github.com/yangxvlin/Family-Artifact-Register/commits?author=Dovermore "Code") |
-| :---: | :---: | :---: | :---: | 
+<table>
+  <tr>
+    <td align="center"><a href="https://www.linkedin.com/in/xulin-yang-a8566a13a/"><img src="https://avatars2.githubusercontent.com/yangxvlin" width="100px;" alt="XuLin Yang"/><br /><sub><b>XuLin Yang</b></sub></a><br /><a href="https://github.com/yangxvlin/Family-Artifact-Register/commits?author=xuliny" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/chen-dudu"><img src="https://avatars1.githubusercontent.com/chen-dudu" width="100px;" alt="LiGuo Chen"/><br /><sub><b>LiGuo Chen</b></sub></a><br /><a href="https://github.com/yangxvlin/Family-Artifact-Register/commits?author=chen-dudu" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/HaichaoS"><img src="https://avatars2.githubusercontent.com/HaichaoS" width="100px;" alt="HaiChao Song"/><br /><sub><b>HaiChao Song</b></sub></a><br /><a href="https://github.com/yangxvlin/Family-Artifact-Register/commits?author=HaiChaoS" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Dovermore"><img src="https://avatars2.githubusercontent.com/Dovermore" width="100px;" alt="ZhuoQun Huang"/><br /><sub><b>ZhuoQun Huang</b></sub></a><br /><a href="https://github.com/yangxvlin/Family-Artifact-Register/commits?author=Dovermore" title="Code">💻</a></td>
+    <td align="center"><a href="https://yangxvlin.github.io"><img src="https://avatars2.githubusercontent.com/u/26871369?v=4" width="100px;" alt="XuLinYang"/><br /><sub><b>XuLinYang</b></sub></a><br /><a href="https://github.com/yangxvlin/Family-Artifact-Register/commits?author=yangxvlin" title="Code">💻</a></td>
+  </tr>
+</table>
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Tools:
