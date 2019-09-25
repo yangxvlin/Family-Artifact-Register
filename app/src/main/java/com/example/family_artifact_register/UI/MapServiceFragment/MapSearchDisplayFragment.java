@@ -144,9 +144,13 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
                 // Setting the position for the marker
                 markerOptions.position(latLng);
 
-                // Setting the title for the marker.
+                // Setting the snippet for the marker.
                 // This will be displayed on taping the marker
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                markerOptions.snippet(latLng.latitude + " : " + latLng.longitude);
+
+                // add user's search text to marker
+                // by XuLin Yang
+                markerOptions.title(place.getName());
 
                 // Clears the previously touched position
                 mMap.clear();
@@ -178,9 +182,12 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             // Setting the position for the marker
             markerOptions.position(latLng);
 
-            // Setting the title for the marker.
+            // Setting the snippet for the marker.
             // This will be displayed on taping the marker
-            markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+            markerOptions.snippet(latLng.latitude + " : " + latLng.longitude);
+
+            // TODO get the place name by latLng
+//            markerOptions.title();
 
             // Clears the previously touched position
             mMap.clear();
