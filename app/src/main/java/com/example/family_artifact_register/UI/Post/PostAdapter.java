@@ -71,7 +71,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView mAvatar, mPostImage, mLike, mComment, mSave;
-        public TextView mUsername, mLikes, mPublisher, mDescrption, mComments;
+        public TextView mUsername, mLikes, mPublisher, mDescrption, mTimeline;
 
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
@@ -85,7 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             mLikes = itemView.findViewById(R.id.likes);
             mPublisher = itemView.findViewById(R.id.publisher);
             mDescrption = itemView.findViewById(R.id.description);
-            mComments = itemView.findViewById(R.id.comments);
+            mTimeline = itemView.findViewById(R.id.timeline);
 
         }
     }
