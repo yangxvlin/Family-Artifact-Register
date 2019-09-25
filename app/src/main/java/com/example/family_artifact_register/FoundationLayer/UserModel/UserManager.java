@@ -2,7 +2,12 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -105,6 +110,15 @@ public class UserManager {
 
     public void storeUserInfo(UserInfo userInfo) {
         String uid = userInfo.getUid();
-        db.collection(DBConstant.USERS).document(uid).set(userInfo);
+        db.collection(DBConstant.USERS)
+                .document(uid)
+                .set(userInfo)
+                .addOnSuccessListener(aVoid ->
+                        Log.d(TAG, "User information"
+                                + userInfo.toString()
+                                + "successfully written!"))
+                .addOnFailureListener(e ->
+                        Log.w(TAG, "Error writing user info" +
+                                userInfo.toString(), e));
     }
 }

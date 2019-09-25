@@ -3,6 +3,8 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,12 @@ public class UserInfo implements Parcelable, Serializable {
 
     /**
      * Private constructor for UserInfo class
-     * @param uid Uid given
+     *
+     * @param uid         Uid given
      * @param displayName Username when registered
-     * @param email Email account used
+     * @param email       Email account used
      * @param phoneNumber Phone number used
-     * @param photoUrl The photoUrl of user
+     * @param photoUrl    The photoUrl of user
      */
     public UserInfo(String uid, String displayName, String email, String phoneNumber,
                     String photoUrl, List<String> friendUids, List<String> artifactIds) {
@@ -139,6 +142,11 @@ public class UserInfo implements Parcelable, Serializable {
         }
     };
 
+    /**
+     * Constructor used for parcelable
+     *
+     * @param in The parcel with information
+     */
     private UserInfo(Parcel in) {
         this(
                 in.readString(),
@@ -151,5 +159,15 @@ public class UserInfo implements Parcelable, Serializable {
         );
         in.readStringList(this.friendUids);
         in.readStringList(this.artifactIds);
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return String.format(
+                "uid: %s, displayName: %s, email: %s, phoneNumber: %s," +
+                        "photoUrl: %s", uid, displayName, email, phoneNumber,
+                photoUrl
+        );
     }
 }
