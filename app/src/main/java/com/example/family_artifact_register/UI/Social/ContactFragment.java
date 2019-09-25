@@ -18,12 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FakeDB;
+import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactFragment extends Fragment implements IFragment {
     /**
@@ -80,18 +83,20 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
-        contactModel = ViewModelProviders.of(this).get(ContactViewModel.class);
+        // missing input param: Application
+//        contactModel = ViewModelProviders.of(this.getActivity()).get(ContactViewModel.class);
+        contactModel = ViewModelProviders.of(this, new ContactViewModelFactory(this.getActivity().getApplication())).get(ContactViewModel.class);
 
-        Observer<ArrayList<String>> contactObserver = new Observer<ArrayList<String>>() {
+        Observer<List<User>> contactObserver = new Observer<List<User>>() {
             @Override
-            public void onChanged(ArrayList<String> newData) {
-                System.out.println("######################################");
+            public void onChanged(List<User> newData) {
                 // when there is a change in the friend list, give the new one to list adapter
+                // Update the cached copy of the users in the adapter
                 adapter.setData(newData);
             }
         };
 
-        contactModel.getContact().observe(this, contactObserver);
+        contactModel.getContacts().observe(this, contactObserver);
 
         return view;
     }
@@ -108,7 +113,7 @@ public class ContactFragment extends Fragment implements IFragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // set the adapter for the view
-        adapter = new FriendListAdapter(dataSet);
+        adapter = new FriendListAdapter();
         recyclerView.setAdapter(adapter);
 
         // set the divider between list item
@@ -122,13 +127,10 @@ public class ContactFragment extends Fragment implements IFragment {
 
     public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListViewModel> {
 
-        private ArrayList<String> dataSet;
-
         public class FriendListViewModel extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public TextView textView;
             public ImageView imageView;
-
             public FriendListViewModel(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -143,9 +145,12 @@ public class ContactFragment extends Fragment implements IFragment {
                 i.putExtra("key", value);
                 startActivity(i);
             }
+
         }
 
-        public FriendListAdapter(ArrayList<String> dataSet) { this.dataSet = dataSet; }
+        public FriendListAdapter() {}
+
+        private List<User> dataSet;
 
         @NonNull
         @Override
@@ -156,21 +161,36 @@ public class ContactFragment extends Fragment implements IFragment {
 
         @Override
         public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewModel holder, int position) {
-            holder.textView.setText(dataSet.get(position));
+            // data is ready to be displayed
+            if(dataSet != null) {
+                holder.textView.setText(dataSet.get(position).username);
+            }
+            // data is not ready yet
+            else {
+                // TODO what to display when data is not ready
+                holder.textView.setText("Loading data");
+            }
         }
 
         @Override
         public int getItemCount() {
-            return dataSet.size();
+            if(dataSet != null)
+                return dataSet.size();
+            // initially, dataSet is null
+            return 0;
         }
 
-        public void setData(ArrayList<String> newData) {
-            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
+        public void setData(List<User> newData) {
+            // solution from codelab
+            dataSet = newData;
+            notifyDataSetChanged();
 
-            dataSet.clear();
-            dataSet.addAll(newData);
-            diffResult.dispatchUpdatesTo(this);
+//            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
+//            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
+//
+//            dataSet.clear();
+//            dataSet.addAll(newData);
+//            diffResult.dispatchUpdatesTo(this);
         }
 
         // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview

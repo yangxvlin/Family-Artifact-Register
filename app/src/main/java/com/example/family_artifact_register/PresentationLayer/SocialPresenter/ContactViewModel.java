@@ -1,24 +1,32 @@
 package com.example.family_artifact_register.PresentationLayer.SocialPresenter;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
-import com.example.family_artifact_register.FoundationLayer.SocialModel.FriendRepository;
+import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
+import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ContactViewModel extends ViewModel {
+public class ContactViewModel extends AndroidViewModel {
 
-    private MutableLiveData<ArrayList<String>> contacts = new MutableLiveData<>();
+//    private FriendRepository repository = FriendRepository.getInstance();
 
-    private FriendRepository repository = FriendRepository.getInstance();
+    private LiveData<List<User>> contacts;
+    private UserRepository repository;
 
-    private String uid;
-
-    public ContactViewModel(String uid) {
-        this.uid = uid;
+    public ContactViewModel(Application application) {
+        super(application);
+        repository = new UserRepository(application);
+        contacts = repository.getFriends();
     }
 
-    public MutableLiveData<ArrayList<String>> getContact() { return repository.getFriends(uid); }
+    public LiveData<List<User>> getContacts() { return contacts; }
+
+    public void addContact(String username) {
+        User user = new User("-1", username, "heihei", "unknown");
+        repository.insert(user);
+    }
 }

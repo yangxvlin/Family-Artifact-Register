@@ -127,11 +127,17 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
-    // ViewModel and LiveData
+    // ViewModel and LiveData (lifecycle component)
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+//    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+//    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0'
 
     // room persistence library
     implementation 'androidx.room:room-runtime:2.2.0-rc01'
+    annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
+    androidTestImplementation 'androidx.room:room-testing:2.2.0-rc01'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
