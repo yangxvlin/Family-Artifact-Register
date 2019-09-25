@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
  * @description Adapter for models recycler view
  */
 public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
+    public final static String TAG = HubModelAdapter.class.getSimpleName();
 
     Context c;
     ArrayList<Model> models;
