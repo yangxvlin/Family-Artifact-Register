@@ -19,7 +19,7 @@
       ]
     },
     {
-      "login": "LiGuo Chen",
+      "login": "chen-dudu",
       "name": "LiGuo Chen",
       "avatar_url": "https://avatars1.githubusercontent.com/chen-dudu",
       "profile": "https://github.com/chen-dudu",
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "login": "HaiChao Song",
+      "login": "HaiChaoS",
       "name": "HaiChao Song",
       "avatar_url": "https://avatars2.githubusercontent.com/HaichaoS",
       "profile": "https://github.com/HaichaoS",
@@ -37,13 +37,14 @@
       ]
     },
     {
-      "login": "ZhuoQun Huang",
+      "login": "Dovermore",
       "name": "ZhuoQun Huang",
       "avatar_url": "https://avatars2.githubusercontent.com/Dovermore",
       "profile": "https://github.com/Dovermore",
       "contributions": [
         "code"
       ]
-    },
+    }
+  ],
   "contributorsPerLine": 7
 }
