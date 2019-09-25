@@ -40,7 +40,7 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(R.string.artifact_happened_title);
+        getActivity().setTitle(R.string.artifact_when_happened_title);
 
         // get user chosen date
         DatePicker datePicker = view.findViewById(R.id.fragment_new_artifact_happened_time_date_picker);

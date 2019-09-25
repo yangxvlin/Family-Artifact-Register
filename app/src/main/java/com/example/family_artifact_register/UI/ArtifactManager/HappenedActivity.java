@@ -36,7 +36,7 @@ public class HappenedActivity extends BaseCancelToolBarActivity {
 
         // enable the top-left cancel button
         setCancelButton();
-        setTitle(R.string.artifact_happened_title);
+        setTitle(R.string.artifact_where_happened_title);
     }
 
     @Override
