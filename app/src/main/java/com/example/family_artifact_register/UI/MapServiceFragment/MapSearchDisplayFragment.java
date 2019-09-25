@@ -2,14 +2,13 @@ package com.example.family_artifact_register.UI.MapServiceFragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.R;
 import com.google.android.gms.common.api.Status;
@@ -86,7 +85,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance() {
-        MapDisplayFragment fragment = new MapDisplayFragment();
+        MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
         List<MyLocation> locations = new ArrayList<>();
         bundle.putSerializable(LOCATIONS, (Serializable) locations);

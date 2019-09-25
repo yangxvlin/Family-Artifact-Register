@@ -2,13 +2,12 @@ package com.example.family_artifact_register.UI.MapServiceFragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
@@ -106,7 +105,13 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.locations = (List<MyLocation>) this.getArguments().get(LOCATIONS);
-            this.isStatic = (Boolean) this.getArguments().get(STATIC);
+
+            Object argStatic = this.getArguments().get(STATIC);
+            if (argStatic == null) {
+                this.isStatic = false;
+            } else {
+                this.isStatic = (Boolean) argStatic;
+            }
         }
     }
 
