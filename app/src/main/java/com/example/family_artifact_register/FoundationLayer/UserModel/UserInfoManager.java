@@ -2,12 +2,7 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,13 +13,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-public class UserManager {
-    private static final String TAG = UserManager.class.getSimpleName();
-    private static UserManager instance;
+public class UserInfoManager {
+    private static final String TAG = UserInfoManager.class.getSimpleName();
+    private static UserInfoManager instance;
 
-    public static UserManager getInstance() {
+    public static UserInfoManager getInstance() {
         if (instance == null) {
-            instance = new UserManager();
+            instance = new UserInfoManager();
         }
         return instance;
     }
@@ -44,7 +39,7 @@ public class UserManager {
      */
     private FirebaseFirestore db;
 
-    private UserManager() {
+    private UserInfoManager() {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         db = FirebaseFirestore.getInstance();
     }

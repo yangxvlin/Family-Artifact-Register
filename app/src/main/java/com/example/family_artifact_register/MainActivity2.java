@@ -15,14 +15,13 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.FoundationLayer.UserModel.FirebaseAuthHelper;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserManager;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -170,34 +169,39 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
+            Log.i(TAG, String.format("User signin - resultCode: %d", resultCode));
             IdpResponse response = IdpResponse.fromResultIntent(data);
-
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = firebaseUser.getUid();
-                Task<DocumentSnapshot> userDocumentationTask = mFirebaseFirestore
+
+                // TODO convert this to using UserInfoManager
+                mFirebaseFirestore
                         .collection("users")
-                        .document("uid").get().addOnCompleteListener(
-                                task -> {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                            UserInfo userInfo = document.toObject(UserInfo.class);
-                                        } else {
-                                            Log.d(TAG, "No such user info, adding to db");
-                                            UserInfo userInfo = FirebaseAuthHelper
-                                                    .getInstance()
-                                                    .userFromFirebaseUser(
-                                                            firebaseUser
-                                                    );
-                                            UserManager.getInstance().storeUserInfo(userInfo);
-                                        }
-                                    } else {
-                                        Log.d(TAG, "get failed with ", task.getException());
-                                    }
-                                });
+                        .document(uid)
+                        .get()
+                        .addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                    // TODO convert this to using UserInfoManager
+                                    UserInfo userInfo = document.toObject(UserInfo.class);
+                                } else {
+                                    Log.d(TAG, "No such user info, adding to db");
+                                    UserInfo userInfo = FirebaseAuthHelper
+                                            .getInstance()
+                                            .userFromFirebaseUser(
+                                                    firebaseUser
+                                            );
+                                    UserInfoManager.getInstance().storeUserInfo(userInfo);
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        });
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
