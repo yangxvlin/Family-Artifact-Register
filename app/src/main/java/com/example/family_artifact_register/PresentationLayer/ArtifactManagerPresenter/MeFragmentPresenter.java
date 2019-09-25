@@ -5,7 +5,7 @@ import android.net.Uri;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
-import com.example.family_artifact_register.FoundationLayer.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 
 import java.util.ArrayList;
 import java.util.List;
