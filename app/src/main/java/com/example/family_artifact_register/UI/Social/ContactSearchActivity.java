@@ -1,5 +1,7 @@
 package com.example.family_artifact_register.UI.Social;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,12 +11,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModel;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchViewModel;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchViewModelFactory;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactSearchActivity extends AppCompatActivity {
+
+    private ContactSearchViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,8 +34,7 @@ public class ContactSearchActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Add new friend");
 
-        // fake user data
-        String[] data = new String[] {"5", "6", "7", "8"};
+        viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
 
         EditText searchEditText = findViewById(R.id.search_edit_text);
         // listen to see if the user has finished typing
@@ -39,12 +49,16 @@ public class ContactSearchActivity extends AppCompatActivity {
                                 event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if (event == null || !event.isShiftPressed()) {
                         // user is done typing
-                        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                         String query = v.getText().toString();
-                        ArrayList<String> result = search(query, data);
+                        User result = viewModel.getFriend(query).getValue();
                         Intent i = new Intent(v.getContext(), ContactSearchResultActivity.class);
+
                         i.putExtra("query", v.getText().toString());
-                        i.putExtra("key", result.toArray(new String[result.size()]));
+                        if(result != null)
+                            i.putExtra( "key", result.username);
+                        else
+                            i.putExtra( "key", "");
+
                         startActivity(i);
                         // consume the action
                         return true;

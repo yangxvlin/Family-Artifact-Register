@@ -9,19 +9,17 @@ import androidx.lifecycle.LiveData;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
 
-public class ContactDetailViewModel extends AndroidViewModel {
+public class ContactSearchViewModel extends AndroidViewModel {
 
-    public static final String TAG = ContactDetailViewModel.class.getSimpleName();
+    public static final String TAG = ContactSearchViewModel.class.getSimpleName();
 
-    private LiveData<User> friend;
     private UserRepository repository;
 
-    public ContactDetailViewModel(Application application, String username) {
+    public ContactSearchViewModel(Application application) {
         super(application);
         Log.i(TAG, "enter view model cons");
         repository = new UserRepository(application);
-        friend = repository.getFriend(username);
     }
 
-    public LiveData<User> getFriend(String username) { return friend; }
+    public LiveData<User> getFriend(String username) { return repository.getFriend(username); }
 }
