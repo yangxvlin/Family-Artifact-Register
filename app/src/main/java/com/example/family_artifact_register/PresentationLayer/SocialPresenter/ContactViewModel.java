@@ -26,7 +26,7 @@ public class ContactViewModel extends AndroidViewModel {
     public LiveData<List<User>> getContacts() { return contacts; }
 
     public void addContact(String username) {
-        User user = new User("-1", username, "heihei", "unknown");
+        User user = new User(username, "heihei", "unknown");
         repository.insert(user);
     }
 }

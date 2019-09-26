@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class, Friend.class}, version = 1)
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDAO getUserDAO();
@@ -31,8 +31,14 @@ public abstract class UserDatabase extends RoomDatabase {
         if (instance == null)
             synchronized (UserDatabase.class) {
                 if(instance== null) {
+                    // delete the database from device
+                    appContext.deleteDatabase("user_database");
+                    // fallbackToDestructiveMigration(): By including this clause in your app's
+                    // database-building logic, you tell Room to destructively recreate your app's
+                    // database tables in cases where a migration path between schema versions is missing.
                     instance = Room.databaseBuilder(appContext,
                             UserDatabase.class, "user_database")
+                            .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -51,13 +57,31 @@ public abstract class UserDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            mDao.deleteAll();
-            // Word word = new Word("Hello");
-            User user = new User("1", "Tim", "haha", "unimelb");
-            mDao.insertUser(user);
-            // word = new Word("World");
-            user = new User("2", "Matt", "hehe", "unimelb");
-            mDao.insertUser(user);
+//            mDao.deleteAllUser();
+            // fake data
+            User tim = new User("Tim", "haha", "unimelb");
+            mDao.insertUser(tim);
+
+            User matt = new User("Matt", "hehe", "unimelb");
+            mDao.insertUser(matt);
+
+            User leon = new User("Leon", "haha", "unimelb");
+            mDao.insertUser(leon);
+
+            User justin = new User("Justin", "hehe", "unimelb");
+            mDao.insertUser(justin);
+
+            User richard = new User("Richard", "haha", "unimelb");
+            mDao.insertUser(richard);
+
+            User me = new User("Me", "haha", "unimelb");
+            mDao.insertUser(me);
+
+            Friend friend = new Friend(me.username, tim.username);
+            mDao.insertFriend(friend);
+
+            friend = new Friend(me.username, matt.username);
+            mDao.insertFriend(friend);
             return null;
         }
     }

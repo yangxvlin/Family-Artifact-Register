@@ -26,7 +26,7 @@ public class UserRepository {
     public UserRepository(Application application) {
         UserDatabase db = UserDatabase.getInstance(application);
         userDAO = db.getUserDAO();
-        friends = userDAO.getUsers();
+        friends = userDAO.getAllFriends();
     }
 
     public LiveData<List<User>> getFriends() {

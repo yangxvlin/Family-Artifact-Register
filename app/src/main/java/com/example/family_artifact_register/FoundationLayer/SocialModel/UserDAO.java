@@ -1,7 +1,5 @@
 package com.example.family_artifact_register.FoundationLayer.SocialModel;
 
-import android.view.LayoutInflater;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -22,7 +20,10 @@ public interface UserDAO {
     LiveData<List<String>> getAreas();
 
     @Query("select * from user_table")
-    LiveData<List<User>> getUsers();
+    LiveData<List<User>> getAllUser();
+
+//    @Query("select * from user_table where uid in (:uids)")
+//    LiveData<List<User>> getUsers(String[] uids);
 
     @Query("select * from user_table where username  = :username")
     LiveData<User> getUser(String username);
@@ -31,5 +32,22 @@ public interface UserDAO {
     void insertUser(User user);
 
     @Query("delete from user_table")
-    void deleteAll();
+    void deleteAllUser();
+
+//    @Query("select * from user_table " +
+//            "inner join friend_table " +
+//            "on user_table.username = friend_table.user_1 " +
+//            "where user_table.username = :username")
+//    LiveData<List<User>> getFriends(String username);
+
+    @Query("select * from user_table " +
+            "inner join friend_table " +
+            "on user_table.username = friend_table.user_2")
+    LiveData<List<User>> getAllFriends();
+
+    @Insert
+    void insertFriend(Friend friend);
+
+    @Query("delete from friend_table")
+    void deleteAllFriend();
 }
