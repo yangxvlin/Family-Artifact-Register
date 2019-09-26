@@ -46,7 +46,7 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text=""
                 android:textSize="35sp"
                 android:textStyle="bold"/>
 
@@ -54,14 +54,14 @@
                 android:id="@+id/nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="nickname"
+                android:text=""
                 android:textSize="25sp"/>
 
             <TextView
                 android:id="@+id/area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="area"
+                android:text=""
                 android:textSize="25sp"/>
 
         </LinearLayout>
