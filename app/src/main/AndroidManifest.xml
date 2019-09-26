@@ -61,17 +61,17 @@
         <activity android:name=".UI.Social.FriendActivity"
             android:parentActivityName=".MainActivity"
             />
-        <activity android:name=".UI.Social.FriendDetailActivity"
+        <activity android:name=".UI.Social.ContactDetailActivity"
             android:parentActivityName=".UI.Social.FriendActivity"
             />
-        <activity android:name=".UI.Social.NewFriendDetailActivity"
-            android:parentActivityName=".UI.Social.FriendSearchActivity"
+        <activity android:name=".UI.Social.NewContactDetailActivity"
+            android:parentActivityName=".UI.Social.ContactSearchActivity"
             />
-        <activity android:name=".UI.Social.FriendSearchActivity"
-            android:parentActivityName=".UI.Social.FriendDetailActivity"
+        <activity android:name=".UI.Social.ContactSearchActivity"
+            android:parentActivityName=".UI.Social.ContactDetailActivity"
             />
-        <activity android:name=".UI.Social.FriendSearchResultActivity"
-            android:parentActivityName=".UI.Social.FriendSearchActivity"
+        <activity android:name=".UI.Social.ContactSearchResultActivity"
+            android:parentActivityName=".UI.Social.ContactSearchActivity"
             />
 
         <activity

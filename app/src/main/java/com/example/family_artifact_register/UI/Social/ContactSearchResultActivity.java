@@ -19,7 +19,7 @@ import com.example.family_artifact_register.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class FriendSearchResultActivity extends AppCompatActivity {
+public class ContactSearchResultActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -81,7 +81,7 @@ public class FriendSearchResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String value = textView.getText().toString();
-                Intent i = new Intent(view.getContext(), NewFriendDetailActivity.class);
+                Intent i = new Intent(view.getContext(), NewContactDetailActivity.class);
                 i.putExtra("key", value);
                 startActivity(i);
             }

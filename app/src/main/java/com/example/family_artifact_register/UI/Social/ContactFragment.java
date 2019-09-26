@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -65,7 +63,7 @@ public class ContactFragment extends Fragment implements IFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), FriendSearchActivity.class));
+                startActivity(new Intent(view.getContext(), ContactSearchActivity.class));
 //                // for testing that the observation works
 //                ArrayList<String> data = new ArrayList<>();
 //                data.add("xxx");
@@ -143,7 +141,7 @@ public class ContactFragment extends Fragment implements IFragment {
             @Override
             public void onClick(View view) {
                 String value = textView.getText().toString();
-                Intent i = new Intent(view.getContext(), FriendDetailActivity.class);
+                Intent i = new Intent(view.getContext(), ContactDetailActivity.class);
                 i.putExtra("key", value);
                 startActivity(i);
             }

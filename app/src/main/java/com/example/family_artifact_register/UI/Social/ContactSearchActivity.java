@@ -14,7 +14,7 @@ import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 
-public class FriendSearchActivity extends AppCompatActivity {
+public class ContactSearchActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class FriendSearchActivity extends AppCompatActivity {
                         System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                         String query = v.getText().toString();
                         ArrayList<String> result = search(query, data);
-                        Intent i = new Intent(v.getContext(), FriendSearchResultActivity.class);
+                        Intent i = new Intent(v.getContext(), ContactSearchResultActivity.class);
                         i.putExtra("query", v.getText().toString());
                         i.putExtra("key", result.toArray(new String[result.size()]));
                         startActivity(i);

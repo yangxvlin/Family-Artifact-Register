@@ -14,7 +14,7 @@ import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 
-public class NewFriendDetailActivity extends AppCompatActivity {
+public class NewContactDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

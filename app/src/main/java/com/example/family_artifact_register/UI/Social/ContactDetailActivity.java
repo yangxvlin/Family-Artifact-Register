@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
@@ -18,9 +17,9 @@ import com.example.family_artifact_register.PresentationLayer.SocialPresenter.Co
 import com.example.family_artifact_register.R;
 
 
-public class FriendDetailActivity extends AppCompatActivity {
+public class ContactDetailActivity extends AppCompatActivity {
 
-    public static final String TAG = FriendDetailActivity.class.getSimpleName();
+    public static final String TAG = ContactDetailActivity.class.getSimpleName();
 
     private ContactDetailViewModel viewModel;
 
