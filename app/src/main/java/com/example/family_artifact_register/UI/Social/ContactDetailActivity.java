@@ -55,8 +55,7 @@ public class ContactDetailActivity extends AppCompatActivity {
             }
         };
 
-        viewModel.getFriend(selectedUser).observe(this, contactObserver);
-        Log.e(TAG, "finished subscripting");
+        viewModel.getUser().observe(this, contactObserver);
 
         sendMessage.setOnClickListener(new View.OnClickListener() {
 

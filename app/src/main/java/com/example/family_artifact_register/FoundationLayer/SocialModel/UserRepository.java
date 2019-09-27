@@ -4,9 +4,7 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,10 +27,9 @@ public class UserRepository {
         friends = userDAO.getAllFriends();
     }
 
-    public LiveData<List<User>> getFriends() {
-        return friends;
-    }
-    public LiveData<User> getFriend(String username) { return userDAO.getUser(username); }
+    public LiveData<List<User>> getFriends() { return friends; }
+    public LiveData<User> getUser(String username) { return userDAO.getUser(username); }
+    public LiveData<List<User>> getUsers(List<String> usernames) { return userDAO.getUsers(usernames); }
 
     // comment from codelab:
     // You must call this on a non-UI thread or your app will crash. Room ensures that you don't

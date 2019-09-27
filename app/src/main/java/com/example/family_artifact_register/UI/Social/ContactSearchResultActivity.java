@@ -2,6 +2,7 @@ package com.example.family_artifact_register.UI.Social;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,41 +11,96 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModel;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModelFactory;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 public class ContactSearchResultActivity extends AppCompatActivity {
 
+    /**
+     * class tag
+     */
+    public static final String TAG = ContactSearchResultActivity.class.getSimpleName();
+
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private RecyclerView.Adapter adapter;
+    private SearchResultAdapter adapter;
     private DividerItemDecoration divider;
+
+    private ContactSearchResultViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_friend_search);
 
         Intent intent = getIntent();
-        String[] result = intent.getStringArrayExtra("key");
-        if(result.length > 0) {
-            setContentView(R.layout.activity_friend_search);
-            ArrayList<String> data = new ArrayList<>();
-            Collections.addAll(data, result);
-            setupRecyclerView(data);
-        }
-        else {
-            setContentView(R.layout.activity_friend_search_no_result);
-        }
+        ArrayList<String> query = new ArrayList<>();
+        query.add(intent.getStringExtra("key"));
+
+        setupRecyclerView();
+
+        viewModel = ViewModelProviders.of(this, new ContactSearchResultViewModelFactory(getApplication())).get(ContactSearchResultViewModel.class);
+
+        Observer<List<User>> resultObserver = new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> newData) {
+                // search result back from database
+                if(newData.size() > 0) {
+                    // got a match
+                    adapter.setData(newData);
+                }
+                else
+                    // no match
+                    setContentView(R.layout.activity_friend_search_no_result);
+            }
+        };
+
+        viewModel.getUsers(query).observe(this, resultObserver);
+
+
+//        Log.i(TAG, query);
+//        List<User> result = viewModel.getUsers(nameList);
+//        if(result.size() > 0)
+//            setContentView(R.layout.activity_friend_search_no_result);
+//        else {
+//            setContentView(R.layout.activity_friend_search);
+////            ArrayList<User> data = new ArrayList<>();
+////            data.add(result);
+//            setupRecyclerView(result);
+//        }
+
+//        ArrayList<User> result = new ArrayList<>();
+//        result.add();
+//
+//        ArrayList<String> userList = new ArrayList<>();
+//        Collections.addAll(userList, result);
+//        Log.i(TAG, result.toString());
+//        if(result.length > 0) {
+
+//            ArrayList<String> data = new ArrayList<>();
+//            Collections.addAll(data, result);
+//            List<User> data = viewModel.getUsers(userList).getValue();
+//            setupRecyclerView(data);
+//        }
+//        else {
+//            setContentView(R.layout.activity_friend_search_no_result);
+//        }
         getSupportActionBar().setTitle(intent.getStringExtra("query"));
     }
 
-    private void setupRecyclerView(ArrayList<String> dataSet) {
+    private void setupRecyclerView() {
         // get the view
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -54,7 +110,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         // set the adapter for the view
-        adapter = new SearchResultAdapter(dataSet);
+        adapter = new SearchResultAdapter();
         recyclerView.setAdapter(adapter);
 
         // set the divider between list item
@@ -64,13 +120,10 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
     public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
 
-        private ArrayList<String> dataSet;
-
         public class SearchResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public TextView textView;
             public ImageView imageView;
-
             public SearchResultViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -85,9 +138,12 @@ public class ContactSearchResultActivity extends AppCompatActivity {
                 i.putExtra("key", value);
                 startActivity(i);
             }
+
         }
 
-        public SearchResultAdapter(ArrayList<String> dataSet) { this.dataSet = dataSet; }
+        public SearchResultAdapter() {}
+
+        private List<User> dataSet;
 
         @NonNull
         @Override
@@ -98,13 +154,23 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
-            holder.textView.setText(dataSet.get(position));
+            if(dataSet != null)
+                holder.textView.setText(dataSet.get(position).username);
+            else
+                // TODO what to display when data is not ready
+                holder.textView.setText("Loading data");
         }
 
         @Override
         public int getItemCount() {
-            return dataSet.size();
+            if(dataSet != null)
+                return dataSet.size();
+            return 0;
         }
 
+        public void setData(List<User> newData) {
+            dataSet = newData;
+            notifyDataSetChanged();
+        }
     }
 }

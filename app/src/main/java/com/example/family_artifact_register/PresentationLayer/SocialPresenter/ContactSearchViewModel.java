@@ -4,9 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
-import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
 
 public class ContactSearchViewModel extends AndroidViewModel {
@@ -15,11 +13,17 @@ public class ContactSearchViewModel extends AndroidViewModel {
 
     private UserRepository repository;
 
+    private String query;
+
     public ContactSearchViewModel(Application application) {
         super(application);
         Log.i(TAG, "enter view model cons");
         repository = new UserRepository(application);
+        query = null;
     }
 
-    public LiveData<User> getFriend(String username) { return repository.getFriend(username); }
+//    public LiveData<List<User>> getUsers(List<String> username) { return repository.getUsers(username); }
+
+    public void setQuery(String query) { this.query = query; }
+    public String getQuery() { return query; }
 }

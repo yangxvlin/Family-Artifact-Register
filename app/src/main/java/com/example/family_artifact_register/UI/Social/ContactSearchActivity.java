@@ -1,9 +1,8 @@
 package com.example.family_artifact_register.UI.Social;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -14,16 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
-import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModel;
-import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchViewModelFactory;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ContactSearchActivity extends AppCompatActivity {
+
+    /**
+     * class tag
+     */
+    public static final String TAG = ContactSearchActivity.class.getSimpleName();
 
     private ContactSearchViewModel viewModel;
 
@@ -37,6 +40,11 @@ public class ContactSearchActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
 
         EditText searchEditText = findViewById(R.id.search_edit_text);
+
+        String storedQuery = viewModel.getQuery();
+        if(storedQuery != null)
+            searchEditText.setText(storedQuery);
+
         // listen to see if the user has finished typing
         // https://stackoverflow.com/a/8063533
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -49,17 +57,27 @@ public class ContactSearchActivity extends AppCompatActivity {
                                 event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if (event == null || !event.isShiftPressed()) {
                         // user is done typing
+                        Intent intent = new Intent(v.getContext(), ContactSearchResultActivity.class);
                         String query = v.getText().toString();
-                        User result = viewModel.getFriend(query).getValue();
-                        Intent i = new Intent(v.getContext(), ContactSearchResultActivity.class);
-
-                        i.putExtra("query", v.getText().toString());
-                        if(result != null)
-                            i.putExtra( "key", result.username);
-                        else
-                            i.putExtra( "key", "");
-
-                        startActivity(i);
+                        viewModel.setQuery(query);
+                        Log.i(TAG, query);
+                        intent.putExtra("key", query);
+//                        if(data == null) {
+//                            // no match user in database
+//                            intent.putExtra( "key", "");
+//                        }
+//                        else {
+////                            User[] result = data.toArray(new User[data.size()]);
+//                            String[] result = new String[data.size()];
+//
+//                            for(int i = 0; i < data.size(); i++)
+//                                result[i] = data.get(i).username;
+//
+//                            intent.putExtra("query", v.getText().toString());
+//                            Log.i(TAG, result.toString());
+//                            intent.putExtra( "key", result);
+//                        }
+                        startActivity(intent);
                         // consume the action
                         return true;
                     }
@@ -68,16 +86,5 @@ public class ContactSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-        // TODO: implementation for search logic
-    }
-
-    // to be moved to a class in the logic layer
-    private ArrayList<String> search(String target, String[] users) {
-        ArrayList<String> out = new ArrayList<>();
-        for(String i : users) {
-            if(i.equals(target))
-                out.add(i);
-        }
-        return out;
     }
 }

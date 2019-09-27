@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 
 import java.util.List;
 
@@ -22,10 +23,11 @@ public interface UserDAO {
     @Query("select * from user_table")
     LiveData<List<User>> getAllUser();
 
-//    @Query("select * from user_table where uid in (:uids)")
-//    LiveData<List<User>> getUsers(String[] uids);
+    // used for searching friend
+    @Query("select * from user_table where username in (:usernames)")
+    LiveData<List<User>> getUsers(List<String> usernames);
 
-    @Query("select * from user_table where username  = :username")
+    @Query("select * from user_table where username = :username")
     LiveData<User> getUser(String username);
 
     @Insert
@@ -42,7 +44,7 @@ public interface UserDAO {
 
     @Query("select * from user_table " +
             "inner join friend_table " +
-            "on user_table.username = friend_table.user_2")
+            "on user_table.username = friend_table.friend")
     LiveData<List<User>> getAllFriends();
 
     @Insert

@@ -1,7 +1,6 @@
 package com.example.family_artifact_register.PresentationLayer.SocialPresenter;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -9,19 +8,20 @@ import androidx.lifecycle.LiveData;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
 
-public class ContactDetailViewModel extends AndroidViewModel {
+import java.util.List;
 
-    public static final String TAG = ContactDetailViewModel.class.getSimpleName();
+public class ContactSearchResultViewModel extends AndroidViewModel {
 
-    private LiveData<User> user;
     private UserRepository repository;
+    private LiveData<User> user;
 
-    public ContactDetailViewModel(Application application, String username) {
+    public ContactSearchResultViewModel(Application application) {
         super(application);
-        Log.i(TAG, "enter view model cons");
         repository = new UserRepository(application);
-        user = repository.getUser(username);
+//        user = repository.getUser(username);
     }
 
-    public LiveData<User> getUser() { return user; }
+    public LiveData<List<User>> getUsers(List<String> usernames) { return repository.getUsers(usernames); }
+
+//    public LiveData<User> getUser() { return user; }
 }

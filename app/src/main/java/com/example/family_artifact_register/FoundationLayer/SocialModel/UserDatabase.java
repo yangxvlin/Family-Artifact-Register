@@ -82,6 +82,9 @@ public abstract class UserDatabase extends RoomDatabase {
 
             friend = new Friend(me.username, matt.username);
             mDao.insertFriend(friend);
+
+            friend = new Friend(me.username, justin.username);
+            mDao.insertFriend(friend);
             return null;
         }
     }

@@ -2,7 +2,6 @@ package com.example.family_artifact_register.FoundationLayer.SocialModel;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
