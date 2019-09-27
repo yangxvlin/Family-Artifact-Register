@@ -50,4 +50,4 @@
 /docs/*.mp4
 
 # export path for local database schema
-**/app/schema
+**/app/schemas/
