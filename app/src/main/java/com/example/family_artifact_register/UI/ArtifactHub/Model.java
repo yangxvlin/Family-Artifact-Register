@@ -7,16 +7,18 @@ package com.example.family_artifact_register.UI.ArtifactHub;
  */
 public class Model {
 
-    // Define information we have for each model
-    private String title, description, username;
-    private int img, avatar;
+    public String postid, description, publisher, username;
+    public int postimage, avatar;
 
-    public String getTitle() {
-        return title;
+    public Model() {
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getPostid() {
+        return postid;
+    }
+
+    public void setPostid(String postid) {
+        this.postid = postid;
     }
 
     public String getDescription() {
@@ -27,6 +29,14 @@ public class Model {
         this.description = description;
     }
 
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -35,12 +45,12 @@ public class Model {
         this.username = username;
     }
 
-    public int getImg() {
-        return img;
+    public int getPostimage() {
+        return postimage;
     }
 
-    public void setImg(int img) {
-        this.img = img;
+    public void setPostimage(int postimage) {
+        this.postimage = postimage;
     }
 
     public int getAvatar() {
@@ -51,3 +61,4 @@ public class Model {
         this.avatar = avatar;
     }
 }
+

@@ -39,35 +39,39 @@ public class HubActivity extends AppCompatActivity {
     private ArrayList<Model> getMyList(){
         ArrayList<Model> models = new ArrayList<Model>();
         Model m = new Model();
-        m.setUsername("Username1");
-        m.setTitle("This is Art1");
+        m.setUsername("Dudu");
         m.setDescription("This is Art1 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.a1);
+        m.setPublisher("Liguo Chen");
         models.add(m);
 
-        m = new Model();
-        m.setUsername("Username2");
-        m.setTitle("This is Art2");
+        m.setUsername("Peter");
         m.setDescription("This is Art2 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.a2);
+        m.setPublisher("Liguo Chen");
         models.add(m);
 
-        m = new Model();
-        m.setUsername("Username3");
-        m.setTitle("This is Art3");
+        m.setUsername("Calvin");
         m.setDescription("This is Art3 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.a3);
+        m.setPublisher("Zhuoqun Huang");
         models.add(m);
 
-        m = new Model();
-        m.setUsername("Username4");
-        m.setTitle("This is Art4");
+        m.setUsername("George");
         m.setDescription("This is Art4 Description.");
         m.setAvatar(R.drawable.my_logo);
-        m.setImg(R.drawable.my_logo);
+        m.setPostimage(R.drawable.a4);
+        m.setPublisher("Haichao Song");
+        models.add(m);
+
+        m.setUsername("Genius");
+        m.setDescription("This is Art5 Description.");
+        m.setAvatar(R.drawable.my_logo);
+        m.setPostimage(R.drawable.a5);
+        m.setPublisher("Richard");
         models.add(m);
 
         return models;

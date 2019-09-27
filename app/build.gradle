@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.example.family_artifact_register"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -26,124 +26,129 @@ android {
     }
     // Butterknife requires Java 8.
     compileOptions {
+        dependencies {
+            // ******************************************************************************************
+            // material ui
+            api 'com.google.android.material:material:1.1.0-alpha10'
+            implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+            implementation 'com.android.volley:volley:1.1.1'
+            implementation 'com.google.code.gson:gson:2.8.5'
+            implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.41"
+            implementation 'androidx.appcompat:appcompat:1.1.0'
+            implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+            implementation 'androidx.cardview:cardview:1.0.0'
+            implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+            // ******************************************************************************************
+            // Google map api
+            implementation 'com.google.android.libraries.places:places:2.0.0'
+
+            // ******************************************************************************************
+            // test
+
+            implementation 'com.google.firebase:firebase-storage:16.0.4'
+            implementation 'com.google.firebase:firebase-database:16.0.4'
+            testImplementation 'junit:junit:4.12'
+            // Core library
+            androidTestImplementation 'androidx.test:core:1.2.0'
+            // AndroidJUnitRunner and JUnit Rules
+            androidTestImplementation 'androidx.test:runner:1.2.0'
+            androidTestImplementation 'androidx.test:rules:1.2.0'
+            // Assertions
+            androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+//    androidTestImplementation 'com.google.guava:guava:26.0-android'
+//    androidTestImplementation 'com.google.truth:truth:0.42'
+//    androidTestImplementation 'org.checkerframework:checker-compat-qual:2.5.3'
+            // Espresso dependencies
+            androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+            // fire base
+            implementation 'com.google.firebase:firebase-core:17.2.0'
+            implementation 'com.google.firebase:firebase-auth:19.0.0'
+            implementation 'com.google.firebase:firebase-firestore:21.0.0'
+
+            // ******************************************************************************************
+            // FirebaseUI for Firebase Realtime Database
+            implementation 'com.firebaseui:firebase-ui-database:5.1.0'
+            // FirebaseUI for Cloud Firestore
+            implementation 'com.firebaseui:firebase-ui-firestore:5.1.0'
+            // FirebaseUI for Firebase Auth
+            implementation 'com.firebaseui:firebase-ui-auth:5.1.0'
+            // FirebaseUI for Cloud Storage
+            implementation 'com.firebaseui:firebase-ui-storage:5.1.0'
+
+            // Required only if Facebook login support is required
+            // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+//    implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
+            // Facebook SDK Core only (Analytics)
+//    implementation 'com.facebook.android:facebook-core:5.5.1'
+            // Facebook Login only
+//    implementation 'com.facebook.android:facebook-login:5.5.1'
+            // Facebook Share only
+//    implementation 'com.facebook.android:facebook-share:5.5.1'
+            // Facebook Places only
+//    implementation 'com.facebook.android:facebook-locations:5.5.1'
+            // Facbeook Messenger only
+//    implementation 'com.facebook.android:facebook-messenger:'
+            // Facebook App Links only
+//    implementation 'com.facebook.android:facebook-applinks:5.5.1'
+            // Facebook Android SDK (everything)
+//    implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
+            // Audience Network SDK.
+//    implementation 'com.facebook.android:audience-network-sdk:5.5.0'
+            // Account Kit
+//    implementation 'com.facebook.android:account-kit-sdk:5.4.0'
+
+            // Required only if Twitter login support is required
+            // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
+            implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+            // Include all the Twitter APIs
+            implementation 'com.twitter.sdk.android:twitter:3.1.1'
+            // (Optional) Monetize using mopub
+            implementation 'com.twitter.sdk.android:twitter-mopub:3.1.1'
+
+            // ******************************************************************************************
+            // butter knife
+            // https://github.com/JakeWharton/butterknife
+            implementation 'com.jakewharton:butterknife:10.1.0'
+            annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+
+            // ******************************************************************************************
+            // photo & video take
+            // https://github.com/jkwiecien/EasyImage
+            implementation 'com.github.jkwiecien:EasyImage:3.0.3'
+            // photo & video compress, only image part used
+            // https://github.com/Tourenathan-G5organisation/SiliCompressor
+            implementation 'com.iceteck.silicompressorr:silicompressor:2.2.2'
+
+            // ******************************************************************************************
+            //Third party
+            implementation 'de.hdodenhof:circleimageview:3.0.1'
+            api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+            // https://github.com/GrenderG/Toasty
+            implementation 'com.github.GrenderG:Toasty:1.4.2'
+
+            // ******************************************************************************************
+
+            // ViewModel and LiveData (lifecycle component)
+            implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+//    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+//    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+            implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0'
+
+            // room persistence library
+            implementation 'androidx.room:room-runtime:2.2.0-rc01'
+            annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
+            androidTestImplementation 'androidx.room:room-testing:2.2.0-rc01'
+
+        }
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
-dependencies {
-    // ******************************************************************************************
-    // material ui
-    api 'com.google.android.material:material:1.1.0-alpha10'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.41"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-
-    // ******************************************************************************************
-    // Google map api
-    implementation 'com.google.android.libraries.places:places:2.0.0'
-
-    // ******************************************************************************************
-    // test
-
-    implementation 'com.google.firebase:firebase-storage:16.0.4'
-    implementation 'com.google.firebase:firebase-database:16.0.4'
-    testImplementation 'junit:junit:4.12'
-    // Core library
-    androidTestImplementation 'androidx.test:core:1.2.0'
-    // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    // Assertions
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-//    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-//    androidTestImplementation 'com.google.guava:guava:26.0-android'
-//    androidTestImplementation 'com.google.truth:truth:0.42'
-//    androidTestImplementation 'org.checkerframework:checker-compat-qual:2.5.3'
-    // Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
-    // fire base
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-auth:19.0.0'
-    implementation 'com.google.firebase:firebase-firestore:21.0.0'
-
-    // ******************************************************************************************
-    // FirebaseUI for Firebase Realtime Database
-    implementation 'com.firebaseui:firebase-ui-database:5.1.0'
-    // FirebaseUI for Cloud Firestore
-    implementation 'com.firebaseui:firebase-ui-firestore:5.1.0'
-    // FirebaseUI for Firebase Auth
-    implementation 'com.firebaseui:firebase-ui-auth:5.1.0'
-    // FirebaseUI for Cloud Storage
-    implementation 'com.firebaseui:firebase-ui-storage:5.1.0'
-
-    // Required only if Facebook login support is required
-    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
-//    implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
-    // Facebook SDK Core only (Analytics)
-//    implementation 'com.facebook.android:facebook-core:5.5.1'
-    // Facebook Login only
-//    implementation 'com.facebook.android:facebook-login:5.5.1'
-    // Facebook Share only
-//    implementation 'com.facebook.android:facebook-share:5.5.1'
-    // Facebook Places only
-//    implementation 'com.facebook.android:facebook-locations:5.5.1'
-    // Facbeook Messenger only
-//    implementation 'com.facebook.android:facebook-messenger:'
-    // Facebook App Links only
-//    implementation 'com.facebook.android:facebook-applinks:5.5.1'
-    // Facebook Android SDK (everything)
-//    implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
-    // Audience Network SDK.
-//    implementation 'com.facebook.android:audience-network-sdk:5.5.0'
-    // Account Kit
-//    implementation 'com.facebook.android:account-kit-sdk:5.4.0'
-
-    // Required only if Twitter login support is required
-    // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
-    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
-    // Include all the Twitter APIs
-    implementation 'com.twitter.sdk.android:twitter:3.1.1'
-    // (Optional) Monetize using mopub
-    implementation 'com.twitter.sdk.android:twitter-mopub:3.1.1'
-
-    // ******************************************************************************************
-    // butter knife
-    // https://github.com/JakeWharton/butterknife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-
-
-    // ******************************************************************************************
-    // photo & video take
-    // https://github.com/jkwiecien/EasyImage
-    implementation 'com.github.jkwiecien:EasyImage:3.0.3'
-    // photo & video compress
-    // https://github.com/Tourenathan-G5organisation/SiliCompressor
-    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.2'
-
-    // ******************************************************************************************
-    //Third party
-    implementation 'de.hdodenhof:circleimageview:3.0.1'
-    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
-
-    // ViewModel and LiveData (lifecycle component)
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-//    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
-//    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0'
-
-    // room persistence library
-    implementation 'androidx.room:room-runtime:2.2.0-rc01'
-    annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
-    androidTestImplementation 'androidx.room:room-testing:2.2.0-rc01'
-
-}
 
 apply plugin: 'com.google.gms.google-services'

@@ -2,7 +2,7 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import android.net.Uri;
 
-import com.example.family_artifact_register.FoundationLayer.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 
 import java.util.List;
 

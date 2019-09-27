@@ -7,14 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
+import com.example.family_artifact_register.UI.Util.DescriptionListener;
+import com.example.family_artifact_register.UI.Util.MediaListener;
+import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import pl.aprilapps.easyphotopicker.ChooserType;
@@ -23,15 +30,18 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
 
-import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
-public class NewArtifactMediaFragment extends Fragment implements IFragment {
+public class NewArtifactMediaFragment extends Fragment implements IFragment, OnBackPressedListener {
     /**
      * class tag
      */
     public static final String TAG = NewArtifactMediaFragment.class.getSimpleName();
 
     private EasyImage easyImage;
+
+    private Fragment uploadLocationFragment;
 
     public NewArtifactMediaFragment() {
         // required empty constructor
@@ -48,6 +58,13 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.new_artifact);
 
+        // upload location fragment location
+        uploadLocationFragment = CurrentLocationFragment.newInstance();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_new_artifact_media_upload_location, uploadLocationFragment)
+                .commit();
+
         easyImage = new EasyImage.Builder(getContext())
                 // Chooser only
                 // Will appear as a system chooser title, DEFAULT empty string
@@ -63,26 +80,27 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
                 .allowMultiple(true)
                 .build();
 
-        // to next fragment
-//        FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_media_floating_button_confirm);
-//        confirm.setOnClickListener(view1 -> {
-//            HappenedTimeFragment happenedTime = HappenedTimeFragment.newInstance();
-//            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.addToBackStack("next");
-//            fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
-//            fragmentTransaction.commit();
-//        });
-
-//        FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_media_camera);
-//        camera.setOnClickListener(view1 -> {
-//            easyImage.openCameraForImage(this);
-//        });
+        // take image from camera
+        FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_media_floating_button_camera);
+        camera.setOnClickListener(view1 -> {
+            easyImage.openCameraForImage(this);
+        });
 
         // choose images form album
         FloatingActionButton album = view.findViewById(R.id.fragment_new_artifact_media_floating_button_album);
         album.setOnClickListener(view1 -> {
             easyImage.openGallery(this);
         });
+
+        // take video from camera
+        FloatingActionButton video = view.findViewById(R.id.fragment_new_artifact_media_floating_button_video);
+        video.setOnClickListener(view1 -> {
+            easyImage.openCameraForVideo(this);
+        });
+
+        // set description if any
+        EditText description = view.findViewById(R.id.fragment_new_artifact_media_description_input);
+        description.setText(((DescriptionListener)getActivity()).getDescription(), TextView.BufferType.EDITABLE);
     }
 
     public static NewArtifactMediaFragment newInstance() { return new NewArtifactMediaFragment(); }
@@ -93,17 +111,33 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
 
         easyImage.handleActivityResult(requestCode, resultCode, data, getActivity(), new DefaultCallback() {
             @Override
-            public void onMediaFilesPicked(MediaFile[] imageFiles, MediaSource source) {
-                for (MediaFile imageFile : imageFiles) {
-                    Log.d("EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
-                    Uri image = Uri.fromFile(imageFile.getFile());
-                    ((NewArtifactActivity2)getActivity()).addData(image, TYPE_IMAGE);
-                }
+            public void onMediaFilesPicked(MediaFile[] mediaFiles, MediaSource source) {
 
-                if (source == MediaSource.DOCUMENTS) {
+                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE) {
+                    // call back to parent activity
+                    for (MediaFile imageFile : mediaFiles) {
+                        Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
+                        Uri image = Uri.fromFile(imageFile.getFile());
+                        ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
+                    }
+                    ((MediaListener)getActivity()).setMediaType(TYPE_IMAGE);
+                    // next images fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
                     fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactPreviewImagesFragment.newInstance());
+                    fragmentTransaction.commit();
+                } else if (source == MediaSource.CAMERA_VIDEO) {
+                    // call back to parent activity
+                    for (MediaFile videoFile : mediaFiles) {
+                        Log.d(TAG+"/EasyImage", "Video file returned: " + videoFile.getFile().toURI().toString());
+                        Uri image = Uri.fromFile(videoFile.getFile());
+                        ((MediaListener)getActivity()).addData(image, TYPE_VIDEO);
+                    }
+                    ((MediaListener)getActivity()).setMediaType(TYPE_VIDEO);
+                    // next fragment
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.addToBackStack("next");
+                    fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactPreviewVideoFragment.newInstance());
                     fragmentTransaction.commit();
                 }
             }
@@ -120,5 +154,11 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment {
                 //Not necessary to remove any files manually anymore
             }
         });
+    }
+
+    // ************************************ implement interface ***********************************
+    @Override
+    public void onBackPressed() {
+        ((MediaListener)getActivity()).clearData();
     }
 }

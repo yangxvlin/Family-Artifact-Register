@@ -64,10 +64,14 @@
     <string name="new_artifact">New Artifact</string>
     <string name="add_artifact_description_hint">Add description for your artifactItem. E.g.: memory you would like to mention</string>
     <string name="artifact_description_input">Your Artifact\'s Description:</string>
-    <string name="artifact_happened_title">Artifact Happened</string>
+    <string name="artifact_when_happened_title">When Happened</string>
+    <string name="artifact_where_happened_title">Where Happened</string>
+    <string name="artifact_where_stored_title">Where Stored</string>
     <string name="delete">Delete</string>
-
+    <string name="preview_image">Preview and Add Image</string>
     <string name="new_artifact_activity_proceed_next_hint">At least one image/video to proceed.</string>
+    <string name="not_enough_image_warning">At least one image to continue.</string>
+    <string name="not_enough_location_warning">Please choose one location to continue.</string>
 
 
     <!-- map location related service -->

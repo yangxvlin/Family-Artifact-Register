@@ -1,25 +1,20 @@
 package com.example.family_artifact_register.test;
 
-import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
-import com.example.family_artifact_register.UI.MapServiceFragment.MyLocation;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
@@ -47,10 +42,17 @@ public class MapTestActivity extends AppCompatActivity {
         // Initialize the SDK
         Places.initialize(this, getString(R.string.google_api_key));
 
-        List<MyLocation> myLocations = new ArrayList<>();
+        // Get bottom bar
+        CurrentLocationFragment currentLocationFragment = CurrentLocationFragment.newInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.current_location_test, currentLocationFragment)
+                .commit();
+
+        List<MapLocation> mapLocations = new ArrayList<>();
         mContentView = findViewById(R.id.fullscreen_content);
 
-        MapDisplayFragment mapFragment = MapSearchDisplayFragment.newInstance(myLocations);
+        MapDisplayFragment mapFragment = MapSearchDisplayFragment.newInstance(mapLocations);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fullscreen_content, mapFragment)
@@ -73,9 +75,9 @@ public class MapTestActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
                 Place place = response.getPlace();
                 Log.i(TAG, "Place found: " + place.getName());
-                List<MyLocation> myLocations1 = mapFragment.getLocations();
-                myLocations1.add(new MyLocation(place));
-                mapFragment.setDisplayLocations(myLocations1);
+                List<MapLocation> mapLocations1 = mapFragment.getLocations();
+                mapLocations1.add(MapLocation.newInstance(place));
+                mapFragment.setDisplayLocations(mapLocations1);
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
                     ApiException apiException = (ApiException) exception;

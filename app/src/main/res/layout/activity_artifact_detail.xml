@@ -9,13 +9,13 @@
     android:background="#fff"
     tools:context=".UI.ArtifactHub.ArtifactDetailActivity">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/avatarIv"
         android:src="@mipmap/ic_launcher_round"
         android:layout_marginBottom="10dp">
-    </ImageView>
+    </de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
         android:layout_width="match_parent"
@@ -48,8 +48,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
-        android:text="Title"
+        android:id="@+id/publisher"
+        android:text="Publisher"
         android:textSize="22sp"
         android:textColor="#000"
         android:textStyle="bold"
@@ -65,7 +65,7 @@
         android:text="Description"
         android:textSize="18sp"
         android:textColor="#a9a9a9"
-        android:layout_below="@id/title"
+        android:layout_below="@id/publisher"
         android:layout_marginTop="5dp"
         >
     </TextView>

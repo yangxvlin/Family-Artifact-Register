@@ -18,16 +18,16 @@ import org.jetbrains.annotations.NotNull;
 public class HubModelHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     ImageView mImeaView, mAvatar;
-    TextView mTitle, mDes, mUsername;
+    TextView  mDes, mUsername, mPublisher;
     ItemClickListener itemClickListener;
 
     HubModelHolder(@NotNull View itemView) {
         super(itemView);
-        this.mImeaView = itemView.findViewById(R.id.imageView);
-        this.mTitle = itemView.findViewById(R.id.titleTv);
-        this.mDes = itemView.findViewById(R.id.DescriptionTv);
+        this.mImeaView = itemView.findViewById(R.id.post_image);
+        this.mDes = itemView.findViewById(R.id.description);
         this.mAvatar = itemView.findViewById(R.id.avatar);
-        this.mUsername = itemView.findViewById(R.id.userTv);
+        this.mUsername = itemView.findViewById(R.id.username);
+        this.mPublisher = itemView.findViewById(R.id.publisher);
 
         itemView.setOnClickListener(this);
     }
