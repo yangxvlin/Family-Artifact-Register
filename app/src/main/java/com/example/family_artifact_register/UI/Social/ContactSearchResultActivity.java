@@ -69,7 +69,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         viewModel.getUsers(query).observe(this, resultObserver);
 
-
+        getSupportActionBar().setTitle(query.get(0));
 //        Log.i(TAG, query);
 //        List<User> result = viewModel.getUsers(nameList);
 //        if(result.size() > 0)
@@ -97,7 +97,6 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 //        else {
 //            setContentView(R.layout.activity_friend_search_no_result);
 //        }
-        getSupportActionBar().setTitle(intent.getStringExtra("query"));
     }
 
     private void setupRecyclerView() {

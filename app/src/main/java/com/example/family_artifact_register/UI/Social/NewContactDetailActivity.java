@@ -8,13 +8,22 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.family_artifact_register.FakeDB;
+import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModel;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModelFactory;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 
 public class NewContactDetailActivity extends AppCompatActivity {
+
+    public static final String TAG = NewContactDetailActivity.class.getSimpleName();
+
+    private NewContactDetailViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,20 +37,35 @@ public class NewContactDetailActivity extends AppCompatActivity {
         ImageView avatar = (ImageView) findViewById(R.id.avatar_new);
         TextView username = (TextView) findViewById(R.id.username_new);
         TextView area = (TextView) findViewById(R.id.area_new);
+
         TextView addFriend = (TextView) findViewById(R.id.add_friend);
 
         Intent intent = getIntent();
-        username.setText(intent.getStringExtra("key"));
-        area.setText("");
+        String friendName = intent.getStringExtra("key");
+//        username.setText();
+//        area.setText("");
+
+        viewModel = ViewModelProviders.of(this, new NewContactDetailViewModelFactory(getApplication(), friendName)).get(NewContactDetailViewModel.class);
+
+        Observer<User> newContactObserver = new Observer<User>() {
+            @Override
+            public void onChanged(User newData) {
+                username.setText(newData.username);
+                area.setText(newData.area);
+            }
+        };
+
+        viewModel.getUser().observe(this, newContactObserver);
 
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                System.out.println("add function working ########");
-                FakeDB.getInstance().add(username.getText().toString());
+//                FakeDB.getInstance().add(username.getText().toString());
                 addFriend.setClickable(false);
                 addFriend.setFocusable(false);
                 addFriend.setBackground(null);
+                viewModel.insert();
                 addFriend.setText("Added to list");
             }
         });
