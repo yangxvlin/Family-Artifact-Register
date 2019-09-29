@@ -131,6 +131,8 @@ public class MainActivity2 extends AppCompatActivity {
         mAuthStateListner = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user!=null) {
+                // Check user even if signed in to register him to database (if haven't)
+                FirebaseAuthHelper.getInstance().checkRegisterUser(user);
                 Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
             }
             else {
