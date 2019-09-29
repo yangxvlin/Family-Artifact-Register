@@ -36,7 +36,7 @@ public class FirebaseAuthHelper {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String uid = firebaseUser.getUid();
         db
-                .collection(DBConstant.USERS)
+                .collection(DBConstant.USER_INFO)
                 .document(uid)
                 .get()
                 .addOnCompleteListener(
