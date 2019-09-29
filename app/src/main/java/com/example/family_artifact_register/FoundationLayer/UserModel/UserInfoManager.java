@@ -331,18 +331,20 @@ public class UserInfoManager {
             return;
         }
         UserInfo currentUserInfo = mCurrentUserInfoLiveData.getValue();
-
-        final StorageReference filereference = mPhotoStorageReference.child(
+        StorageReference fileReference = mPhotoStorageReference.child(
                 String.valueOf(System.currentTimeMillis()));
+        UploadTask uploadTask = fileReference.putFile(photoUri);
 
-        UploadTask uploadTask = filereference.putFile(photoUri);
-        uploadTask.onSuccessTask(task -> filereference
+        uploadTask.addOnFailureListener(
+                e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
+                        photoUri.toString(), e)
+        ).onSuccessTask(task -> fileReference
                 .getDownloadUrl())
                 .addOnSuccessListener(task -> {
                 String photoUrl = task.toString();
                 currentUserInfo.setPhotoUrl(photoUrl);
         }).addOnFailureListener(e ->
-                Log.w(TAG, "Error writing user Image Uri to database failed" +
+                Log.w(TAG, "Error update user new Uri info to FireStore failed" +
                         currentUserInfo.toString(), e));
     }
 }
