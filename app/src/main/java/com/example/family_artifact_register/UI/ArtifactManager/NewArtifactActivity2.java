@@ -10,12 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
+import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
 import com.example.family_artifact_register.UI.Util.HappenedTimeListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
+import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +30,11 @@ import java.util.List;
  * @time 2019-9-21 13:33:24
  * @description activity let user to upload new artifact
  */
-public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener, DescriptionListener, HappenedTimeListener {
+public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener,
+        DescriptionListener,
+        HappenedTimeListener,
+        HappenedLocationListener,
+        StoredLocationListener {
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
@@ -41,6 +48,10 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     private int mediaType;
 
     private Calendar happenedTime;
+
+    private MapLocation happenedLocation;
+
+    private MapLocation storedLocation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,4 +135,16 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     @Override
     public void setHappenedTimeCalender(Calendar calender) { this.happenedTime = calender; }
+
+    @Override
+    public void setHappenedLocation(MapLocation happenedLocation) { this.happenedLocation = happenedLocation; }
+
+    @Override
+    public MapLocation getHappenedLocation() { return this.happenedLocation; }
+
+    @Override
+    public void setStoredLocation(MapLocation storedLocation) { this.storedLocation = storedLocation; }
+
+    @Override
+    public MapLocation getStoredLocation() { return this.storedLocation; }
 }
