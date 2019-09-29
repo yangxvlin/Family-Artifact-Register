@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FirebaseAuthHelper {
     private static final FirebaseAuthHelper instance = new FirebaseAuthHelper();
@@ -21,8 +21,7 @@ public class FirebaseAuthHelper {
                 firebaseUser.getEmail(),
                 firebaseUser.getPhoneNumber(),
                 photoUri != null ? photoUri.toString() : null,
-                new ArrayList<>(),
-                new ArrayList<>()
-                );
+                new HashMap<>(),
+                new HashMap<>());
     }
 }

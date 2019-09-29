@@ -3,15 +3,10 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.util.Log;
 import android.util.Pair;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,7 +44,12 @@ public class UserInfoManager {
     /**
      * The particular user that's using the app
      */
-    private String uid;
+    private String currentUid;
+
+    /**
+     * The particular user that's using the app
+     */
+    private UserInfo currentUserInfo;
 
     /**
      * The database used.
@@ -57,8 +57,29 @@ public class UserInfoManager {
     private FirebaseFirestore db;
 
     private UserInfoManager() {
-        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         db = FirebaseFirestore.getInstance();
+
+        // Listen to current user data
+        db.collection(DBConstant.USERS)
+                .document(currentUid)
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    // Catch and log the error
+                    if (e != null) {
+                        Log.e(TAG, "currentUid listen:error", e);
+                        return;
+                    }
+
+                    // Successfully fetched data
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        currentUserInfo = documentSnapshot.toObject(UserInfo.class);
+                    } else {
+                        Log.e(TAG,"!!! get failed: user not exists " + currentUid, new Throwable(
+                                "Current User not found! Error in Database detected!"
+                        ));
+                    }
+                });
+
         listenerRegistrationMap = new HashMap<>();
     }
 
@@ -68,6 +89,11 @@ public class UserInfoManager {
      * @return A LiveData object containing user information, that will be updated in real time!
      */
     public LiveData<UserInfo> getUserInfo(String uid) {
+        if (uid.equals(currentUid)) {
+            MutableLiveData<UserInfo> currentUserLiveData = new MutableLiveData<>();
+            currentUserLiveData.setValue(currentUserInfo);
+            return currentUserLiveData;
+        }
         // If currently either this uid hasn't been listened yet
         if (!listenerRegistrationMap.containsKey(uid)) {
             // Create Entry if not in there
@@ -125,22 +151,24 @@ public class UserInfoManager {
      * @param uids The list of uid the user is loading
      */
     public void warmCache(ArrayList<String> uids) {
-        db.collection("users").document(uid).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot documentSnapshot = task.getResult();
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    // Successfully fetched data
-                    if (!userInfoMap.containsKey(uid)) {
-                        userInfoMap.put(uid, new MutableLiveData<>());
+        for (String uid: uids) {
+            db.collection("users").document(uid).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        // Successfully fetched data
+                        if (!userInfoMap.containsKey(uid)) {
+                            userInfoMap.put(uid, new MutableLiveData<>());
+                        }
+                        userInfoMap.get(uid).setValue(documentSnapshot.toObject(UserInfo.class));
+                    } else {
+                        Log.d(TAG,"get failed: user not exists " + uid);
                     }
-                    userInfoMap.get(uid).setValue(documentSnapshot.toObject(UserInfo.class));
                 } else {
-                    Log.d(TAG,"get failed: user not exists " + uid);
+                    Log.d(TAG, task.getException() + " get failed with ");
                 }
-            } else {
-                Log.d(TAG, task.getException() + " get failed with ");
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -239,5 +267,10 @@ public class UserInfoManager {
             );
         }
         return mutableLiveData;
+    }
+
+
+    public void setUserName() {
+
     }
 }

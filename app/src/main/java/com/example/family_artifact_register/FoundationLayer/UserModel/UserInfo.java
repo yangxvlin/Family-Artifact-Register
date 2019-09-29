@@ -6,9 +6,8 @@ import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> {
     public static final String UID = "uid";
@@ -25,8 +24,9 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     private String phoneNumber;
     private String photoUrl;
 
-    private HashSet<String> friendUids;
-    private HashSet<String> artifactIds;
+    // Hacky solution to keep both list unique
+    private Map<String, Boolean> friendUids = new HashMap<>();
+    private Map<String, Boolean> artifactIds = new HashMap<>();
 
     public UserInfo() {
         // Required constructor for FireStore
@@ -42,18 +42,20 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
      * @param photoUrl    The photoUrl of user
      */
     public UserInfo(String uid, String displayName, String email, String phoneNumber,
-                    String photoUrl, List<String> friendUids, List<String> artifactIds) {
+                    String photoUrl, Map<String, Boolean> friendUids,
+                    Map<String, Boolean> artifactIds) {
         this.uid = uid;
         this.displayName = displayName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
-        this.friendUids = new HashSet<>(friendUids);
-        this.artifactIds = new HashSet<>(artifactIds);
+        this.friendUids = friendUids;
+        this.artifactIds = artifactIds;
     }
 
     public UserInfo(String uid, String displayName) {
-        this(uid, displayName, null, null, null, new ArrayList<>(), new ArrayList<>());
+        this(uid, displayName, null, null, null,
+                new HashMap<>(), new HashMap<>());
     }
 
     public String getUid() {
@@ -64,7 +66,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return photoUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
+    void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
 
@@ -72,7 +74,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
@@ -80,7 +82,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return email;
     }
 
-    public void setEmail(String email) {
+    void setEmail(String email) {
         this.email = email;
     }
 
@@ -88,28 +90,28 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<String> getFriendUids() {
-        return new ArrayList<>(friendUids);
+    public Map<String, Boolean> getFriendUids() {
+        return friendUids;
     }
 
-    public List<String> getArtifactIds() {
-        return new ArrayList<>(artifactIds);
+    public Map<String, Boolean> getArtifactIds() {
+        return artifactIds;
     }
 
     public void addFriend(String friendUid) {
-        friendUids.add(friendUid);
+        friendUids.put(friendUid, true);
     }
 
     public void removeFriend(String friendUid) {
-        friendUids.remove(friendUid);
+        friendUids.remove(friendUid, true);
     }
 
     public void addArtifact(String artifactId) {
-        artifactIds.add(artifactId);
+        artifactIds.put(artifactId, true);
     }
 
     public void removeArtifact(String artifactId) {
@@ -129,9 +131,8 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         out.writeString(email);
         out.writeString(phoneNumber);
         out.writeString(photoUrl);
-
-        out.writeList(new ArrayList<>(friendUids));
-        out.writeList(new ArrayList<>(artifactIds));
+        out.writeMap(friendUids);
+        out.writeMap(artifactIds);
     }
 
     public static final Parcelable.Creator<UserInfo> CREATOR
@@ -157,17 +158,10 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
                 in.readString(),
                 in.readString(),
                 in.readString(),
-                null,
-                null
+                in.readHashMap(HashMap.class.getClassLoader()),
+                in.readHashMap(HashMap.class.getClassLoader())
         );
         // Set friend list and artifact list
-        List<String> friendUidsArr = new ArrayList<>();
-        in.readStringList(friendUidsArr);
-        this.friendUids = new HashSet<>(friendUidsArr);
-
-        List<String> artifactIdsArr = new ArrayList<>();
-        in.readStringList(artifactIdsArr);
-        this.artifactIds = new HashSet<>(artifactIdsArr);
     }
 
     @NotNull
