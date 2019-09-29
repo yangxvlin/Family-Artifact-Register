@@ -14,56 +14,29 @@ import java.util.List;
 public class UserRepository {
 
 
-    private UserDAO userDAO;
-    private LiveData<List<User>> friends;
+    private LiveData<List<User>> friends = null;
 
 
 //    private DB db;
 //    private Cache cache;
 
-    public UserRepository(Application application) {
-        UserDatabase db = UserDatabase.getInstance(application);
-        userDAO = db.getUserDAO();
-        friends = userDAO.getAllFriends();
-    }
+    public UserRepository(Application application) {}
 
     /***********************************/
 
-    public LiveData<List<User>> getFriends() { return friends; }
-    public LiveData<User> getUser(String username) { return userDAO.getUser(username); }
-    public LiveData<List<User>> getUsers(List<String> usernames) { return userDAO.getUsers(usernames); }
+    public LiveData<List<User>> getFriends() { return null; }
+    public LiveData<User> getUser(String username) { return null; }
+    public LiveData<List<User>> getUsers(List<String> usernames) { return null; }
 
     // comment from codelab:
     // You must call this on a non-UI thread or your app will crash. Room ensures that you don't
     // do any long-running operations on the main thread, blocking the UI.
-    public void insert (User user) { new insertAsyncTask(userDAO).execute(user); }
-    public void insertFriend(Friend friend) { new insertFriendAsyncTask(userDAO).execute(friend); }
+//    public void insert (User user) { new insertAsyncTask(userDAO).execute(user); }
+//    public void insertFriend(Friend friend) { new insertFriendAsyncTask(userDAO).execute(friend); }
+    public void insert (User user) {}
+    public void insertFriend(Friend friend) {}
 
     /***********************************/
-
-    private static class insertAsyncTask extends AsyncTask<User, Void, Void> {
-        private UserDAO mAsyncTaskDao;
-        insertAsyncTask(UserDAO dao) {
-            mAsyncTaskDao = dao;
-        }
-        @Override
-        protected Void doInBackground(final User... params) {
-            mAsyncTaskDao.insertUser(params[0]);
-            return null;
-        }
-    }
-
-    private static class insertFriendAsyncTask extends AsyncTask<Friend, Void, Void>{
-        private UserDAO mAsyncTaskDao;
-        insertFriendAsyncTask(UserDAO dao) { mAsyncTaskDao = dao; }
-        @Override
-        protected Void doInBackground(Friend... friends) {
-            mAsyncTaskDao.insertFriend(friends[0]);
-            return null;
-        }
-    }
-
-
 
 //    public static FriendRepository getInstance() {
 //        if(repository == null)
