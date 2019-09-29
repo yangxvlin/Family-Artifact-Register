@@ -128,7 +128,6 @@ public class MainActivity2 extends AppCompatActivity {
 
         // set firebase sign in layout
         mFirebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         mAuthStateListner = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user!=null) {
