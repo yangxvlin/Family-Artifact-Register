@@ -267,8 +267,28 @@ public class UserInfoManager {
         return mutableLiveData;
     }
 
-
-    public void setUserName() {
-
+    /**
+     * Change user name using this function
+     * @param displayName The new display name to be changed to
+     */
+    public void setDisplayName(String displayName) {
+        if (currentUserInfoLiveData.getValue() == null) {
+            Log.w(TAG, "Hasn't Fetched data of current user. Please try again later");
+            return;
+        }
+        // Check if same as previous one
+        if (!displayName.equals(currentUserInfoLiveData.getValue().getDisplayName())) {
+            UserInfo currentUserInfo = currentUserInfoLiveData.getValue();
+            currentUserInfo.setDisplayName(displayName);
+            // Update
+            db.collection(DBConstant.USERS).document(currentUid).update(UserInfo.DISPLAY_NAME,
+                    displayName).addOnSuccessListener(aVoid ->
+                    Log.d(TAG, "User information"
+                            + currentUserInfo.toString()
+                            + "successfully written!"))
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error writing user info" +
+                                    currentUserInfo.toString(), e));
+        }
     }
 }
