@@ -3,10 +3,13 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -168,7 +171,37 @@ public class UserInfoManager {
                                 userInfo.toString(), e));
     }
 
+    /**
+     * Make userInfo1 and userInfo2 become friend and post to server
+     *
+     * @param userInfo1 The first user to connect
+     * @param userInfo2 The second user to connect
+     *
+     * @deprecated Temporary solution for this, will be modified in the future (this api will then be private)
+     */
+    @Deprecated()
     public void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
+        // Make them friend
         userInfo1.addFriend(userInfo2.getUid());
+        userInfo2.addFriend(userInfo1.getUid());
+
+        // Save User info to server
+        db.collection(DBConstant.USERS).document(userInfo1.getUid()).update(UserInfo.FRIEND_UIDS,
+                userInfo1.getFriendUids()).addOnSuccessListener(aVoid ->
+                Log.d(TAG, "User friend list"
+                        + userInfo1.toString()
+                        + "successfully written!"))
+                .addOnFailureListener(e ->
+                        Log.w(TAG, "Error writing friend list" +
+                                userInfo1.toString(), e));
+        
+        db.collection(DBConstant.USERS).document(userInfo2.getUid()).update(UserInfo.FRIEND_UIDS,
+                userInfo2.getFriendUids()).addOnSuccessListener(aVoid ->
+                Log.d(TAG, "User friend list"
+                        + userInfo2.toString()
+                        + "successfully written!"))
+                .addOnFailureListener(e ->
+                        Log.w(TAG, "Error writing friend list" +
+                                userInfo2.toString(), e));
     }
 }
