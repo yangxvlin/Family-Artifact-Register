@@ -6,18 +6,27 @@ import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class UserInfo implements Parcelable, Serializable {
+public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> {
+    public static final String UID = "uid";
+    public static final String DISPLAY_NAME = "displayName";
+    public static final String EMAIL = "email";
+    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String PHOTO_URL = "photoUrl";
+    public static final String FRIEND_UIDS = "friendUids";
+    public static final String ARTIFACT_IDS = "artifactIds";
+
     private String uid;
     private String displayName;
     private String email;
     private String phoneNumber;
     private String photoUrl;
 
-    private List<String> friendUids;
-    private List<String> artifactIds;
+    // Hacky solution to keep both list unique
+    private Map<String, Boolean> friendUids = new HashMap<>();
+    private Map<String, Boolean> artifactIds = new HashMap<>();
 
     public UserInfo() {
         // Required constructor for FireStore
@@ -33,7 +42,8 @@ public class UserInfo implements Parcelable, Serializable {
      * @param photoUrl    The photoUrl of user
      */
     public UserInfo(String uid, String displayName, String email, String phoneNumber,
-                    String photoUrl, List<String> friendUids, List<String> artifactIds) {
+                    String photoUrl, Map<String, Boolean> friendUids,
+                    Map<String, Boolean> artifactIds) {
         this.uid = uid;
         this.displayName = displayName;
         this.email = email;
@@ -44,13 +54,8 @@ public class UserInfo implements Parcelable, Serializable {
     }
 
     public UserInfo(String uid, String displayName) {
-        this.uid = uid;
-        this.displayName = displayName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.photoUrl = photoUrl;
-        this.friendUids = friendUids;
-        this.artifactIds = artifactIds;
+        this(uid, displayName, null, null, null,
+                new HashMap<>(), new HashMap<>());
     }
 
     public String getUid() {
@@ -61,7 +66,7 @@ public class UserInfo implements Parcelable, Serializable {
         return photoUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
+    void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
 
@@ -69,7 +74,7 @@ public class UserInfo implements Parcelable, Serializable {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
@@ -77,7 +82,7 @@ public class UserInfo implements Parcelable, Serializable {
         return email;
     }
 
-    public void setEmail(String email) {
+    void setEmail(String email) {
         this.email = email;
     }
 
@@ -85,32 +90,42 @@ public class UserInfo implements Parcelable, Serializable {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<String> getFriendUids() {
+    public Map<String, Boolean> getFriendUids() {
         return friendUids;
     }
 
-    public List<String> getArtifactIds() {
+    public Map<String, Boolean> getArtifactIds() {
         return artifactIds;
     }
 
-    public void addFriend(String friendUid) {
-        this.friendUids.add(friendUid);
+    public boolean addFriend(String friendUid) {
+        if (friendUids.containsKey(friendUid)) {
+            return false;
+        }
+        friendUids.put(friendUid, true);
+        return true;
     }
 
-    public void removeFriend(UserInfo friend) {
-        this.friendUids.remove(friend);
+    public boolean removeFriend(String friendUid) {
+        friendUids.remove(friendUid, true);
+        return true;
     }
 
-    public void addArtifact(String artifactId) {
-        this.artifactIds.add(artifactId);
+    public boolean addArtifact(String artifactId) {
+        if (artifactIds.containsKey(artifactId)) {
+            return false;
+        }
+        artifactIds.put(artifactId, true);
+        return true;
     }
 
-    public void removeArtifact(String artifactId) {
-        this.artifactIds.remove(artifactId);
+    public boolean removeArtifact(String artifactId) {
+        artifactIds.remove(artifactId);
+        return true;
     }
 
     @Override
@@ -126,9 +141,8 @@ public class UserInfo implements Parcelable, Serializable {
         out.writeString(email);
         out.writeString(phoneNumber);
         out.writeString(photoUrl);
-
-        out.writeList(friendUids);
-        out.writeList(artifactIds);
+        out.writeMap(friendUids);
+        out.writeMap(artifactIds);
     }
 
     public static final Parcelable.Creator<UserInfo> CREATOR
@@ -154,11 +168,10 @@ public class UserInfo implements Parcelable, Serializable {
                 in.readString(),
                 in.readString(),
                 in.readString(),
-                new ArrayList<>(),
-                new ArrayList<>()
+                in.readHashMap(HashMap.class.getClassLoader()),
+                in.readHashMap(HashMap.class.getClassLoader())
         );
-        in.readStringList(this.friendUids);
-        in.readStringList(this.artifactIds);
+        // Set friend list and artifact list
     }
 
     @NotNull
@@ -169,5 +182,15 @@ public class UserInfo implements Parcelable, Serializable {
                         "photoUrl: %s",
                 uid, displayName, email, phoneNumber, photoUrl
         );
+    }
+
+    /**
+     * Override Compare to to have an ordering of things (May be easier for frontend to manage)
+     * @param o The other to compare to
+     * @return Save order as the comparison between displayed name
+     */
+    @Override
+    public int compareTo(UserInfo o) {
+        return this.getDisplayName().compareTo(o.getDisplayName());
     }
 }

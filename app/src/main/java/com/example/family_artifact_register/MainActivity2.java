@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.FoundationLayer.UserModel.FirebaseAuthHelper;
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
@@ -25,7 +23,6 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
@@ -80,11 +77,6 @@ public class MainActivity2 extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
 
     /**
-     * FireStore access point
-     */
-    private FirebaseFirestore mFirebaseFirestore;
-
-    /**
      * firebase request code
      */
     public static final int RC_SIGN_IN = 1;
@@ -136,10 +128,11 @@ public class MainActivity2 extends AppCompatActivity {
 
         // set firebase sign in layout
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseFirestore = FirebaseFirestore.getInstance();
         mAuthStateListner = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user!=null) {
+                // Check user even if signed in to register him to database (if haven't)
+                FirebaseAuthHelper.getInstance().checkRegisterUser(user);
                 Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
             }
             else {
@@ -175,39 +168,17 @@ public class MainActivity2 extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = firebaseUser.getUid();
-
-                // TODO convert this to using UserInfoManager
-                mFirebaseFirestore
-                        .collection("users")
-                        .document(uid)
-                        .get()
-                        .addOnCompleteListener(
-                        task -> {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                    // TODO convert this to using UserInfoManager
-                                    UserInfo userInfo = document.toObject(UserInfo.class);
-                                } else {
-                                    Log.d(TAG, "No such user info, adding to db");
-                                    UserInfo userInfo = FirebaseAuthHelper
-                                            .getInstance()
-                                            .userFromFirebaseUser(
-                                                    firebaseUser
-                                            );
-                                    UserInfoManager.getInstance().storeUserInfo(userInfo);
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        });
+                if (firebaseUser == null) {
+                    Log.e(TAG, "Auth with FireBase failed!", new Throwable());
+                    return;
+                }
+                FirebaseAuthHelper.getInstance().checkRegisterUser(firebaseUser);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 // ...
+                Log.e(TAG, "Auth failed, Error code: " + response.getError().getErrorCode());
             }
         }
     }
