@@ -146,6 +146,7 @@ public class UserInfoManager {
                     new Pair<>(listenerRegistrationMap.get(uid).first,
                             listenerRegistrationMap.get(uid).second-1));
             if (listenerRegistrationMap.get(uid).second == 0) {
+                listenerRegistrationMap.get(uid).first.remove();
                 listenerRegistrationMap.remove(uid);
             }
         } else {
@@ -165,5 +166,9 @@ public class UserInfoManager {
                 .addOnFailureListener(e ->
                         Log.w(TAG, "Error writing user info" +
                                 userInfo.toString(), e));
+    }
+
+    public void addFriend() {
+
     }
 }
