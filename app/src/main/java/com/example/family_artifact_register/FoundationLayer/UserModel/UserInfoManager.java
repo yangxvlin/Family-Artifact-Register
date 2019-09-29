@@ -8,12 +8,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -194,7 +197,7 @@ public class UserInfoManager {
                 .addOnFailureListener(e ->
                         Log.w(TAG, "Error writing friend list" +
                                 userInfo1.toString(), e));
-        
+
         db.collection(DBConstant.USERS).document(userInfo2.getUid()).update(UserInfo.FRIEND_UIDS,
                 userInfo2.getFriendUids()).addOnSuccessListener(aVoid ->
                 Log.d(TAG, "User friend list"
@@ -203,5 +206,38 @@ public class UserInfoManager {
                 .addOnFailureListener(e ->
                         Log.w(TAG, "Error writing friend list" +
                                 userInfo2.toString(), e));
+    }
+
+    /**
+     * Search user by a specific query word.
+     * @param query displayName / email / phone number / uid to search for
+     * @return List of LiveData of UserInfo that matched the query
+     */
+    public LiveData<List<UserInfo>> searchUserInfo(String query) {
+        MutableLiveData<List<UserInfo>> mutableLiveData = new MutableLiveData<>();
+        mutableLiveData.setValue(new ArrayList<>());
+        for (String field: new String[]{UserInfo.DISPLAY_NAME, UserInfo.EMAIL,
+                UserInfo.PHONE_NUMBER, UserInfo.UID}) {
+            db.collection(DBConstant.USERS).whereEqualTo(field, query).get().addOnCompleteListener(
+                    task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot == null || querySnapshot.isEmpty()) {
+                                Log.i(TAG, "failed to find (" + field +") equal to (" + query + ")");
+                                return;
+                            }
+                            for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
+                                mutableLiveData
+                                        .getValue()
+                                        .add(documentSnapshot
+                                                .toObject(UserInfo.class));
+                            }
+                        } else {
+                            Log.d(TAG, task.getException() + " get failed with ");
+                        }
+                    }
+            );
+        }
+        return mutableLiveData;
     }
 }
