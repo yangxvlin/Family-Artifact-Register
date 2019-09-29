@@ -69,14 +69,11 @@ public class UserInfoManager {
                         Log.e(TAG, "currentUid listen:error", e);
                         return;
                     }
-
                     // Successfully fetched data
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         currentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
                     } else {
-                        Log.e(TAG,"!!! get failed: user not exists " + currentUid, new Throwable(
-                                "Current User not found! Error in Database detected!"
-                        ));
+                        Log.e(TAG,"get failed: current user does not exist: " + currentUid);
                     }
                 });
 
