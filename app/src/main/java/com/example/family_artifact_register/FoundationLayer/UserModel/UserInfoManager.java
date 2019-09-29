@@ -49,7 +49,7 @@ public class UserInfoManager {
     /**
      * The particular user that's using the app
      */
-    private UserInfo currentUserInfo;
+    private MutableLiveData<UserInfo> currentUserInfoLiveData = new MutableLiveData<>();
 
     /**
      * The database used.
@@ -72,7 +72,7 @@ public class UserInfoManager {
 
                     // Successfully fetched data
                     if (documentSnapshot != null && documentSnapshot.exists()) {
-                        currentUserInfo = documentSnapshot.toObject(UserInfo.class);
+                        currentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
                     } else {
                         Log.e(TAG,"!!! get failed: user not exists " + currentUid, new Throwable(
                                 "Current User not found! Error in Database detected!"
@@ -90,9 +90,7 @@ public class UserInfoManager {
      */
     public LiveData<UserInfo> getUserInfo(String uid) {
         if (uid.equals(currentUid)) {
-            MutableLiveData<UserInfo> currentUserLiveData = new MutableLiveData<>();
-            currentUserLiveData.setValue(currentUserInfo);
-            return currentUserLiveData;
+            return currentUserInfoLiveData;
         }
         // If currently either this uid hasn't been listened yet
         if (!listenerRegistrationMap.containsKey(uid)) {
