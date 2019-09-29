@@ -213,27 +213,30 @@ public class UserInfoManager {
     @Deprecated()
     public void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
         // Make them friend
-        userInfo1.addFriend(userInfo2.getUid());
-        userInfo2.addFriend(userInfo1.getUid());
+        if (userInfo1.addFriend(userInfo2.getUid())) {
+            // Save User info to server
+            db.collection(DBConstant.USERS).document(userInfo1.getUid()).update(UserInfo.FRIEND_UIDS,
+                    userInfo1.getFriendUids()).addOnSuccessListener(aVoid ->
+                    Log.d(TAG, "User friend list"
+                            + userInfo1.toString()
+                            + "successfully written!"))
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error writing friend list" +
+                                    userInfo1.toString(), e));
+        }
 
-        // Save User info to server
-        db.collection(DBConstant.USERS).document(userInfo1.getUid()).update(UserInfo.FRIEND_UIDS,
-                userInfo1.getFriendUids()).addOnSuccessListener(aVoid ->
-                Log.d(TAG, "User friend list"
-                        + userInfo1.toString()
-                        + "successfully written!"))
-                .addOnFailureListener(e ->
-                        Log.w(TAG, "Error writing friend list" +
-                                userInfo1.toString(), e));
-
-        db.collection(DBConstant.USERS).document(userInfo2.getUid()).update(UserInfo.FRIEND_UIDS,
-                userInfo2.getFriendUids()).addOnSuccessListener(aVoid ->
-                Log.d(TAG, "User friend list"
-                        + userInfo2.toString()
-                        + "successfully written!"))
-                .addOnFailureListener(e ->
-                        Log.w(TAG, "Error writing friend list" +
-                                userInfo2.toString(), e));
+        // Make them friend
+        if (userInfo2.addFriend(userInfo1.getUid())) {
+            // Save User info to server
+            db.collection(DBConstant.USERS).document(userInfo2.getUid()).update(UserInfo.FRIEND_UIDS,
+                    userInfo2.getFriendUids()).addOnSuccessListener(aVoid ->
+                    Log.d(TAG, "User friend list"
+                            + userInfo2.toString()
+                            + "successfully written!"))
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error writing friend list" +
+                                    userInfo2.toString(), e));
+        }
     }
 
     /**

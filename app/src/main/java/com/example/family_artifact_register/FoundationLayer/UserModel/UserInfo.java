@@ -102,20 +102,30 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return artifactIds;
     }
 
-    public void addFriend(String friendUid) {
+    public boolean addFriend(String friendUid) {
+        if (friendUids.containsKey(friendUid)) {
+            return false;
+        }
         friendUids.put(friendUid, true);
+        return true;
     }
 
-    public void removeFriend(String friendUid) {
+    public boolean removeFriend(String friendUid) {
         friendUids.remove(friendUid, true);
+        return true;
     }
 
-    public void addArtifact(String artifactId) {
+    public boolean addArtifact(String artifactId) {
+        if (artifactIds.containsKey(artifactId)) {
+            return false;
+        }
         artifactIds.put(artifactId, true);
+        return true;
     }
 
-    public void removeArtifact(String artifactId) {
+    public boolean removeArtifact(String artifactId) {
         artifactIds.remove(artifactId);
+        return true;
     }
 
     @Override
