@@ -7,17 +7,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-public class UserInfo implements Parcelable, Serializable {
+public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> {
     private String uid;
     private String displayName;
     private String email;
     private String phoneNumber;
     private String photoUrl;
 
-    private List<String> friendUids;
-    private List<String> artifactIds;
+    private HashSet<String> friendUids;
+    private HashSet<String> artifactIds;
 
     public UserInfo() {
         // Required constructor for FireStore
@@ -39,18 +40,12 @@ public class UserInfo implements Parcelable, Serializable {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
-        this.friendUids = friendUids;
-        this.artifactIds = artifactIds;
+        this.friendUids = new HashSet<>(friendUids);
+        this.artifactIds = new HashSet<>(artifactIds);
     }
 
     public UserInfo(String uid, String displayName) {
-        this.uid = uid;
-        this.displayName = displayName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.photoUrl = photoUrl;
-        this.friendUids = friendUids;
-        this.artifactIds = artifactIds;
+        this(uid, displayName, null, null, null, new ArrayList<>(), new ArrayList<>());
     }
 
     public String getUid() {
@@ -90,27 +85,27 @@ public class UserInfo implements Parcelable, Serializable {
     }
 
     public List<String> getFriendUids() {
-        return friendUids;
+        return new ArrayList<>(friendUids);
     }
 
     public List<String> getArtifactIds() {
-        return artifactIds;
+        return new ArrayList<>(artifactIds);
     }
 
     public void addFriend(String friendUid) {
-        this.friendUids.add(friendUid);
+        friendUids.add(friendUid);
     }
 
-    public void removeFriend(UserInfo friend) {
-        this.friendUids.remove(friend);
+    public void removeFriend(String friendUid) {
+        friendUids.remove(friendUid);
     }
 
     public void addArtifact(String artifactId) {
-        this.artifactIds.add(artifactId);
+        artifactIds.add(artifactId);
     }
 
     public void removeArtifact(String artifactId) {
-        this.artifactIds.remove(artifactId);
+        artifactIds.remove(artifactId);
     }
 
     @Override
@@ -127,8 +122,8 @@ public class UserInfo implements Parcelable, Serializable {
         out.writeString(phoneNumber);
         out.writeString(photoUrl);
 
-        out.writeList(friendUids);
-        out.writeList(artifactIds);
+        out.writeList(new ArrayList<>(friendUids));
+        out.writeList(new ArrayList<>(artifactIds));
     }
 
     public static final Parcelable.Creator<UserInfo> CREATOR
@@ -154,11 +149,17 @@ public class UserInfo implements Parcelable, Serializable {
                 in.readString(),
                 in.readString(),
                 in.readString(),
-                new ArrayList<>(),
-                new ArrayList<>()
+                null,
+                null
         );
-        in.readStringList(this.friendUids);
-        in.readStringList(this.artifactIds);
+        // Set friend list and artifact list
+        List<String> friendUidsArr = new ArrayList<>();
+        in.readStringList(friendUidsArr);
+        this.friendUids = new HashSet<>(friendUidsArr);
+
+        List<String> artifactIdsArr = new ArrayList<>();
+        in.readStringList(artifactIdsArr);
+        this.artifactIds = new HashSet<>(artifactIdsArr);
     }
 
     @NotNull
@@ -169,5 +170,15 @@ public class UserInfo implements Parcelable, Serializable {
                         "photoUrl: %s",
                 uid, displayName, email, phoneNumber, photoUrl
         );
+    }
+
+    /**
+     * Override Compare to to have an ordering of things (May be easier for frontend to manage)
+     * @param o The other to compare to
+     * @return Save order as the comparison between displayed name
+     */
+    @Override
+    public int compareTo(UserInfo o) {
+        return this.getDisplayName().compareTo(o.getDisplayName());
     }
 }

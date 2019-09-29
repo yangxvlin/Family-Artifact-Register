@@ -168,7 +168,7 @@ public class UserInfoManager {
                                 userInfo.toString(), e));
     }
 
-    public void addFriend() {
-
+    public void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
+        userInfo1.addFriend(userInfo2.getUid());
     }
 }
