@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -44,6 +45,10 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
     private Spinner existingTimelineSpinner;
 
+    private List<String> timelineTitles;
+
+    private String slectedTimelineTitle = null;
+
     public NewArtifactChooseTimelineFragment() {
         // required empty constructor
     }
@@ -60,7 +65,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         getActivity().setTitle(R.string.artifact_choose_timeline);
 
         newTimelineNextButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_new_timeline_confirm);
-        existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_next);
+        existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_confirm);
 
         newTimelineButton = view.findViewById(R.id.new_artifact_new_timeline_radio_button);
         newTimelineButton.setOnClickListener(view1 -> {
@@ -74,7 +79,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         newTimelineTitleEditText = view.findViewById(R.id.new_timeline_title_edit_text);
 
         existingTimelineSpinner = view.findViewById(R.id.existing_timeline_spinner);
-        List<String> timelineTitles = new ArrayList<>();
+        timelineTitles = new ArrayList<>();
         timelineTitles.add("timeline1");
         timelineTitles.add("timeline2");
         timelineTitles.add("timeline3");
@@ -87,6 +92,23 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
         // Apply the adapter to the spinner
         existingTimelineSpinner.setAdapter(adapter);
+        existingTimelineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            /**
+             * @param parent parent view which is the spinner
+             * @param view spinner item's view
+             * @param pos position of the item in the adapter
+             * @param id the line number of the item, normally same as pos
+             */
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                slectedTimelineTitle = timelineTitles.get(pos);
+                // Toast.makeText(getContext(), timelineTitles.get(pos), Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
         // initially all views except radio buttons are invisible, one of them is visible only when
         // one method (one radio button is selected)
