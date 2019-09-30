@@ -270,8 +270,7 @@ public class UserInfoManager {
                             for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
                                 mutableLiveData
                                         .getValue()
-                                        .add(documentSnapshot
-                                                .toObject(UserInfo.class));
+                                        .add(documentSnapshot.toObject(UserInfo.class));
                             }
                         } else {
                             Log.d(TAG, task.getException() + " get failed with ");

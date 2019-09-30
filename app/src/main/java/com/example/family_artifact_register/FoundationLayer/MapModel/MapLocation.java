@@ -25,10 +25,25 @@ public class MapLocation extends Location implements Parcelable, Serializable,
     private String address;
     private List<String> imageUrls;
 
+    /**
+     * Empty constructor needed by firebase
+     */
     public MapLocation() {
         super("");
     }
 
+    /**
+     *
+     * @param mapLocationId Id stored in database
+     * @param provider provider of this location
+     * @param latitude longitude of the place
+     * @param longitude latitude of the place
+     * @param placeId placeId of the place if searched by google place api
+     * @param name name of the place
+     * @param description description of the place
+     * @param address address of the place
+     * @param imageUrls set of iamge urls (can be street view in the future)
+     */
     public MapLocation(String mapLocationId, String provider, double latitude, double longitude,
                        String placeId, String name, String description, String address,
                        List<String> imageUrls) {
@@ -74,7 +89,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return mapLocationId;
     }
 
-    public void setMapLocationId(String mapLocationId) {
+    void setMapLocationId(String mapLocationId) {
         this.mapLocationId = mapLocationId;
     }
 
@@ -82,7 +97,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return placeId;
     }
 
-    public void setPlaceId(String placeId) {
+    void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
@@ -90,7 +105,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
@@ -98,7 +113,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
@@ -106,7 +121,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return address;
     }
 
-    public void setAddress(String address) {
+    void setAddress(String address) {
         this.address = address;
     }
 
@@ -114,7 +129,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return imageUrls;
     }
 
-    public void setImageUrls(List<String> imageUrls) {
+    void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
     }
 
