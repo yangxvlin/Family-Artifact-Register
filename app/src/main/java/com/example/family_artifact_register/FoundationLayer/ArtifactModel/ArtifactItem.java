@@ -1,132 +1,151 @@
 package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
-import android.net.Uri;
-
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 
 import java.util.List;
 
 /**
- * @author XuLin Yang 904904,
- * @time 2019-9-14 20:10:15
  * @description artifact data type for each family artifact
  */
 public class ArtifactItem extends Artifact {
-//    private ArrayList<> photos;
+    // Media type of the media urls
+    private int mediaType;
 
-    private int id;
+    // List of Urls of medias stored in database (homogeneous)
+    private List<String> mediaDataUrls;
 
-    private List<Uri> images;
-
-    private List<Uri> videos;
-
-    private String timeHappened;
-
-    private MapLocation locationUploaded;
-
-    private MapLocation locationHappened;
-
-    private MapLocation locationStored;
-
-    private ArtifactTimeline artifactTimeline;
-
+    // Description of this artifact
     private String description;
+
+    // MapLocationId where the upload happens
+    private String locationUploadedId;
+
+    // MapLocationId where the event unfolded
+    private String locationHappenedId;
+
+    // MapLocationId where the artifact is stored (physically)
+    private String locationStoredId;
+
+    // DateTime when the event unfolded
+    private String happenedDateTime;
+
+    // The associated timeline
+    private ArtifactTimeline artifactTimeline;
 
     public ArtifactItem() {
         super();
     }
 
-    public ArtifactItem(int id,
-                        List<Uri> images,
-                        List<Uri> videos,
-                        String timeHappened,
-                        MapLocation locationUploaded,
-                        MapLocation locationHappened,
-                        MapLocation locationStored,
-                        ArtifactTimeline artifactTimeline,
-                        String description,
-                        String timeCreated) {
-        super(timeCreated);
-        this.id = id;
-        this.images = images;
-        this.videos = videos;
-        this.timeHappened = timeHappened;
-        this.locationUploaded = locationUploaded;
-        this.locationHappened = locationHappened;
-        this.locationStored = locationStored;
-        this.artifactTimeline = artifactTimeline;
+    /**
+     * Create new artifact item. This constructor is used by firestore and shouldn't be accessed
+     * externally
+     * @deprecated Use manager/newInstance method to create new artifact. Don't use constructor
+     */
+    @Deprecated
+    public ArtifactItem(String postId, String uid, String uploadDateTime, String lastUpdateDateTime,
+                        int mediaType, List<String> mediaDataUrls, String description,
+                        String locationUploadedId, String locationHappenedId,
+                        String locationStoredId, String happenedDateTime,
+                        ArtifactTimeline artifactTimeline) {
+        super(postId, uid, uploadDateTime, lastUpdateDateTime);
+        this.mediaType = mediaType;
+        this.mediaDataUrls = mediaDataUrls;
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<Uri> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Uri> images) {
-        this.images = images;
-    }
-
-    public List<Uri> getVideos() {
-        return videos;
-    }
-
-    public void setVideos(List<Uri> videos) {
-        this.videos = videos;
-    }
-
-    public String getTimeHappened() {
-        return timeHappened;
-    }
-
-    public void setTimeHappened(String timeHappened) {
-        this.timeHappened = timeHappened;
-    }
-
-    public MapLocation getLocationUploaded() {
-        return locationUploaded;
-    }
-
-    public void setLocationUploaded(MapLocation locationUploaded) {
-        this.locationUploaded = locationUploaded;
-    }
-
-    public MapLocation getLocationHappened() {
-        return locationHappened;
-    }
-
-    public void setLocationHappened(MapLocation locationHappened) {
-        this.locationHappened = locationHappened;
-    }
-
-    public MapLocation getLocationStored() {
-        return locationStored;
-    }
-
-    public void setLocationStored(MapLocation locationStored) {
-        this.locationStored = locationStored;
-    }
-
-    public ArtifactTimeline getArtifactTimeline() {
-        return artifactTimeline;
-    }
-
-    public void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
+        this.locationUploadedId = locationUploadedId;
+        this.locationHappenedId = locationHappenedId;
+        this.locationStoredId = locationStoredId;
+        this.happenedDateTime = happenedDateTime;
         this.artifactTimeline = artifactTimeline;
+    }
+
+    @Override
+    public String getPostId() {
+        return super.getPostId();
+    }
+
+    @Override
+    public String getUid() {
+        return super.getUid();
+    }
+
+    public int getMediaType() {
+        return mediaType;
+    }
+
+    void setMediaType(int mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public List<String> getMediaDataUrls() {
+        return mediaDataUrls;
+    }
+
+    void addMediaDataUrls(String mediaDataUrl) {
+        mediaDataUrls.add(mediaDataUrl);
+    }
+
+    void removeMediaDataUrls(String mediaDataUrl) {
+        mediaDataUrls.add(mediaDataUrl);
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
+
+
+    @Override
+    public String getUploadDateTime() {
+        return super.getUploadDateTime();
+    }
+
+    public String getHappenedDateTime() {
+        return happenedDateTime;
+    }
+
+    public void setHappenedDateTime(String happenedDateTime) {
+        this.happenedDateTime = happenedDateTime;
+    }
+
+
+    @Override
+    public String getLastUpdateDateTime() {
+        return super.getLastUpdateDateTime();
+    }
+
+    public String getLocationUploadedId() {
+        return locationUploadedId;
+    }
+
+    public void setLocationUploadedId(String locationUploadedId) {
+        this.locationUploadedId = locationUploadedId;
+    }
+
+    public String getLocationHappenedId() {
+        return locationHappenedId;
+    }
+
+    void setLocationHappenedId(String locationHappenedId) {
+        this.locationHappenedId = locationHappenedId;
+    }
+
+    public String getLocationStoredId() {
+        return locationStoredId;
+    }
+
+    void setLocationStored(MapLocation locationStored) {
+        this.locationStoredId = locationStoredId;
+    }
+
+    public ArtifactTimeline getArtifactTimeline() {
+        return artifactTimeline;
+    }
+
+    void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
+        this.artifactTimeline = artifactTimeline;
+    }
+
 }
