@@ -35,6 +35,9 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         HappenedTimeListener,
         HappenedLocationListener,
         StoredLocationListener {
+    /**
+     * class tag
+     */
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
