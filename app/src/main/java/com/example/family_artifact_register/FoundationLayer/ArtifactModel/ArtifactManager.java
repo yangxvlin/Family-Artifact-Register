@@ -2,7 +2,7 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import android.util.Pair;
 
-import com.example.family_artifact_register.FoundationLayer.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -60,7 +60,11 @@ public class ArtifactManager {
         userInfoManager = UserInfoManager.getInstance();
     }
 
-    public void addArtifact() {
+    public void addArtifact(Artifact artifact) {
+        // Upload, if successful, store it to user
 
+    }
+
+    private void storeArtifact(Artifact artifact) {
     }
 }

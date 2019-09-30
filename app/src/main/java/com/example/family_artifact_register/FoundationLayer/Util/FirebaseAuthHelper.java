@@ -1,9 +1,10 @@
-package com.example.family_artifact_register.FoundationLayer.UserModel;
+package com.example.family_artifact_register.FoundationLayer.Util;
 
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.family_artifact_register.FoundationLayer.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;

@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.FoundationLayer;
+package com.example.family_artifact_register.FoundationLayer.Util;
 
 import android.util.Log;
 

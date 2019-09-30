@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.family_artifact_register.FoundationLayer.UserModel.FirebaseAuthHelper;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
@@ -23,7 +23,6 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 import java.util.List;
