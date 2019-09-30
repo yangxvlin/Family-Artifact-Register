@@ -11,6 +11,16 @@
         android:layout_height="match_parent">
     </FrameLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/test_select_image_add_to_map"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/image_button"
+        app:layout_constraintBottom_toTopOf="@+id/test_add_database_button"
+        tools:layout_editor_absoluteX="16dp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/test_add_database_button"
         android:layout_width="match_parent"
