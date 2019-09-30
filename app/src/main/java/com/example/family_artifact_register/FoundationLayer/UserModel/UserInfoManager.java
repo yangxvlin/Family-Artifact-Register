@@ -294,7 +294,7 @@ public class UserInfoManager {
         if (!displayName.equals(mCurrentUserInfoLiveData.getValue().getDisplayName())) {
             UserInfo currentUserInfo = mCurrentUserInfoLiveData.getValue();
             currentUserInfo.setDisplayName(displayName);
-            // Update
+            // Update the displayed name to server
             mUserCollection
                     .document(mCurrentUid)
                     .update(UserInfo.DISPLAY_NAME,
