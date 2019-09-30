@@ -6,19 +6,19 @@ import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 
 public class ContactSearchViewModel extends AndroidViewModel {
 
     public static final String TAG = ContactSearchViewModel.class.getSimpleName();
 
     private UserRepository repository;
-
     private String query;
 
     public ContactSearchViewModel(Application application) {
         super(application);
         Log.i(TAG, "enter view model cons");
-        repository = new UserRepository(application);
+        repository = new UserRepository();
         query = null;
     }
 
@@ -26,4 +26,5 @@ public class ContactSearchViewModel extends AndroidViewModel {
 
     public void setQuery(String query) { this.query = query; }
     public String getQuery() { return query; }
+
 }

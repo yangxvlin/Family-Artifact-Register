@@ -2,8 +2,12 @@ package com.example.family_artifact_register.FoundationLayer.SocialModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 
 import java.util.List;
 
@@ -13,20 +17,33 @@ import java.util.List;
  */
 public class UserRepository {
 
+    public static final String TAG = UserRepository.class.getSimpleName();
 
-    private LiveData<List<User>> friends = null;
+    private LiveData<List<UserInfo>> friends = null;
+    private UserInfoManager manager;
 
 
 //    private DB db;
 //    private Cache cache;
 
-    public UserRepository(Application application) {}
+    public UserRepository() {
+        this.manager = UserInfoManager.getInstance();
+    }
 
     /***********************************/
 
-    public LiveData<List<User>> getFriends() { return null; }
-    public LiveData<User> getUser(String username) { return null; }
-    public LiveData<List<User>> getUsers(List<String> usernames) { return null; }
+    public List<LiveData<UserInfo>> getFriends(List<String> uids) { return manager.getUserInfo(uids); }
+
+    public LiveData<UserInfo> getUser(String uid) {
+        LiveData<UserInfo> temp = manager.getUserInfo(uid);
+        if(temp == null)
+            Log.d(TAG, "manager returns null for getuserinfo call");
+        UserInfo user = manager.getUserInfo(uid).getValue();
+        if(user == null)
+            Log.d(TAG, "live data contains null");
+        return manager.getUserInfo(uid);
+    }
+    public LiveData<List<UserInfo>> getUsers(String usernames) { return manager.searchUserInfo(usernames); }
 
     // comment from codelab:
     // You must call this on a non-UI thread or your app will crash. Room ensures that you don't
@@ -34,7 +51,9 @@ public class UserRepository {
 //    public void insert (User user) { new insertAsyncTask(userDAO).execute(user); }
 //    public void insertFriend(Friend friend) { new insertFriendAsyncTask(userDAO).execute(friend); }
     public void insert (User user) {}
-    public void insertFriend(Friend friend) {}
+    public void insertFriend(UserInfo user1, UserInfo user2) {
+        manager.addFriend(user1, user2);
+    }
 
     /***********************************/
 

@@ -61,7 +61,7 @@ public class ContactSearchActivity extends AppCompatActivity {
                         String query = v.getText().toString();
                         viewModel.setQuery(query);
                         Log.i(TAG, query);
-                        intent.putExtra("key", query);
+                        intent.putExtra("query", query);
 //                        if(data == null) {
 //                            // no match user in database
 //                            intent.putExtra( "key", "");

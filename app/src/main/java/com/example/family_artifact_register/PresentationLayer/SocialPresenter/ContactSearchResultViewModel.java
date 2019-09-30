@@ -7,21 +7,28 @@ import androidx.lifecycle.LiveData;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 
 import java.util.List;
 
 public class ContactSearchResultViewModel extends AndroidViewModel {
 
     private UserRepository repository;
-    private LiveData<User> user;
+    private LiveData<List<UserInfo>> result;
 
-    public ContactSearchResultViewModel(Application application) {
+    public ContactSearchResultViewModel(Application application, String query) {
         super(application);
-        repository = new UserRepository(application);
-//        user = repository.getUser(username);
+        repository = new UserRepository();
+        result = repository.getUsers(query);
     }
 
-    public LiveData<List<User>> getUsers(List<String> usernames) { return repository.getUsers(usernames); }
+    public LiveData<List<UserInfo>> getUsers() { return result; }
 
-//    public LiveData<User> getUser() { return user; }
+    public String getUidByName(String username) {
+        for(UserInfo i: result.getValue()) {
+            if(username.equals(i.getDisplayName()))
+                return i.getUid();
+        }
+        return null;
+    }
 }

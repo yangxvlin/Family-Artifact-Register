@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModelFactory;
 import com.example.family_artifact_register.R;
@@ -46,16 +47,15 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_search);
 
         Intent intent = getIntent();
-        ArrayList<String> query = new ArrayList<>();
-        query.add(intent.getStringExtra("key"));
+        String query = intent.getStringExtra("query");
 
         setupRecyclerView();
 
-        viewModel = ViewModelProviders.of(this, new ContactSearchResultViewModelFactory(getApplication())).get(ContactSearchResultViewModel.class);
+        viewModel = ViewModelProviders.of(this, new ContactSearchResultViewModelFactory(getApplication(), query)).get(ContactSearchResultViewModel.class);
 
-        Observer<List<User>> resultObserver = new Observer<List<User>>() {
+        Observer<List<UserInfo>> resultObserver = new Observer<List<UserInfo>>() {
             @Override
-            public void onChanged(List<User> newData) {
+            public void onChanged(List<UserInfo> newData) {
                 // search result back from database
                 if(newData.size() > 0) {
                     // got a match
@@ -67,9 +67,9 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             }
         };
 
-        viewModel.getUsers(query).observe(this, resultObserver);
+        viewModel.getUsers().observe(this, resultObserver);
 
-        getSupportActionBar().setTitle(query.get(0));
+        getSupportActionBar().setTitle(query);
 //        Log.i(TAG, query);
 //        List<User> result = viewModel.getUsers(nameList);
 //        if(result.size() > 0)
@@ -109,7 +109,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         // set the adapter for the view
-        adapter = new SearchResultAdapter();
+        adapter = new SearchResultAdapter(viewModel);
         recyclerView.setAdapter(adapter);
 
         // set the divider between list item
@@ -132,17 +132,19 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String value = textView.getText().toString();
+                String selectedUserName = textView.getText().toString();
                 Intent i = new Intent(view.getContext(), NewContactDetailActivity.class);
-                i.putExtra("key", value);
+                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
                 startActivity(i);
             }
-
         }
 
-        public SearchResultAdapter() {}
+        public SearchResultAdapter(ContactSearchResultViewModel viewModel) {
+            this.viewModel = viewModel;
+        }
 
-        private List<User> dataSet;
+        private ContactSearchResultViewModel viewModel;
+        private List<UserInfo> dataSet;
 
         @NonNull
         @Override
@@ -154,7 +156,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
             if(dataSet != null)
-                holder.textView.setText(dataSet.get(position).username);
+                holder.textView.setText(dataSet.get(position).getDisplayName());
             else
                 // TODO what to display when data is not ready
                 holder.textView.setText("Loading data");
@@ -167,7 +169,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             return 0;
         }
 
-        public void setData(List<User> newData) {
+        public void setData(List<UserInfo> newData) {
             dataSet = newData;
             notifyDataSetChanged();
         }

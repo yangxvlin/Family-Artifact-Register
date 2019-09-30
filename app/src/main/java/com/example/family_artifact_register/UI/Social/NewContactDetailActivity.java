@@ -13,9 +13,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.family_artifact_register.FakeDB;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModelFactory;
 import com.example.family_artifact_register.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -41,17 +43,17 @@ public class NewContactDetailActivity extends AppCompatActivity {
         TextView addFriend = (TextView) findViewById(R.id.add_friend);
 
         Intent intent = getIntent();
-        String friendName = intent.getStringExtra("key");
+        String selectedUid = intent.getStringExtra("selectedUid");
 //        username.setText();
 //        area.setText("");
 
-        viewModel = ViewModelProviders.of(this, new NewContactDetailViewModelFactory(getApplication(), friendName)).get(NewContactDetailViewModel.class);
+        viewModel = ViewModelProviders.of(this, new NewContactDetailViewModelFactory(getApplication(), selectedUid)).get(NewContactDetailViewModel.class);
 
-        Observer<User> newContactObserver = new Observer<User>() {
+        Observer<UserInfo> newContactObserver = new Observer<UserInfo>() {
             @Override
-            public void onChanged(User newData) {
-                username.setText(newData.username);
-                area.setText(newData.area);
+            public void onChanged(UserInfo newData) {
+                username.setText(newData.getDisplayName());
+                area.setText("area");
             }
         };
 
@@ -65,7 +67,7 @@ public class NewContactDetailActivity extends AppCompatActivity {
                 addFriend.setClickable(false);
                 addFriend.setFocusable(false);
                 addFriend.setBackground(null);
-                viewModel.insert();
+                viewModel.insert(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 addFriend.setText("Added to list");
             }
         });

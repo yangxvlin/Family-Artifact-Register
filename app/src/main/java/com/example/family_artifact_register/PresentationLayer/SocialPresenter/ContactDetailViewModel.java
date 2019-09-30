@@ -8,20 +8,21 @@ import androidx.lifecycle.LiveData;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 
 public class ContactDetailViewModel extends AndroidViewModel {
 
     public static final String TAG = ContactDetailViewModel.class.getSimpleName();
 
-    private LiveData<User> user;
+    private LiveData<UserInfo> selectedUser;
     private UserRepository repository;
 
-    public ContactDetailViewModel(Application application, String username) {
+    public ContactDetailViewModel(Application application, String selectedUid) {
         super(application);
         Log.i(TAG, "enter view model cons");
-        repository = new UserRepository(application);
-        user = repository.getUser(username);
+        repository = new UserRepository();
+        selectedUser = repository.getUser(selectedUid);
     }
 
-    public LiveData<User> getUser() { return user; }
+    public LiveData<UserInfo> getUser() { return selectedUser; }
 }

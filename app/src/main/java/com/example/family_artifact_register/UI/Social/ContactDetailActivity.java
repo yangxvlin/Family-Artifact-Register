@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModelFactory;
 import com.example.family_artifact_register.R;
@@ -39,19 +40,19 @@ public class ContactDetailActivity extends AppCompatActivity {
         TextView sendMessage = findViewById(R.id.send_message);
 
         Intent intent = getIntent();
-        String selectedUser = intent.getStringExtra("key");
+        String selectedUid = intent.getStringExtra("selectedUid");
 //        username.setText(selectedUser);
 
-        viewModel = ViewModelProviders.of(this, new ContactDetailViewModelFactory(getApplication(), selectedUser)).get(ContactDetailViewModel.class);
+        viewModel = ViewModelProviders.of(this, new ContactDetailViewModelFactory(getApplication(), selectedUid)).get(ContactDetailViewModel.class);
 
-        Observer<User> contactObserver = new Observer<User>() {
+        Observer<UserInfo> contactObserver = new Observer<UserInfo>() {
             @Override
-            public void onChanged(User newData) {
+            public void onChanged(UserInfo newData) {
                 // display user detail information using the latest data
-                Log.e(TAG, "some changes happened");
-                username.setText(newData.username);
-                nickname.setText(newData.nickname);
-                area.setText(newData.area);
+                Log.i(TAG, "some changes happened");
+                username.setText(newData.getDisplayName());
+                nickname.setText("nickName");
+                area.setText("area");
             }
         };
 
