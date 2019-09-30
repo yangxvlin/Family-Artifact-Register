@@ -33,7 +33,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
      */
     private static final String TAG = NewArtifactChooseTimelineFragment.class.getSimpleName();
 
-    private FloatingActionButton newTimelineNextButton;
+    private FloatingActionButton newTimelineConfirmButton;
 
     private FloatingActionButton existingTimelineConfirmButton;
 
@@ -64,7 +64,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.artifact_choose_timeline);
 
-        newTimelineNextButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_new_timeline_confirm);
+        newTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_new_timeline_confirm);
         existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_confirm);
 
         newTimelineButton = view.findViewById(R.id.new_artifact_new_timeline_radio_button);
@@ -118,7 +118,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
     public static NewArtifactChooseTimelineFragment newInstance() { return new NewArtifactChooseTimelineFragment(); }
 
     public void disableVisibility() {
-        newTimelineNextButton.setVisibility(View.GONE);
+        newTimelineConfirmButton.setVisibility(View.GONE);
         newTimelineTitleEditText.setVisibility(View.GONE);
         existingTimelineConfirmButton.setVisibility(View.GONE);
         existingTimelineSpinner.setVisibility(View.GONE);
@@ -130,7 +130,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         switch(view.getId()) {
             case R.id.new_artifact_new_timeline_radio_button:
                 if (checked) {
-                    newTimelineNextButton.setVisibility(View.VISIBLE);
+                    newTimelineConfirmButton.setVisibility(View.VISIBLE);
                     newTimelineTitleEditText.setVisibility(View.VISIBLE);
                     existingTimelineConfirmButton.setVisibility(View.GONE);
                     existingTimelineSpinner.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
                 break;
             case R.id.new_artifact_existing_timeline_radio_button:
                 if (checked) {
-                    newTimelineNextButton.setVisibility(View.GONE);
+                    newTimelineConfirmButton.setVisibility(View.GONE);
                     newTimelineTitleEditText.setVisibility(View.GONE);
                     existingTimelineConfirmButton.setVisibility(View.VISIBLE);
                     existingTimelineSpinner.setVisibility(View.VISIBLE);
