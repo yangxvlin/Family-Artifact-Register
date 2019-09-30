@@ -18,6 +18,11 @@ public class ArtifactTimeline extends Artifact {
      */
     private String title;
 
+    /**
+     * Create new artifact timeline. This constructor is used by firestore and shouldn't be accessed
+     * externally
+     * @deprecated Use manager/newInstance method to create new artifact. Don't use constructor
+     */
     public ArtifactTimeline(String postId, String uid, String uploadDateTime,
                             String lastUpdateDateTime, List<String> artifactItemPostIds,
                             String title) {

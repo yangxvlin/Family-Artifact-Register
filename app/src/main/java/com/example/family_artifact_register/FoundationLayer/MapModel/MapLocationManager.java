@@ -101,4 +101,8 @@ public class MapLocationManager {
                                     "e:" + e.toString()));
     }
 
+
+    public void getMapLocationById(String mapLocationId) {
+        // TODO
+    }
 }

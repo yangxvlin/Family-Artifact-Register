@@ -36,12 +36,20 @@ public class ArtifactItem extends Artifact {
         super();
     }
 
+    /**
+     * Create new artifact item. This constructor is used by firestore and shouldn't be accessed
+     * externally
+     * @deprecated Use manager/newInstance method to create new artifact. Don't use constructor
+     */
+    @Deprecated
     public ArtifactItem(String postId, String uid, int mediaType, List<String> mediaDataUrls,
                         String description, String uploadDateTime, String happenedDateTime,
                         String lastUpdateDateTime) {
-        super(postId, uid, mediaType, mediaDataUrls, description, uploadDateTime,
-                lastUpdateDateTime);
+        super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.happenedDateTime = happenedDateTime;
+        this.mediaType = mediaType;
+        this.mediaDataUrls = mediaDataUrls;
+        this.description = description;
     }
 
     @Override

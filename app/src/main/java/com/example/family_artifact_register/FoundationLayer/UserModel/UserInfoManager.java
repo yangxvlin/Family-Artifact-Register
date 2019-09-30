@@ -347,4 +347,20 @@ public class UserInfoManager {
                 Log.w(TAG, "Error update user new Uri info to FireStore failed" +
                         currentUserInfo.toString(), e));
     }
+
+    /**
+     * Get Uid of current user
+     * @return uid of current user
+     */
+    public String getCurrentUid() {
+        return mCurrentUid;
+    }
+
+    /**
+     * Get current user
+     * @return current user, UserInfo object
+     */
+    public UserInfo getCurrentUser() {
+        return mCurrentUserInfoLiveData.getValue();
+    }
 }
