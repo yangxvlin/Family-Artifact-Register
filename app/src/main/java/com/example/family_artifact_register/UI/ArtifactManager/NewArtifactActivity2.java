@@ -17,6 +17,7 @@ import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
 import com.example.family_artifact_register.UI.Util.HappenedTimeListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
+import com.example.family_artifact_register.UI.Util.NewTimelineListener;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 
@@ -34,7 +35,11 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         DescriptionListener,
         HappenedTimeListener,
         HappenedLocationListener,
-        StoredLocationListener {
+        StoredLocationListener,
+        NewTimelineListener {
+    /**
+     * class tag
+     */
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
@@ -52,6 +57,11 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     private MapLocation happenedLocation;
 
     private MapLocation storedLocation;
+
+    private int timelineStrategy;
+
+    // TODO might be changed later
+    private String timelineTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,4 +157,20 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     @Override
     public MapLocation getStoredLocation() { return this.storedLocation; }
+
+    @Override
+    public void setTimeline(int type, String timelineTitle) {
+        this.timelineStrategy = type;
+        this.timelineTitle = timelineTitle;
+    }
+
+    @Override
+    public int getTimelineType() {
+        return this.timelineStrategy;
+    }
+
+    @Override
+    public String getTimelineTitle() {
+        return this.timelineTitle;
+    }
 }
