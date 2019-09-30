@@ -97,7 +97,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return placeId;
     }
 
-    void setPlaceId(String placeId) {
+    public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
@@ -105,7 +105,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return name;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -113,7 +113,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -121,7 +121,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return address;
     }
 
-    void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -129,8 +129,12 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         return imageUrls;
     }
 
-    void setImageUrls(List<String> imageUrls) {
-        this.imageUrls = imageUrls;
+    public void addImageUrl(String imageUrl) {
+        this.imageUrls.add(imageUrl);
+    }
+
+    public void removeImageUrl(String imageUrl) {
+        this.imageUrls.remove(imageUrl);
     }
 
     @Override
