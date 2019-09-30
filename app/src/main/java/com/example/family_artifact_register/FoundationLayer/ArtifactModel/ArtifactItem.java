@@ -1,17 +1,22 @@
 package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
-import android.net.Uri;
-
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 
 import java.util.List;
 
 /**
- * @author XuLin Yang 904904,
- * @time 2019-9-14 20:10:15
  * @description artifact data type for each family artifact
  */
 public class ArtifactItem extends Artifact {
+    // Media type of the media urls
+    private int mediaType;
+
+    // List of Urls of medias stored in database (homogeneous)
+    private List<String> mediaDataUrls;
+
+    // Description of this artifact
+    private String description;
+
     // Location where the upload happens
     private MapLocation locationUploaded;
 
@@ -20,6 +25,9 @@ public class ArtifactItem extends Artifact {
 
     // Location where the artifact is stored (physically)
     private MapLocation locationStored;
+
+    // DateTime when the event unfolded
+    private String happenedDateTime;
 
     // The associated timeline
     private ArtifactTimeline artifactTimeline;
@@ -31,8 +39,9 @@ public class ArtifactItem extends Artifact {
     public ArtifactItem(String postId, String uid, int mediaType, List<String> mediaDataUrls,
                         String description, String uploadDateTime, String happenedDateTime,
                         String lastUpdateDateTime) {
-        super(postId, uid, mediaType, mediaDataUrls, description, uploadDateTime, happenedDateTime,
+        super(postId, uid, mediaType, mediaDataUrls, description, uploadDateTime,
                 lastUpdateDateTime);
+        this.happenedDateTime = happenedDateTime;
     }
 
     @Override
@@ -45,30 +54,48 @@ public class ArtifactItem extends Artifact {
         return super.getUid();
     }
 
-    @Override
     public int getMediaType() {
-        return super.getMediaType();
+        return mediaType;
     }
 
-    @Override
+    void setMediaType(int mediaType) {
+        this.mediaType = mediaType;
+    }
+
     public List<String> getMediaDataUrls() {
-        return super.getMediaDataUrls();
+        return mediaDataUrls;
     }
 
-    @Override
-    public String getDescription() {
-        return super.getDescription();
+    void addMediaDataUrls(String mediaDataUrl) {
+        mediaDataUrls.add(mediaDataUrl);
     }
+
+    void removeMediaDataUrls(String mediaDataUrl) {
+        mediaDataUrls.add(mediaDataUrl);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    void setDescription(String description) {
+        this.description = description;
+    }
+
 
     @Override
     public String getUploadDateTime() {
         return super.getUploadDateTime();
     }
 
-    @Override
     public String getHappenedDateTime() {
-        return super.getHappenedDateTime();
+        return happenedDateTime;
     }
+
+    public void setHappenedDateTime(String happenedDateTime) {
+        this.happenedDateTime = happenedDateTime;
+    }
+
 
     @Override
     public String getLastUpdateDateTime() {
@@ -106,4 +133,5 @@ public class ArtifactItem extends Artifact {
     void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
         this.artifactTimeline = artifactTimeline;
     }
+
 }

@@ -11,21 +11,8 @@ public abstract class Artifact {
 
     // User id associated to this artifact
     private String uid;
-
-    // Media type of the media urls
-    private int mediaType;
-
-    // List of Urls of medias stored in database (homogeneous)
-    private List<String> mediaDataUrls;
-
-    // Description of this artifact
-    private String description;
-
     // DateTime when this artifact is uploaded
     private String uploadDateTime;
-
-    // DateTime when the event unfolded
-    private String happenedDateTime;
 
     // TODO (Will be DateTime when user last update the artifact contents)
     private String lastUpdateDateTime;
@@ -39,16 +26,11 @@ public abstract class Artifact {
      * only for setting up the interfaces
      */
     public Artifact(String postId, String uid, int mediaType, List<String> mediaDataUrls,
-                    String description, String uploadDateTime, String happenedDateTime,
-                    String lastUpdateDateTime) {
+                    String description, String uploadDateTime, String lastUpdateDateTime) {
         // Full Constructor need by firestore
         this.postId = postId;
         this.uid = uid;
-        this.mediaType = mediaType;
-        this.mediaDataUrls = mediaDataUrls;
-        this.description = description;
         this.uploadDateTime = uploadDateTime;
-        this.happenedDateTime = happenedDateTime;
         this.lastUpdateDateTime = lastUpdateDateTime;
     }
 
@@ -68,48 +50,12 @@ public abstract class Artifact {
         this.uid = uid;
     }
 
-    public int getMediaType() {
-        return mediaType;
-    }
-
-    void setMediaType(int mediaType) {
-        this.mediaType = mediaType;
-    }
-
-    public List<String> getMediaDataUrls() {
-        return mediaDataUrls;
-    }
-
-    void addMediaDataUrls(String mediaDataUrl) {
-        mediaDataUrls.add(mediaDataUrl);
-    }
-
-    void removeMediaDataUrls(String mediaDataUrl) {
-        mediaDataUrls.add(mediaDataUrl);
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getUploadDateTime() {
         return uploadDateTime;
     }
 
     public void setUploadDateTime(String uploadDateTime) {
         this.uploadDateTime = uploadDateTime;
-    }
-
-    public String getHappenedDateTime() {
-        return happenedDateTime;
-    }
-
-    public void setHappenedDateTime(String happenedDateTime) {
-        this.happenedDateTime = happenedDateTime;
     }
 
     public String getLastUpdateDateTime() {
