@@ -25,8 +25,7 @@ public abstract class Artifact {
      * Constructor used by firestore, but this is abstract class, won't be used directly,
      * only for setting up the interfaces
      */
-    public Artifact(String postId, String uid, int mediaType, List<String> mediaDataUrls,
-                    String description, String uploadDateTime, String lastUpdateDateTime) {
+    public Artifact(String postId, String uid, String uploadDateTime, String lastUpdateDateTime) {
         // Full Constructor need by firestore
         this.postId = postId;
         this.uid = uid;
