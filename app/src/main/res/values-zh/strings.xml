@@ -76,7 +76,7 @@
     <string name="new_artifact_new_timeline">新的时间线</string>
     <string name="new_artifact_existing_timeline">添加到已有的时间线</string>
     <string name="new_artifact_timeline_title_hint">请在此输入新时间线的标题。</string>
-    <style name="new_artifact_new_timeline_empty_title_warning">新的时间线的标题不能为空！</style>
+    <string name="new_artifact_new_timeline_empty_title_warning">新的时间线的标题不能为空！</string>
   
     <!-- 地点相关服务字符串 -->
     <string name="option_get_place">使用当前位置</string>
