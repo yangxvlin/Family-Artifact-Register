@@ -17,10 +17,15 @@ import androidx.fragment.app.Fragment;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.NewTimelineListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
+
+import static com.example.family_artifact_register.UI.Util.NewTimelineListener.NEW_ARTIFACT_TIMELINE;
 
 /**
  * @author XuLin Yang 904904,
@@ -64,9 +69,6 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.artifact_choose_timeline);
 
-        newTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_new_timeline_confirm);
-        existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_confirm);
-
         newTimelineButton = view.findViewById(R.id.new_artifact_new_timeline_radio_button);
         newTimelineButton.setOnClickListener(view1 -> {
             onRadioButtonClicked(view1);
@@ -79,6 +81,8 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         newTimelineTitleEditText = view.findViewById(R.id.new_timeline_title_edit_text);
 
         existingTimelineSpinner = view.findViewById(R.id.existing_timeline_spinner);
+
+        // TODO pull existing timeline data from server
         timelineTitles = new ArrayList<>();
         timelineTitles.add("timeline1");
         timelineTitles.add("timeline2");
@@ -109,6 +113,25 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
                 // Another interface callback
             }
         });
+
+        newTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_new_timeline_confirm);
+        newTimelineConfirmButton.setOnClickListener(view1 -> {
+            String newTimelineTitle = newTimelineTitleEditText.getText().toString();
+
+            // new timeline's title has non-empty length
+            if (newTimelineTitle.isEmpty()) {
+                Toasty.error(getContext(), R.string.new_artifact_new_timeline_empty_title_warning, Toasty.LENGTH_LONG)
+                        .show();
+            } else {
+                // pass data to activity
+                ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, newTimelineTitle);
+                // TODO call NewArtifactActivity method to start upload
+
+                // finish the activity
+                getActivity().finish();
+            }
+        });
+        existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_confirm);
 
         // initially all views except radio buttons are invisible, one of them is visible only when
         // one method (one radio button is selected)
