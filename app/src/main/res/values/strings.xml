@@ -67,11 +67,15 @@
     <string name="artifact_when_happened_title">When Happened</string>
     <string name="artifact_where_happened_title">Where Happened</string>
     <string name="artifact_where_stored_title">Where Stored</string>
+    <string name="artifact_choose_timeline">Choose Timeline</string>
     <string name="delete">Delete</string>
     <string name="preview_image">Preview and Add Image</string>
     <string name="new_artifact_activity_proceed_next_hint">At least one image/video to proceed.</string>
     <string name="not_enough_image_warning">At least one image to continue.</string>
     <string name="not_enough_location_warning">Please choose one location to continue.</string>
+    <string name="new_artifact_new_timeline">New Timeline</string>
+    <string name="new_artifact_existing_timeline">Existing Timeline</string>
+    <string name="new_artifact_timeline_title_hint">Input your new timeline\'s title here.</string>
 
 
     <!-- map location related service -->
