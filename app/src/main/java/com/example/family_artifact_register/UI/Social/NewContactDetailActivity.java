@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.family_artifact_register.FakeDB;
-import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModelFactory;
@@ -33,8 +31,6 @@ public class NewContactDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_friend_detail);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        ArrayList<String> dataSet = FakeDB.getInstance();
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar_new);
         TextView username = (TextView) findViewById(R.id.username_new);

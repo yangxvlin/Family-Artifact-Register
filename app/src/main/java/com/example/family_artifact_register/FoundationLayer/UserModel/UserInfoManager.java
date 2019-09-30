@@ -268,9 +268,11 @@ public class UserInfoManager {
                                 return;
                             }
                             for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
+                                UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                                Log.i(TAG, "found (" + field +") equal to (" + query + ")" + "user: "+ userInfo.toString());
                                 mutableLiveData
                                         .getValue()
-                                        .add(documentSnapshot.toObject(UserInfo.class));
+                                        .add(userInfo);
                                 mutableLiveData.setValue(mutableLiveData.getValue());
                             }
                         } else {
