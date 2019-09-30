@@ -113,15 +113,23 @@ public class UserInfoManager {
         return mCurrentUserInfoLiveData.getValue();
     }
 
+    public LiveData<UserInfo> getUserInfo(String uid) {
+        // TODO
+        return null;
+    }
+
+    public LiveData<UserInfo> getUserInfo(List<String> uid) {
+        // TODO
+        return null;
+    }
+
     /**
      * Get Detailed user information of some users
      * @param uid one user id
      * @return A LiveData object containing user information, that will be updated in real time!
      *
-     * @deprecated TODO will be renamed to listenUserInfo in the future, and the current one will no longer have listener
      */
-    @Deprecated
-    public LiveData<UserInfo> getUserInfo(String uid) {
+    public LiveData<UserInfo> listenUserInfo(String uid) {
         if (uid.equals(mCurrentUid)) {
             return mCurrentUserInfoLiveData;
         }
@@ -168,13 +176,11 @@ public class UserInfoManager {
      * @param uids list of user id (duplication will be removed)
      * @return A List LiveData object containing user information, that will be updated in real time!
      *
-     * @deprecated TODO will be renamed to listenUserInfo in the future, and the current one will no longer have listener
      */
-    @Deprecated
-    public List<LiveData<UserInfo>> getUserInfo(List<String> uids) {
+    public List<LiveData<UserInfo>> listenUserInfo(List<String> uids) {
         ArrayList<LiveData<UserInfo>> liveDataList = new ArrayList<>();
         for (String uid: new HashSet<>(uids)) {
-            liveDataList.add(getUserInfo(uid));
+            liveDataList.add(listenUserInfo(uid));
         }
         return liveDataList;
     }
