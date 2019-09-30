@@ -28,8 +28,11 @@ public class ArtifactItem extends Artifact {
         super();
     }
 
-    public ArtifactItem(String postId, String uid, int mediaType, List<String> mediaDataUrls, String description, String uploadDateTime, String happenedDateTime, String lastUpdateDateTime) {
-        super(postId, uid, mediaType, mediaDataUrls, description, uploadDateTime, happenedDateTime, lastUpdateDateTime);
+    public ArtifactItem(String postId, String uid, int mediaType, List<String> mediaDataUrls,
+                        String description, String uploadDateTime, String happenedDateTime,
+                        String lastUpdateDateTime) {
+        super(postId, uid, mediaType, mediaDataUrls, description, uploadDateTime, happenedDateTime,
+                lastUpdateDateTime);
     }
 
     @Override
@@ -84,7 +87,7 @@ public class ArtifactItem extends Artifact {
         return locationHappened;
     }
 
-    public void setLocationHappened(MapLocation locationHappened) {
+    void setLocationHappened(MapLocation locationHappened) {
         this.locationHappened = locationHappened;
     }
 
@@ -92,7 +95,7 @@ public class ArtifactItem extends Artifact {
         return locationStored;
     }
 
-    public void setLocationStored(MapLocation locationStored) {
+    void setLocationStored(MapLocation locationStored) {
         this.locationStored = locationStored;
     }
 
@@ -100,7 +103,7 @@ public class ArtifactItem extends Artifact {
         return artifactTimeline;
     }
 
-    public void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
+    void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
         this.artifactTimeline = artifactTimeline;
     }
 }

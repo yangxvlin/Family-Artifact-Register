@@ -1,16 +1,24 @@
 package com.example.family_artifact_register.FoundationLayer.MapModel;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Dataclass for Location on a map
  */
-public class MapLocation extends Location {
+public class MapLocation extends Location implements Parcelable, Serializable,
+        Comparable<MapLocation> {
+    private String mapLocationId;
     private String placeId;
     private String name;
     private String description;
@@ -21,9 +29,11 @@ public class MapLocation extends Location {
         super("");
     }
 
-    public MapLocation(String provider, double latitude, double longitude, String placeId,
-                       String name, String description, String address, List<String> imageUrls) {
+    public MapLocation(String mapLocationId, String provider, double latitude, double longitude,
+                       String placeId, String name, String description, String address,
+                       List<String> imageUrls) {
         super(provider);
+        this.mapLocationId = mapLocationId;
         this.setLatitude(latitude);
         this.setLongitude(longitude);
         this.placeId = placeId;
@@ -34,7 +44,7 @@ public class MapLocation extends Location {
     }
 
     public static MapLocation newInstance(LatLng latLng) {
-        return new MapLocation(
+        return new MapLocation(null,
                 "", latLng.latitude, latLng.longitude, null, null,
                 null, null, null
 
@@ -58,6 +68,14 @@ public class MapLocation extends Location {
             mapLocation.setAddress(place.getAddress());
         }
         return mapLocation;
+    }
+
+    public String getMapLocationId() {
+        return mapLocationId;
+    }
+
+    public void setMapLocationId(String mapLocationId) {
+        this.mapLocationId = mapLocationId;
     }
 
     public String getPlaceId() {
@@ -98,5 +116,89 @@ public class MapLocation extends Location {
 
     public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    @Override
+    public String getProvider() {
+        return super.getProvider();
+    }
+
+    @Override
+    public double getLatitude() {
+        return super.getLatitude();
+    }
+
+    @Override
+    public double getLongitude() {
+        return super.getLongitude();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(mapLocationId);
+        out.writeString(getProvider());
+        out.writeDouble(getLatitude());
+        out.writeDouble(getLongitude());
+        out.writeString(placeId);
+        out.writeString(name);
+        out.writeString(description);
+        out.writeString(address);
+        out.writeStringList(imageUrls);
+    }
+
+    public static final Parcelable.Creator<MapLocation> CREATOR
+            = new Parcelable.Creator<MapLocation>() {
+        public MapLocation createFromParcel(Parcel in) {
+            return new MapLocation(in);
+        }
+
+        public MapLocation[] newArray(int size) {
+            return new MapLocation[size];
+        }
+    };
+
+    /**
+     * Constructor used for parcelable
+     *
+     * @param in The parcel with information
+     */
+    private MapLocation(Parcel in) {
+        this(
+                in.readString(),
+                in.readString(),
+                in.readDouble(),
+                in.readDouble(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                null
+        );
+        this.imageUrls = new ArrayList<>();
+        in.readStringList(imageUrls);
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return String.format(
+                "MapLocation: %s, name: %s, latlng: (%f, %f), placeId: %s, description: %s," +
+                        "address: %s, imageUrls: " + imageUrls.toString(),
+                mapLocationId, name, getLatitude(), getLongitude(), placeId, description, address
+        );
+    }
+
+    /**
+     * Override Compare to to have an ordering of things (May be easier for frontend to manage)
+     * @param o The other to compare to
+     * @return Save order as the comparison between displayed name
+     */
+    @Override
+    public int compareTo(MapLocation o) {
+        return this.getName().compareTo(o.getName());
     }
 }
