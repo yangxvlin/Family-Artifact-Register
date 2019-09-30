@@ -12,82 +12,64 @@ import java.util.List;
  * @description artifact data type for each family artifact
  */
 public class ArtifactItem extends Artifact {
-//    private ArrayList<> photos;
-
-    private int id;
-
-    private List<Uri> images;
-
-    private List<Uri> videos;
-
-    private String timeHappened;
-
+    // Location where the upload happens
     private MapLocation locationUploaded;
 
+    // Location where the event unfolded
     private MapLocation locationHappened;
 
+    // Location where the artifact is stored (physically)
     private MapLocation locationStored;
 
+    // The associated timeline
     private ArtifactTimeline artifactTimeline;
-
-    private String description;
 
     public ArtifactItem() {
         super();
     }
 
-    public ArtifactItem(int id,
-                        List<Uri> images,
-                        List<Uri> videos,
-                        String timeHappened,
-                        MapLocation locationUploaded,
-                        MapLocation locationHappened,
-                        MapLocation locationStored,
-                        ArtifactTimeline artifactTimeline,
-                        String description,
-                        String timeCreated) {
-        super(timeCreated);
-        this.id = id;
-        this.images = images;
-        this.videos = videos;
-        this.timeHappened = timeHappened;
-        this.locationUploaded = locationUploaded;
-        this.locationHappened = locationHappened;
-        this.locationStored = locationStored;
-        this.artifactTimeline = artifactTimeline;
-        this.description = description;
+    public ArtifactItem(String postId, String uid, int mediaType, List<String> mediaDataUrls, String description, String uploadDateTime, String happenedDateTime, String lastUpdateDateTime) {
+        super(postId, uid, mediaType, mediaDataUrls, description, uploadDateTime, happenedDateTime, lastUpdateDateTime);
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public String getPostId() {
+        return super.getPostId();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public String getUid() {
+        return super.getUid();
     }
 
-    public List<Uri> getImages() {
-        return images;
+    @Override
+    public int getMediaType() {
+        return super.getMediaType();
     }
 
-    public void setImages(List<Uri> images) {
-        this.images = images;
+    @Override
+    public List<String> getMediaDataUrls() {
+        return super.getMediaDataUrls();
     }
 
-    public List<Uri> getVideos() {
-        return videos;
+    @Override
+    public String getDescription() {
+        return super.getDescription();
     }
 
-    public void setVideos(List<Uri> videos) {
-        this.videos = videos;
+    @Override
+    public String getUploadDateTime() {
+        return super.getUploadDateTime();
     }
 
-    public String getTimeHappened() {
-        return timeHappened;
+    @Override
+    public String getHappenedDateTime() {
+        return super.getHappenedDateTime();
     }
 
-    public void setTimeHappened(String timeHappened) {
-        this.timeHappened = timeHappened;
+    @Override
+    public String getLastUpdateDateTime() {
+        return super.getLastUpdateDateTime();
     }
 
     public MapLocation getLocationUploaded() {
@@ -120,13 +102,5 @@ public class ArtifactItem extends Artifact {
 
     public void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
         this.artifactTimeline = artifactTimeline;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }
