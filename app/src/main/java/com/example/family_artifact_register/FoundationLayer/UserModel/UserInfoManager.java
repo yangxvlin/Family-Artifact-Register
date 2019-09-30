@@ -25,6 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for managing user information
+ */
 public class UserInfoManager {
     private static final String TAG = UserInfoManager.class.getSimpleName();
     private static UserInfoManager instance;
@@ -114,7 +117,10 @@ public class UserInfoManager {
      * Get Detailed user information of some users
      * @param uid one user id
      * @return A LiveData object containing user information, that will be updated in real time!
+     *
+     * @deprecated TODO will be renamed to listenUserInfo in the future, and the current one will no longer have listener
      */
+    @Deprecated
     public LiveData<UserInfo> getUserInfo(String uid) {
         if (uid.equals(mCurrentUid)) {
             return mCurrentUserInfoLiveData;
@@ -161,7 +167,10 @@ public class UserInfoManager {
      * Get Detailed user information of some users
      * @param uids list of user id (duplication will be removed)
      * @return A List LiveData object containing user information, that will be updated in real time!
+     *
+     * @deprecated TODO will be renamed to listenUserInfo in the future, and the current one will no longer have listener
      */
+    @Deprecated
     public List<LiveData<UserInfo>> getUserInfo(List<String> uids) {
         ArrayList<LiveData<UserInfo>> liveDataList = new ArrayList<>();
         for (String uid: new HashSet<>(uids)) {

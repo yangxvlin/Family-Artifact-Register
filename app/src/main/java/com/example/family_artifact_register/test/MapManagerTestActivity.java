@@ -13,14 +13,7 @@ import android.view.View;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactMediaFragment;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactPreviewImagesFragment;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactPreviewVideoFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
-import com.example.family_artifact_register.UI.Util.MediaListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.File;
 
 import pl.aprilapps.easyphotopicker.ChooserType;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
