@@ -76,6 +76,7 @@
     <string name="new_artifact_new_timeline">New Timeline</string>
     <string name="new_artifact_existing_timeline">Existing Timeline</string>
     <string name="new_artifact_timeline_title_hint">Input your new timeline\'s title here.</string>
+    <style name="new_artifact_new_timeline_empty_title_warning">New Artifact Timeline should has non-empty title!</style>
 
 
     <!-- map location related service -->
