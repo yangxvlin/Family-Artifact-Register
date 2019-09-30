@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
@@ -18,7 +19,9 @@ import com.example.family_artifact_register.UI.Util.HappenedTimeListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
+import com.example.family_artifact_register.UI.Util.StartUploadListener;
 import com.example.family_artifact_register.UI.Util.StoredLocationListener;
+import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,8 +36,10 @@ import java.util.List;
 public class NewArtifactActivity2 extends AppCompatActivity implements MediaListener,
         DescriptionListener,
         HappenedTimeListener,
+        UploadLocationListener,
         HappenedLocationListener,
-        StoredLocationListener {
+        StoredLocationListener,
+        StartUploadListener {
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
@@ -52,6 +57,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     private MapLocation happenedLocation;
 
     private MapLocation storedLocation;
+
+    private MapLocation uploadLocation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +89,25 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void uploadNewArtifact() {
+        MapLocationManager mlm =  MapLocationManager.getInstance();
+        mlm.storeMapLocation(uploadLocation);
+        String uploadLocationId = uploadLocation.getMapLocationId();
+
+        mlm.storeMapLocation(happenedLocation);
+        String happenedLocationId = happenedLocation.getMapLocationId();
+
+        mlm.storeMapLocation(storedLocation);
+        String storedLocationId = storedLocation.getMapLocationId();
+
+        Log.i(TAG, "upload location id: " + uploadLocationId);
+        Log.i(TAG, "happened location id: " + happenedLocationId);
+        Log.i(TAG, "stored location id" + storedLocationId);
+
+//        ArtifactItem newItem = new ArtifactItem();
     }
 
     // ************************************ implement interface ***********************************
@@ -147,4 +173,10 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     @Override
     public MapLocation getStoredLocation() { return this.storedLocation; }
+
+    @Override
+    public MapLocation getUploadLocation() { return this.uploadLocation; }
+
+    @Override
+    public void setUploadLocation(MapLocation uploadLocation) { this.uploadLocation = uploadLocation; }
 }

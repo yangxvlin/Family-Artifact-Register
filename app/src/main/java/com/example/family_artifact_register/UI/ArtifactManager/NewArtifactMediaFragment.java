@@ -22,6 +22,7 @@ import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocatio
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
+import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import pl.aprilapps.easyphotopicker.ChooserType;
@@ -41,7 +42,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
 
     private EasyImage easyImage;
 
-    private Fragment uploadLocationFragment;
+    private CurrentLocationFragment uploadLocationFragment;
 
     public NewArtifactMediaFragment() {
         // required empty constructor
@@ -121,6 +122,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                         ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
                     }
                     ((MediaListener)getActivity()).setMediaType(TYPE_IMAGE);
+                    ((UploadLocationListener)getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
                     // next images fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
@@ -134,6 +136,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                         ((MediaListener)getActivity()).addData(image, TYPE_VIDEO);
                     }
                     ((MediaListener)getActivity()).setMediaType(TYPE_VIDEO);
+                    ((UploadLocationListener)getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
                     // next fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
