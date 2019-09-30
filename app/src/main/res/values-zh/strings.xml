@@ -77,6 +77,7 @@
     <string name="new_artifact_existing_timeline">添加到已有的时间线</string>
     <string name="new_artifact_timeline_title_hint">请在此输入新时间线的标题。</string>
     <string name="new_artifact_new_timeline_empty_title_warning">新的时间线的标题不能为空！</string>
+    <string name="existing_timeline_spinner_prompt">添加到已有的时间线：</string>
   
     <!-- 地点相关服务字符串 -->
     <string name="option_get_place">使用当前位置</string>
@@ -86,4 +87,5 @@
     <string name="default_info_title">默认地点</string>
     <string name="default_info_snippet">系统定位服务已禁用，无法找到您的位置</string>
     <string name="no_location">暂无定位</string>
+
 </resources>
