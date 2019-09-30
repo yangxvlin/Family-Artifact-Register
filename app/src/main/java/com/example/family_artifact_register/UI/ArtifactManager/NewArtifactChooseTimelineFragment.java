@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -119,6 +120,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
             String newTimelineTitle = newTimelineTitleEditText.getText().toString();
 
             // new timeline's title has non-empty length
+            // TODO new timeline's title should not collide with existing timelines
             if (newTimelineTitle.isEmpty()) {
                 Toasty.error(getContext(), R.string.new_artifact_new_timeline_empty_title_warning, Toasty.LENGTH_LONG)
                         .show();
@@ -131,7 +133,25 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
                 getActivity().finish();
             }
         });
+
         existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_confirm);
+        existingTimelineConfirmButton.setOnClickListener(view1 -> {
+            String selectedTimelineTitle = existingTimelineSpinner.getSelectedItem().toString();
+
+            // new timeline's title has non-empty length
+            if (selectedTimelineTitle.isEmpty()) {
+                Toasty.error(getContext(), R.string.new_artifact_new_timeline_empty_title_warning, Toasty.LENGTH_LONG)
+                        .show();
+            } else {
+                // pass data to activity
+                ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, selectedTimelineTitle);
+                Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
+                // TODO call NewArtifactActivity method to start upload
+
+                // finish the activity
+                getActivity().finish();
+            }
+        });
 
         // initially all views except radio buttons are invisible, one of them is visible only when
         // one method (one radio button is selected)
