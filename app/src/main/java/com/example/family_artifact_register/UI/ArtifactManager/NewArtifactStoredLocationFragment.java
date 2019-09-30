@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.IFragment;
@@ -57,10 +58,10 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
                 ((StoredLocationListener)getActivity()).setStoredLocation(selectedLocation);
 
                 // to next fragment
-//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.addToBackStack("next");
-//                fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactStoredLocationFragment.newInstance());
-//                fragmentTransaction.commit();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack("next");
+                fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactChooseTimelineFragment.newInstance());
+                fragmentTransaction.commit();
             } else {
                 Toasty.error(getContext(), R.string.not_enough_location_warning, Toasty.LENGTH_SHORT)
                         .show();
