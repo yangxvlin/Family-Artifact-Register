@@ -55,7 +55,7 @@ public class MapLocationManager {
      * Store the mapLocation to database.
      * WARNING!! The image url in the MapLocation will be overwritten by the new URL in server!
      *
-     * @param mapLocation
+     * @param mapLocation The map location to store to database
      */
     public void storeMapLocation(MapLocation mapLocation) {
         DocumentReference mapLocationReference;
@@ -80,9 +80,11 @@ public class MapLocationManager {
         Map<String, String> imageUrlMap = new HashMap<>();
 
         int i = 0;
-        for (String imageUrl : mapLocation.getImageUrls()) {
-            imageUrlMap.put(mapLocation.getMapLocationId()+"_"+i, imageUrl);
-            i += 1;
+        if (mapLocation.getImageUrls() != null) {
+            for (String imageUrl : mapLocation.getImageUrls()) {
+                imageUrlMap.put(mapLocation.getMapLocationId()+"_"+i, imageUrl);
+                i += 1;
+            }
         }
 
         for (String key: imageUrlMap.keySet()) {

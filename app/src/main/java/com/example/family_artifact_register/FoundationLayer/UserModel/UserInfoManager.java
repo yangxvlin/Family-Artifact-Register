@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -347,15 +348,15 @@ public class UserInfoManager {
             return;
         }
         UserInfo currentUserInfo = mCurrentUserInfoLiveData.getValue();
-        StorageReference fileReference = mPhotoStorageReference.child(
-                String.valueOf(System.currentTimeMillis()));
-        UploadTask uploadTask = fileReference.putFile(photoUri);
+        Pair<String, UploadTask> uploadTaskPair =
+                FirebaseStorageHelper.getInstance().uploadByUri(photoUri, mPhotoStorageReference);
+        UploadTask uploadTask = uploadTaskPair.second;
 
         uploadTask.addOnFailureListener(
                 e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
                         photoUri.toString(), e)
         ).onSuccessTask(task ->
-                fileReference
+                mPhotoStorageReference.child(uploadTaskPair.first)
                         .getDownloadUrl())
                 .addOnSuccessListener(task -> {
                     String photoUrl = task.toString();

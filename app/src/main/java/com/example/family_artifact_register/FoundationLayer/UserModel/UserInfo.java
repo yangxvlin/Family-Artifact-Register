@@ -49,6 +49,12 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
+        if (friendUids == null) {
+            friendUids = new HashMap<>();
+        }
+        if (artifactIds == null) {
+            artifactIds = new HashMap<>();
+        }
         this.friendUids = friendUids;
         this.artifactIds = artifactIds;
     }

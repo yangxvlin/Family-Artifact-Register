@@ -29,7 +29,8 @@ public class MapLocation extends Location implements Parcelable, Serializable,
      * Empty constructor needed by firebase
      */
     public MapLocation() {
-        super("");
+        this(null, "", 0, 0, null, null,
+                null, null, null);
     }
 
     /**
@@ -54,6 +55,9 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         this.name = name;
         this.description = description;
         this.address = address;
+        if (imageUrls == null) {
+            imageUrls = new ArrayList<>();
+        }
         this.imageUrls = imageUrls;
     }
 

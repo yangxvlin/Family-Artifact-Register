@@ -38,7 +38,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * class tag
      */
     public static final String TAG = MapSearchDisplayFragment.class.getSimpleName();
-    private Marker currentMarker = null;
+    private MapLocation currentMapLocation;
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
@@ -137,6 +137,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
+                currentMapLocation = MapLocation.newInstance(place);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                 LatLng latLng = place.getLatLng();
                 // Creating a marker
@@ -160,7 +161,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
                 // Placing a marker on the touched position
-                currentMarker = mMap.addMarker(markerOptions);
+                mMap.addMarker(markerOptions);
             }
 
             @Override
@@ -176,6 +177,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
         super.onMapReady(googleMap);
         // Setting a click event handler for the map
         mMap.setOnMapClickListener(latLng -> {
+            currentMapLocation = MapLocation.newInstance(latLng);
             Log.i(TAG, "Clicked map at " + latLng.toString());
             // Creating a marker
             MarkerOptions markerOptions = new MarkerOptions();
@@ -197,17 +199,11 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
             // Placing a marker on the touched position
-            currentMarker = mMap.addMarker(markerOptions);
+            mMap.addMarker(markerOptions);
         });
     }
 
     public MapLocation getSelectedLocation() {
-        MapLocation location = null;
-        if (currentMarker != null) {
-            location = new MapLocation();
-            location.setLongitude(currentMarker.getPosition().longitude);
-            location.setLatitude(currentMarker.getPosition().latitude);
-        }
-        return location;
+        return currentMapLocation;
     }
 }
