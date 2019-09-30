@@ -17,14 +17,14 @@ public class ArtifactItem extends Artifact {
     // Description of this artifact
     private String description;
 
-    // Location where the upload happens
-    private MapLocation locationUploaded;
+    // MapLocationId where the upload happens
+    private String locationUploadedId;
 
-    // Location where the event unfolded
-    private MapLocation locationHappened;
+    // MapLocationId where the event unfolded
+    private String locationHappenedId;
 
-    // Location where the artifact is stored (physically)
-    private MapLocation locationStored;
+    // MapLocationId where the artifact is stored (physically)
+    private String locationStoredId;
 
     // DateTime when the event unfolded
     private String happenedDateTime;
@@ -42,14 +42,20 @@ public class ArtifactItem extends Artifact {
      * @deprecated Use manager/newInstance method to create new artifact. Don't use constructor
      */
     @Deprecated
-    public ArtifactItem(String postId, String uid, int mediaType, List<String> mediaDataUrls,
-                        String description, String uploadDateTime, String happenedDateTime,
-                        String lastUpdateDateTime) {
+    public ArtifactItem(String postId, String uid, String uploadDateTime, String lastUpdateDateTime,
+                        int mediaType, List<String> mediaDataUrls, String description,
+                        String locationUploadedId, String locationHappenedId,
+                        String locationStoredId, String happenedDateTime,
+                        ArtifactTimeline artifactTimeline) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
-        this.happenedDateTime = happenedDateTime;
         this.mediaType = mediaType;
         this.mediaDataUrls = mediaDataUrls;
         this.description = description;
+        this.locationUploadedId = locationUploadedId;
+        this.locationHappenedId = locationHappenedId;
+        this.locationStoredId = locationStoredId;
+        this.happenedDateTime = happenedDateTime;
+        this.artifactTimeline = artifactTimeline;
     }
 
     @Override
@@ -110,28 +116,28 @@ public class ArtifactItem extends Artifact {
         return super.getLastUpdateDateTime();
     }
 
-    public MapLocation getLocationUploaded() {
-        return locationUploaded;
+    public String getLocationUploadedId() {
+        return locationUploadedId;
     }
 
-    public void setLocationUploaded(MapLocation locationUploaded) {
-        this.locationUploaded = locationUploaded;
+    public void setLocationUploadedId(String locationUploadedId) {
+        this.locationUploadedId = locationUploadedId;
     }
 
-    public MapLocation getLocationHappened() {
-        return locationHappened;
+    public String getLocationHappenedId() {
+        return locationHappenedId;
     }
 
-    void setLocationHappened(MapLocation locationHappened) {
-        this.locationHappened = locationHappened;
+    void setLocationHappenedId(String locationHappenedId) {
+        this.locationHappenedId = locationHappenedId;
     }
 
-    public MapLocation getLocationStored() {
-        return locationStored;
+    public String getLocationStoredId() {
+        return locationStoredId;
     }
 
     void setLocationStored(MapLocation locationStored) {
-        this.locationStored = locationStored;
+        this.locationStoredId = locationStoredId;
     }
 
     public ArtifactTimeline getArtifactTimeline() {

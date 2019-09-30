@@ -4,13 +4,18 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -19,6 +24,9 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Singleton manager for managing firebase related access with MapLocations.
+ */
 public class MapLocationManager {
     /**
     Tag for logging
@@ -102,7 +110,19 @@ public class MapLocationManager {
     }
 
 
-    public void getMapLocationById(String mapLocationId) {
-        // TODO
+    /**
+     * Get Map location based on ID, the LiveData returned from here won't be updated and need to be
+     * requested again if want to refresh (this is different from UserManager
+     * @param mapLocationId Id of MapLocation
+     * @return MapLocation found by id.
+     */
+    public LiveData<MapLocation> getMapLocationById(String mapLocationId) {
+        MutableLiveData<MapLocation> mapLocationMutableLiveData = new MutableLiveData<>();
+        mMapLocationCollection.document(mapLocationId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            }
+        });
+        return mapLocationMutableLiveData;
     }
 }
