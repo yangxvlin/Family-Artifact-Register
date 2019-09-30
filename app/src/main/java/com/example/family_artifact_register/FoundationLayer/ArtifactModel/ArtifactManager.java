@@ -7,10 +7,12 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
+import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -168,11 +171,39 @@ public class ArtifactManager {
         return mutableLiveData;
     }
 
-    public LiveData<List<ArtifactItem>> getArtifactByPostId(List<String> postIds) {
-        return null;
+    public LiveData<List<ArtifactItem>> getArtifactByPostId(List<String> postIds, int timeout) {
+        MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
+        LiveDataListDispatchHelper<ArtifactItem> liveDataListDispatchHelper =
+                new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
+        for (String postId: new HashSet<>(postIds)) {
+            liveDataListDispatchHelper.addWaitingTask();
+            LiveData<ArtifactItem> artifactItemLiveData = getArtifactByPostId(postId);
+            artifactItemLiveData.observeForever(
+                    new Observer<ArtifactItem>() {
+                        @Override
+                        public void onChanged(ArtifactItem artifactItem) {
+                            liveDataListDispatchHelper
+                                    .addResultAfterTaskCompletion(artifactItem);
+                            artifactItemLiveData.removeObserver(this);
+                        }
+                    }
+            );
+        }
+        return mutableLiveData;
     }
 
     public LiveData<List<ArtifactItem>> getArtifactByUid(String uid) {
-        return null;
+        MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
+        mArtifactItemCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful() && task.getResult() != null &&
+                            task.getResult().isEmpty()) {
+                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactItem.class));
+                    } else {
+                        Log.e(TAG, "getArtifactByUid failed: " + task.getException());
+                    }
+                }
+        );
+        return mutableLiveData;
     }
 }
