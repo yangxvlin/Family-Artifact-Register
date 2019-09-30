@@ -5,11 +5,11 @@ public class DBConstant {
     public final static String USER_INFO = "user_info";
     public final static String MAP_LOCATION = "map_location";
     public final static String ARTIFACT = "artifact";
-    public final static String ARTIFACT_ITEM = "artifact/artifact_item";
-    public final static String ARTIFACT_TIMELINE = "artifact/artifact_timeline";
+    public final static String ARTIFACT_ITEM = ARTIFACT+"/artifact_item";
+    public final static String ARTIFACT_TIMELINE = ARTIFACT+"/artifact_timeline";
 
     // Firebase Storage
-    public final static String USER_INFO_PHOTO_URL = "user_info/photo_url";
-    public final static String MAP_LOCATION_PHOTO_URL = "map_location/photo_url";
-    public final static String ARTIFACT_ITEM_MEDIA = "artifact/artifact_timeline";
+    public final static String USER_INFO_PHOTO_URL = USER_INFO+"/photo_url";
+    public final static String MAP_LOCATION_PHOTO_URL = MAP_LOCATION+"/photo_url";
+    public final static String ARTIFACT_ITEM_MEDIA = ARTIFACT_ITEM+"/media";
 }

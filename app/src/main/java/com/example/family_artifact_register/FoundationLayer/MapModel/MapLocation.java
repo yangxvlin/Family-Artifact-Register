@@ -33,7 +33,6 @@ public class MapLocation extends Location implements Parcelable, Serializable,
     }
 
     /**
-     *
      * @param mapLocationId Id stored in database
      * @param provider provider of this location
      * @param latitude longitude of the place
