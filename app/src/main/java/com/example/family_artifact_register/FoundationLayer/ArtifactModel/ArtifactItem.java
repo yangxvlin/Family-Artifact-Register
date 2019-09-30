@@ -148,4 +148,17 @@ public class ArtifactItem extends Artifact {
         this.artifactTimeline = artifactTimeline;
     }
 
+//    public static ArtifactItem newInstance(String uploadDateTime,
+//                                           String lastUpdateDateTime,
+//                                           int mediaType,
+//                                           List<String> mediaDataUrls,
+//                                           String description,
+//                                           String locationUploadedId,
+//                                           String locationHappenedId,
+//                                           String locationStoredId,
+//                                           String happenedDateTime,
+//                                           ArtifactTimeline artifactTimeline
+//                                           ) {
+//        return new ArtifactItem(null, null, );
+//    }
 }
