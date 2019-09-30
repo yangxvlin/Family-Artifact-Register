@@ -53,7 +53,7 @@ public class MapLocationManager {
      * @param mapLocation
      */
     public void storeMapLocation(MapLocation mapLocation) {
-        DocumentReference mapLocationReference
+        DocumentReference mapLocationReference;
         // Assign mapLocationId if not yet assigned.
         if (mapLocation.getMapLocationId() == null) {
             // Generate the id automatically
@@ -95,7 +95,10 @@ public class MapLocationManager {
             mapLocation.removeImageUrl(imageUrlMap.get(key));
         }
         // Now store the actual MapLocation
-        mapLocationReference.set(mapLocation);
+        mapLocationReference.set(mapLocation)
+                    .addOnFailureListener(e -> Log.w(TAG,
+                            "Error Uploading Location:" + mapLocation.toString() +
+                                    "e:" + e.toString()));
     }
 
 }
