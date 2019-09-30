@@ -3,6 +3,7 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 import android.util.Pair;
 
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -20,6 +21,8 @@ public class ArtifactManager {
     public static ArtifactManager getInstance() {
         return ourInstance;
     }
+
+    private UserInfoManager userInfoManager;
 
     /**
      * The database reference used artifact timeline.
@@ -41,6 +44,9 @@ public class ArtifactManager {
      */
     private Map<String, Pair<ListenerRegistration, Integer>> mListenerRegistrationMap;
 
+    /**
+     * Instantiate artifact manager, also give it a user manager for updating current user.
+     */
     private ArtifactManager() {
         mArtifactItemCollection = FirebaseFirestore
                 .getInstance()
@@ -51,5 +57,10 @@ public class ArtifactManager {
         mArtifactMediaStorageReference = FirebaseStorage
                 .getInstance()
                 .getReference(DBConstant.ARTIFACT_ITEM_MEDIA);
+        userInfoManager = UserInfoManager.getInstance();
+    }
+
+    public void addArtifact() {
+
     }
 }

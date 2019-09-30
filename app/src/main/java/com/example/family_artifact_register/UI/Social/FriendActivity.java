@@ -47,7 +47,7 @@ public class FriendActivity extends BaseActionBarActivity {
         // retrieve user's friend data from DB
 //        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 //        try {
-//            dataSet.add(firebaseAuth.getCurrentUser().getEmail());
+//            dataSet.add(firebaseAuth.getCurrentUserInfo().getEmail());
 //        }
 //        catch (Exception e) {
 //            System.out.println("@@@@  user is null");

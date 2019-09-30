@@ -94,6 +94,22 @@ public class UserInfoManager {
     }
 
     /**
+     * Get Uid of current user
+     * @return uid of current user
+     */
+    public String getCurrentUid() {
+        return mCurrentUid;
+    }
+
+    /**
+     * Get current user
+     * @return current user, UserInfo object
+     */
+    public UserInfo getCurrentUserInfo() {
+        return mCurrentUserInfoLiveData.getValue();
+    }
+
+    /**
      * Get Detailed user information of some users
      * @param uid one user id
      * @return A LiveData object containing user information, that will be updated in real time!
@@ -338,29 +354,30 @@ public class UserInfoManager {
         uploadTask.addOnFailureListener(
                 e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
                         photoUri.toString(), e)
-        ).onSuccessTask(task -> fileReference
-                .getDownloadUrl())
+        ).onSuccessTask(task ->
+                fileReference
+                        .getDownloadUrl())
                 .addOnSuccessListener(task -> {
-                String photoUrl = task.toString();
-                currentUserInfo.setPhotoUrl(photoUrl);
+                    String photoUrl = task.toString();
+                    currentUserInfo.setPhotoUrl(photoUrl);
         }).addOnFailureListener(e ->
                 Log.w(TAG, "Error update user new Uri info to FireStore failed" +
                         currentUserInfo.toString(), e));
     }
 
     /**
-     * Get Uid of current user
-     * @return uid of current user
+     * Add an ArtifactId to current user and push to database
+     * @param artifactId String ArtifactId to add
      */
-    public String getCurrentUid() {
-        return mCurrentUid;
-    }
-
-    /**
-     * Get current user
-     * @return current user, UserInfo object
-     */
-    public UserInfo getCurrentUser() {
-        return mCurrentUserInfoLiveData.getValue();
+    public void addArtifactId(String artifactId) {
+        UserInfo currentUserInfo = getCurrentUserInfo();
+        // Check and add artifact id
+        if (currentUserInfo.addArtifact(artifactId)) {
+            // ArtifactId not in this user yet. Add and push to database
+            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_IDS,
+                    currentUserInfo.getArtifactIds()).addOnFailureListener(e ->
+                    Log.w(TAG, "Error update user new ArtifactId to FireStore failed" +
+                            currentUserInfo.toString(), e));
+        }
     }
 }

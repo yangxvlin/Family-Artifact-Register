@@ -52,7 +52,7 @@ public class ContactFragment extends Fragment implements IFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-//        FirebaseUser currentuser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser currentuser = FirebaseAuth.getInstance().getCurrentUserInfo();
 //        if(currentuser == null) {
 //            Log.d(TAG, "can't get current user from firebase");
 //            Log.d(TAG, "email of current user: " + currentuser.getEmail());

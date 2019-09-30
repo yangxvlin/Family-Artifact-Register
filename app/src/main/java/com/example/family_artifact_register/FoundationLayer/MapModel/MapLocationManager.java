@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -12,6 +13,7 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.SuccessContinuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -21,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,16 +100,17 @@ public class MapLocationManager {
                     .addOnSuccessListener(taskSnapshot -> Log.d(TAG,
                             "Successfully upload image Url: {" + key + ", " +
                                     imageUrlMap.get(key) + "}"));
-            // 3. overwrite existing url (ideally this should be in on success listener,
-            // but that double async on two servers is annoying to deal with)
-            mapLocation.addImageUrl(key);
-            mapLocation.removeImageUrl(imageUrlMap.get(key));
         }
         // Now store the actual MapLocation
         mapLocationReference.set(mapLocation)
                     .addOnFailureListener(e -> Log.w(TAG,
                             "Error Uploading Location:" + mapLocation.toString() +
-                                    "e:" + e.toString()));
+                                    "e:" + e.toString()))
+                .onSuccessTask(task -> mapLocationReference.update(
+                        // TODO the logic of this part is questionable
+                        // If the task is successful, set the image url after
+                        "imageUrls", new ArrayList<>(imageUrlMap.keySet())
+                ));
     }
 
 
