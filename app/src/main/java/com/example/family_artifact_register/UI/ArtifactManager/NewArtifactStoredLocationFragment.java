@@ -10,11 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
+import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import es.dmoral.toasty.Toasty;
 
 public class NewArtifactStoredLocationFragment extends Fragment implements IFragment {
     /**
@@ -22,7 +25,7 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
      */
     public static final String TAG = NewArtifactStoredLocationFragment.class.getSimpleName();
 
-    private MapDisplayFragment mapDisplaySearchFragment;
+    private MapSearchDisplayFragment mapSearchDisplayFragment;
 
     public NewArtifactStoredLocationFragment() {
         // required empty constructor
@@ -40,14 +43,29 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
         getActivity().setTitle(R.string.artifact_where_stored_title);
 
         // search location fragment
-        this.mapDisplaySearchFragment = MapSearchDisplayFragment.newInstance();
+        this.mapSearchDisplayFragment = MapSearchDisplayFragment.newInstance();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_new_artifact_stored_location_main_view, mapDisplaySearchFragment)
+                .add(R.id.fragment_new_artifact_stored_location_main_view, mapSearchDisplayFragment)
                 .commit();
 
-        // to next fragment
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_stored_location_floating_button_confirm);
+        confirm.setOnClickListener(view1 -> {
+            MapLocation selectedLocation = mapSearchDisplayFragment.getSelectedLocation();
+            if (selectedLocation != null) {
+                // store location in NewArtifactActivity
+                ((StoredLocationListener)getActivity()).setStoredLocation(selectedLocation);
+
+                // to next fragment
+//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.addToBackStack("next");
+//                fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactStoredLocationFragment.newInstance());
+//                fragmentTransaction.commit();
+            } else {
+                Toasty.error(getContext(), R.string.not_enough_location_warning, Toasty.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 
     public static NewArtifactStoredLocationFragment newInstance() { return new NewArtifactStoredLocationFragment(); }

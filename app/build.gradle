@@ -133,11 +133,12 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
+    // ******************************************************************************************
+    // beautiful toast message library
     // https://github.com/GrenderG/Toasty
     implementation 'com.github.GrenderG:Toasty:1.4.2'
 
     // ******************************************************************************************
-
     // ViewModel and LiveData (lifecycle component)
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 //    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
