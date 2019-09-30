@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.LiveDataListDispatchHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -257,27 +258,35 @@ public class UserInfoManager {
     public LiveData<List<UserInfo>> searchUserInfo(String query) {
         MutableLiveData<List<UserInfo>> mutableLiveData = new MutableLiveData<>();
         mutableLiveData.setValue(new ArrayList<>());
+        LiveDataListDispatchHelper<UserInfo> liveDataListDispatchHelper =
+                new LiveDataListDispatchHelper<>(mutableLiveData);
         for (String field: new String[]{UserInfo.DISPLAY_NAME, UserInfo.EMAIL,
                 UserInfo.PHONE_NUMBER, UserInfo.UID}) {
+            // increase the counter
+            liveDataListDispatchHelper.addWaitingTask();
+
             mUserCollection.whereEqualTo(field, query).get().addOnCompleteListener(
                     task -> {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
                             if (querySnapshot == null || querySnapshot.isEmpty()) {
                                 Log.i(TAG, "failed to find (" + field +") equal to (" + query + ")");
-                                return;
-                            }
-                            for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
-                                UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                                Log.i(TAG, "found (" + field +") equal to (" + query + ")" + "user: "+ userInfo.toString());
-                                mutableLiveData
-                                        .getValue()
-                                        .add(userInfo);
-                                mutableLiveData.setValue(mutableLiveData.getValue());
+                            } else {
+                                for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
+                                    UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                                    Log.i(TAG, "found (" + field +") equal to (" + query + ")" +
+                                            "user: "+ userInfo.toString());
+
+                                    // Add info to the dispatcher
+                                    liveDataListDispatchHelper.addResult(userInfo);
+                                }
                             }
                         } else {
                             Log.d(TAG, task.getException() + " get failed with ");
                         }
+
+                        // decrease the counter and dispatch if needed
+                        liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
                     }
             );
         }
