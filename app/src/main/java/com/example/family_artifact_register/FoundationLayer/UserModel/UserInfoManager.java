@@ -268,9 +268,12 @@ public class UserInfoManager {
                                 return;
                             }
                             for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
+                                UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                                Log.i(TAG, "found (" + field +") equal to (" + query + ")" + "user: "+ userInfo.toString());
                                 mutableLiveData
                                         .getValue()
-                                        .add(documentSnapshot.toObject(UserInfo.class));
+                                        .add(userInfo);
+                                mutableLiveData.setValue(mutableLiveData.getValue());
                             }
                         } else {
                             Log.d(TAG, task.getException() + " get failed with ");
@@ -278,6 +281,7 @@ public class UserInfoManager {
                     }
             );
         }
+        Log.d(TAG, mutableLiveData.getValue().toString());
         return mutableLiveData;
     }
 
@@ -294,7 +298,7 @@ public class UserInfoManager {
         if (!displayName.equals(mCurrentUserInfoLiveData.getValue().getDisplayName())) {
             UserInfo currentUserInfo = mCurrentUserInfoLiveData.getValue();
             currentUserInfo.setDisplayName(displayName);
-            // Update the displayed name to server
+            // Update
             mUserCollection
                     .document(mCurrentUid)
                     .update(UserInfo.DISPLAY_NAME,

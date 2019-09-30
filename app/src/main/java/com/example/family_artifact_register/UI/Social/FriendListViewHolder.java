@@ -26,7 +26,7 @@ public class FriendListViewHolder extends RecyclerView.ViewHolder implements Vie
     public void onClick(View view) {
         String value = (String) textView.getText();
         Context context = view.getContext();
-        Intent i = new Intent(context, FriendDetailActivity.class);
+        Intent i = new Intent(context, ContactDetailActivity.class);
         i.putExtra("key", value);
         context.startActivity(i);
     }
