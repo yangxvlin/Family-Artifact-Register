@@ -80,14 +80,18 @@ public class MapLocationManager {
         Map<String, String> imageUrlMap = new HashMap<>();
 
         int i = 0;
+        Log.i(TAG, "making location image reference map...");
         if (mapLocation.getImageUrls() != null) {
             for (String imageUrl : mapLocation.getImageUrls()) {
                 imageUrlMap.put(mapLocation.getMapLocationId()+"_"+i, imageUrl);
+                Log.i(TAG, "Url: {" + mapLocation.getMapLocationId()+"_"+i + ", " + imageUrlMap.get(imageUrl) + "}");
                 i += 1;
             }
         }
 
+        Log.i(TAG, "adding location image...");
         for (String key: imageUrlMap.keySet()) {
+            Log.i(TAG, "Url: {" + key + ", " + imageUrlMap.get(key) + "}");
             mapLocationImagesReference.child(key)
                     .putFile(Uri.parse(imageUrlMap.get(key)))
                     .addOnFailureListener(e -> Log.w(TAG,
@@ -97,6 +101,8 @@ public class MapLocationManager {
                             "Successfully upload image Url: {" + key + ", " +
                                     imageUrlMap.get(key) + "}"));
         }
+
+        Log.i(TAG, "adding map location...");
         // Now store the actual MapLocation
         mapLocationReference.set(mapLocation)
                     .addOnFailureListener(e -> Log.w(TAG,

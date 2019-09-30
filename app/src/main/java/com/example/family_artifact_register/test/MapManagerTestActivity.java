@@ -67,12 +67,10 @@ public class MapManagerTestActivity extends AppCompatActivity {
 
     public void onClickAddToDatabase(View view) {
         mapLocation = mapSearchDisplayFragment.getSelectedLocation();
-        // choose images form album
-        FloatingActionButton album = findViewById(R.id.test_select_image_add_to_map);
-        album.setOnClickListener(view1 -> easyImage.openGallery(this));
 
+        // choose images form album
         if (mapLocation != null) {
-            MapLocationManager.getInstance().storeMapLocation(mapLocation);
+            easyImage.openGallery(this);
         }
     }
 
@@ -83,8 +81,9 @@ public class MapManagerTestActivity extends AppCompatActivity {
         easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
             @Override
             public void onMediaFilesPicked(MediaFile[] mediaFiles, MediaSource source) {
+                Log.d(TAG + "/EasyImage", "Image source: " + source.toString());
 
-                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE) {
+                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE || source == MediaSource.GALLERY) {
                     // call back to parent activity
                     for (MediaFile imageFile : mediaFiles) {
                         Log.d(TAG + "/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
@@ -92,6 +91,8 @@ public class MapManagerTestActivity extends AppCompatActivity {
                         mapLocation.addImageUrl(imageUri.toString());
                     }
                 }
+                Log.i(TAG, "Storing MapLocation to db");
+                MapLocationManager.getInstance().storeMapLocation(mapLocation);
             }
 
             @Override
