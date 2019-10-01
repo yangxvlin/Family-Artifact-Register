@@ -18,6 +18,7 @@ import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
 import com.example.family_artifact_register.UI.Util.HappenedTimeListener;
 import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
+import com.example.family_artifact_register.UI.Util.NewTimelineListener;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.example.family_artifact_register.UI.Util.StartUploadListener;
 import com.example.family_artifact_register.UI.Util.StoredLocationListener;
@@ -39,7 +40,11 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         UploadLocationListener,
         HappenedLocationListener,
         StoredLocationListener,
+        NewTimelineListener,
         StartUploadListener {
+    /**
+     * class tag
+     */
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
     private FragmentManager fm;
@@ -57,6 +62,11 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     private MapLocation happenedLocation;
 
     private MapLocation storedLocation;
+
+    private int timelineStrategy;
+
+    // TODO might be changed later
+    private String timelineTitle;
 
     private MapLocation uploadLocation;
 
@@ -179,4 +189,20 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     @Override
     public void setUploadLocation(MapLocation uploadLocation) { this.uploadLocation = uploadLocation; }
+
+    @Override
+    public void setTimeline(int type, String timelineTitle) {
+        this.timelineStrategy = type;
+        this.timelineTitle = timelineTitle;
+    }
+
+    @Override
+    public int getTimelineType() {
+        return this.timelineStrategy;
+    }
+
+    @Override
+    public String getTimelineTitle() {
+        return this.timelineTitle;
+    }
 }

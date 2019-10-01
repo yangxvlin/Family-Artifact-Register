@@ -114,7 +114,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
             @Override
             public void onMediaFilesPicked(MediaFile[] mediaFiles, MediaSource source) {
 
-                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE) {
+                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE || source == MediaSource.GALLERY) {
                     // call back to parent activity
                     for (MediaFile imageFile : mediaFiles) {
                         Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
