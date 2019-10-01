@@ -42,7 +42,8 @@ public class ContactViewModel extends AndroidViewModel {
                 friends.setValue(new ArrayList<>());
 
                 List<LiveData<UserInfo>> friendList = manager.getUserInfo(friendUids);
-                for(LiveData<UserInfo> i: friendList)
+                for(LiveData<UserInfo> i: friendList) {
+                    friends.removeSource(i);
                     friends.addSource(i, new Observer<UserInfo>() {
                         @Override
                         public void onChanged(UserInfo userInfo) {
@@ -50,17 +51,12 @@ public class ContactViewModel extends AndroidViewModel {
                             friends.setValue(friends.getValue());
                         }
                     });
-                // TBD
-                 currentUser.removeObserver(this);
+                }
             }
         });
     }
 
     public LiveData<List<UserInfo>> getContacts() {
         return friends;
-    }
-
-    public String getUidByName(String username) {
-        return null;
     }
 }
