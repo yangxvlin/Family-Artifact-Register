@@ -28,7 +28,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ContactFragment extends Fragment implements IFragment {
     /**
@@ -79,9 +82,9 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
-        Observer<List<UserInfo>> contactObserver = new Observer<List<UserInfo>>() {
+        Observer<Set<UserInfo>> contactObserver = new Observer<Set<UserInfo>>() {
             @Override
-            public void onChanged(List<UserInfo> newData) {
+            public void onChanged(Set<UserInfo> newData) {
                 // when there is a change in the friend list, give the new one to list adapter
                 // Update the cached copy of the users in the adapter
                 adapter.setData(newData);
@@ -145,7 +148,8 @@ public class ContactFragment extends Fragment implements IFragment {
         }
 
         private ContactViewModel viewModel;
-        private List<UserInfo> dataSet;
+        private Set<UserInfo> dataSet;
+        private Iterator<UserInfo> dataSetIterator;
 
         @NonNull
         @Override
@@ -158,8 +162,14 @@ public class ContactFragment extends Fragment implements IFragment {
         public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewHolder holder, int position) {
             // data is ready to be displayed
             if(dataSet != null) {
-                holder.textView.setText(dataSet.get(position).getDisplayName());
-                holder.itemId = dataSet.get(position).getUid();
+                UserInfo currentItem = null;
+                if(dataSetIterator.hasNext()) {
+                    currentItem = dataSetIterator.next();
+                    holder.textView.setText(currentItem.getDisplayName());
+                    holder.itemId = currentItem.getUid();
+                } else {
+                    Log.e(TAG ,"error iterating data", new Throwable());
+                }
             }
             // data is not ready yet
             else {
@@ -176,9 +186,10 @@ public class ContactFragment extends Fragment implements IFragment {
             return 0;
         }
 
-        public void setData(List<UserInfo> newData) {
+        public void setData(Set<UserInfo> newData) {
             // solution from codelab
             dataSet = newData;
+            dataSetIterator = dataSet.iterator();
             notifyDataSetChanged();
 
 //            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
