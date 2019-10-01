@@ -28,7 +28,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ContactFragment extends Fragment implements IFragment {
     /**
@@ -52,16 +55,10 @@ public class ContactFragment extends Fragment implements IFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-//        FirebaseUser currentuser = FirebaseAuth.getInstance().getCurrentUserInfo();
-//        if(currentuser == null) {
-//            Log.d(TAG, "can't get current user from firebase");
-//            Log.d(TAG, "email of current user: " + currentuser.getEmail());
-//            Log.d(TAG, "uid of current user: " + currentuser.getUid());
-//        }
-        String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d(TAG ,"uid of current user: " + currentUserID);
+//        String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        Log.d(TAG ,"uid of current user: " + currentUserID);
 
-        contactModel = ViewModelProviders.of(this, new ContactViewModelFactory(getActivity().getApplication(), currentUserID)).get(ContactViewModel.class);
+        contactModel = ViewModelProviders.of(this, new ContactViewModelFactory(getActivity().getApplication())).get(ContactViewModel.class);
 
         setupRecyclerView(view);
 
@@ -70,10 +67,6 @@ public class ContactFragment extends Fragment implements IFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ContactSearchActivity.class));
-//                // for testing that the observation works
-//                ArrayList<String> data = new ArrayList<>();
-//                data.add("xxx");
-//                contactModel.getContact().setValue(data);
             }
         });
 
@@ -89,12 +82,9 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
-        // missing input param: Application
-//        contactModel = ViewModelProviders.of(this.getActivity()).get(ContactViewModel.class);
-
-        Observer<List<UserInfo>> contactObserver = new Observer<List<UserInfo>>() {
+        Observer<Set<UserInfo>> contactObserver = new Observer<Set<UserInfo>>() {
             @Override
-            public void onChanged(List<UserInfo> newData) {
+            public void onChanged(Set<UserInfo> newData) {
                 // when there is a change in the friend list, give the new one to list adapter
                 // Update the cached copy of the users in the adapter
                 adapter.setData(newData);
@@ -135,6 +125,7 @@ public class ContactFragment extends Fragment implements IFragment {
 
             public TextView textView;
             public ImageView imageView;
+            public String itemId;
             public FriendListViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -146,7 +137,8 @@ public class ContactFragment extends Fragment implements IFragment {
             public void onClick(View view) {
                 String selectedUserName= textView.getText().toString();
                 Intent i = new Intent(view.getContext(), ContactDetailActivity.class);
-                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
+//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
+                i.putExtra("selectedUid", itemId);
                 startActivity(i);
             }
         }
@@ -156,7 +148,8 @@ public class ContactFragment extends Fragment implements IFragment {
         }
 
         private ContactViewModel viewModel;
-        private List<UserInfo> dataSet;
+        private Set<UserInfo> dataSet;
+        private Iterator<UserInfo> dataSetIterator;
 
         @NonNull
         @Override
@@ -169,7 +162,14 @@ public class ContactFragment extends Fragment implements IFragment {
         public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewHolder holder, int position) {
             // data is ready to be displayed
             if(dataSet != null) {
-                holder.textView.setText(dataSet.get(position).getDisplayName());
+                UserInfo currentItem = null;
+                if(dataSetIterator.hasNext()) {
+                    currentItem = dataSetIterator.next();
+                    holder.textView.setText(currentItem.getDisplayName());
+                    holder.itemId = currentItem.getUid();
+                } else {
+                    Log.e(TAG ,"error iterating data", new Throwable());
+                }
             }
             // data is not ready yet
             else {
@@ -186,9 +186,10 @@ public class ContactFragment extends Fragment implements IFragment {
             return 0;
         }
 
-        public void setData(List<UserInfo> newData) {
+        public void setData(Set<UserInfo> newData) {
             // solution from codelab
             dataSet = newData;
+            dataSetIterator = dataSet.iterator();
             notifyDataSetChanged();
 
 //            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
