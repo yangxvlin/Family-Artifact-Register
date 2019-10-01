@@ -391,7 +391,7 @@ public class UserInfoManager {
         if (currentUserInfo.addArtifactItemId(artifactId)) {
             // ArtifactId not in this user yet. Add and push to database
             Log.d(TAG, currentUserInfo.getArtifactItemIds().toString());
-            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_IDS,
+            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_ITEM_IDS,
                     currentUserInfo.getArtifactItemIds()).addOnFailureListener(e ->
                     Log.w(TAG, "Error update user new ArtifactItemId to FireStore failed" +
                             currentUserInfo.toString(), e));
@@ -408,7 +408,7 @@ public class UserInfoManager {
         if (currentUserInfo.addArtifactTimelineId(artifactId)) {
             // ArtifactId not in this user yet. Add and push to database
             Log.d(TAG, currentUserInfo.getArtifactTimelineIds().toString());
-            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_IDS,
+            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_TIMELINE_IDS,
                     currentUserInfo.getArtifactTimelineIds()).addOnFailureListener(e ->
                     Log.w(TAG, "Error update user new ArtifactTimelineId to FireStore failed" +
                             currentUserInfo.toString(), e));
