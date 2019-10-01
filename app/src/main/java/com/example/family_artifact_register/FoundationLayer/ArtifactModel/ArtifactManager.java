@@ -2,22 +2,17 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import android.net.Uri;
 import android.util.Log;
-import android.util.Pair;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
@@ -96,10 +91,9 @@ public class ArtifactManager {
         // 0. Set post id not not have one
         DocumentReference artifactReference;
         if (artifact.getPostId() == null) {
-            artifactReference = mArtifactItemCollection.document(String.valueOf(System.currentTimeMillis()));
-        } else {
-            artifactReference = mArtifactItemCollection.document(artifact.getPostId());
+            artifact.setPostId(String.valueOf(System.currentTimeMillis()));
         }
+        artifactReference = mArtifactItemCollection.document(artifact.getPostId());
 
         // Get reference based on current mapLocation id
         StorageReference artifactMediaStorageReference = mArtifactMediaStorageReference
@@ -127,6 +121,8 @@ public class ArtifactManager {
                     .addOnSuccessListener(taskSnapshot -> Log.d(TAG,
                             "Successfully upload media Url: {" + key + ", " +
                                     mediaUrlMap.get(key) + "}"));
+            artifact.removeMediaDataUrls(mediaUrlMap.get(key));
+            artifact.addMediaDataUrls(key);
         }
 
         // 2. Upload Artifact
@@ -134,7 +130,7 @@ public class ArtifactManager {
         // Now store the actual artifact
         artifactReference.set(artifact)
                 .addOnFailureListener(e -> Log.w(TAG,
-                        "Error Uploading Location:" + artifact.toString() +
+                        "Error Uploading artifact:" + artifact.toString() +
                                 "e:" + e.toString()));
     }
 
