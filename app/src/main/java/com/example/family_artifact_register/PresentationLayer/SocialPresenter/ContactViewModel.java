@@ -25,7 +25,7 @@ public class ContactViewModel extends AndroidViewModel {
 
     private UserInfoManager manager = UserInfoManager.getInstance();
 
-    private LiveData<UserInfo> currentUser = manager.getUserInfo(manager.getCurrentUid());
+    private LiveData<UserInfo> currentUser = manager.listenUserInfo(manager.getCurrentUid());
 
     private List<String> friendUids;
 
@@ -41,7 +41,7 @@ public class ContactViewModel extends AndroidViewModel {
 
                 friends.setValue(new ArrayList<>());
 
-                List<LiveData<UserInfo>> friendList = manager.getUserInfo(friendUids);
+                List<LiveData<UserInfo>> friendList = manager.listenUserInfo(friendUids);
                 for(LiveData<UserInfo> i: friendList) {
                     friends.removeSource(i);
                     friends.addSource(i, new Observer<UserInfo>() {

@@ -21,7 +21,7 @@ public class NewContactDetailViewModel extends AndroidViewModel {
     public NewContactDetailViewModel(Application application, String uid) {
         super(application);
         manager = UserInfoManager.getInstance();
-        friend = manager.getUserInfo(uid);
+        friend = manager.listenUserInfo(uid);
     }
 
     public LiveData<UserInfo> getUser() { return friend; }

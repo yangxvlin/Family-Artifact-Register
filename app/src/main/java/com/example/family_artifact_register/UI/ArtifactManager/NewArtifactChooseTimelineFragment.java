@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.NewTimelineListener;
+import com.example.family_artifact_register.UI.Util.StartUploadListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -127,8 +128,8 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
             } else {
                 // pass data to activity
                 ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, newTimelineTitle);
-                // TODO call NewArtifactActivity method to start upload
-
+                // call NewArtifactActivity method to start upload
+                ((StartUploadListener)getActivity()).uploadNewArtifact();
                 // finish the activity
                 getActivity().finish();
             }
@@ -146,8 +147,8 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
                 // pass data to activity
                 ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, selectedTimelineTitle);
                 Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
-                // TODO call NewArtifactActivity method to start upload
-
+                // call NewArtifactActivity method to start upload
+                ((StartUploadListener)getActivity()).uploadNewArtifact();
                 // finish the activity
                 getActivity().finish();
             }

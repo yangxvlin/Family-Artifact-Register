@@ -22,6 +22,9 @@ public class FirebaseStorageHelper {
 
     public UploadTask uploadByUri(Uri uri, StorageReference storageReference, String uploadName) {
         StorageReference storageRefOri = storageReference.child(uploadName);
+        if (uri.getScheme() == null) {
+            uri = Uri.parse("file://"+uri.toString());
+        }
         return storageRefOri.putFile(uri);
     }
 

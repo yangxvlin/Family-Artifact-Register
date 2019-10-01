@@ -15,6 +15,9 @@ import java.util.List;
 public class LiveDataListDispatchHelper<T> {
     private static final String TAG = LiveDataListDispatchHelper.class.getSimpleName();
 
+    // Record if dispatched
+    private boolean dispatched = false;
+
     // Number of remaining task
     private int total;
 
@@ -24,9 +27,31 @@ public class LiveDataListDispatchHelper<T> {
     // search result it should store
     private List<T> searchResults;
 
+    /**
+     * Timed of mutable live data
+     * @param mutableLiveData The mutableLiveData to dispatch
+     */
     public LiveDataListDispatchHelper(MutableLiveData<List<T>> mutableLiveData) {
         searchResults = new ArrayList<>();
         this.mutableLiveData = mutableLiveData;
+    }
+
+    /**
+     * Timed version of mutable live data
+     * @param mutableLiveData The mutableLiveData to dispatch
+     * @param timeout max time before dispatching (in seconds)
+     */
+    public LiveDataListDispatchHelper(MutableLiveData<List<T>> mutableLiveData, int timeout) {
+        this(mutableLiveData);
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        dispatch();
+                    }
+                },
+                timeout * 1000
+        );
     }
 
     /**
@@ -41,7 +66,11 @@ public class LiveDataListDispatchHelper<T> {
      * dispatch the result regardless of queue status
      */
     private void dispatch() {
-        mutableLiveData.setValue(searchResults);
+        Log.d(TAG, "dispatched " + dispatched + ", dispatching ");
+        if (!dispatched) {
+            mutableLiveData.setValue(searchResults);
+            dispatched = true;
+        }
     }
 
     /**
