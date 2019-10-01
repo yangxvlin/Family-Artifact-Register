@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> {
     public static final String UID = "uid";
@@ -46,6 +47,9 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     public UserInfo(String uid, String displayName, String email, String phoneNumber,
                     String photoUrl, Map<String, Boolean> friendUids,
                     Map<String, Boolean> artifactItemIds, Map<String, Boolean> artifactTimelineIds) {
+        if (uid == null) {
+            uid = System.currentTimeMillis() + UUID.randomUUID().toString();
+        }
         this.uid = uid;
         this.displayName = displayName;
         this.email = email;
