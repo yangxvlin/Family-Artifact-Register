@@ -29,6 +29,7 @@ public class FirebaseAuthHelper {
                 firebaseUser.getPhoneNumber(),
                 photoUri != null ? photoUri.toString() : null,
                 new HashMap<>(),
+                new HashMap<>(),
                 new HashMap<>());
     }
 

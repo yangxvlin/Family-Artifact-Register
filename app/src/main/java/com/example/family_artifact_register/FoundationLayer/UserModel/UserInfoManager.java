@@ -25,6 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for managing user information
+ */
 public class UserInfoManager {
     private static final String TAG = UserInfoManager.class.getSimpleName();
     private static UserInfoManager instance;
@@ -110,12 +113,23 @@ public class UserInfoManager {
         return mCurrentUserInfoLiveData.getValue();
     }
 
+    public LiveData<UserInfo> getUserInfo(String uid) {
+        // TODO
+        return null;
+    }
+
+    public LiveData<UserInfo> getUserInfo(List<String> uid) {
+        // TODO
+        return null;
+    }
+
     /**
      * Get Detailed user information of some users
      * @param uid one user id
      * @return A LiveData object containing user information, that will be updated in real time!
+     *
      */
-    public LiveData<UserInfo> getUserInfo(String uid) {
+    public LiveData<UserInfo> listenUserInfo(String uid) {
         if (uid.equals(mCurrentUid)) {
             return mCurrentUserInfoLiveData;
         }
@@ -161,11 +175,12 @@ public class UserInfoManager {
      * Get Detailed user information of some users
      * @param uids list of user id (duplication will be removed)
      * @return A List LiveData object containing user information, that will be updated in real time!
+     *
      */
-    public List<LiveData<UserInfo>> getUserInfo(List<String> uids) {
+    public List<LiveData<UserInfo>> listenUserInfo(List<String> uids) {
         ArrayList<LiveData<UserInfo>> liveDataList = new ArrayList<>();
         for (String uid: new HashSet<>(uids)) {
-            liveDataList.add(getUserInfo(uid));
+            liveDataList.add(listenUserInfo(uid));
         }
         return liveDataList;
     }
@@ -237,7 +252,7 @@ public class UserInfoManager {
     @Deprecated()
     public void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
         // Make them friend
-        if (userInfo1.addFriend(userInfo2.getUid())) {
+        if (userInfo1.addFriendUid(userInfo2.getUid())) {
             // Save User info to server
             mUserCollection
                     .document(userInfo1.getUid())
@@ -252,7 +267,7 @@ public class UserInfoManager {
         }
 
         // Make them friend
-        if (userInfo2.addFriend(userInfo1.getUid())) {
+        if (userInfo2.addFriendUid(userInfo1.getUid())) {
             // Save User info to server
             mUserCollection
                     .document(userInfo2.getUid())
@@ -370,14 +385,32 @@ public class UserInfoManager {
      * Add an ArtifactId to current user and push to database
      * @param artifactId String ArtifactId to add
      */
-    public void addArtifactId(String artifactId) {
+    public void addArtifactItemId(String artifactId) {
         UserInfo currentUserInfo = getCurrentUserInfo();
         // Check and add artifact id
-        if (currentUserInfo.addArtifact(artifactId)) {
+        if (currentUserInfo.addArtifactItemId(artifactId)) {
             // ArtifactId not in this user yet. Add and push to database
-            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_IDS,
-                    currentUserInfo.getArtifactIds()).addOnFailureListener(e ->
-                    Log.w(TAG, "Error update user new ArtifactId to FireStore failed" +
+            Log.d(TAG, currentUserInfo.getArtifactItemIds().toString());
+            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_ITEM_IDS,
+                    currentUserInfo.getArtifactItemIds()).addOnFailureListener(e ->
+                    Log.w(TAG, "Error update user new ArtifactItemId to FireStore failed" +
+                            currentUserInfo.toString(), e));
+        }
+    }
+
+    /**
+     * Add an ArtifactId to current user and push to database
+     * @param artifactId String ArtifactId to add
+     */
+    public void addArtifactTimelineId(String artifactId) {
+        UserInfo currentUserInfo = getCurrentUserInfo();
+        // Check and add artifact id
+        if (currentUserInfo.addArtifactTimelineId(artifactId)) {
+            // ArtifactId not in this user yet. Add and push to database
+            Log.d(TAG, currentUserInfo.getArtifactTimelineIds().toString());
+            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_TIMELINE_IDS,
+                    currentUserInfo.getArtifactTimelineIds()).addOnFailureListener(e ->
+                    Log.w(TAG, "Error update user new ArtifactTimelineId to FireStore failed" +
                             currentUserInfo.toString(), e));
         }
     }

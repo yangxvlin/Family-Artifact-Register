@@ -1,7 +1,5 @@
 package com.example.family_artifact_register.FoundationLayer.SocialModel;
 
-import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -32,16 +30,16 @@ public class UserRepository {
 
     /***********************************/
 
-    public List<LiveData<UserInfo>> getFriends(List<String> uids) { return manager.getUserInfo(uids); }
+    public List<LiveData<UserInfo>> getFriends(List<String> uids) { return manager.listenUserInfo(uids); }
 
     public LiveData<UserInfo> getUser(String uid) {
-        LiveData<UserInfo> temp = manager.getUserInfo(uid);
+        LiveData<UserInfo> temp = manager.listenUserInfo(uid);
         if(temp == null)
             Log.d(TAG, "manager returns null for getuserinfo call");
-        UserInfo user = manager.getUserInfo(uid).getValue();
+        UserInfo user = manager.listenUserInfo(uid).getValue();
         if(user == null)
             Log.d(TAG, "live data contains null");
-        return manager.getUserInfo(uid);
+        return manager.listenUserInfo(uid);
     }
     public LiveData<List<UserInfo>> getUsers(String usernames) { return manager.searchUserInfo(usernames); }
 

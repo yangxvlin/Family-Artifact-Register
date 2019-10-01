@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -17,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +53,6 @@ public class MapLocationManager {
 
     /**
      * Store the mapLocation to database.
-     * WARNING!! The image url in the MapLocation will be overwritten by the new URL in server!
      *
      * @param mapLocation The map location to store to database
      */
@@ -92,8 +91,8 @@ public class MapLocationManager {
         Log.i(TAG, "adding location image...");
         for (String key: imageUrlMap.keySet()) {
             Log.i(TAG, "Url: {" + key + ", " + imageUrlMap.get(key) + "}");
-            mapLocationImagesReference.child(key)
-                    .putFile(Uri.parse(imageUrlMap.get(key)))
+            FirebaseStorageHelper.getInstance()
+                    .uploadByUri(Uri.parse(imageUrlMap.get(key)), mapLocationImagesReference, key)
                     .addOnFailureListener(e -> Log.w(TAG,
                             "Error Uploading image Url: {" + key + ", " +
                             imageUrlMap.get(key) + "}, e:" + e.toString()))
@@ -107,12 +106,7 @@ public class MapLocationManager {
         mapLocationReference.set(mapLocation)
                     .addOnFailureListener(e -> Log.w(TAG,
                             "Error Uploading Location:" + mapLocation.toString() +
-                                    "e:" + e.toString()))
-                .onSuccessTask(task -> mapLocationReference.update(
-                        // TODO the logic of this part is questionable
-                        // If the task is successful, set the image url after
-                        "imageUrls", new ArrayList<>(imageUrlMap.keySet())
-                ));
+                                    "e:" + e.toString()));
     }
 
 
@@ -127,6 +121,7 @@ public class MapLocationManager {
         mMapLocationCollection.document(mapLocationId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                // TODO something need to be done?
             }
         });
         return mapLocationMutableLiveData;

@@ -25,7 +25,7 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
      */
     public static final String TAG = NewArtifactHappenedTimeFragment.class.getSimpleName();
 
-    Calendar happenedTime;
+    String happenedTime;
 
     public NewArtifactHappenedTimeFragment() {
         // required empty constructor
@@ -49,13 +49,13 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
             calendar.set(year, monthOfYear, dayOfMonth);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             String time = format.format(calendar.getTime());
-            this.happenedTime = calendar;
+            this.happenedTime = time;
         });
 
         // to next fragment
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_happened_time_floating_button_confirm);
         confirm.setOnClickListener(view1 -> {
-            ((HappenedTimeListener)getActivity()).setHappenedTimeCalender(happenedTime);
+            ((HappenedTimeListener)getActivity()).setHappenedTime(happenedTime);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.addToBackStack("next");
             fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactHappenedLocationFragment.newInstance());

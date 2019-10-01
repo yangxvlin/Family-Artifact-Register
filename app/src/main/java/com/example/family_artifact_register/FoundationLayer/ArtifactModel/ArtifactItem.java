@@ -85,7 +85,7 @@ public class ArtifactItem extends Artifact {
     }
 
     void removeMediaDataUrls(String mediaDataUrl) {
-        mediaDataUrls.add(mediaDataUrl);
+        mediaDataUrls.remove(mediaDataUrl);
     }
 
     public String getDescription() {
@@ -148,4 +148,29 @@ public class ArtifactItem extends Artifact {
         this.artifactTimeline = artifactTimeline;
     }
 
+    public static ArtifactItem newInstance(String uploadDateTime,
+                                           String lastUpdateDateTime,
+                                           int mediaType,
+                                           List<String> mediaDataUrls,
+                                           String description,
+                                           String locationUploadedId,
+                                           String locationHappenedId,
+                                           String locationStoredId,
+                                           String happenedDateTime,
+                                           ArtifactTimeline artifactTimeline
+                                           ) {
+        return new ArtifactItem(null,
+                null,
+                uploadDateTime,
+                lastUpdateDateTime,
+                mediaType,
+                mediaDataUrls,
+                description,
+                locationUploadedId,
+                locationHappenedId,
+                locationStoredId,
+                happenedDateTime,
+                artifactTimeline
+        );
+    }
 }

@@ -38,12 +38,16 @@ public class ArtifactTimeline extends Artifact {
         artifactItemPostIds = new ArrayList<>();
     }
 
-    public void addArtifact(ArtifactItem artifactItem) {
-        artifactItemPostIds.add(artifactItem.getPostId());
+    public List<String> getArtifactItemPostIds() {
+        return artifactItemPostIds;
     }
 
-    public void removeArtifact(ArtifactItem artifactItem) {
-        artifactItemPostIds.remove(artifactItem.getPostId());
+    public void addArtifactPostId(String artifactItemPostId) {
+        artifactItemPostIds.add(artifactItemPostId);
+    }
+
+    public void removeArtifactPostId(String artifactItemPostId) {
+        artifactItemPostIds.remove(artifactItemPostId);
     }
 
     /**
