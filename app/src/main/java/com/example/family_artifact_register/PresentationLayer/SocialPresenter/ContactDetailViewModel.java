@@ -22,7 +22,7 @@ public class ContactDetailViewModel extends AndroidViewModel {
         super(application);
         Log.i(TAG, "enter view model cons");
         manager = UserInfoManager.getInstance();
-        selectedUser = manager.getUserInfo(selectedUid);
+        selectedUser = manager.listenUserInfo(selectedUid);
     }
 
     public LiveData<UserInfo> getUser() { return selectedUser; }
