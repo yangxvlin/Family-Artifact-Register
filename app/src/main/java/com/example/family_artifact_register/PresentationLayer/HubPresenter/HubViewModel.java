@@ -34,16 +34,16 @@ public class HubViewModel extends AndroidViewModel {
             public void onChanged(UserInfo userInfo) {
                 friendUids = new ArrayList<>(userInfo.getFriendUids().keySet());
 
-                posts.setValue(new ArrayList<>());
+                friends.setValue(new ArrayList<>());
 
                 List<LiveData<UserInfo>> friendList = manager.listenUserInfo(friendUids);
                 for(LiveData<UserInfo> i: friendList) {
-                    posts.removeSource(i);
-                    posts.addSource(i, new Observer<UserInfo>() {
+                    friends.removeSource(i);
+                    friends.addSource(i, new Observer<UserInfo>() {
                         @Override
                         public void onChanged(UserInfo userInfo) {
-                            posts.getValue().add(userInfo);
-                            posts.setValue(posts.getValue());
+                            friends.getValue().add(userInfo);
+                            friends.setValue(friends.getValue());
                         }
                     });
                 }
