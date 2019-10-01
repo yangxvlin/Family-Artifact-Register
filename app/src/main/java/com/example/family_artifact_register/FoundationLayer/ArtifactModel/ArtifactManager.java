@@ -187,13 +187,13 @@ public class ArtifactManager {
         return mutableLiveData;
     }
 
-    public LiveData<List<ArtifactTimeline>> getArtifactItemByUid(String uid) {
-        MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
-        mArtifactTimelineCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
+    public LiveData<List<ArtifactItem>> getArtifactItemByUid(String uid) {
+        MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
+        mArtifactItemCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
                             task.getResult().isEmpty()) {
-                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactTimeline.class));
+                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactItem.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());
                     }
