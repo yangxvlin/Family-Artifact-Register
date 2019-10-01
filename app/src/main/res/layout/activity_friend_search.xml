@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/search_result_layout">
 
     <!--    <com.google.android.material.appbar.AppBarLayout-->
     <!--        android:id="@+id/app_bar"-->
@@ -21,6 +22,11 @@
     <!--            app:titleTextColor="#FFFFFF"/>-->
 
     <!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+    <include layout="@layout/no_result_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/text_view_no_result"/>
 
     <include layout="@layout/recycler_view"/>
 
