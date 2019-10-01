@@ -7,6 +7,8 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 
@@ -17,9 +19,11 @@ public class HubViewModel extends AndroidViewModel {
 
     public static final String TAG = HubViewModel.class.getSimpleName();
 
-    private UserInfoManager manager = UserInfoManager.getInstance();
+    private UserInfoManager userInfoManager = UserInfoManager.getInstance();
 
-    private LiveData<UserInfo> currentUser = manager.listenUserInfo(manager.getCurrentUid());
+    private ArtifactManager artifactManager = ArtifactManager.getInstance();
+
+    private LiveData<UserInfo> currentUser = userInfoManager.listenUserInfo(userInfoManager.getCurrentUid());
 
     private List<String> friendUids;
 
@@ -29,24 +33,32 @@ public class HubViewModel extends AndroidViewModel {
     public HubViewModel(Application application) {
         super(application);
 
+//        currentUser.observeForever(new Observer<UserInfo>() {
+//            @Override
+//            public void onChanged(UserInfo userInfo) {
+//                friendUids = new ArrayList<>(userInfo.getFriendUids().keySet());
+//
+//                friends.setValue(new ArrayList<>());
+//
+//                List<LiveData<UserInfo>> friendList = userInfoManager.listenUserInfo(friendUids);
+//                for(LiveData<UserInfo> i: friendList) {
+//                    friends.removeSource(i);
+//                    friends.addSource(i, new Observer<UserInfo>() {
+//                        @Override
+//                        public void onChanged(UserInfo userInfo) {
+//                            friends.getValue().add(userInfo);
+//                            friends.setValue(friends.getValue());
+//                        }
+//                    });
+//                }
+//            }
+//        });
+
         currentUser.observeForever(new Observer<UserInfo>() {
             @Override
             public void onChanged(UserInfo userInfo) {
-                friendUids = new ArrayList<>(userInfo.getFriendUids().keySet());
-
-                friends.setValue(new ArrayList<>());
-
-                List<LiveData<UserInfo>> friendList = manager.listenUserInfo(friendUids);
-                for(LiveData<UserInfo> i: friendList) {
-                    friends.removeSource(i);
-                    friends.addSource(i, new Observer<UserInfo>() {
-                        @Override
-                        public void onChanged(UserInfo userInfo) {
-                            friends.getValue().add(userInfo);
-                            friends.setValue(friends.getValue());
-                        }
-                    });
-                }
+                LiveData<List<ArtifactItem>> postList = artifactManager.getArtifactItemByUid(
+                        userInfoManager.getCurrentUid());
             }
         });
     }
