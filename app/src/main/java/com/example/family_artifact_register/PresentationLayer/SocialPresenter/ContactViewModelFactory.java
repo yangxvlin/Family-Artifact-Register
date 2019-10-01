@@ -12,16 +12,14 @@ import androidx.lifecycle.ViewModelProvider;
 public class ContactViewModelFactory implements ViewModelProvider.Factory {
 
     private Application application;
-    private String param;
 
-    public ContactViewModelFactory(Application application, String param) {
+    public ContactViewModelFactory(Application application) {
         this.application = application;
-        this.param = param;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new ContactViewModel(application, param);
+        return (T) new ContactViewModel(application);
     }
 }

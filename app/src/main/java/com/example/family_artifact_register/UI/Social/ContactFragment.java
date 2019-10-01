@@ -52,16 +52,10 @@ public class ContactFragment extends Fragment implements IFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-//        FirebaseUser currentuser = FirebaseAuth.getInstance().getCurrentUserInfo();
-//        if(currentuser == null) {
-//            Log.d(TAG, "can't get current user from firebase");
-//            Log.d(TAG, "email of current user: " + currentuser.getEmail());
-//            Log.d(TAG, "uid of current user: " + currentuser.getUid());
-//        }
-        String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d(TAG ,"uid of current user: " + currentUserID);
+//        String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        Log.d(TAG ,"uid of current user: " + currentUserID);
 
-        contactModel = ViewModelProviders.of(this, new ContactViewModelFactory(getActivity().getApplication(), currentUserID)).get(ContactViewModel.class);
+        contactModel = ViewModelProviders.of(this, new ContactViewModelFactory(getActivity().getApplication())).get(ContactViewModel.class);
 
         setupRecyclerView(view);
 
@@ -70,10 +64,6 @@ public class ContactFragment extends Fragment implements IFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ContactSearchActivity.class));
-//                // for testing that the observation works
-//                ArrayList<String> data = new ArrayList<>();
-//                data.add("xxx");
-//                contactModel.getContact().setValue(data);
             }
         });
 
@@ -88,9 +78,6 @@ public class ContactFragment extends Fragment implements IFragment {
                 }
             }
         });
-
-        // missing input param: Application
-//        contactModel = ViewModelProviders.of(this.getActivity()).get(ContactViewModel.class);
 
         Observer<List<UserInfo>> contactObserver = new Observer<List<UserInfo>>() {
             @Override
@@ -135,6 +122,7 @@ public class ContactFragment extends Fragment implements IFragment {
 
             public TextView textView;
             public ImageView imageView;
+            public String itemId;
             public FriendListViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -146,7 +134,8 @@ public class ContactFragment extends Fragment implements IFragment {
             public void onClick(View view) {
                 String selectedUserName= textView.getText().toString();
                 Intent i = new Intent(view.getContext(), ContactDetailActivity.class);
-                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
+//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
+                i.putExtra("selectedUid", itemId);
                 startActivity(i);
             }
         }
@@ -170,6 +159,7 @@ public class ContactFragment extends Fragment implements IFragment {
             // data is ready to be displayed
             if(dataSet != null) {
                 holder.textView.setText(dataSet.get(position).getDisplayName());
+                holder.itemId = dataSet.get(position).getUid();
             }
             // data is not ready yet
             else {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,13 +19,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModelFactory;
 import com.example.family_artifact_register.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactSearchResultActivity extends AppCompatActivity {
@@ -46,6 +45,10 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_search);
 
+        LinearLayout layout = findViewById(R.id.search_result_layout);
+
+        TextView textView = findViewById(R.id.text_view_no_result);
+
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
@@ -53,50 +56,45 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, new ContactSearchResultViewModelFactory(getApplication(), query)).get(ContactSearchResultViewModel.class);
 
-        Observer<List<UserInfo>> resultObserver = new Observer<List<UserInfo>>() {
+//        Observer<List<UserInfo>> resultObserver = new Observer<List<UserInfo>>() {
+//            @Override
+//            public void onChanged(List<UserInfo> newData) {
+//                // search result back from database
+//                Log.d(TAG, "search observer invoked, result: "+ newData.size() +" comes back");
+//                if(newData.size() > 0) {
+//                    try {
+//                        layout.removeView(textView);
+//                    } catch (Exception e) {
+//                        Log.d(TAG, e.toString());
+//                    }
+//                    for (UserInfo user : newData)
+//                        Log.d(TAG, user.toString());
+//                    // got a match
+//                    adapter.setData(newData);
+//                }
+//            }
+//        };
+
+        viewModel.getUsers().observe(this, new Observer<List<UserInfo>>() {
             @Override
             public void onChanged(List<UserInfo> newData) {
                 // search result back from database
+                Log.d(TAG, "search observer invoked, result: "+ newData.size() +" comes back");
                 if(newData.size() > 0) {
+                    try {
+                        layout.removeView(textView);
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                    for (UserInfo user : newData)
+                        Log.d(TAG, user.toString());
                     // got a match
                     adapter.setData(newData);
                 }
-                else
-                    // no match
-                    setContentView(R.layout.activity_friend_search_no_result);
             }
-        };
-
-        viewModel.getUsers().observe(this, resultObserver);
+        });
 
         getSupportActionBar().setTitle(query);
-//        Log.i(TAG, query);
-//        List<User> result = viewModel.getUsers(nameList);
-//        if(result.size() > 0)
-//            setContentView(R.layout.activity_friend_search_no_result);
-//        else {
-//            setContentView(R.layout.activity_friend_search);
-////            ArrayList<User> data = new ArrayList<>();
-////            data.add(result);
-//            setupRecyclerView(result);
-//        }
-
-//        ArrayList<User> result = new ArrayList<>();
-//        result.add();
-//
-//        ArrayList<String> userList = new ArrayList<>();
-//        Collections.addAll(userList, result);
-//        Log.i(TAG, result.toString());
-//        if(result.length > 0) {
-
-//            ArrayList<String> data = new ArrayList<>();
-//            Collections.addAll(data, result);
-//            List<User> data = viewModel.getUsers(userList).getValue();
-//            setupRecyclerView(data);
-//        }
-//        else {
-//            setContentView(R.layout.activity_friend_search_no_result);
-//        }
     }
 
     private void setupRecyclerView() {
@@ -123,6 +121,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
             public TextView textView;
             public ImageView imageView;
+            public String itemId;
             public SearchResultViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -134,7 +133,8 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String selectedUserName = textView.getText().toString();
                 Intent i = new Intent(view.getContext(), NewContactDetailActivity.class);
-                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
+//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
+                i.putExtra("selectedUid", itemId);
                 startActivity(i);
             }
         }
@@ -155,8 +155,10 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
-            if(dataSet != null)
+            if(dataSet != null) {
                 holder.textView.setText(dataSet.get(position).getDisplayName());
+                holder.itemId = dataSet.get(position).getUid();
+            }
             else
                 // TODO what to display when data is not ready
                 holder.textView.setText("Loading data");
