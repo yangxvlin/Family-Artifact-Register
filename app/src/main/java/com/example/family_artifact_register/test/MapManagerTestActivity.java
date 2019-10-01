@@ -1,14 +1,14 @@
 package com.example.family_artifact_register.test;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
@@ -81,6 +81,7 @@ public class MapManagerTestActivity extends AppCompatActivity {
                     for (MediaFile imageFile : mediaFiles) {
                         Log.d(TAG + "/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
                         Uri imageUri = Uri.fromFile(imageFile.getFile());
+                        Log.d(TAG, imageUri.toString());
                         mapLocation.addImageUrl(imageUri.toString());
                     }
                 }
