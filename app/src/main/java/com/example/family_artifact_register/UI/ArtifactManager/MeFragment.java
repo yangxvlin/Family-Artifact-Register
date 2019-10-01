@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeFragmentPresenter;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,7 +70,7 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
             mRecyclerView = getView().findViewById(R.id.recycler_view_my_artifacts);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter();
+            myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter(getContext(), getActivity().getSupportFragmentManager());
             mRecyclerView.setAdapter(myArtifactsRecyclerViewAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
             mRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -106,8 +109,20 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
 
     // ********************************** implement presenter ************************************
     @Override
-    public void addData(String time, String description, List<Uri> images, List<Uri> videos) {
-        myArtifactsRecyclerViewAdapter.addData(time, description, images, videos);
+    public void addData(ArtifactItem artifactItem) {
+        List<String> mediaData = artifactItem.getMediaDataUrls();
+        List<Uri> mediaList = new ArrayList<>();
+
+        for (String uri: mediaData) {
+            mediaList.add(Uri.parse(uri));
+        }
+
+        myArtifactsRecyclerViewAdapter.addData(
+                ((Artifact)artifactItem).getLastUpdateDateTime(),
+                artifactItem.getDescription(),
+                mediaList,
+                artifactItem.getMediaType()
+        );
     }
 
     @Override
