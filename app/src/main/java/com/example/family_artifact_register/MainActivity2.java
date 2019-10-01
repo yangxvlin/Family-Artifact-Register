@@ -1,8 +1,6 @@
 package com.example.family_artifact_register;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,19 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author XuLin Yang 904904,
@@ -73,21 +64,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * firebase authentication
      */
-    private FirebaseAuth mFirebaseAuth;
-
-    /**
-     * firebase request code
-     */
-    public static final int RC_SIGN_IN = 1;
-
-    /**
-     * control firebase state info
-     */
-    private FirebaseAuth.AuthStateListener mAuthStateListner;
-
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
-            new AuthUI.IdpConfig.PhoneBuilder().build());
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
 
     /**
      * bottom navigation item click listener to switch between fragments
@@ -125,29 +102,6 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        // set firebase sign in layout
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mAuthStateListner = firebaseAuth -> {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user!=null) {
-                // Check user even if signed in to register him to database (if haven't)
-                FirebaseAuthHelper.getInstance().checkRegisterUser(user);
-                Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setIsSmartLockEnabled(false)
-                                .setAvailableProviders(providers)
-                                .setLogo(R.drawable.icon_forget_me_not_1)
-                                .build(),
-                        RC_SIGN_IN
-                );
-
-            }
-        };
-
         // setup bottom navigation bar
         navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -156,30 +110,6 @@ public class MainActivity2 extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
         fm.beginTransaction().add(R.id.main_view, contactFragment).hide(contactFragment).commit();
         fm.beginTransaction().add(R.id.main_view, hubFragment).commit();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            Log.i(TAG, String.format("User signin - resultCode: %d", resultCode));
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (firebaseUser == null) {
-                    Log.e(TAG, "Auth with FireBase failed!", new Throwable());
-                    return;
-                }
-                FirebaseAuthHelper.getInstance().checkRegisterUser(firebaseUser);
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-                Log.e(TAG, "Auth failed, Error code: " + response.getError().getErrorCode());
-            }
-        }
     }
 
     @Override
@@ -197,18 +127,6 @@ public class MainActivity2 extends AppCompatActivity {
         } else if (tag.equals(MeFragment.TAG)) {
             setTitle(R.string.bottom_bar_profile);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListner);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
     }
 
     // **************************************** action bar menu ***********************************
