@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Dataclass for Location on a map
@@ -48,6 +49,9 @@ public class MapLocation extends Location implements Parcelable, Serializable,
                        String placeId, String name, String description, String address,
                        List<String> imageUrls) {
         super(provider);
+        if (mapLocationId == null) {
+            mapLocationId = System.currentTimeMillis() + UUID.randomUUID().toString();
+        }
         this.mapLocationId = mapLocationId;
         this.setLatitude(latitude);
         this.setLongitude(longitude);

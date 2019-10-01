@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Data Class for abstract artifacts
@@ -26,6 +27,9 @@ public abstract class Artifact {
      * only for setting up the interfaces
      */
     public Artifact(String postId, String uid, String uploadDateTime, String lastUpdateDateTime) {
+        if (postId == null) {
+            postId = System.currentTimeMillis() + UUID.randomUUID().toString();
+        }
         // Full Constructor need by firestore
         this.postId = postId;
         this.uid = uid;
