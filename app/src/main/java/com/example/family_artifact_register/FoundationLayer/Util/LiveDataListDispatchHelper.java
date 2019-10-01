@@ -60,6 +60,9 @@ public class LiveDataListDispatchHelper<T> {
 
     public void completeWaitingTaskAndDispatch() {
         total -= 1;
+        if(shouldDispatch()) {
+            dispatch();
+        }
     }
 
     /**

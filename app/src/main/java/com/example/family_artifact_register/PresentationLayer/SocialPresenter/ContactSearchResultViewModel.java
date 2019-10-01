@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 
 import java.util.List;
@@ -20,18 +21,18 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
      */
     public static final String TAG = ContactSearchResultViewModel.class.getSimpleName();
 
-    private UserRepository repository;
+    private UserInfoManager manager;
     private LiveData<List<UserInfo>> result;
 
     public ContactSearchResultViewModel(Application application, String query) {
         super(application);
-        repository = new UserRepository();
-        result = repository.getUsers(query);
-        result.observeForever(userInfos -> {
-            for (UserInfo userInfo: userInfos) {
-                Log.i(TAG, userInfo.toString());
-            }
-        });
+        manager = UserInfoManager.getInstance();
+        result = manager.searchUserInfo(query);
+//        result.observeForever(userInfos -> {
+//            for (UserInfo userInfo: userInfos) {
+//                Log.i(TAG, userInfo.toString());
+//            }
+//        });
     }
 
     public LiveData<List<UserInfo>> getUsers() { return result; }
