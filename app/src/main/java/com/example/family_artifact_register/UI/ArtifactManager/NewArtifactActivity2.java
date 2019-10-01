@@ -101,6 +101,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         return super.onOptionsItemSelected(item);
     }
 
+    // ************************************ implement interface ***********************************
     @Override
     public void uploadNewArtifact() {
         MapLocationManager mlm =  MapLocationManager.getInstance();
@@ -120,7 +121,6 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 //        ArtifactItem newItem = new ArtifactItem();
     }
 
-    // ************************************ implement interface ***********************************
     /**
      * take in data and compress it and record it in the activity
      *
