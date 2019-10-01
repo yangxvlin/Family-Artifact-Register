@@ -44,6 +44,8 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
 
     private CurrentLocationFragment uploadLocationFragment;
 
+    EditText description;
+
     public NewArtifactMediaFragment() {
         // required empty constructor
     }
@@ -100,7 +102,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
         });
 
         // set description if any
-        EditText description = view.findViewById(R.id.fragment_new_artifact_media_description_input);
+        description = view.findViewById(R.id.fragment_new_artifact_media_description_input);
         description.setText(((DescriptionListener)getActivity()).getDescription(), TextView.BufferType.EDITABLE);
     }
 
@@ -123,6 +125,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                     }
                     ((MediaListener)getActivity()).setMediaType(TYPE_IMAGE);
                     ((UploadLocationListener)getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
+                    ((DescriptionListener)getActivity()).setDescription(description.getText().toString());
                     // next images fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
@@ -137,6 +140,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                     }
                     ((MediaListener)getActivity()).setMediaType(TYPE_VIDEO);
                     ((UploadLocationListener)getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
+                    ((DescriptionListener)getActivity()).setDescription(description.getText().toString());
                     // next fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
