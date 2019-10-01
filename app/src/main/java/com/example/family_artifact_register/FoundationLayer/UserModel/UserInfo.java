@@ -16,7 +16,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String PHOTO_URL = "photoUrl";
     public static final String FRIEND_UIDS = "friendUids";
-    public static final String ARTIFACT_IDS = "artifactIds";
+    public static final String ARTIFACT_IDS = "artifactItemIds";
 
     private String uid;
     private String displayName;
@@ -26,7 +26,8 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
 
     // Hacky solution to keep both list unique
     private Map<String, Boolean> friendUids = new HashMap<>();
-    private Map<String, Boolean> artifactIds = new HashMap<>();
+    private Map<String, Boolean> artifactItemIds = new HashMap<>();
+    private Map<String, Boolean> artifactTimelineIds = new HashMap<>();
 
     public UserInfo() {
         // Required constructor for FireStore
@@ -43,25 +44,32 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
      */
     public UserInfo(String uid, String displayName, String email, String phoneNumber,
                     String photoUrl, Map<String, Boolean> friendUids,
-                    Map<String, Boolean> artifactIds) {
+                    Map<String, Boolean> artifactItemIds, Map<String, Boolean> artifactTimelineIds) {
         this.uid = uid;
         this.displayName = displayName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
+
         if (friendUids == null) {
             friendUids = new HashMap<>();
         }
-        if (artifactIds == null) {
-            artifactIds = new HashMap<>();
-        }
         this.friendUids = friendUids;
-        this.artifactIds = artifactIds;
+
+        if (artifactItemIds == null) {
+            artifactItemIds = new HashMap<>();
+        }
+        this.artifactItemIds = artifactItemIds;
+
+        if (artifactTimelineIds == null) {
+            artifactTimelineIds = new HashMap<>();
+        }
+        this.artifactTimelineIds = artifactTimelineIds;
     }
 
     public UserInfo(String uid, String displayName) {
         this(uid, displayName, null, null, null,
-                new HashMap<>(), new HashMap<>());
+                new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
     public String getUid() {
@@ -104,11 +112,15 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return friendUids;
     }
 
-    public Map<String, Boolean> getArtifactIds() {
-        return artifactIds;
+    public Map<String, Boolean> getArtifactItemIds() {
+        return artifactItemIds;
     }
 
-    public boolean addFriend(String friendUid) {
+    public Map<String, Boolean> getArtifactTimelineIds() {
+        return artifactTimelineIds;
+    }
+
+    public boolean addFriendUid(String friendUid) {
         if (friendUids.containsKey(friendUid)) {
             return false;
         }
@@ -116,21 +128,34 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return true;
     }
 
-    public boolean removeFriend(String friendUid) {
+    public boolean removeFriendUid(String friendUid) {
         friendUids.remove(friendUid, true);
         return true;
     }
 
-    public boolean addArtifact(String artifactId) {
-        if (artifactIds.containsKey(artifactId)) {
+    public boolean addArtifactItemId(String artifactId) {
+        if (artifactItemIds.containsKey(artifactId)) {
             return false;
         }
-        artifactIds.put(artifactId, true);
+        artifactItemIds.put(artifactId, true);
         return true;
     }
 
-    public boolean removeArtifact(String artifactId) {
-        artifactIds.remove(artifactId);
+    public boolean removeArtifactItemId(String artifactId) {
+        artifactItemIds.remove(artifactId);
+        return true;
+    }
+
+    public boolean addArtifactTimelineId(String artifactId) {
+        if (artifactTimelineIds.containsKey(artifactId)) {
+            return false;
+        }
+        artifactTimelineIds.put(artifactId, true);
+        return true;
+    }
+
+    public boolean removeArtifactTimelineId(String artifactId) {
+        artifactTimelineIds.remove(artifactId);
         return true;
     }
 
@@ -148,7 +173,8 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         out.writeString(phoneNumber);
         out.writeString(photoUrl);
         out.writeMap(friendUids);
-        out.writeMap(artifactIds);
+        out.writeMap(artifactItemIds);
+        out.writeMap(artifactTimelineIds);
     }
 
     public static final Parcelable.Creator<UserInfo> CREATOR
@@ -175,6 +201,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
                 in.readString(),
                 in.readString(),
                 in.readHashMap(HashMap.class.getClassLoader()),
+                in.readHashMap(HashMap.class.getClassLoader()),
                 in.readHashMap(HashMap.class.getClassLoader())
         );
         // Set friend list and artifact list
@@ -184,9 +211,10 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     @Override
     public String toString() {
         return String.format(
-                "uid: %s, displayName: %s, email: %s, phoneNumber: %s," +
-                        "photoUrl: %s",
-                uid, displayName, email, phoneNumber, photoUrl
+                "uid: %s, displayName: %s, email: %s, phoneNumber: %s, " +
+                        "photoUrl: %s, friendUids: %s, artifactItemIds: %s, artifactTimelineIds: %s",
+                uid, displayName, email, phoneNumber, photoUrl, friendUids, artifactItemIds,
+                artifactTimelineIds
         );
     }
 

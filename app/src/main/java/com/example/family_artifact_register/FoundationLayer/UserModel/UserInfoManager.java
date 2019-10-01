@@ -252,7 +252,7 @@ public class UserInfoManager {
     @Deprecated()
     public void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
         // Make them friend
-        if (userInfo1.addFriend(userInfo2.getUid())) {
+        if (userInfo1.addFriendUid(userInfo2.getUid())) {
             // Save User info to server
             mUserCollection
                     .document(userInfo1.getUid())
@@ -267,7 +267,7 @@ public class UserInfoManager {
         }
 
         // Make them friend
-        if (userInfo2.addFriend(userInfo1.getUid())) {
+        if (userInfo2.addFriendUid(userInfo1.getUid())) {
             // Save User info to server
             mUserCollection
                     .document(userInfo2.getUid())
@@ -385,15 +385,32 @@ public class UserInfoManager {
      * Add an ArtifactId to current user and push to database
      * @param artifactId String ArtifactId to add
      */
-    public void addArtifactId(String artifactId) {
+    public void addArtifactItemId(String artifactId) {
         UserInfo currentUserInfo = getCurrentUserInfo();
         // Check and add artifact id
-        if (currentUserInfo.addArtifact(artifactId)) {
+        if (currentUserInfo.addArtifactItemId(artifactId)) {
             // ArtifactId not in this user yet. Add and push to database
-            Log.d(TAG, currentUserInfo.getArtifactIds().toString());
+            Log.d(TAG, currentUserInfo.getArtifactItemIds().toString());
             mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_IDS,
-                    currentUserInfo.getArtifactIds()).addOnFailureListener(e ->
-                    Log.w(TAG, "Error update user new ArtifactId to FireStore failed" +
+                    currentUserInfo.getArtifactItemIds()).addOnFailureListener(e ->
+                    Log.w(TAG, "Error update user new ArtifactItemId to FireStore failed" +
+                            currentUserInfo.toString(), e));
+        }
+    }
+
+    /**
+     * Add an ArtifactId to current user and push to database
+     * @param artifactId String ArtifactId to add
+     */
+    public void addArtifactTimelineId(String artifactId) {
+        UserInfo currentUserInfo = getCurrentUserInfo();
+        // Check and add artifact id
+        if (currentUserInfo.addArtifactTimelineId(artifactId)) {
+            // ArtifactId not in this user yet. Add and push to database
+            Log.d(TAG, currentUserInfo.getArtifactTimelineIds().toString());
+            mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_IDS,
+                    currentUserInfo.getArtifactTimelineIds()).addOnFailureListener(e ->
+                    Log.w(TAG, "Error update user new ArtifactTimelineId to FireStore failed" +
                             currentUserInfo.toString(), e));
         }
     }

@@ -80,11 +80,11 @@ public class ArtifactManager {
         // Upload, store it to user
         if (artifact instanceof ArtifactItem) {
             storeArtifact((ArtifactItem) artifact);
+            userInfoManager.addArtifactItemId(artifact.getPostId());
         } else if (artifact instanceof ArtifactTimeline) {
             storeArtifact((ArtifactTimeline) artifact);
+            userInfoManager.addArtifactTimelineId(artifact.getPostId());
         }
-
-        UserInfoManager.getInstance().addArtifactId(artifact.getPostId());
     }
 
     private void storeArtifact(ArtifactItem artifact) {
@@ -151,7 +151,7 @@ public class ArtifactManager {
                                 "e:" + e.toString()));
     }
 
-    public LiveData<ArtifactItem> getArtifactByPostId(String postId) {
+    public LiveData<ArtifactItem> getArtifactItemByPostId(String postId) {
         MutableLiveData<ArtifactItem> mutableLiveData = new MutableLiveData<>();
         mArtifactItemCollection.document(postId).get().addOnCompleteListener(
                 task -> {
@@ -159,20 +159,20 @@ public class ArtifactManager {
                             task.getResult().exists()) {
                         mutableLiveData.setValue(task.getResult().toObject(ArtifactItem.class));
                     } else {
-                        Log.e(TAG, "getArtifactByPostId failed: " + task.getException());
+                        Log.e(TAG, "getArtifactItemByPostId failed: " + task.getException());
                     }
                 }
         );
         return mutableLiveData;
     }
 
-    public LiveData<List<ArtifactItem>> getArtifactByPostId(List<String> postIds, int timeout) {
+    public LiveData<List<ArtifactItem>> getArtifactItemByPostId(List<String> postIds, int timeout) {
         MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactItem> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
         for (String postId: new HashSet<>(postIds)) {
             liveDataListDispatchHelper.addWaitingTask();
-            LiveData<ArtifactItem> artifactItemLiveData = getArtifactByPostId(postId);
+            LiveData<ArtifactItem> artifactItemLiveData = getArtifactItemByPostId(postId);
             artifactItemLiveData.observeForever(
                     new Observer<ArtifactItem>() {
                         @Override
@@ -187,13 +187,64 @@ public class ArtifactManager {
         return mutableLiveData;
     }
 
-    public LiveData<List<ArtifactItem>> getArtifactByUid(String uid) {
-        MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
-        mArtifactItemCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
+    public LiveData<List<ArtifactTimeline>> getArtifactItemByUid(String uid) {
+        MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
+        mArtifactTimelineCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
                             task.getResult().isEmpty()) {
-                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactItem.class));
+                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactTimeline.class));
+                    } else {
+                        Log.e(TAG, "getArtifactByUid failed: " + task.getException());
+                    }
+                }
+        );
+        return mutableLiveData;
+    }
+
+    public LiveData<ArtifactTimeline> getArtifactTimelineByPostId(String postId) {
+        MutableLiveData<ArtifactTimeline> mutableLiveData = new MutableLiveData<>();
+        mArtifactTimelineCollection.document(postId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful() && task.getResult() != null &&
+                            task.getResult().exists()) {
+                        mutableLiveData.setValue(task.getResult().toObject(ArtifactTimeline.class));
+                    } else {
+                        Log.e(TAG, "getArtifactTimelineByPostId failed: " + task.getException());
+                    }
+                }
+        );
+        return mutableLiveData;
+    }
+
+    public LiveData<List<ArtifactTimeline>> getArtifactTimelineByPostId(List<String> postIds, int timeout) {
+        MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
+        LiveDataListDispatchHelper<ArtifactTimeline> liveDataListDispatchHelper =
+                new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
+        for (String postId: new HashSet<>(postIds)) {
+            liveDataListDispatchHelper.addWaitingTask();
+            LiveData<ArtifactTimeline> artifactTimelineLiveData = getArtifactTimelineByPostId(postId);
+            artifactTimelineLiveData.observeForever(
+                    new Observer<ArtifactTimeline>() {
+                        @Override
+                        public void onChanged(ArtifactTimeline artifactTimeline) {
+                            liveDataListDispatchHelper
+                                    .addResultAfterTaskCompletion(artifactTimeline);
+                            artifactTimelineLiveData.removeObserver(this);
+                        }
+                    }
+            );
+        }
+        return mutableLiveData;
+    }
+
+    public LiveData<List<ArtifactTimeline>> getArtifactTimelineByUid(String uid) {
+        MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
+        mArtifactTimelineCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful() && task.getResult() != null &&
+                            task.getResult().isEmpty()) {
+                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactTimeline.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());
                     }
