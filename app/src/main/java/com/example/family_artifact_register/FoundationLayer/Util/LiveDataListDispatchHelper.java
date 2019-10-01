@@ -66,7 +66,8 @@ public class LiveDataListDispatchHelper<T> {
      * dispatch the result regardless of queue status
      */
     private void dispatch() {
-        if (dispatched) {
+        Log.d(TAG, "dispatched " + dispatched + ", dispatching ");
+        if (!dispatched) {
             mutableLiveData.setValue(searchResults);
             dispatched = true;
         }
