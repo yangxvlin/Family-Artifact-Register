@@ -390,6 +390,7 @@ public class UserInfoManager {
         // Check and add artifact id
         if (currentUserInfo.addArtifact(artifactId)) {
             // ArtifactId not in this user yet. Add and push to database
+            Log.d(TAG, currentUserInfo.getArtifactIds().toString());
             mUserCollection.document(mCurrentUid).update(UserInfo.ARTIFACT_IDS,
                     currentUserInfo.getArtifactIds()).addOnFailureListener(e ->
                     Log.w(TAG, "Error update user new ArtifactId to FireStore failed" +
