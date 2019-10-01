@@ -138,10 +138,9 @@ public class ArtifactManager {
         // 0. Set post id not not have one
         DocumentReference artifactReference;
         if (artifact.getPostId() == null) {
-            artifactReference = mArtifactItemCollection.document(String.valueOf(System.currentTimeMillis()));
-        } else {
-            artifactReference = mArtifactItemCollection.document(artifact.getPostId());
+            artifact.setPostId(String.valueOf(System.currentTimeMillis()));
         }
+        artifactReference = mArtifactTimelineCollection.document(artifact.getPostId());
 
         // 2. Upload Artifact
         Log.i(TAG, "adding artifact timeline to firestore...");
