@@ -30,6 +30,7 @@ import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.TimeToString.getCurrentTimeFormattedString;
@@ -149,8 +150,11 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         ArtifactTimeline timeline;
         if (timelineStrategy == NEW_ARTIFACT_TIMELINE) {
             timeline = new ArtifactTimeline(null, UserInfoManager.getInstance().getCurrentUid(), currentTimeString, currentTimeString, new ArrayList<>(), timelineTitle);
-            timeline.addArtifact(newItem);
-//            am.addArtifact(timeline);
+            timeline.addArtifactPostId(newItem.getPostId());
+            Log.d(TAG, newItem.getPostId() + "\n"+ timeline.getPostId());
+            Log.d(TAG, Arrays.toString(timeline.getArtifactItemPostIds().toArray()));
+
+            am.addArtifact(timeline);
         } else {
             // get timeline from remote DB
             timeline = null;
