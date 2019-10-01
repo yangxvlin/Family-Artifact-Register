@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
@@ -26,8 +30,9 @@ import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.TimeToString.getCurrentTimeFormattedString;
 
 /**
  * @author XuLin Yang 904904,
@@ -57,7 +62,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     private int mediaType;
 
-    private Calendar happenedTime;
+    private String happenedTime;
 
     private MapLocation happenedLocation;
 
@@ -118,7 +123,38 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         Log.i(TAG, "happened location id: " + happenedLocationId);
         Log.i(TAG, "stored location id" + storedLocationId);
 
-//        ArtifactItem newItem = new ArtifactItem();
+//        String happenedTimeString = calendarToFormattedString(this.happenedTime);
+        String currentTimeString = getCurrentTimeFormattedString();
+
+        ArtifactManager am = ArtifactManager.getInstance();
+
+        // convert uri to String
+        List<String> mediaDataString = new ArrayList<>();
+        for (Uri uri: mediaData) {
+            mediaDataString.add(uri.toString());
+        }
+
+        ArtifactItem newItem = ArtifactItem.newInstance(currentTimeString,
+                                                        currentTimeString,
+                                                        mediaType,
+                                                        mediaDataString,
+                                                        description,
+                                                        uploadLocationId,
+                                                        happenedLocationId,
+                                                        storedLocationId,
+                                                        happenedTime,
+                                                        null);
+        am.addArtifact(newItem);
+
+        ArtifactTimeline timeline;
+        if (timelineStrategy == NEW_ARTIFACT_TIMELINE) {
+            timeline = new ArtifactTimeline(null, UserInfoManager.getInstance().getCurrentUid(), currentTimeString, currentTimeString, new ArrayList<>(), timelineTitle);
+            timeline.addArtifact(newItem);
+//            am.addArtifact(timeline);
+        } else {
+            // get timeline from remote DB
+            timeline = null;
+        }
     }
 
     /**
@@ -167,10 +203,10 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     public void clearDescription() { description = ""; }
 
     @Override
-    public Calendar getHappenedTimeCalender() { return this.happenedTime; }
+    public String getHappenedTime() { return this.happenedTime; }
 
     @Override
-    public void setHappenedTimeCalender(Calendar calender) { this.happenedTime = calender; }
+    public void setHappenedTime(String time) { this.happenedTime = time; }
 
     @Override
     public void setHappenedLocation(MapLocation happenedLocation) { this.happenedLocation = happenedLocation; }
