@@ -26,8 +26,6 @@ public class HubActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        mHubModelAdapter = new HubModelAdapter(this, getMyList());
         mRecyclerView.setAdapter(mHubModelAdapter);
 
     }

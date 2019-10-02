@@ -14,9 +14,6 @@ public class ArtifactItem extends Artifact {
     // List of Urls of medias stored in database (homogeneous)
     private List<String> mediaDataUrls;
 
-    // Title of this artifact
-    private String title;
-
     // Description of this artifact
     private String description;
 
@@ -46,14 +43,13 @@ public class ArtifactItem extends Artifact {
      */
     @Deprecated
     public ArtifactItem(String postId, String uid, String uploadDateTime, String lastUpdateDateTime,
-                        int mediaType, List<String> mediaDataUrls, String title, String description,
+                        int mediaType, List<String> mediaDataUrls, String description,
                         String locationUploadedId, String locationHappenedId,
                         String locationStoredId, String happenedDateTime,
                         ArtifactTimeline artifactTimeline) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.mediaType = mediaType;
         this.mediaDataUrls = mediaDataUrls;
-        this.title = title;
         this.description = description;
         this.locationUploadedId = locationUploadedId;
         this.locationHappenedId = locationHappenedId;
@@ -90,14 +86,6 @@ public class ArtifactItem extends Artifact {
 
     void removeMediaDataUrls(String mediaDataUrl) {
         mediaDataUrls.remove(mediaDataUrl);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
@@ -164,7 +152,6 @@ public class ArtifactItem extends Artifact {
                                            String lastUpdateDateTime,
                                            int mediaType,
                                            List<String> mediaDataUrls,
-                                           String title,
                                            String description,
                                            String locationUploadedId,
                                            String locationHappenedId,
@@ -178,7 +165,6 @@ public class ArtifactItem extends Artifact {
                 lastUpdateDateTime,
                 mediaType,
                 mediaDataUrls,
-                title,
                 description,
                 locationUploadedId,
                 locationHappenedId,
