@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +23,8 @@ import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubVi
 import com.example.family_artifact_register.UI.Upload.PostActivity;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +38,7 @@ public class HubFragment extends Fragment implements IFragment {
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
+    private HubModelAdapter adapter;
     private DividerItemDecoration divider;
 
     private HubViewModel hubViewModel;
@@ -153,9 +158,117 @@ public class HubFragment extends Fragment implements IFragment {
     @Override
     public String getFragmentTag() { return TAG; }
 
-    public class HubModelAdapter extends RecyclerView.Adapter<HubModelAdapter.HubModelHolder> {
+    public class HubModelAdapter extends RecyclerView.Adapter<HubModelAdapter.HubModelViewHolder> {
 
+        public class HubModelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            public TextView username, title, description;
+            public ImageView avatar, postImage;
+
+            public String itemId;
+
+            public HubModelViewHolder(View itemView) {
+                super(itemView);
+                itemView.setOnClickListener(this);
+                this.username = itemView.findViewById(R.id.username);
+                this.title = itemView.findViewById(R.id.title);
+                this.description = itemView.findViewById(R.id.description);
+                this.avatar = itemView.findViewById(R.id.avatar);
+                this.postImage = itemView.findViewById(R.id.post_image);
+            }
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), ArtifactDetailActivity.class);
+                i.putExtra("selectedPid", itemId);
+                startActivity(i);
+            }
+        }
+
+        public HubModelAdapter(HubViewModel viewModel) {
+            this.viewModel = viewModel;
+        }
+
+        private HubViewModel viewModel;
+        private List<ArtifactItem> dataSet;
+
+        @NonNull
+        @Override
+        public HubModelAdapter.HubModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
+
+            return new HubModelViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull HubModelAdapter.HubModelViewHolder holder, int position) {
+            // data is ready to be displayed
+            if(dataSet != null) {
+                holder.username.setText(dataSet.get(position).getUid());
+                holder.title.setText(dataSet.get(position).getTitle());
+                holder.description.setText(dataSet.get(position).getDescription());
+                holder.itemId = dataSet.get(position).getPostId();
+            }
+            // data is not ready yet
+            else {
+                // TODO what to display when data is not ready
+                holder.username.setText("Loading data");
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            if(dataSet != null)
+                return dataSet.size();
+            // initially, dataSet is null
+            return 0;
+        }
+
+        public void setData(List<ArtifactItem> newData) {
+            // solution from codelab
+            dataSet = newData;
+            notifyDataSetChanged();
+
+//            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
+//            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
+//
+//            dataSet.clear();
+//            dataSet.addAll(newData);
+//            diffResult.dispatchUpdatesTo(this);
+        }
+
+        // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview
+        class StringDiffCallBack extends DiffUtil.Callback {
+
+            private ArrayList<String> newList;
+            private ArrayList<String> oldList;
+
+            public StringDiffCallBack(ArrayList<String> oldList, ArrayList<String> newList) {
+                this.oldList= oldList;
+                this.newList= newList;
+            }
+
+            @Override
+            public int getOldListSize() {
+                return oldList.size();
+            }
+
+            @Override
+            public int getNewListSize() {
+                return newList.size();
+            }
+
+            @Override
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                return true;
+            }
+
+            @Override
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+            }
+        }
     }
-
 }
 
