@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
+import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModelFactory;
 import com.example.family_artifact_register.UI.Upload.PostActivity;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,6 +53,9 @@ public class HubFragment extends Fragment implements IFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_hub, container, false);
+
+        hubViewModel = ViewModelProviders.of(this, new HubViewModelFactory(getActivity().getApplication())).get(HubViewModel.class);
+
         setupRecyclerView(view);
 
         FloatingActionButton fab = view.findViewById(R.id.hub_fab);
