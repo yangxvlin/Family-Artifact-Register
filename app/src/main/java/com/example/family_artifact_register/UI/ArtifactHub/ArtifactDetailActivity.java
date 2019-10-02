@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -24,7 +25,7 @@ import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
  * @time 2019-9-19 11:54:23
  * @description activity for artifact detail view.
  */
-public class ArtifactDetailActivity extends BaseActionBarActivity {
+public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
 
