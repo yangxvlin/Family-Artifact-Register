@@ -167,7 +167,7 @@ public class HubFragment extends Fragment implements IFragment {
 
         public class HubModelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            public TextView username, title, description;
+            public TextView username, publisher, description;
             public ImageView avatar, postImage;
 
             public String itemId;
@@ -176,7 +176,7 @@ public class HubFragment extends Fragment implements IFragment {
                 super(itemView);
                 itemView.setOnClickListener(this);
                 this.username = itemView.findViewById(R.id.username);
-                this.title = itemView.findViewById(R.id.title);
+                this.publisher = itemView.findViewById(R.id.publisher);
                 this.description = itemView.findViewById(R.id.description);
                 this.avatar = itemView.findViewById(R.id.avatar);
                 this.postImage = itemView.findViewById(R.id.post_image);
@@ -211,7 +211,7 @@ public class HubFragment extends Fragment implements IFragment {
             // data is ready to be displayed
             if(dataSet != null) {
                 holder.username.setText(dataSet.get(position).getUid());
-                holder.title.setText(dataSet.get(position).getTitle());
+                holder.publisher.setText(dataSet.get(position).getUid());
                 holder.description.setText(dataSet.get(position).getDescription());
                 holder.itemId = dataSet.get(position).getPostId();
             }

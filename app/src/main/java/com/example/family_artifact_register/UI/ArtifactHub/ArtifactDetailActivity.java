@@ -62,7 +62,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 Log.i(TAG, "some changes happened");
 
                 // Set artifact information the same as activity hub
-                mTitleTv.setText(artifactItem.getTitle());
+                mTitleTv.setText(artifactItem.getUid());
                 mDescTv.setText(artifactItem.getDescription());
                 mUserTv.setText(artifactItem.getUid());
             }
