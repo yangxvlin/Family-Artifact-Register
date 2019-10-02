@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
@@ -23,16 +24,19 @@ import java.util.ArrayList;
  * @time 2019-9-18 14:28:43
  * @description Adapter for models recycler view
  */
-public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
-    public final static String TAG = HubModelAdapter.class.getSimpleName();
+public class HubModelAdapter extends RecyclerView.Adapter {
 
-    Context c;
-    ArrayList<Model> models;
+//    public final static String TAG = HubModelAdapter.class.getSimpleName();
 
-    public HubModelAdapter(Context c, ArrayList<Model> models) {
-        this.c = c;
-        this.models = models;
-    }
+    private ArrayList<String> dataSet;
+
+//    Context c;
+//    ArrayList<Model> models;
+
+//    public HubModelAdapter(Context c, ArrayList<Model> models) {
+//        this.c = c;
+//        this.models = models;
+//    }
 
     @NotNull
     @Override
@@ -44,47 +48,49 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NotNull final HubModelHolder myHolder, int i) {
-        myHolder.mDes.setText(models.get(i).getDescription());
-        myHolder.mImeaView.setImageResource(models.get(i).getPostimage());
-        myHolder.mAvatar.setImageResource(models.get(i).getAvatar());
-        myHolder.mUsername.setText(models.get(i).getUsername());
-        myHolder.mPublisher.setText(models.get(i).getPublisher());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder,int i) {
+        ((HubModelViewHolder) holder).textView.setText(dataSet.get(i));
 
-        // The ClickListener checks which model is clicked and create intent
-        myHolder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void OnItemClickListener(View v, int Position) {
-                String gDesc = models.get(Position).getDescription();
-                String gUser = models.get(Position).getUsername();
-                String gPublisher = models.get(Position).getPublisher();
-                BitmapDrawable bitmapDrawableImage = (BitmapDrawable)myHolder.mImeaView.getDrawable();
-                BitmapDrawable bitmapDrawableAvatar = (BitmapDrawable)myHolder.mAvatar.getDrawable();
-
-
-                Bitmap bitmapImage = bitmapDrawableImage.getBitmap();
-                Bitmap bitmapAvatar = bitmapDrawableAvatar.getBitmap();
-
-                // Compress the bitmap as stream convert to array of bytes
-                ByteArrayOutputStream imageStream = new ByteArrayOutputStream();
-                ByteArrayOutputStream avatarStream = new ByteArrayOutputStream();
-                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100,imageStream);
-                bitmapAvatar.compress(Bitmap.CompressFormat.PNG, 100,avatarStream);
-
-                byte[] imageBytes = imageStream.toByteArray();
-                byte[] avatarBytes = avatarStream.toByteArray();
-
-                //Creat intent and put information into it
-                Intent intent = new Intent(c, ArtifactDetailActivity.class);
-                intent.putExtra("iTitle", gPublisher);
-                intent.putExtra("iDesc", gDesc);
-                intent.putExtra("iUser", gUser);
-                intent.putExtra("iImage", imageBytes);
-                intent.putExtra("iAvatar", avatarBytes);
-                c.startActivity(intent);
-            }
-        });
-
+//        myHolder.mDes.setText(models.get(i).getDescription());
+//        myHolder.mImeaView.setImageResource(models.get(i).getPostimage());
+//        myHolder.mAvatar.setImageResource(models.get(i).getAvatar());
+//        myHolder.mUsername.setText(models.get(i).getUsername());
+//        myHolder.mPublisher.setText(models.get(i).getPublisher());
+//
+//        // The ClickListener checks which model is clicked and create intent
+//        myHolder.setItemClickListener(new ItemClickListener() {
+//            @Override
+//            public void OnItemClickListener(View v, int Position) {
+//                String gDesc = models.get(Position).getDescription();
+//                String gUser = models.get(Position).getUsername();
+//                String gPublisher = models.get(Position).getPublisher();
+//                BitmapDrawable bitmapDrawableImage = (BitmapDrawable)myHolder.mImeaView.getDrawable();
+//                BitmapDrawable bitmapDrawableAvatar = (BitmapDrawable)myHolder.mAvatar.getDrawable();
+//
+//
+//                Bitmap bitmapImage = bitmapDrawableImage.getBitmap();
+//                Bitmap bitmapAvatar = bitmapDrawableAvatar.getBitmap();
+//
+//                // Compress the bitmap as stream convert to array of bytes
+//                ByteArrayOutputStream imageStream = new ByteArrayOutputStream();
+//                ByteArrayOutputStream avatarStream = new ByteArrayOutputStream();
+//                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100,imageStream);
+//                bitmapAvatar.compress(Bitmap.CompressFormat.PNG, 100,avatarStream);
+//
+//                byte[] imageBytes = imageStream.toByteArray();
+//                byte[] avatarBytes = avatarStream.toByteArray();
+//
+//                //Creat intent and put information into it
+//                Intent intent = new Intent(c, ArtifactDetailActivity.class);
+//                intent.putExtra("iTitle", gPublisher);
+//                intent.putExtra("iDesc", gDesc);
+//                intent.putExtra("iUser", gUser);
+//                intent.putExtra("iImage", imageBytes);
+//                intent.putExtra("iAvatar", avatarBytes);
+//                c.startActivity(intent);
+//            }
+//        });
+//
 //        myHolder.setItemClickListener(new ItemClickListener() {
 //            @Override
 //            public void OnItemClickListener(View v, int Position) {
@@ -98,7 +104,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelHolder> {
 
     @Override
     public int getItemCount() {
-        return models.size();
+        return dataSet.size();
     }
 
 }
