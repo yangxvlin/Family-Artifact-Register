@@ -49,7 +49,7 @@ public class HubModelAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder,int i) {
-        ((HubModelViewHolder) holder).textView.setText(dataSet.get(i));
+        ((HubModelViewHolder) holder).username.setText(dataSet.get(i));
 
 //        myHolder.mDes.setText(models.get(i).getDescription());
 //        myHolder.mImeaView.setImageResource(models.get(i).getPostimage());
