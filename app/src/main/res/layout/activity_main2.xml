@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="@color/wechat_grey"/>
+            android:background="@color/wechat_white"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -28,8 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/wechat_white"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/wechat_grey"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_bar_menu"/>
 
