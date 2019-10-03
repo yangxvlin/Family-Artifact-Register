@@ -11,6 +11,7 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -92,6 +93,9 @@ public class ArtifactManager {
         DocumentReference artifactReference;
         if (artifact.getPostId() == null) {
             artifact.setPostId(String.valueOf(System.currentTimeMillis()));
+        }
+        if (artifact.getUid() == null) {
+            artifact.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
         artifactReference = mArtifactItemCollection.document(artifact.getPostId());
 
