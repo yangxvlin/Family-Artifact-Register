@@ -94,6 +94,7 @@ public class ArtifactManager {
         if (artifact.getPostId() == null) {
             artifact.setPostId(String.valueOf(System.currentTimeMillis()));
         }
+        // 1. Set user id not not have one
         if (artifact.getUid() == null) {
             artifact.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
@@ -103,7 +104,7 @@ public class ArtifactManager {
         StorageReference artifactMediaStorageReference = mArtifactMediaStorageReference
                 .child(artifact.getPostId());
 
-        // 1. Store Photo (same as what's in MapLocation)
+        // 2. Store Photo (same as what's in MapLocation)
         Map<String, String> mediaUrlMap = new HashMap<>();
         int i = 0;
         if (artifact.getMediaDataUrls() != null) {
@@ -129,7 +130,7 @@ public class ArtifactManager {
             artifact.addMediaDataUrls(key);
         }
 
-        // 2. Upload Artifact
+        // 3. Upload Artifact
         Log.i(TAG, "adding artifact to fire store...");
         // Now store the actual artifact
         artifactReference.set(artifact)
