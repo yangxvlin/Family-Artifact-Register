@@ -89,12 +89,12 @@ public class ArtifactManager {
     }
 
     private void storeArtifact(ArtifactItem artifact) {
-        // 0. Set post id not not have one
+        // 0. Set post id if not have one
         DocumentReference artifactReference;
         if (artifact.getPostId() == null) {
             artifact.setPostId(String.valueOf(System.currentTimeMillis()));
         }
-        // 1. Set user id not not have one
+        // 1. Set user id if not have one
         if (artifact.getUid() == null) {
             artifact.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
