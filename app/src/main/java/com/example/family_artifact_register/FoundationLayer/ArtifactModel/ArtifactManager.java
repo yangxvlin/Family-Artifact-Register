@@ -96,7 +96,7 @@ public class ArtifactManager {
         }
         // 1. Set user id if not have one
         if (artifact.getUid() == null) {
-            artifact.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            artifact.setUid(userInfoManager.getCurrentUid());
         }
         artifactReference = mArtifactItemCollection.document(artifact.getPostId());
 
