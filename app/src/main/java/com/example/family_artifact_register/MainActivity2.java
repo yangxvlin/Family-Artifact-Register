@@ -102,6 +102,8 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        getSupportActionBar().setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
+
         // setup bottom navigation bar
         navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

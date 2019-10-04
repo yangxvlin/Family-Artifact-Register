@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
 
@@ -45,7 +47,7 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
         Bitmap avatarBitmap = BitmapFactory.decodeByteArray(mAvatarBytes, 0, mAvatarBytes.length);
 
         // Set action bar title to be artifact title
-        getMyActionBar().setTitle(mTitle);
+//        getMyActionBar().setTitle(mTitle);
 
         // Set artifact information the same as activity hub
         mTitleTv.setText(mTitle);
@@ -53,6 +55,10 @@ public class ArtifactDetailActivity extends BaseActionBarActivity {
         mUserTv.setText(mUser);
         mImageIv.setImageBitmap(imageBitmap);
         mAvatarIv.setImageBitmap(avatarBitmap);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(mTitle);
+        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
     }
 
     @Override
