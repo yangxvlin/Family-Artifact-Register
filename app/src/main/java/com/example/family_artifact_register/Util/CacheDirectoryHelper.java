@@ -18,7 +18,7 @@ public class CacheDirectoryHelper {
         this.cacheDirectory = cacheDirectory;
     }
 
-    public String getCacheDirectory() {
-        return cacheDirectory.getPath();
+    public File getCacheDirectory() {
+        return cacheDirectory;
     }
 }
