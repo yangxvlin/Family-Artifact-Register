@@ -43,6 +43,11 @@ public class ViewMediaFragment extends Fragment implements IFragment {
      */
     public static final String TAG = ViewMediaFragment.class.getSimpleName();
 
+    /**
+     * default media frame's height layout parameter value.
+     */
+    public static final int DEFAULT_FRAME_HEIGHT = 400;
+
     private int mediaType;
 
     private List<Uri> mediaList;
@@ -56,6 +61,8 @@ public class ViewMediaFragment extends Fragment implements IFragment {
      * recycler view for display images
      */
     private RecyclerView imageRecyclerView;
+
+    private int frameHeight = DEFAULT_FRAME_HEIGHT;
 
     public ViewMediaFragment() {
         // Required empty public constructor
@@ -92,7 +99,10 @@ public class ViewMediaFragment extends Fragment implements IFragment {
 
         if (mediaType == TYPE_IMAGE) {
             // set frame layout param
-            FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 400);
+            FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    this.getFrameHeight()
+            );
             layoutParam.gravity = Gravity.CENTER;
 
             // set recycler view images
@@ -104,7 +114,11 @@ public class ViewMediaFragment extends Fragment implements IFragment {
             imageRecyclerView.setLayoutParams(recyclerViewParam);
 
             // images horizontally
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(
+                    getContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+            );
             imageRecyclerView.setLayoutManager(layoutManager);
 
             // image adapter
@@ -119,11 +133,17 @@ public class ViewMediaFragment extends Fragment implements IFragment {
             frameLayout.addView(imageRecyclerView);
         } else if (mediaType == TYPE_VIDEO) {
             // set frame layout param
-            FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 400);
+            FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    this.getFrameHeight()
+            );
             layoutParam.gravity = Gravity.CENTER;
 
             // set media
             VideoView mediaView = new VideoView(getContext());
+            // TODO not sure whether code created VideoView needs set height and width
+            // mediaView.setMinimumHeight();
+            // mediaView.setMinimumWidth();
             mediaView.setVideoURI(mediaList.get(0));
             mediaView.setMediaController(new MediaController(getContext()));
             mediaView.start();
@@ -149,4 +169,8 @@ public class ViewMediaFragment extends Fragment implements IFragment {
      * @return created view media fragment
      */
     public static ViewMediaFragment newInstance() { return new ViewMediaFragment(); }
+
+    public void setFrameHeight(int height) { this.frameHeight = height; }
+
+    public int getFrameHeight() { return this.frameHeight; }
 }
