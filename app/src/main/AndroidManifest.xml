@@ -27,8 +27,7 @@
         sign the APK for publishing.
         You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity
-            android:name=".MainActivity2"
+        <activity android:name=".FamilyArtifactRegisterActivity"
             android:theme="@style/splashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,18 +36,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".test.MapTestActivity"
-            android:label="@string/title_activity_fullscreen"></activity>
+            android:label="@string/title_activity_fullscreen" />
         <activity
             android:name=".UI.ArtifactHub.HubActivity"
             android:parentActivityName=".MainActivity" />
@@ -80,10 +72,10 @@
         <activity
             android:name=".UI.ArtifactManager.HappenedActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -100,13 +92,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-    </application>
-    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- CAMERA -->
+    </application> <!-- CAMERA -->
     <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

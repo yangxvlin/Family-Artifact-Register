@@ -88,10 +88,14 @@ public class ArtifactManager {
     }
 
     private void storeArtifact(ArtifactItem artifact) {
-        // 0. Set post id not not have one
+        // 0. Set post id if not have one
         DocumentReference artifactReference;
         if (artifact.getPostId() == null) {
             artifact.setPostId(String.valueOf(System.currentTimeMillis()));
+        }
+        // 1. Set user id if not have one
+        if (artifact.getUid() == null) {
+            artifact.setUid(userInfoManager.getCurrentUid());
         }
         artifactReference = mArtifactItemCollection.document(artifact.getPostId());
 
@@ -99,7 +103,7 @@ public class ArtifactManager {
         StorageReference artifactMediaStorageReference = mArtifactMediaStorageReference
                 .child(artifact.getPostId());
 
-        // 1. Store Photo (same as what's in MapLocation)
+        // 2. Store Photo (same as what's in MapLocation)
         Map<String, String> mediaUrlMap = new HashMap<>();
         int i = 0;
         if (artifact.getMediaDataUrls() != null) {
@@ -125,7 +129,7 @@ public class ArtifactManager {
             artifact.addMediaDataUrls(key);
         }
 
-        // 2. Upload Artifact
+        // 3. Upload Artifact
         Log.i(TAG, "adding artifact to fire store...");
         // Now store the actual artifact
         artifactReference.set(artifact)
@@ -187,13 +191,13 @@ public class ArtifactManager {
         return mutableLiveData;
     }
 
-    public LiveData<List<ArtifactTimeline>> getArtifactItemByUid(String uid) {
-        MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
-        mArtifactTimelineCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
+    public LiveData<List<ArtifactItem>> getArtifactItemByUid(String uid) {
+        MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
+        mArtifactItemCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
                             task.getResult().isEmpty()) {
-                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactTimeline.class));
+                        mutableLiveData.setValue(task.getResult().toObjects(ArtifactItem.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());
                     }
