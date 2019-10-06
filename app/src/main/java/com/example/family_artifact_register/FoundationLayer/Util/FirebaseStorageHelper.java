@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,6 +21,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 public class FirebaseStorageHelper {
     private static final String TAG = FirebaseStorageHelper.class.getSimpleName();
@@ -126,6 +128,30 @@ public class FirebaseStorageHelper {
                         }
                     }
             );
+        }
+        return mutableLiveData;
+    }
+
+    /**
+     * Load the remote url resource to local storage and set the Uri to it in the livedata
+     * @param remoteUrls The remote Url to download resource with
+     * @return LiveData of the destination Uri
+     */
+    public LiveData<List<Uri>> loadByRemoteUri(List<String> remoteUrls) {
+        MutableLiveData<List<Uri>> mutableLiveData = new MutableLiveData<>();
+        LiveDataListDispatchHelper<Uri> liveDataListDispatchHelper =
+                new LiveDataListDispatchHelper<>(mutableLiveData);
+
+        for (String remoteUrl : remoteUrls) {
+            LiveData<Uri> liveData = loadByRemoteUri(remoteUrl);
+            liveDataListDispatchHelper.addWaitingTask();
+            liveData.observeForever(new Observer<Uri>() {
+                @Override
+                public void onChanged(Uri uri) {
+                    liveDataListDispatchHelper.addResultAfterTaskCompletion(uri);
+                    liveData.removeObserver(this);
+                }
+            });
         }
         return mutableLiveData;
     }
