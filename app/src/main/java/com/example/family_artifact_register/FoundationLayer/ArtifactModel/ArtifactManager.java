@@ -97,7 +97,7 @@ public class ArtifactManager {
                 new Observer<List<String>>() {
                     @Override
                     public void onChanged(List<String> remoteUrls) {
-                        Log.i(TAG, "adding artifact to firestore");
+                        Log.i(TAG, "adding artifact to firestore, with remoteUrl: " + remoteUrls.toString());
                         artifact.getMediaDataUrls().clear();
                         for (String url : remoteUrls) {
                             artifact.addMediaDataUrls(url);
@@ -115,14 +115,17 @@ public class ArtifactManager {
                 new LiveDataListDispatchHelper<>(uploadHelperLiveData, 10000);
 
         liveDataListDispatchHelper.addWaitingTask();
+
+        Log.d(TAG, "Artifact Media Urls: "+ artifact.getMediaDataUrls().toString());
         for (String localMediaDataUrl: artifact.getMediaDataUrls()) {
             liveDataListDispatchHelper.addWaitingTask();
 
+            Log.d(TAG, "Iterated to URL: " + localMediaDataUrl);
             Uri localUri = Uri.parse(localMediaDataUrl);
-            Log.i(TAG, "Url: {" + localMediaDataUrl + "}");
             FirebaseStorageHelper.getInstance()
-                    .uploadByUri(Uri.parse(localMediaDataUrl)).addOnCompleteListener(
+                    .uploadByUri(localUri).addOnCompleteListener(
                     task -> {
+                        Log.d(TAG, "Finished Uploading: " + localMediaDataUrl);
                         if (task.isSuccessful()) {
                             liveDataListDispatchHelper.addResult(FirebaseStorageHelper
                                     .getInstance()

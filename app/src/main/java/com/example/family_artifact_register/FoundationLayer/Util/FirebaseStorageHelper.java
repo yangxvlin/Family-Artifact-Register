@@ -41,7 +41,7 @@ public class FirebaseStorageHelper {
     private StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
     private FirebaseStorageHelper() {
-        if (mCacheDirectoryHelper.getCacheDirectory() != null) {
+        if (mCacheDirectoryHelper.getCacheDirectory() == null) {
             Log.w(TAG, "Failed to find Cache directory from cache helper! (null)");
             // TODO ... check null
         }
@@ -70,15 +70,22 @@ public class FirebaseStorageHelper {
 
     public Task<UploadTask.TaskSnapshot> uploadByUri(Uri uri) {
         if (remoteLocalBiMap.inverse().get(uri) != null) {
+            Log.d(TAG, "Found in BiMap");
             // Found the local Uri in the map (thus already stored in remote)
             return null;
         } else {
             String remotePath = extractLocalUri(uri);
             Uri finalUri = checkAddUriScheme(uri);
+            Log.d(TAG, "remotePath: " + remotePath + ", finalUri" + finalUri);
             // Put in the relative path
-            return mStorageReference.child(remotePath).putFile(uri)
+            return mStorageReference.child(remotePath).putFile(finalUri)
                     .addOnSuccessListener(
-                            taskSnapshot -> remoteLocalBiMap.put(remotePath, finalUri)
+                            taskSnapshot -> {
+                                remoteLocalBiMap.put(remotePath, finalUri);
+                                Log.d(TAG, "Successfully uploaded, Adding to BiMap " +
+                                        "remotePath: " + remotePath + ", finalUri" + finalUri + "\n"
+                                + remoteLocalBiMap.toString());
+                            }
                     );
         }
     }
@@ -119,6 +126,7 @@ public class FirebaseStorageHelper {
     }
 
     public String getRemoteByLocalUri(Uri uri) {
+        uri = checkAddUriScheme(uri);
         return remoteLocalBiMap.inverse().get(uri);
     }
 }
