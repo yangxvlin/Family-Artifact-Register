@@ -21,13 +21,20 @@ import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.family_artifact_register.UI.Util.Constant.MEDIA_LIST;
+import static com.example.family_artifact_register.UI.Util.Constant.MEDIA_URL_LIST;
 import static com.example.family_artifact_register.UI.Util.Constant.MEDIA_TYPE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
+/**
+ * display two media source: Image and Video both passed in through
+ * List<String> by Key: MEDIA_URL_LIST and
+ * media type is passed through int by key: MEDIA_TYPE. value detail see
+ * {@link com.example.family_artifact_register.UI.Util.MediaProcessHelper}
+ */
 public class ViewMediaFragment extends Fragment implements IFragment {
     /**
      * class tag
@@ -67,7 +74,13 @@ public class ViewMediaFragment extends Fragment implements IFragment {
         if(bundle != null){
             // get media type and media list
             mediaType = bundle.getInt(MEDIA_TYPE);
-            mediaList = (List<Uri>) bundle.getSerializable(MEDIA_LIST);
+
+            // convert single media's String Url to Uri
+            List<String> mediaUrlsList = (List<String>) bundle.getSerializable(MEDIA_URL_LIST);
+            mediaList = new ArrayList<>();
+            for (String mediaUrl: mediaUrlsList) {
+                mediaList.add(Uri.parse(mediaUrl));
+            }
         } else {
             Log.e(TAG, "error can't get data from parent fragment !!!");
         }

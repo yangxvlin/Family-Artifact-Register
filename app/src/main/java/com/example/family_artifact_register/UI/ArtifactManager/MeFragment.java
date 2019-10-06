@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeFragmentPresenter;
@@ -117,12 +116,7 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
             mediaList.add(Uri.parse(uri));
         }
 
-        myArtifactsRecyclerViewAdapter.addData(
-                ((Artifact)artifactItem).getLastUpdateDateTime(),
-                artifactItem.getDescription(),
-                mediaList,
-                artifactItem.getMediaType()
-        );
+        myArtifactsRecyclerViewAdapter.addData(artifactItem);
     }
 
     @Override
