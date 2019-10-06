@@ -49,13 +49,13 @@ public class ViewMediaFragment extends Fragment implements IFragment {
     /**
      * default media frame's height layout parameter value.
      */
-    public static final int DEFAULT_FRAME_HEIGHT = 400;
+    public static final int DEFAULT_FRAME_HEIGHT = 600;
 
-    public static final int DEFAULT_IMAGE_WIDTH = 100;
+    public static final int DEFAULT_IMAGE_WIDTH = 300;
 
-    public static final int DEFAULT_IMAGE_HEIGHT = 100;
+    public static final int DEFAULT_IMAGE_HEIGHT = 300;
 
-    public static final int DEFAULT_VIDEO_WIDTH = 300;
+    public static final int DEFAULT_VIDEO_WIDTH = 700;
 
     public static final int DEFAULT_VIDEO_HEIGHT = ViewMediaFragment.DEFAULT_FRAME_HEIGHT;
 
@@ -107,6 +107,7 @@ public class ViewMediaFragment extends Fragment implements IFragment {
             List<String> mediaUrlsList = (List<String>) bundle.getSerializable(MEDIA_URL_LIST);
             mediaList = new ArrayList<>();
             for (String mediaUrl: mediaUrlsList) {
+                Log.d(TAG, "media uri" + mediaUrl);
                 mediaList.add(Uri.parse(mediaUrl));
             }
         } else {
