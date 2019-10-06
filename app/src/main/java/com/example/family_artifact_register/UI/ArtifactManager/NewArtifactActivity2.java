@@ -133,6 +133,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         List<String> mediaDataString = new ArrayList<>();
         for (Uri uri: mediaData) {
             mediaDataString.add(uri.toString());
+            Log.d(TAG, "toString(): "+uri.toString());
+            Log.d(TAG, "getPath(): "+uri.getPath());
         }
 
         ArtifactItem newItem = ArtifactItem.newInstance(currentTimeString,

@@ -25,7 +25,9 @@ public class MediaProcessHelper {
     public static final int TYPE_VIDEO = 2;
 
     public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) throws IOException {
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        // store in app cache directory
+        File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/") ;
         return Uri.parse(SiliCompressor.with(context).compress(image.getPath(), storageDir, deleteSource));
     }
 

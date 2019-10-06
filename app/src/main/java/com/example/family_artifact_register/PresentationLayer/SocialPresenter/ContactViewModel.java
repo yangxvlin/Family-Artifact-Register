@@ -16,8 +16,10 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ContactViewModel extends AndroidViewModel {
 
@@ -29,7 +31,9 @@ public class ContactViewModel extends AndroidViewModel {
 
     private List<String> friendUids;
 
-    private MediatorLiveData<List<UserInfo>> friends = new MediatorLiveData<>();
+
+//    private MediatorLiveData<List<UserInfo>> friends = new MediatorLiveData<>();
+    private MediatorLiveData<Set<UserInfo>> friends = new MediatorLiveData<>();
 
     public ContactViewModel(Application application) {
         super(application);
@@ -39,9 +43,22 @@ public class ContactViewModel extends AndroidViewModel {
             public void onChanged(UserInfo userInfo) {
                 friendUids = new ArrayList<>(userInfo.getFriendUids().keySet());
 
-                friends.setValue(new ArrayList<>());
+                friends.setValue(new TreeSet<>(new Comparator<UserInfo>() {
+                    @Override
+                    public int compare(UserInfo userInfo, UserInfo t1) {
+                        return userInfo.getUid().compareTo(t1.getUid());
+                    }
+                }));
 
                 List<LiveData<UserInfo>> friendList = manager.listenUserInfo(friendUids);
+//                Set<LiveData<UserInfo>> x = new TreeSet<>(new Comparator<LiveData<UserInfo>>() {
+//                    @Override
+//                    public int compare(LiveData<UserInfo> userInfoLiveData, LiveData<UserInfo> t1) {
+//                        return userInfoLiveData.getValue().getUid().compareTo(t1.getValue().getUid());
+//                    }
+//                });
+//                x.addAll(manager.listenUserInfo(friendUids));
+
                 for(LiveData<UserInfo> i: friendList) {
                     friends.removeSource(i);
                     friends.addSource(i, new Observer<UserInfo>() {
@@ -56,7 +73,8 @@ public class ContactViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<UserInfo>> getContacts() {
+    public LiveData<Set<UserInfo>> getContacts() {
+
         return friends;
     }
 }
