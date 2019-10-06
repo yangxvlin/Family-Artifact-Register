@@ -63,6 +63,11 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     @Override
     public int getItemCount() { return artifactItemList.size(); }
 
+    public void setData(List<ArtifactItem> newData) {
+        artifactItemList = newData;
+        notifyDataSetChanged();
+    }
+
     // *************************************** getter & setters ***********************************
     public void addData(ArtifactItem artifactItem) {
         // 0 to add data at start
