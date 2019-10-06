@@ -48,10 +48,13 @@ public class ViewMediaFragment extends Fragment implements IFragment {
     private List<Uri> mediaList;
 
     /**
-     * recycler view adapter
+     * recycler view adapter for display images
      */
     private ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
 
+    /**
+     * recycler view for display images
+     */
     private RecyclerView imageRecyclerView;
 
     public ViewMediaFragment() {
