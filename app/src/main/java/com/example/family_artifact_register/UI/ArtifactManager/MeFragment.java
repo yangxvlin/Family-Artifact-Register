@@ -109,6 +109,7 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
         viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItem>>() {
             @Override
             public void onChanged(List<ArtifactItem> artifactItems) {
+                Log.d(TAG, "enter onchange");
                 myArtifactsRecyclerViewAdapter.setData(artifactItems);
             }
         });
