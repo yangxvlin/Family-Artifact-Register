@@ -35,7 +35,7 @@ import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TY
  * media type is passed through int by key: MEDIA_TYPE. value detail see
  * {@link com.example.family_artifact_register.UI.Util.MediaProcessHelper}
  *
- * 2. set
+ * 2. set media layout param by call setSingleMediaHeight() and setSingleMediaWidth()
  */
 public class ViewMediaFragment extends Fragment implements IFragment {
     /**
@@ -47,6 +47,14 @@ public class ViewMediaFragment extends Fragment implements IFragment {
      * default media frame's height layout parameter value.
      */
     public static final int DEFAULT_FRAME_HEIGHT = 400;
+
+    public static final int DEFAULT_IMAGE_WIDTH = 100;
+
+    public static final int DEFAULT_IMAGE_HEIGHT = 100;
+
+    public static final int DEFAULT_VIDEO_WIDTH = 300;
+
+    public static final int DEFAULT_VIDEO_HEIGHT = ViewMediaFragment.DEFAULT_FRAME_HEIGHT;
 
     private int mediaType;
 
@@ -63,6 +71,10 @@ public class ViewMediaFragment extends Fragment implements IFragment {
     private RecyclerView imageRecyclerView;
 
     private int frameHeight = DEFAULT_FRAME_HEIGHT;
+
+    private int singleMediaHeight;
+
+    private int singleMediaWidth;
 
     public ViewMediaFragment() {
         // Required empty public constructor
@@ -86,6 +98,7 @@ public class ViewMediaFragment extends Fragment implements IFragment {
         if(bundle != null){
             // get media type and media list
             mediaType = bundle.getInt(MEDIA_TYPE);
+            initializeMediaParam();
 
             // convert single media's String Url to Uri
             List<String> mediaUrlsList = (List<String>) bundle.getSerializable(MEDIA_URL_LIST);
@@ -122,7 +135,10 @@ public class ViewMediaFragment extends Fragment implements IFragment {
             imageRecyclerView.setLayoutManager(layoutManager);
 
             // image adapter
-            imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter();
+            imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
+                    this.getSingleMediaHeight(),
+                    this.getSingleMediaWidth()
+            );
             for (Uri image: mediaList) {
                 imagesRecyclerViewAdapter.addData(image);
             }
@@ -141,9 +157,10 @@ public class ViewMediaFragment extends Fragment implements IFragment {
 
             // set media
             VideoView mediaView = new VideoView(getContext());
-            // TODO not sure whether code created VideoView needs set height and width
-            // mediaView.setMinimumHeight();
-            // mediaView.setMinimumWidth();
+            mediaView.setLayoutParams(new FrameLayout.LayoutParams(
+                    this.getSingleMediaWidth(),
+                    this.getSingleMediaHeight())
+            );
             mediaView.setVideoURI(mediaList.get(0));
             mediaView.setMediaController(new MediaController(getContext()));
             mediaView.start();
@@ -161,8 +178,6 @@ public class ViewMediaFragment extends Fragment implements IFragment {
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
-
-
     }
 
     /**
@@ -170,7 +185,35 @@ public class ViewMediaFragment extends Fragment implements IFragment {
      */
     public static ViewMediaFragment newInstance() { return new ViewMediaFragment(); }
 
-    public void setFrameHeight(int height) { this.frameHeight = height; }
+    private void initializeMediaParam() {
+        if (mediaType == TYPE_IMAGE) {
+            this.setSingleMediaHeight(DEFAULT_IMAGE_HEIGHT);
+            this.setSingleMediaWidth(DEFAULT_IMAGE_WIDTH);
+        } else if (mediaType == TYPE_VIDEO) {
+            this.setSingleMediaHeight(DEFAULT_VIDEO_HEIGHT);
+            this.setSingleMediaWidth(DEFAULT_VIDEO_WIDTH);
+        } else {
+            Log.e(getFragmentTag(), "unknown media type !!!");
+        }
+    }
+
+    // ********************************** getter & setter *****************************************
+    @Deprecated
+    public void setFrameHeight(int height) {
+        this.frameHeight = height;
+        this.singleMediaHeight = this.frameHeight;
+    }
 
     public int getFrameHeight() { return this.frameHeight; }
+
+    public int getSingleMediaHeight() { return singleMediaHeight; }
+
+    public void setSingleMediaHeight(int singleMediaHeight) {
+        this.singleMediaHeight = singleMediaHeight;
+        this.frameHeight = this.singleMediaHeight;
+    }
+
+    public int getSingleMediaWidth() { return singleMediaWidth; }
+
+    public void setSingleMediaWidth(int singleMediaWidth) { this.singleMediaWidth = singleMediaWidth; }
 }
