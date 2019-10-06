@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,9 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeFragmentPresenter;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModel;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 /**
  * @author XuLin Yang 904904,
@@ -45,6 +51,8 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
 
     private MeFragmentPresenter mfp;
 
+    private MeViewModel viewModel;
+
     public MeFragment() {
         // Required empty public constructor
     }
@@ -59,6 +67,8 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this, new MeViewModelFactory(getActivity().getApplication())).get(MeViewModel.class);
 
         // create artifacts recycler view
         if (getView() != null) {
@@ -93,6 +103,13 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
                 } else if (dy < 0) {
                     add.show();
                 }
+            }
+        });
+
+        viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItem>>() {
+            @Override
+            public void onChanged(List<ArtifactItem> artifactItems) {
+                myArtifactsRecyclerViewAdapter.setData(artifactItems);
             }
         });
     }
