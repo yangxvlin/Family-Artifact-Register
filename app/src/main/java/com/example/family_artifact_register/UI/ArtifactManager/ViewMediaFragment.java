@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -114,7 +115,7 @@ public class ViewMediaFragment extends Fragment implements IFragment {
 
         if (mediaType == TYPE_IMAGE) {
             // set frame layout param
-            FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(
+            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     this.getFrameHeight()
             );
@@ -144,14 +145,12 @@ public class ViewMediaFragment extends Fragment implements IFragment {
             for (Uri image: mediaList) {
                 imagesRecyclerViewAdapter.addData(image);
             }
-
             imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
-
             frameLayout.setLayoutParams(layoutParam);
             frameLayout.addView(imageRecyclerView);
         } else if (mediaType == TYPE_VIDEO) {
             // set frame layout param
-            FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(
+            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     this.getFrameHeight()
             );
