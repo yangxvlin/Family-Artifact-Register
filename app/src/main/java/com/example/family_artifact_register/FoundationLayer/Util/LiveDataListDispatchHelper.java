@@ -50,7 +50,7 @@ public class LiveDataListDispatchHelper<T> {
                         dispatch();
                     }
                 },
-                timeout * 1000
+                timeout
         );
     }
 
