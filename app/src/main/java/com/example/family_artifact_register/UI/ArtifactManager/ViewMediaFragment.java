@@ -30,10 +30,12 @@ import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TY
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
 /**
- * display two media source: Image and Video both passed in through
+ * 1. display two media source: Image and Video both passed in through
  * List<String> by Key: MEDIA_URL_LIST and
  * media type is passed through int by key: MEDIA_TYPE. value detail see
  * {@link com.example.family_artifact_register.UI.Util.MediaProcessHelper}
+ *
+ * 2. set
  */
 public class ViewMediaFragment extends Fragment implements IFragment {
     /**
@@ -50,7 +52,7 @@ public class ViewMediaFragment extends Fragment implements IFragment {
      */
     private ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
 
-    RecyclerView imageRecyclerView;
+    private RecyclerView imageRecyclerView;
 
     public ViewMediaFragment() {
         // Required empty public constructor
