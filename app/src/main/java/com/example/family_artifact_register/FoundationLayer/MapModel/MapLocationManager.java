@@ -97,21 +97,29 @@ public class MapLocationManager {
 
             Uri localUri = Uri.parse(localImageUrl);
             Log.i(TAG, "Url: {" + localImageUrl + "}");
-            FirebaseStorageHelper.getInstance()
-                    .uploadByUri(Uri.parse(localImageUrl)).addOnCompleteListener(
-                    task -> {
-                        if (task.isSuccessful()) {
-                            liveDataListDispatchHelper.addResult(FirebaseStorageHelper
-                                    .getInstance()
-                                    .getRemoteByLocalUri(localUri));
-                            Log.d(TAG, "Successfully upload image Url: {" + localImageUrl + "}");
-                        } else {
-                            Log.w(TAG, "Error Uploading image Url: {" + localImageUrl
-                                    + "}, e:" + task.getException());
+
+            Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
+                    .getInstance()
+                    .uploadByUri(localUri);
+
+            if (uploadTask != null) {
+                uploadTask.addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+                                liveDataListDispatchHelper.addResult(FirebaseStorageHelper
+                                        .getInstance()
+                                        .getRemoteByLocalUri(localUri));
+                                Log.d(TAG, "Successfully upload image Url: {" + localImageUrl + "}");
+                            } else {
+                                Log.w(TAG, "Error Uploading image Url: {" + localImageUrl
+                                        + "}, e:" + task.getException());
+                            }
+                            liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
                         }
-                        liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
-                    }
-            );
+                );
+            } else {
+                Log.d(TAG, "localMediaDataUrl:" + localImageUrl + ", already in database");
+            }
         }
         liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
 

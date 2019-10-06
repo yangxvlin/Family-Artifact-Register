@@ -61,6 +61,11 @@ public class FirebaseStorageHelper {
         return remotePath.toString();
     }
 
+    private boolean uriStored(Uri uri) {
+        // If True, already in cache, that means this is stored in database already
+        return remoteLocalBiMap.containsKey(uri.toString()) || remoteLocalBiMap.inverse().containsKey(uri);
+    }
+
     private Uri parseRemoteUrl(String remoteUrl) {
         Path remoteFilePath = new File(remoteUrl).toPath();
         Path localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
@@ -69,7 +74,7 @@ public class FirebaseStorageHelper {
     }
 
     public Task<UploadTask.TaskSnapshot> uploadByUri(Uri uri) {
-        if (remoteLocalBiMap.inverse().get(uri) != null) {
+        if (uriStored(uri)) {
             Log.d(TAG, "Found in BiMap");
             // Found the local Uri in the map (thus already stored in remote)
             return null;

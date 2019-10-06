@@ -11,12 +11,14 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -118,26 +120,32 @@ public class ArtifactManager {
 
         Log.d(TAG, "Artifact Media Urls: "+ artifact.getMediaDataUrls().toString());
         for (String localMediaDataUrl: artifact.getMediaDataUrls()) {
-            liveDataListDispatchHelper.addWaitingTask();
 
             Log.d(TAG, "Iterated to URL: " + localMediaDataUrl);
             Uri localUri = Uri.parse(localMediaDataUrl);
-            FirebaseStorageHelper.getInstance()
-                    .uploadByUri(localUri).addOnCompleteListener(
-                    task -> {
-                        Log.d(TAG, "Finished Uploading: " + localMediaDataUrl);
-                        if (task.isSuccessful()) {
-                            liveDataListDispatchHelper.addResult(FirebaseStorageHelper
-                                    .getInstance()
-                                    .getRemoteByLocalUri(localUri));
-                            Log.d(TAG, "Successfully upload media Url: {" + localMediaDataUrl + "}");
-                        } else {
-                            Log.w(TAG, "Error Uploading media Url: {" + localMediaDataUrl
-                                    + "}, e:" + task.getException());
+            Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
+                    .getInstance()
+                    .uploadByUri(localUri);
+            if (uploadTask != null) {
+                liveDataListDispatchHelper.addWaitingTask();
+                uploadTask.addOnCompleteListener(
+                        task -> {
+                            Log.d(TAG, "Finished Uploading: " + localMediaDataUrl);
+                            if (task.isSuccessful()) {
+                                liveDataListDispatchHelper.addResult(FirebaseStorageHelper
+                                        .getInstance()
+                                        .getRemoteByLocalUri(localUri));
+                                Log.d(TAG, "Successfully upload media Url: {" + localMediaDataUrl + "}");
+                            } else {
+                                Log.w(TAG, "Error Uploading media Url: {" + localMediaDataUrl
+                                        + "}, e:" + task.getException());
+                            }
+                            liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
                         }
-                        liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
-                    }
-            );
+                );
+            } else {
+                Log.d(TAG, "localMediaDataUrl:" + localMediaDataUrl + ", already in database");
+            }
         }
         liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
     }
