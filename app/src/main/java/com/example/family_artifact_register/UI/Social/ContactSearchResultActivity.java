@@ -52,9 +52,9 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
-        setupRecyclerView();
-
         viewModel = ViewModelProviders.of(this, new ContactSearchResultViewModelFactory(getApplication(), query)).get(ContactSearchResultViewModel.class);
+
+        setupRecyclerView();
 
 //        Observer<List<UserInfo>> resultObserver = new Observer<List<UserInfo>>() {
 //            @Override
@@ -132,10 +132,18 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String selectedUserName = textView.getText().toString();
-                Intent i = new Intent(view.getContext(), NewContactDetailActivity.class);
 //                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
-                i.putExtra("selectedUid", itemId);
-                startActivity(i);
+                Intent intent;
+                if(viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
+                    // searching an existing friend
+                    intent = new Intent(view.getContext(), ContactDetailActivity.class);
+                }
+                else {
+                    // searching a new friend
+                    intent = new Intent(view.getContext(), NewContactDetailActivity.class);
+                }
+                intent.putExtra("selectedUid", itemId);
+                startActivity(intent);
             }
         }
 
