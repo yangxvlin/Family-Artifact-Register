@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
@@ -80,7 +79,7 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity {
     }
 
     private void startHomeActivity() {
-        Intent intent = new Intent(this, MainActivity2.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
