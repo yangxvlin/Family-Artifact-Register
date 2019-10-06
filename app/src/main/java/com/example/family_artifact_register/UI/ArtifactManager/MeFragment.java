@@ -1,7 +1,6 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +20,6 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author XuLin Yang 904904,
@@ -109,13 +105,6 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
     // ********************************** implement presenter ************************************
     @Override
     public void addData(ArtifactItem artifactItem) {
-        List<String> mediaData = artifactItem.getMediaDataUrls();
-        List<Uri> mediaList = new ArrayList<>();
-
-        for (String uri: mediaData) {
-            mediaList.add(Uri.parse(uri));
-        }
-
         myArtifactsRecyclerViewAdapter.addData(artifactItem);
     }
 

@@ -65,7 +65,8 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 
     // *************************************** getter & setters ***********************************
     public void addData(ArtifactItem artifactItem) {
-        this.artifactItemList.add(artifactItem);
+        // 0 to add data at start
+        this.artifactItemList.add(0, artifactItem);
         notifyDataSetChanged();
     }
 }
