@@ -47,7 +47,10 @@ public class LiveDataListDispatchHelper<T> {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        dispatch();
+                        if (!dispatched) {
+                            Log.w(TAG, "Dispatch Timedout");
+                            dispatch();
+                        }
                     }
                 },
                 timeout
