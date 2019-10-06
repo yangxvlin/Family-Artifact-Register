@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,6 +21,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 public class FirebaseStorageHelper {
     private static final String TAG = FirebaseStorageHelper.class.getSimpleName();
@@ -61,6 +63,11 @@ public class FirebaseStorageHelper {
         return remotePath.toString();
     }
 
+    private boolean uriStored(Uri uri) {
+        // If True, already in cache, that means this is stored in database already
+        return remoteLocalBiMap.containsKey(uri.toString()) || remoteLocalBiMap.inverse().containsKey(uri);
+    }
+
     private Uri parseRemoteUrl(String remoteUrl) {
         Path remoteFilePath = new File(remoteUrl).toPath();
         Path localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
@@ -69,7 +76,7 @@ public class FirebaseStorageHelper {
     }
 
     public Task<UploadTask.TaskSnapshot> uploadByUri(Uri uri) {
-        if (remoteLocalBiMap.inverse().get(uri) != null) {
+        if (uriStored(uri)) {
             Log.d(TAG, "Found in BiMap");
             // Found the local Uri in the map (thus already stored in remote)
             return null;
@@ -121,6 +128,30 @@ public class FirebaseStorageHelper {
                         }
                     }
             );
+        }
+        return mutableLiveData;
+    }
+
+    /**
+     * Load the remote url resource to local storage and set the Uri to it in the livedata
+     * @param remoteUrls The remote Url to download resource with
+     * @return LiveData of the destination Uri
+     */
+    public LiveData<List<Uri>> loadByRemoteUri(List<String> remoteUrls) {
+        MutableLiveData<List<Uri>> mutableLiveData = new MutableLiveData<>();
+        LiveDataListDispatchHelper<Uri> liveDataListDispatchHelper =
+                new LiveDataListDispatchHelper<>(mutableLiveData);
+
+        for (String remoteUrl : remoteUrls) {
+            LiveData<Uri> liveData = loadByRemoteUri(remoteUrl);
+            liveDataListDispatchHelper.addWaitingTask();
+            liveData.observeForever(new Observer<Uri>() {
+                @Override
+                public void onChanged(Uri uri) {
+                    liveDataListDispatchHelper.addResultAfterTaskCompletion(uri);
+                    liveData.removeObserver(this);
+                }
+            });
         }
         return mutableLiveData;
     }

@@ -359,16 +359,18 @@ public class UserInfoManager {
                 .getInstance()
                 .uploadByUri(photoUri);
 
-        uploadTask.addOnFailureListener(
-                e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
-                        photoUri.toString(), e)
-        ).addOnSuccessListener(taskSnapshot -> currentUserInfo
-                .setPhotoUrl(FirebaseStorageHelper
-                        .getInstance()
-                        .getRemoteByLocalUri(photoUri)))
-                .addOnFailureListener(e ->
-                        Log.w(TAG, "Error update user new Uri info to FireStore failed" +
-                                currentUserInfo.toString(), e));
+        if (uploadTask != null) {
+            uploadTask.addOnFailureListener(
+                    e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
+                            photoUri.toString(), e)
+            ).addOnSuccessListener(taskSnapshot -> currentUserInfo
+                    .setPhotoUrl(FirebaseStorageHelper
+                            .getInstance()
+                            .getRemoteByLocalUri(photoUri)))
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error update user new Uri info to FireStore failed" +
+                                    currentUserInfo.toString(), e));
+        }
     }
 
     /**
