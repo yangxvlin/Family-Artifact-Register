@@ -1,6 +1,8 @@
 package com.example.family_artifact_register.UI.Util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +54,46 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
                 getImageWidth(),
                 getImageHeight()
         );
-        System.out.println("image uri: " + images.get(position).toString());
-        holder.imageView.setImageURI(images.get(position));
-//        Picasso.with(context).load(images.get(position)).into(holder.imageView);
+        System.out.println("image uri string: " + images.get(position).toString());
+        System.out.println("image uri path:   " + images.get(position).getPath());
+
+        Uri imageUri = images.get(position);
+//        InputStream is = null;
+//        try {
+//            is = context.getContentResolver().openInputStream(imageUri);
+//            System.out.println("input stream finished");
+////            assert is != null;
+////            is.reset();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        Bitmap bitmap = BitmapFactory.decodeFile((new File(imageUri.toString())).getPath());
+//        Bitmap bitmap = null;
+//        try {
+//            bitmap = BitmapFactory.decodeStream(
+//                    is,
+//                    null,
+//                    getCompressImageOption(context, imageUri));
+//            System.out.println("bitmap finished");
+////            assert is != null;
+////            is.reset();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), images.get(position));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        holder.imageView.setImageBitmap(bitmap);
+        System.out.println("set bitmap finished");
         holder.imageView.setLayoutParams(layoutParams);
+
+//        String stringUri = images.get(position).getPath(); //works
+//        holder.imageView.setImageURI(Uri.parse(stringUri));
+//        holder.imageView.setImageURI(images.get(position));
+//        Picasso.with(context).load(images.get(position)).into(holder.imageView);
         holder.imageView.setOnClickListener(view -> {
             System.out.println("#"+position+" clicked!!!!");
         });
