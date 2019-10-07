@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +57,30 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
         System.out.println("image uri path:   " + images.get(position).getPath());
 
         Uri imageUri = images.get(position);
-        Bitmap bitmap = BitmapFactory.decodeFile((new File(imageUri.toString())).getPath());
+
+//        InputStream is = null;
+//        try {
+//
+//            is = context.getContentResolver().openInputStream(imageUri);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Bitmap bitmap = null;
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        // only access image's size info, not read whole image into memory so that won't memory leak
+//        options.inJustDecodeBounds = false;
+//        bitmap = BitmapFactory.decodeStream(
+//                is,
+//                null,
+//                options);
+
+        System.out.println(" start decode ");
+        Bitmap bitmap = BitmapFactory.decodeFile(imageUri.getPath());
+        System.out.println(" finish decode ");
         holder.imageView.setImageBitmap(bitmap);
-        // System.out.println("set bitmap finished");
+         System.out.println("set bitmap finished");
         holder.imageView.setLayoutParams(layoutParams);
         holder.imageView.setOnClickListener(view -> {
             System.out.println("#"+position+" clicked!!!!");
