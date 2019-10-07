@@ -40,8 +40,8 @@ public class MediaProcessHelper {
     }
 
     public static File copyFileToExternal(Uri uriFrom) {
-        File fileFrom = new File(uriFrom.toString());
-        File fileTo = new File(CacheDirectoryHelper.getInstance().getCacheDirectory().toString() + fileFrom.getName());
+        File fileFrom = new File(uriFrom.getPath());
+        File fileTo = new File(CacheDirectoryHelper.getInstance().getCacheDirectory().toString() + "/" + fileFrom.getName());
         System.out.println("copy file - from: " + fileFrom.toString() + " to: " + fileTo.toString());
         try {
             Files.copy(fileFrom.toPath(), fileTo.toPath());
