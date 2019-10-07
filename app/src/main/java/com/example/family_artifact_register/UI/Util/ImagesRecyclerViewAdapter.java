@@ -78,6 +78,7 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
 
         System.out.println(" start decode ");
         Bitmap bitmap = BitmapFactory.decodeFile(imageUri.getPath());
+        System.out.println("bitmap: " + bitmap.toString());
         System.out.println(" finish decode ");
         holder.imageView.setImageBitmap(bitmap);
          System.out.println("set bitmap finished");
