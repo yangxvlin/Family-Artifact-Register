@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.UI.Util;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,13 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
 
     private List<Uri> images;
 
-    public ImagesRecyclerViewAdapter(int height, int width) {
+    private Context context;
+
+    public ImagesRecyclerViewAdapter(int height, int width, Context context) {
         images = new ArrayList<>();
         this.imageHeight = height;
         this.imageWidth = width;
+        this.context = context;
     }
 
     @NonNull
@@ -47,7 +51,9 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
                 getImageWidth(),
                 getImageHeight()
         );
+        System.out.println("image uri: " + images.get(position).toString());
         holder.imageView.setImageURI(images.get(position));
+//        Picasso.with(context).load(images.get(position)).into(holder.imageView);
         holder.imageView.setLayoutParams(layoutParams);
         holder.imageView.setOnClickListener(view -> {
             System.out.println("#"+position+" clicked!!!!");
