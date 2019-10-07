@@ -28,6 +28,7 @@ import com.example.family_artifact_register.UI.Util.StartUploadListener;
 import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -132,9 +133,12 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         // convert uri to String
         List<String> mediaDataString = new ArrayList<>();
         for (Uri uri: mediaData) {
-            mediaDataString.add(uri.toString());
-            Log.d(TAG, "toString(): "+uri.toString());
-            Log.d(TAG, "getPath(): "+uri.getPath());
+            File externalStoredFile = MediaProcessHelper.copyFileToExternal(uri);
+            // mediaDataString.add(uri.toString());
+            Uri externalStoredUri = Uri.fromFile(externalStoredFile);
+            mediaDataString.add(externalStoredUri.toString());
+            Log.d(TAG, "media file Uri toString(): "+ externalStoredUri.toString());
+            Log.d(TAG, "media file Uri getPath() : "+ externalStoredUri.getPath());
         }
 
         ArtifactItem newItem = ArtifactItem.newInstance(currentTimeString,
