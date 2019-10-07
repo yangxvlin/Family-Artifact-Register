@@ -58,42 +58,10 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
         System.out.println("image uri path:   " + images.get(position).getPath());
 
         Uri imageUri = images.get(position);
-//        InputStream is = null;
-//        try {
-//            is = context.getContentResolver().openInputStream(imageUri);
-//            System.out.println("input stream finished");
-////            assert is != null;
-////            is.reset();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         Bitmap bitmap = BitmapFactory.decodeFile((new File(imageUri.toString())).getPath());
-//        Bitmap bitmap = null;
-//        try {
-//            bitmap = BitmapFactory.decodeStream(
-//                    is,
-//                    null,
-//                    getCompressImageOption(context, imageUri));
-//            System.out.println("bitmap finished");
-////            assert is != null;
-////            is.reset();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), images.get(position));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         holder.imageView.setImageBitmap(bitmap);
-        System.out.println("set bitmap finished");
+        // System.out.println("set bitmap finished");
         holder.imageView.setLayoutParams(layoutParams);
-
-//        String stringUri = images.get(position).getPath(); //works
-//        holder.imageView.setImageURI(Uri.parse(stringUri));
-//        holder.imageView.setImageURI(images.get(position));
-//        Picasso.with(context).load(images.get(position)).into(holder.imageView);
         holder.imageView.setOnClickListener(view -> {
             System.out.println("#"+position+" clicked!!!!");
         });
