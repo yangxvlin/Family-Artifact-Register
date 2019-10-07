@@ -141,7 +141,8 @@ public class ViewMediaFragment extends Fragment implements IFragment {
             // image adapter
             imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
                     this.getSingleMediaHeight(),
-                    this.getSingleMediaWidth()
+                    this.getSingleMediaWidth(),
+                    getContext()
             );
             for (Uri image: mediaList) {
                 imagesRecyclerViewAdapter.addData(image);
