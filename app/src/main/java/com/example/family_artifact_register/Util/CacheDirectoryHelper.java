@@ -22,6 +22,6 @@ public class CacheDirectoryHelper {
 
     public File getCacheDirectory() {
 //        return cacheDirectory;
-        return new File(Environment.getExternalStorageDirectory().toString() + "/family_artifact_register_");
+        return new File(Environment.getExternalStorageDirectory().toString() ); //+ "/family_artifact_register_");
     }
 }
