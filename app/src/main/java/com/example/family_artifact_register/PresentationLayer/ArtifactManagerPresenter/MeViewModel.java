@@ -1,15 +1,22 @@
 package com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter;
 
 import android.app.Application;
+import android.net.Uri;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MeViewModel extends AndroidViewModel {
 
@@ -19,6 +26,8 @@ public class MeViewModel extends AndroidViewModel {
 
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
 
+    private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
+
     private LiveData<List<ArtifactItem>> artifactList;
 
     private String currentUid;
@@ -26,10 +35,29 @@ public class MeViewModel extends AndroidViewModel {
     public MeViewModel(Application application) {
         super(application);
         currentUid = userInfoManager.getCurrentUid();
+        artifactList = artifactManager.getArtifactItemByUid(currentUid);
+        artifactList.observeForever(new Observer<List<ArtifactItem>>() {
+            @Override
+            public void onChanged(List<ArtifactItem> artifactItems) {
+                for(ArtifactItem item: artifactItems) {
+                    List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
+                    fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
+                        @Override
+                        public void onChanged(List<Uri> uris) {
+                            Log.d(TAG, "local uris: " + uris.toString());
+                            item.setMediaDataUrls(
+                                    uris.stream()
+                                        .map(Objects::toString)
+                                        .collect(Collectors.toList())
+                            );
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public LiveData<List<ArtifactItem>> getArtifactList() {
-        artifactList = artifactManager.getArtifactItemByUid(currentUid);
         return artifactList;
     }
 }
