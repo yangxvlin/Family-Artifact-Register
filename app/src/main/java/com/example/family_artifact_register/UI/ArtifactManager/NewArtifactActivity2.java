@@ -171,6 +171,9 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
             // TODO associate new artifact item to existing timeline
             timeline = null;
             assert selectedArtifactTimeline != null;
+            // TODO is this correct way to associate new artifact item to existing timeline
+            // selectedArtifactTimeline.addArtifactPostId(newItem.getPostId());
+            // am.addArtifact(selectedArtifactTimeline);
         }
     }
 
