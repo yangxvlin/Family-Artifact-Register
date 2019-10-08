@@ -1,19 +1,29 @@
 package com.example.family_artifact_register.UI.Util;
 
+import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
 /**
  * @author XuLin Yang 904904,
@@ -21,76 +31,129 @@ import java.util.List;
  * @description
  */
 public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsRecyclerViewHolder> {
-    private List<String> times;
 
-    private List<String> descriptions;
+    private static final String TAG = MyArtifactsRecyclerViewAdapter.class.getSimpleName();
+    private List<ArtifactItem> artifactItemList;
 
-    private List<List<Uri>> imagesList;
+//    private FragmentManager fm;
 
-    private List<List<Uri>> videosList;
+    private Context context;
 
-    LinearLayoutManager layoutManager1;
-    LinearLayoutManager layoutManager2;
-
-    private MyArtifactsImagesRecyclerViewAdapter myArtifactsImagesRVAdapter;
-
-    private MyArtifactsVideosRecyclerViewAdapter myArtifactsVideosRVAdapter;
-
-    public MyArtifactsRecyclerViewAdapter() {
-        times = new ArrayList<>();
-        descriptions = new ArrayList<>();
-        imagesList = new ArrayList<>();
-        videosList = new ArrayList<>();
+    public MyArtifactsRecyclerViewAdapter(Context context) {
+        this.artifactItemList = new ArrayList<>();
+        this.context = context;
+//        this.fm = fm;
     }
 
     @NonNull
     @Override
     public MyArtifactsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact, parent, false);
-        layoutManager1 = new LinearLayoutManager(view.getContext()); // TODO is this correct way?
-        layoutManager2 = new LinearLayoutManager(view.getContext()); // TODO is this correct way?
         return new MyArtifactsRecyclerViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyArtifactsRecyclerViewHolder holder, int position) {
-        holder.time.setText(times.get(position));
-        holder.description.setText(descriptions.get(position));
-        holder.next.setOnClickListener(view -> {
-            System.out.println("#"+ position+" arrow pressed!!!");
-            ;
-        });
+        ArtifactItem artifactItem = artifactItemList.get(position);
 
-        holder.imagesRecyclerView.setLayoutManager(layoutManager1);
-        myArtifactsImagesRVAdapter = new MyArtifactsImagesRecyclerViewAdapter();
-        holder.imagesRecyclerView.setAdapter(myArtifactsImagesRVAdapter);
-        DividerItemDecoration dID = new DividerItemDecoration(holder.imagesRecyclerView.getContext(), layoutManager1.getOrientation());
-        holder.imagesRecyclerView.addItemDecoration(dID);
+        holder.time.setText(artifactItem.getLastUpdateDateTime());
+        holder.description.setText(artifactItem.getDescription());
 
-        holder.videosRecyclerView.setLayoutManager(layoutManager2);
-        myArtifactsVideosRVAdapter = new MyArtifactsVideosRecyclerViewAdapter();
-        holder.videosRecyclerView.setAdapter(myArtifactsVideosRVAdapter);
-        dID = new DividerItemDecoration(holder.videosRecyclerView.getContext(), layoutManager2.getOrientation());
-        holder.videosRecyclerView.addItemDecoration(dID);
+        List<Uri> mediaList = new ArrayList<>();
+        for (String mediaUrl: artifactItem.getMediaDataUrls()) {
+            Log.d(TAG, "media uri" + mediaUrl);
+            mediaList.add(Uri.parse(mediaUrl));
+        }
+
+
+        // image view
+        if (artifactItem.getMediaType() == TYPE_IMAGE) {
+            // recycler view adapter for display images
+            ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
+            // recycler view for display images
+            RecyclerView imageRecyclerView;
+
+            // set frame layout param
+            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParam.gravity = Gravity.CENTER;
+
+            // set recycler view images
+            RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
+                    RecyclerView.LayoutParams.MATCH_PARENT,
+                    RecyclerView.LayoutParams.WRAP_CONTENT
+            );
+            imageRecyclerView = new RecyclerView(context);
+            imageRecyclerView.setLayoutParams(recyclerViewParam);
+
+            // images horizontally
+            LinearLayoutManager layoutManager = new LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+            );
+            imageRecyclerView.setLayoutManager(layoutManager);
+
+            // image adapter
+            imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
+                    200,
+                    200,
+                    context
+            );
+            for (Uri image: mediaList) {
+                imagesRecyclerViewAdapter.addData(image);
+            }
+            imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
+            holder.frame.setLayoutParams(layoutParam);
+            holder.frame.addView(imageRecyclerView);
+        // video view
+        } else if (artifactItem.getMediaType() == TYPE_VIDEO) {
+            // set frame layout param
+            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            layoutParam.gravity = Gravity.CENTER;
+
+            // set media
+            VideoView mediaView = new VideoView(context);
+            mediaView.setLayoutParams(new FrameLayout.LayoutParams(
+                    800,
+                    1200)
+            );
+            mediaView.setVideoURI(mediaList.get(0));
+            mediaView.setMediaController(new MediaController(context));
+            mediaView.start();
+            mediaView.requestFocus();
+            mediaView.setOnCompletionListener(mp -> {
+                Log.d(TAG, "Video play finish.");
+            });
+            mediaView.setOnErrorListener((mp, what, extra) -> {
+                Log.d(TAG, "Video play error!!!");
+                return false;
+            });
+
+            holder.frame.setLayoutParams(layoutParam);
+            holder.frame.addView(mediaView);
+        } else {
+            Log.e(TAG, "unknown media type !!!");
+        }
     }
 
     @Override
-    public int getItemCount() { return times.size(); }
+    public int getItemCount() { return artifactItemList.size(); }
+
+    public void setData(List<ArtifactItem> newData) {
+        artifactItemList = newData;
+        notifyDataSetChanged();
+    }
 
     // *************************************** getter & setters ***********************************
-    public void addData(String time, String description, List<Uri> images, List<Uri> videos) {
-        times.add(time);
-        descriptions.add(description);
-        imagesList.add(images);
-        for (Uri image: images) {
-            myArtifactsImagesRVAdapter.addData(image);
-        }
-
-        for (Uri video: videos) {
-            myArtifactsVideosRVAdapter.addData(video);
-        }
-
-        videosList.add(videos);
+    public void addData(ArtifactItem artifactItem) {
+        // 0 to add data at start
+        this.artifactItemList.add(0, artifactItem);
         notifyDataSetChanged();
     }
 }

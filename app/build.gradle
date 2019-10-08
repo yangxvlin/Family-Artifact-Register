@@ -152,7 +152,6 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.0-rc01'
     annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
     androidTestImplementation 'androidx.room:room-testing:2.2.0-rc01'
-
 }
 
 apply plugin: 'com.google.gms.google-services'

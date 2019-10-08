@@ -16,11 +16,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +111,7 @@ public class ArtifactManager {
                 }
         );
         LiveDataListDispatchHelper<String> liveDataListDispatchHelper =
-                new LiveDataListDispatchHelper<>(uploadHelperLiveData, 10000);
+                new LiveDataListDispatchHelper<>(uploadHelperLiveData, 60000);
 
         liveDataListDispatchHelper.addWaitingTask();
 
@@ -208,7 +205,7 @@ public class ArtifactManager {
         mArtifactItemCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
-                            task.getResult().isEmpty()) {
+                            !task.getResult().isEmpty()) {
                         mutableLiveData.setValue(task.getResult().toObjects(ArtifactItem.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());

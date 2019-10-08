@@ -23,11 +23,13 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
 
     private UserInfoManager manager;
     private LiveData<List<UserInfo>> result;
+    private UserInfo currentUser;
 
     public ContactSearchResultViewModel(Application application, String query) {
         super(application);
         manager = UserInfoManager.getInstance();
         result = manager.searchUserInfo(query);
+        currentUser = manager.getCurrentUserInfo();
 //        result.observeForever(userInfos -> {
 //            for (UserInfo userInfo: userInfos) {
 //                Log.i(TAG, userInfo.toString());
@@ -44,4 +46,6 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
         }
         return null;
     }
+
+    public UserInfo getCurrentUser() { return currentUser; }
 }
