@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.example.family_artifact_register.Util.CacheDirectoryHelper;
 import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,7 +27,9 @@ public class MediaProcessHelper {
     public static final int TYPE_VIDEO = 2;
 
     public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) throws IOException {
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        // store in app cache directory
+        File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/") ;
         return Uri.parse(SiliCompressor.with(context).compress(image.getPath(), storageDir, deleteSource));
     }
 
@@ -33,6 +37,19 @@ public class MediaProcessHelper {
         String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
                                         .getPath();
         return Uri.parse(SiliCompressor.with(context).compressVideo(video.getPath(), storageDir));
+    }
+
+    public static File copyFileToExternal(Uri uriFrom) {
+        File fileFrom = new File(uriFrom.getPath());
+        File fileTo = new File(CacheDirectoryHelper.getInstance().getCacheDirectory().toString() + "/" + fileFrom.getName());
+        System.out.println("copy file - from: " + fileFrom.toString() + " to: " + fileTo.toString());
+        try {
+            Files.copy(fileFrom.toPath(), fileTo.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileTo;
     }
 
     public static File createVideoFile() {

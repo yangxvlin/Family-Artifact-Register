@@ -9,5 +9,6 @@
         android:id="@+id/item_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:src="@drawable/my_logo"
     />
 </LinearLayout>

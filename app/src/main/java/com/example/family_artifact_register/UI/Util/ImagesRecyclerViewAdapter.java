@@ -1,5 +1,8 @@
 package com.example.family_artifact_register.UI.Util;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +28,13 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
 
     private List<Uri> images;
 
-    public ImagesRecyclerViewAdapter(int height, int width) {
+    private Context context;
+
+    public ImagesRecyclerViewAdapter(int height, int width, Context context) {
         images = new ArrayList<>();
         this.imageHeight = height;
         this.imageWidth = width;
+        this.context = context;
     }
 
     @NonNull
@@ -47,7 +53,34 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
                 getImageWidth(),
                 getImageHeight()
         );
-        holder.imageView.setImageURI(images.get(position));
+        System.out.println("image uri string: " + images.get(position).toString());
+        System.out.println("image uri path:   " + images.get(position).getPath());
+
+        Uri imageUri = images.get(position);
+
+//        InputStream is = null;
+//        try {
+//
+//            is = context.getContentResolver().openInputStream(imageUri);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Bitmap bitmap = null;
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        // only access image's size info, not read whole image into memory so that won't memory leak
+//        options.inJustDecodeBounds = false;
+//        bitmap = BitmapFactory.decodeStream(
+//                is,
+//                null,
+//                options);
+
+        System.out.println(" start decode ");
+        Bitmap bitmap = BitmapFactory.decodeFile(imageUri.getPath());
+        System.out.println(" finish decode ");
+        holder.imageView.setImageBitmap(bitmap);
+         System.out.println("set bitmap finished");
         holder.imageView.setLayoutParams(layoutParams);
         holder.imageView.setOnClickListener(view -> {
             System.out.println("#"+position+" clicked!!!!");
