@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+>
 
-    <ImageView
-        android:id="@+id/item_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/my_logo"
+    <FrameLayout
+        android:id="@+id/fragment_view_media_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
     />
+
 </LinearLayout>

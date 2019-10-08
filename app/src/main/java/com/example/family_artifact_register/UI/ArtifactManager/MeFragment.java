@@ -1,7 +1,6 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +10,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeFragmentPresenter;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModel;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,6 +51,8 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
 
     private MeFragmentPresenter mfp;
 
+    private MeViewModel viewModel;
+
     public MeFragment() {
         // Required empty public constructor
     }
@@ -62,12 +68,14 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = ViewModelProviders.of(this, new MeViewModelFactory(getActivity().getApplication())).get(MeViewModel.class);
+
         // create artifacts recycler view
         if (getView() != null) {
             mRecyclerView = getView().findViewById(R.id.recycler_view_my_artifacts);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter();
+            myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter(getContext(), getActivity().getSupportFragmentManager());
             mRecyclerView.setAdapter(myArtifactsRecyclerViewAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
             mRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -97,6 +105,14 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
                 }
             }
         });
+
+        viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItem>>() {
+            @Override
+            public void onChanged(List<ArtifactItem> artifactItems) {
+                Log.d(TAG, "enter onchange");
+                myArtifactsRecyclerViewAdapter.setData(artifactItems);
+            }
+        });
     }
 
     /**
@@ -106,8 +122,8 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
 
     // ********************************** implement presenter ************************************
     @Override
-    public void addData(String time, String description, List<Uri> images, List<Uri> videos) {
-        myArtifactsRecyclerViewAdapter.addData(time, description, images, videos);
+    public void addData(ArtifactItem artifactItem) {
+        myArtifactsRecyclerViewAdapter.addData(artifactItem);
     }
 
     @Override

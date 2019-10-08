@@ -80,6 +80,8 @@ public class ArtifactItem extends Artifact {
         return mediaDataUrls;
     }
 
+    public void setMediaDataUrls(List<String> userDeviceMediaUris) { this.mediaDataUrls = userDeviceMediaUris; }
+
     void addMediaDataUrls(String mediaDataUrl) {
         mediaDataUrls.add(mediaDataUrl);
     }

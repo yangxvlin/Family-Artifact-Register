@@ -1,11 +1,7 @@
 package com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter;
 
-import android.net.Uri;
-
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
-import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +59,6 @@ public class MeFragmentPresenter {
     }
 
     public interface IView {
-        void addData(String time, String description, List<Uri> images, List<Uri> videos);
+        void addData(ArtifactItem artifactItem);
     }
 }

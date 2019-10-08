@@ -150,6 +150,10 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
     androidTestImplementation 'androidx.room:room-testing:2.2.0-rc01'
 
+    // ******************************************************************************************
+    // picasso used to load uri to image view
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
