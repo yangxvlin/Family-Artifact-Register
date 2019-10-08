@@ -128,6 +128,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 //        String happenedTimeString = calendarToFormattedString(this.happenedTime);
         String currentTimeString = getCurrentTimeFormattedString();
 
+        int likes = 0;
+
         ArtifactManager am = ArtifactManager.getInstance();
 
         // convert uri to String
@@ -150,7 +152,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
                                                         happenedLocationId,
                                                         storedLocationId,
                                                         happenedTime,
-                                                        null);
+                                                        likes,
+                                            null);
         am.addArtifact(newItem);
 
         ArtifactTimeline timeline;
