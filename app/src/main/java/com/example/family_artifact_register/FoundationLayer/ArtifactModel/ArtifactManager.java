@@ -208,7 +208,7 @@ public class ArtifactManager {
         mArtifactItemCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
-                            task.getResult().isEmpty()) {
+                            !task.getResult().isEmpty()) {
                         mutableLiveData.setValue(task.getResult().toObjects(ArtifactItem.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());
