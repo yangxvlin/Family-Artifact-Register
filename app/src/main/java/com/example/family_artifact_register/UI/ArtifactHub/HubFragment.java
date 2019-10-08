@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -121,7 +122,9 @@ public class HubFragment extends Fragment implements IFragment {
         public class HubModelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public TextView username, publisher, description;
-            public ImageView avatar, postImage;
+            public ImageView avatar;
+
+            public FrameLayout postImage;
 
             public String itemId;
 
