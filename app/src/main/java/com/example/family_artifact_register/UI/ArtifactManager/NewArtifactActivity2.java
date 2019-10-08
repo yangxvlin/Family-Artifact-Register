@@ -160,6 +160,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         am.addArtifact(newItem);
 
         ArtifactTimeline timeline;
+        // add new timeline to DB
         if (timelineStrategy == NEW_ARTIFACT_TIMELINE) {
             timeline = new ArtifactTimeline(null, UserInfoManager.getInstance().getCurrentUid(), currentTimeString, currentTimeString, new ArrayList<>(), timelineTitle);
             timeline.addArtifactPostId(newItem.getPostId());
