@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.PresentationLayer.HubPresenter;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -14,9 +15,12 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class HubViewModel extends AndroidViewModel {
 
@@ -25,6 +29,8 @@ public class HubViewModel extends AndroidViewModel {
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
 
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
+
+    private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
     private LiveData<UserInfo> currentUser = userInfoManager.listenUserInfo(userInfoManager.getCurrentUid());
 
@@ -43,6 +49,25 @@ public class HubViewModel extends AndroidViewModel {
         currentUid = userInfoManager.getCurrentUid();
         Log.d(TAG, "CurrentUid is: " + currentUid);
         posts = artifactManager.getArtifactItemByUid(currentUid);
+//        posts.observeForever(new Observer<List<ArtifactItem>>() {
+//            @Override
+//            public void onChanged(List<ArtifactItem> artifactItems) {
+//                for(ArtifactItem item: artifactItems) {
+//                    List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
+//                    fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
+//                        @Override
+//                        public void onChanged(List<Uri> uris) {
+//                            Log.d(TAG, "local uris: " + uris.toString());
+//                            item.setMediaDataUrls(
+//                                    uris.stream()
+//                                            .map(Objects::toString)
+//                                            .collect(Collectors.toList())
+//                            );
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
 
 //        currentUser.observeForever(new Observer<UserInfo>() {
