@@ -16,6 +16,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -121,7 +122,8 @@ public class FirebaseStorageHelper {
             remoteLocalBiMap.put(remoteUrl, localUri);
         } else {
             // If not loaded yet
-            mStorageReference.getFile(localUri).addOnSuccessListener(
+            StorageReference mFileStorageReference = mStorageReference.child(remoteUrl);
+            mFileStorageReference.getFile(localUri).addOnSuccessListener(
                     new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
