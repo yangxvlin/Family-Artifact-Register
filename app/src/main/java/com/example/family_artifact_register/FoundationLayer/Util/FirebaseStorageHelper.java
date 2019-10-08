@@ -45,39 +45,4 @@ public class FirebaseStorageHelper {
         String uploadName = UUID.randomUUID().toString();
         return new Pair<>(uploadName, uploadByUri(uri, path, uploadName));
     }
-
-    /**
-     * Load the remote url resource to local storage and set the Uri to it in the livedata
-     * @param remoteUrl The remote Url to download resource with
-     * @return LiveData of the destination Uri
-     */
-    public LiveData<Uri> loadByRemoteUri(String remoteUrl) {
-        MutableLiveData<Uri> mutableLiveData = new MutableLiveData<>();
-        if (remoteLocalBiMap.get(remoteUrl) != null) {
-            // If already loaded
-            mutableLiveData.setValue(remoteLocalBiMap.get(remoteUrl));
-        } else {
-            // If not loaded yet
-            Uri localUri = parseRemoteUrl(remoteUrl);
-            mStorageReference.getFile(localUri).addOnSuccessListener(
-                    new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            // set value in map (cache)
-                            remoteLocalBiMap.put(remoteUrl, localUri);
-                            // Notify observer
-                            mutableLiveData.setValue(localUri);
-                        }
-                    }
-            ).addOnFailureListener(
-                    new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Failed to get remote Url: " + remoteUrl);
-                        }
-                    }
-            );
-        }
-        return mutableLiveData;
-    }
 }
