@@ -143,6 +143,13 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
+
+        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
+            }
+        });
     }
 
     @Override
