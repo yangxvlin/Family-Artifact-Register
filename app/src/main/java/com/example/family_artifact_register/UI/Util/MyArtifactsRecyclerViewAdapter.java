@@ -81,6 +81,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
                     FrameLayout.LayoutParams.WRAP_CONTENT
             );
             layoutParam.gravity = Gravity.CENTER;
+            layoutParam.topMargin = 20;
 
             // set recycler view images
             RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(

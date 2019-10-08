@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="create time"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="22sp"
         />
 
         <TextView
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:text="artifact's description"
             android:layout_marginTop="5dp"
+            android:textSize="18sp"
         />
 
         <FrameLayout
