@@ -168,8 +168,9 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
             am.addArtifact(timeline);
         } else {
-            // get timeline from remote DB
+            // TODO associate new artifact item to existing timeline
             timeline = null;
+            assert selectedArtifactTimeline != null;
         }
     }
 
