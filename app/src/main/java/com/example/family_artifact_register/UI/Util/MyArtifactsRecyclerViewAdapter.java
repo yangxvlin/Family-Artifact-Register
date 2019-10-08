@@ -113,15 +113,15 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             // set frame layout param
             LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
-                    600
+                    ViewGroup.LayoutParams.WRAP_CONTENT
             );
             layoutParam.gravity = Gravity.CENTER;
 
             // set media
             VideoView mediaView = new VideoView(context);
             mediaView.setLayoutParams(new FrameLayout.LayoutParams(
-                    400,
-                    600)
+                    800,
+                    1200)
             );
             mediaView.setVideoURI(mediaList.get(0));
             mediaView.setMediaController(new MediaController(context));
