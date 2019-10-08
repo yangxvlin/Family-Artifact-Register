@@ -71,6 +71,13 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     private int timelineStrategy;
 
+    /**
+     * user's timeline from DB
+     */
+    private List<ArtifactTimeline> timelines;
+
+    private ArtifactTimeline selectedArtifactTimeline = null;
+
     // TODO might be changed later
     private String timelineTitle;
 
@@ -249,5 +256,15 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     @Override
     public String getTimelineTitle() {
         return this.timelineTitle;
+    }
+
+    @Override
+    public List<ArtifactTimeline> getArtifactTimelines() {
+        return this.timelines;
+    }
+
+    @Override
+    public void setSelectedTimeline(ArtifactTimeline selectedTimeline) {
+        this.selectedArtifactTimeline = selectedTimeline;
     }
 }

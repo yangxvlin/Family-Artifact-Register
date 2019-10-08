@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.NewTimelineListener;
@@ -55,6 +56,8 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
     private List<String> timelineTitles;
 
     private String slectedTimelineTitle = null;
+
+    private List<ArtifactTimeline> timelines;
 
     public NewArtifactChooseTimelineFragment() {
         // required empty constructor
