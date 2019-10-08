@@ -20,6 +20,8 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
@@ -146,6 +148,12 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     public int getItemCount() { return artifactItemList.size(); }
 
     public void setData(List<ArtifactItem> newData) {
+        Collections.sort(newData, new Comparator<ArtifactItem>() {
+            @Override
+            public int compare(ArtifactItem artifactItem, ArtifactItem t1) {
+                return -1 * artifactItem.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
+            }
+        });
         artifactItemList = newData;
         notifyDataSetChanged();
     }
