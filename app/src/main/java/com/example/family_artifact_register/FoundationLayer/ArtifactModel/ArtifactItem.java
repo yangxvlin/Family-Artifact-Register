@@ -29,6 +29,9 @@ public class ArtifactItem extends Artifact {
     // DateTime when the event unfolded
     private String happenedDateTime;
 
+    // Number of likes item has
+    private int likes;
+
     // The associated timeline
     private ArtifactTimeline artifactTimeline;
 
@@ -45,7 +48,7 @@ public class ArtifactItem extends Artifact {
     public ArtifactItem(String postId, String uid, String uploadDateTime, String lastUpdateDateTime,
                         int mediaType, List<String> mediaDataUrls, String description,
                         String locationUploadedId, String locationHappenedId,
-                        String locationStoredId, String happenedDateTime,
+                        String locationStoredId, String happenedDateTime, int likes,
                         ArtifactTimeline artifactTimeline) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.mediaType = mediaType;
@@ -55,6 +58,7 @@ public class ArtifactItem extends Artifact {
         this.locationHappenedId = locationHappenedId;
         this.locationStoredId = locationStoredId;
         this.happenedDateTime = happenedDateTime;
+        this.likes = likes;
         this.artifactTimeline = artifactTimeline;
     }
 
@@ -112,6 +116,9 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
     }
 
+    public int getlikes() {return likes;}
+
+    public void setlikes(int likes) {this.likes=likes;}
 
     @Override
     public String getLastUpdateDateTime() {
@@ -159,6 +166,7 @@ public class ArtifactItem extends Artifact {
                                            String locationHappenedId,
                                            String locationStoredId,
                                            String happenedDateTime,
+                                           int likes,
                                            ArtifactTimeline artifactTimeline
                                            ) {
         return new ArtifactItem(null,
@@ -172,6 +180,7 @@ public class ArtifactItem extends Artifact {
                 locationHappenedId,
                 locationStoredId,
                 happenedDateTime,
+                likes,
                 artifactTimeline
         );
     }
