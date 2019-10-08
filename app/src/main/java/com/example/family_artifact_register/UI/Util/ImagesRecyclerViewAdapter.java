@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.UI.Util;
 
+
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
@@ -81,12 +82,14 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
 //                null,
 //                options);
 
+
         // System.out.println(" start decode ");
         Bitmap bitmap = BitmapFactory.decodeFile(imageUri.getPath());
         // System.out.println("bitmap: " + bitmap.toString());
         // System.out.println(" finish decode ");
         holder.imageView.setImageBitmap(bitmap);
         // System.out.println("set bitmap finished");
+
         holder.imageView.setLayoutParams(layoutParams);
         holder.imageView.setOnClickListener(view -> {
             // whole screen dialog of image

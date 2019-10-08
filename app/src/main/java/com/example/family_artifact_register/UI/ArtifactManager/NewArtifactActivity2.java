@@ -28,6 +28,7 @@ import com.example.family_artifact_register.UI.Util.StartUploadListener;
 import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

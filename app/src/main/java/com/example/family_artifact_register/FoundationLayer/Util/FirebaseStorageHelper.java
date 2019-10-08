@@ -111,6 +111,7 @@ public class FirebaseStorageHelper {
      */
     public LiveData<Uri> loadByRemoteUri(String remoteUrl) {
         MutableLiveData<Uri> mutableLiveData = new MutableLiveData<>();
+
         Uri localUri = parseRemoteUrl(remoteUrl);
         if (remoteLocalBiMap.get(remoteUrl) != null) {
             // If already loaded
