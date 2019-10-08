@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.Util;
 
+import android.os.Environment;
 import java.io.File;
 
 public class CacheDirectoryHelper {
@@ -20,5 +21,6 @@ public class CacheDirectoryHelper {
 
     public File getCacheDirectory() {
         return cacheDirectory;
+//        return new File(Environment.getExternalStorageDirectory().toString() ); //+ "/family_artifact_register_");
     }
 }
