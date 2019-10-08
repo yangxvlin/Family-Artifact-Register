@@ -9,14 +9,13 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
@@ -65,11 +64,6 @@ public class UserInfoManager {
      */
     private CollectionReference mUserCollection;
 
-    /**
-     * Storage reference for storing photo
-     */
-    private StorageReference mPhotoStorageReference;
-
 
     private UserInfoManager() {
         mCurrentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -92,8 +86,6 @@ public class UserInfoManager {
                     }
                 });
 
-        mPhotoStorageReference = FirebaseStorage.getInstance()
-                .getReference(DBConstant.USER_INFO_PHOTO_URL);
         mListenerRegistrationMap = new HashMap<>();
     }
 
@@ -363,22 +355,22 @@ public class UserInfoManager {
             return;
         }
         UserInfo currentUserInfo = mCurrentUserInfoLiveData.getValue();
-        Pair<String, UploadTask> uploadTaskPair =
-                FirebaseStorageHelper.getInstance().uploadByUri(photoUri, mPhotoStorageReference);
-        UploadTask uploadTask = uploadTaskPair.second;
+        Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
+                .getInstance()
+                .uploadByUri(photoUri);
 
-        uploadTask.addOnFailureListener(
-                e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
-                        photoUri.toString(), e)
-        ).onSuccessTask(task ->
-                mPhotoStorageReference.child(uploadTaskPair.first)
-                        .getDownloadUrl())
-                .addOnSuccessListener(task -> {
-                    String photoUrl = task.toString();
-                    currentUserInfo.setPhotoUrl(photoUrl);
-        }).addOnFailureListener(e ->
-                Log.w(TAG, "Error update user new Uri info to FireStore failed" +
-                        currentUserInfo.toString(), e));
+        if (uploadTask != null) {
+            uploadTask.addOnFailureListener(
+                    e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
+                            photoUri.toString(), e)
+            ).addOnSuccessListener(taskSnapshot -> currentUserInfo
+                    .setPhotoUrl(FirebaseStorageHelper
+                            .getInstance()
+                            .getRemoteByLocalUri(photoUri)))
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error update user new Uri info to FireStore failed" +
+                                    currentUserInfo.toString(), e));
+        }
     }
 
     /**
