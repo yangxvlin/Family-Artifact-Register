@@ -82,13 +82,13 @@ public class HubViewModel extends AndroidViewModel {
 //                }
 //            }
 //        });
-
-        currentUser.observeForever(new Observer<UserInfo>() {
-            @Override
-            public void onChanged(UserInfo userInfo) {
-                posts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
-            }
-        });
+//
+//        currentUser.observeForever(new Observer<UserInfo>() {
+//            @Override
+//            public void onChanged(UserInfo userInfo) {
+//                posts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
+//            }
+//        });
     }
 
     public LiveData<List<ArtifactItem>> getContacts() {

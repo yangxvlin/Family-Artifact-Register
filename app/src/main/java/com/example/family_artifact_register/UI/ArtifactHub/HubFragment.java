@@ -3,6 +3,7 @@ package com.example.family_artifact_register.UI.ArtifactHub;
 import android.content.Intent;
 import android.database.Observable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
@@ -29,6 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class HubFragment extends Fragment implements IFragment {
@@ -90,6 +93,8 @@ public class HubFragment extends Fragment implements IFragment {
         return view;
     }
 
+    public static HubFragment newInstance() { return new HubFragment(); }
+
     private void setupRecyclerView(View view) {
         // get the view
         mRecyclerView = view.findViewById(R.id.recycler_view);
@@ -107,58 +112,6 @@ public class HubFragment extends Fragment implements IFragment {
         divider = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
         mRecyclerView.addItemDecoration(divider);
     }
-
-    public static HubFragment newInstance() { return new HubFragment(); }
-
-
-//    /**
-//     * Get a list of models of card view
-//     * @return a list of models
-//     */
-//    private ArrayList<Model> getMyList(){
-//        ArrayList<Model> models = new ArrayList<Model>();
-//        Model m = new Model();
-//        m.setUsername("Dudu");
-//        m.setDescription("This is Art1 Description.");
-//        m.setAvatar(R.drawable.my_logo);
-//        m.setPostimage(R.drawable.my_logo);
-//        m.setPublisher("Liguo Chen");
-//        models.add(m);
-//
-//        m = new Model();
-//        m.setUsername("Peter");
-//        m.setDescription("This is Art2 Description.");
-//        m.setAvatar(R.drawable.my_logo);
-//        m.setPostimage(R.drawable.my_logo);
-//        m.setPublisher("Liguo Chen");
-//        models.add(m);
-//
-//        m = new Model();
-//        m.setUsername("Calvin");
-//        m.setDescription("This is Art3 Description.");
-//        m.setAvatar(R.drawable.my_logo);
-//        m.setPostimage(R.drawable.my_logo);
-//        m.setPublisher("Zhuoqun Huang");
-//        models.add(m);
-//
-//        m = new Model();
-//        m.setUsername("George");
-//        m.setDescription("This is Art4 Description.");
-//        m.setAvatar(R.drawable.my_logo);
-//        m.setPostimage(R.drawable.my_logo);
-//        m.setPublisher("Haichao Song");
-//        models.add(m);
-//
-//        m = new Model();
-//        m.setUsername("Genius");
-//        m.setDescription("This is Art5 Description.");
-//        m.setAvatar(R.drawable.my_logo);
-//        m.setPostimage(R.drawable.my_logo);
-//        m.setPublisher("Richard");
-//        models.add(m);
-//
-//        return models;
-//    }
 
     @Override
     public String getFragmentTag() { return TAG; }
@@ -196,12 +149,13 @@ public class HubFragment extends Fragment implements IFragment {
 
         private HubViewModel viewModel;
         private List<ArtifactItem> dataSet;
+        private Iterator<ArtifactItem> dataSetIterator;
 
         @NonNull
         @Override
         public HubModelAdapter.HubModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
 
             return new HubModelViewHolder(view);
         }
@@ -210,10 +164,16 @@ public class HubFragment extends Fragment implements IFragment {
         public void onBindViewHolder(@NonNull HubModelAdapter.HubModelViewHolder holder, int position) {
             // data is ready to be displayed
             if(dataSet != null) {
-                holder.username.setText(dataSet.get(position).getUid());
-                holder.publisher.setText(dataSet.get(position).getUid());
-                holder.description.setText(dataSet.get(position).getDescription());
-                holder.itemId = dataSet.get(position).getPostId();
+                ArtifactItem currentItem = null;
+                if(dataSetIterator.hasNext()) {
+                    currentItem = dataSetIterator.next();
+                    holder.username.setText(dataSet.get(position).getUid());
+                    holder.publisher.setText(dataSet.get(position).getUid());
+                    holder.description.setText(dataSet.get(position).getDescription());
+                    holder.itemId = dataSet.get(position).getPostId();
+                } else {
+                    Log.e(TAG ,"error iterating data", new Throwable());
+                }
             }
             // data is not ready yet
             else {
@@ -233,6 +193,7 @@ public class HubFragment extends Fragment implements IFragment {
         public void setData(List<ArtifactItem> newData) {
             // solution from codelab
             dataSet = newData;
+            dataSetIterator = dataSet.iterator();
             notifyDataSetChanged();
 
 //            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
