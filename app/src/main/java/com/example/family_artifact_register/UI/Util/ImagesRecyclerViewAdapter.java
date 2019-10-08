@@ -1,5 +1,8 @@
 package com.example.family_artifact_register.UI.Util;
 
+
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +10,9 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -76,14 +82,42 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
 //                null,
 //                options);
 
-        System.out.println(" start decode ");
+
+        // System.out.println(" start decode ");
         Bitmap bitmap = BitmapFactory.decodeFile(imageUri.getPath());
-        System.out.println(" finish decode ");
+        // System.out.println("bitmap: " + bitmap.toString());
+        // System.out.println(" finish decode ");
         holder.imageView.setImageBitmap(bitmap);
-         System.out.println("set bitmap finished");
+        // System.out.println("set bitmap finished");
+
         holder.imageView.setLayoutParams(layoutParams);
         holder.imageView.setOnClickListener(view -> {
-            System.out.println("#"+position+" clicked!!!!");
+            // whole screen dialog of image
+            Dialog dia = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+//            dia.setContentView(R.layout.start_image_dialog);
+
+            ImageView imageView = new ImageView(context);
+            imageView.setLayoutParams(
+                new ActionBar.LayoutParams(
+                    ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.MATCH_PARENT
+                )
+            );
+            imageView.setImageBitmap(bitmap);
+            // click to return
+            imageView.setOnClickListener(v -> {
+                dia.dismiss();
+            });
+            dia.setContentView(imageView);
+//            imageView.setBackgroundResource(R.mipmap.iv_android);
+            dia.show();
+
+            dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
+            Window w = dia.getWindow();
+            WindowManager.LayoutParams lp = w.getAttributes();
+            lp.x = 0;
+            lp.y = 40;
+            dia.onWindowAttributesChanged(lp);
         });
     }
 
