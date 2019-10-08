@@ -88,7 +88,7 @@ public class HubFragment extends Fragment implements IFragment {
             }
         };
 
-        hubViewModel.getContacts().observe(this, postObserver);
+        hubViewModel.getPosts().observe(this, postObserver);
 
         return view;
     }

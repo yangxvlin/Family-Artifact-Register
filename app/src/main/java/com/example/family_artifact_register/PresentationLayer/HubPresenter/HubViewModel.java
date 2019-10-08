@@ -91,7 +91,7 @@ public class HubViewModel extends AndroidViewModel {
 //        });
     }
 
-    public LiveData<List<ArtifactItem>> getContacts() {
+    public LiveData<List<ArtifactItem>> getPosts() {
         return posts;
     }
 
