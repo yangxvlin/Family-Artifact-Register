@@ -27,7 +27,7 @@
         android:layout_marginStart="15dp">
 
         <TextView
-            android:id="@+id/timeline_item_time"
+            android:id="@+id/timeline_item_upload_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2019-09-23"
@@ -43,16 +43,16 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/timeline_item_photo"
+                    android:id="@+id/timeline_item_media"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/my_logo"/>
+                    android:src="@drawable/default_image"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_toEndOf="@id/timeline_item_photo"
+                    android:layout_toEndOf="@id/timeline_item_media"
                     android:layout_marginStart="20dp">
 
                     <TextView
