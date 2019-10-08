@@ -83,7 +83,6 @@ public class ContactFragment extends Fragment implements IFragment {
         });
 
         Observer<Set<UserInfo>> contactObserver = new Observer<Set<UserInfo>>() {
-
             @Override
             public void onChanged(Set<UserInfo> newData) {
                 // when there is a change in the friend list, give the new one to list adapter
@@ -171,7 +170,6 @@ public class ContactFragment extends Fragment implements IFragment {
                 } else {
                     Log.e(TAG ,"error iterating data", new Throwable());
                 }
-
             }
             // data is not ready yet
             else {

@@ -75,7 +75,7 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
             mRecyclerView = getView().findViewById(R.id.recycler_view_my_artifacts);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter(getContext(), getActivity().getSupportFragmentManager());
+            myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter(getContext());
             mRecyclerView.setAdapter(myArtifactsRecyclerViewAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
             mRecyclerView.addItemDecoration(dividerItemDecoration);

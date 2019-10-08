@@ -1,10 +1,10 @@
 package com.example.family_artifact_register.UI.Util;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
@@ -15,15 +15,16 @@ public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     TextView description;
 
-    int frame;
+//    int frame;
+    FrameLayout frame;
 
-    Fragment mediaFragment;
+//    Fragment mediaFragment;
 
     public MyArtifactsRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
 
         time = itemView.findViewById(R.id.item_my_artifact_time);
         description = itemView.findViewById(R.id.item_my_artifact_description);
-        frame = R.id.item_my_artifact_media;
+        frame = itemView.findViewById(R.id.item_my_artifact_media);
     }
 }

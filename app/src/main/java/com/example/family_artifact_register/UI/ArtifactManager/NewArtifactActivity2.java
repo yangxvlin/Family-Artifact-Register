@@ -133,12 +133,12 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         // convert uri to String
         List<String> mediaDataString = new ArrayList<>();
         for (Uri uri: mediaData) {
-            File externalStoredFile = MediaProcessHelper.copyFileToExternal(uri);
-            // mediaDataString.add(uri.toString());
-            Uri externalStoredUri = Uri.fromFile(externalStoredFile);
-            mediaDataString.add(externalStoredUri.toString());
-            Log.d(TAG, "media file Uri toString(): "+ externalStoredUri.toString());
-            Log.d(TAG, "media file Uri getPath() : "+ externalStoredUri.getPath());
+//            File externalStoredFile = MediaProcessHelper.copyFileToExternal(uri);
+             mediaDataString.add(uri.toString());
+//            Uri externalStoredUri = Uri.fromFile(externalStoredFile);
+//            mediaDataString.add(externalStoredUri.toString());
+//            Log.d(TAG, "media file Uri toString(): "+ externalStoredUri.toString());
+//            Log.d(TAG, "media file Uri getPath() : "+ externalStoredUri.getPath());
         }
 
         ArtifactItem newItem = ArtifactItem.newInstance(currentTimeString,
