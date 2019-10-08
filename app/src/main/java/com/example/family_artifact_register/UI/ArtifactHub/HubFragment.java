@@ -3,6 +3,7 @@ package com.example.family_artifact_register.UI.ArtifactHub;
 import android.content.Intent;
 import android.database.Observable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +83,9 @@ public class HubFragment extends Fragment implements IFragment {
             @Override
             public void onChanged(List<ArtifactItem> artifactItems) {
                 adapter.setData(artifactItems);
+                for (ArtifactItem item : artifactItems) {
+                    Log.d(TAG, item.toString());
+                }
             }
         };
 

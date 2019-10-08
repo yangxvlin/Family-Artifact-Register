@@ -1,6 +1,8 @@
 package com.example.family_artifact_register.PresentationLayer.HubPresenter;
 
 import android.app.Application;
+import android.util.Log;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -28,11 +30,20 @@ public class HubViewModel extends AndroidViewModel {
 
     private List<String> friendUids;
 
+    private String currentUid;
+
     private MediatorLiveData<List<UserInfo>> friends = new MediatorLiveData<>();
-    private LiveData<List<ArtifactItem>> posts = new LiveData<List<ArtifactItem>>() {};
+
+    private LiveData<List<ArtifactItem>> posts;
+
+
 
     public HubViewModel(Application application) {
         super(application);
+        currentUid = userInfoManager.getCurrentUid();
+        Log.d(TAG, "CurrentUid is: " + currentUid);
+        posts = artifactManager.getArtifactItemByUid(currentUid);
+
 
 //        currentUser.observeForever(new Observer<UserInfo>() {
 //            @Override
@@ -55,16 +66,11 @@ public class HubViewModel extends AndroidViewModel {
 //            }
 //        });
 
-        currentUser.observeForever(new Observer<UserInfo>() {
-            @Override
-            public void onChanged(UserInfo userInfo) {
-                posts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
-            }
-        });
+
     }
 
     public LiveData<List<ArtifactItem>> getContacts() {
-        return posts;
+        return artifactManager.getArtifactItemByUid(currentUid);
     }
 
 }
