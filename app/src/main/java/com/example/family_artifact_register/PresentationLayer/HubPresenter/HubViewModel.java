@@ -70,7 +70,7 @@ public class HubViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<ArtifactItem>> getContacts() {
-        return artifactManager.getArtifactItemByUid(currentUid);
+        return posts;
     }
 
 }
