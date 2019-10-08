@@ -34,41 +34,33 @@ public class HubViewModel extends AndroidViewModel {
 
     private LiveData<UserInfo> currentUser = userInfoManager.listenUserInfo(userInfoManager.getCurrentUid());
 
-    private List<String> friendUids;
-
     private String currentUid;
 
-    private MediatorLiveData<List<UserInfo>> friends = new MediatorLiveData<>();
-
-    private LiveData<List<ArtifactItem>> posts;
-
-
+    private LiveData<List<ArtifactItem>> posts = new LiveData<List<ArtifactItem>>() {};
 
     public HubViewModel(Application application) {
         super(application);
         currentUid = userInfoManager.getCurrentUid();
-        Log.d(TAG, "CurrentUid is: " + currentUid);
         posts = artifactManager.getArtifactItemByUid(currentUid);
-//        posts.observeForever(new Observer<List<ArtifactItem>>() {
-//            @Override
-//            public void onChanged(List<ArtifactItem> artifactItems) {
-//                for(ArtifactItem item: artifactItems) {
-//                    List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
-//                    fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
-//                        @Override
-//                        public void onChanged(List<Uri> uris) {
-//                            Log.d(TAG, "local uris: " + uris.toString());
-//                            item.setMediaDataUrls(
-//                                    uris.stream()
-//                                            .map(Objects::toString)
-//                                            .collect(Collectors.toList())
-//                            );
-//                        }
-//                    });
-//                }
-//            }
-//        });
-
+        posts.observeForever(new Observer<List<ArtifactItem>>() {
+            @Override
+            public void onChanged(List<ArtifactItem> artifactItems) {
+                for(ArtifactItem item: artifactItems) {
+                    List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
+                    fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
+                        @Override
+                        public void onChanged(List<Uri> uris) {
+                            Log.d(TAG, "local uris: " + uris.toString());
+                            item.setMediaDataUrls(
+                                    uris.stream()
+                                            .map(Objects::toString)
+                                            .collect(Collectors.toList())
+                            );
+                        }
+                    });
+                }
+            }
+        });
 
 //        currentUser.observeForever(new Observer<UserInfo>() {
 //            @Override
@@ -90,8 +82,13 @@ public class HubViewModel extends AndroidViewModel {
 //                }
 //            }
 //        });
-
-
+//
+//        currentUser.observeForever(new Observer<UserInfo>() {
+//            @Override
+//            public void onChanged(UserInfo userInfo) {
+//                posts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
+//            }
+//        });
     }
 
     public LiveData<List<ArtifactItem>> getContacts() {
