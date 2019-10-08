@@ -7,11 +7,16 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.example.family_artifact_register.Util.CacheDirectoryHelper;
+
 public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // set whole app cache directory
+        CacheDirectoryHelper.getInstance().setCacheDirectory(this.getCacheDir());
 
         // register to be informed of activities starting up
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
