@@ -88,11 +88,15 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
         existingTimelineSpinner = view.findViewById(R.id.existing_timeline_spinner);
 
-        // TODO pull existing timeline data from server
+        // TODO pull existing timeline titles from server
         timelineTitles = new ArrayList<>();
         timelineTitles.add("timeline1");
         timelineTitles.add("timeline2");
         timelineTitles.add("timeline3");
+//        timelineTitles = timelines.stream()
+//                                    .map(ArtifactTimeline::getTitle)
+//                                    .collect(Collectors.toCollection(ArrayList::new));
+
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
