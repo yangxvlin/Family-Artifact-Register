@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
@@ -16,6 +18,8 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModel;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
@@ -83,6 +87,8 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     private MapLocation uploadLocation;
 
+    private NewArtifactViewModel viewModel;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +103,15 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         // initialize first fragment
         fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.activity_new_artifact_main_view, mediaFragment).commit();
+
+        viewModel = ViewModelProviders.of(this, new NewArtifactViewModelFactory(getApplication())).get(NewArtifactViewModel.class);
+
+        viewModel.getTimeline().observe(this, new Observer<List<ArtifactTimeline>>() {
+            @Override
+            public void onChanged(List<ArtifactTimeline> artifactTimelines) {
+                // TODO implement logic when data arrives
+            }
+        });
     }
 
     @Override
