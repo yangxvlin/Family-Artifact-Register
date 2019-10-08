@@ -255,14 +255,16 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
      * recycler view adapter
      */
     private HubModelAdapter hubModelAdapter;
-
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager layoutManager;
+    private HubModelAdapter adapter;
+    private DividerItemDecoration divider;
 
     // *******************************************************************************************
 
     private HubFragmentPresenter hfp;
 
-    private HubViewModel viewModel;
+    private HubViewModel hubViewModel;
 
     public HubFragment() {
         // Required empty public constructor
@@ -271,15 +273,51 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.v(TAG, "me fragment created");
-        return inflater.inflate(R.layout.fragment_hub, container, false);
+        View view = inflater.inflate(R.layout.fragment_hub, container, false);
+
+        hubViewModel = ViewModelProviders.of(this, new HubViewModelFactory(getActivity().getApplication())).get(HubViewModel.class);
+
+        setupRecyclerView(view);
+
+        FloatingActionButton fab = view.findViewById(R.id.hub_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), PostActivity.class));
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0) {
+                    fab.hide();
+                }
+                else if(dy < 0) {
+                    fab.show();
+                }
+            }
+        });
+
+        Observer<List<ArtifactItem>> postObserver = new Observer<List<ArtifactItem>>() {
+            @Override
+            public void onChanged(List<ArtifactItem> artifactItems) {
+                adapter.setData(artifactItems);
+            }
+        };
+
+        hubViewModel.getPosts().observe(this, postObserver);
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this, new HubViewModelFactory(getActivity().getApplication())).get(HubViewModel.class);
+
+
+        hubViewModel = ViewModelProviders.of(this, new HubViewModelFactory(getActivity().getApplication())).get(HubViewModel.class);
 
         // create artifacts recycler view
         if (getView() != null) {
@@ -317,13 +355,31 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
-        viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItem>>() {
+        hubViewModel.getPosts().observe(this, new Observer<List<ArtifactItem>>() {
             @Override
             public void onChanged(List<ArtifactItem> artifactItems) {
                 Log.d(TAG, "enter onchange");
                 hubModelAdapter.setData(artifactItems);
             }
         });
+    }
+
+    private void setupRecyclerView(View view) {
+        // get the view
+        mRecyclerView = view.findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+
+        // set layout manager for the view
+        layoutManager = new LinearLayoutManager(view.getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // set the adapter for the view
+        adapter = new HubModelAdapter(getContext());
+        mRecyclerView.setAdapter(adapter);
+
+        // set the divider between list item
+        divider = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(divider);
     }
 
     /**

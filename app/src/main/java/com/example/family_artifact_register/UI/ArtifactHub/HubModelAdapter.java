@@ -4,107 +4,165 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
+import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
 /**
  * @author Haichao Song 854035,
  * @time 2019-9-18 14:28:43
  * @description Adapter for models recycler view
  */
-public class HubModelAdapter extends RecyclerView.Adapter {
+public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
-//    public final static String TAG = HubModelAdapter.class.getSimpleName();
+    private static final String TAG = com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter.class.getSimpleName();
+    private List<ArtifactItem> artifactItemList;
 
-    private ArrayList<String> dataSet;
+//    private FragmentManager fm;
 
-//    Context c;
-//    ArrayList<Model> models;
+    private Context context;
 
-//    public HubModelAdapter(Context c, ArrayList<Model> models) {
-//        this.c = c;
-//        this.models = models;
-//    }
+    public HubModelAdapter(Context context) {
+        this.artifactItemList = new ArrayList<>();
+        this.context = context;
+//        this.fm = fm;
+    }
 
-    @NotNull
+    @NonNull
     @Override
-    public HubModelHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
-
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.post_item, null);
-
-        return new HubModelHolder(view);
+    public HubModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
+        return new HubModelViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder,int i) {
-        ((HubModelViewHolder) holder).username.setText(dataSet.get(i));
+    public void onBindViewHolder(@NonNull HubModelViewHolder holder, int position) {
+        ArtifactItem artifactItem = artifactItemList.get(position);
 
-//        myHolder.mDes.setText(models.get(i).getDescription());
-//        myHolder.mImeaView.setImageResource(models.get(i).getPostimage());
-//        myHolder.mAvatar.setImageResource(models.get(i).getAvatar());
-//        myHolder.mUsername.setText(models.get(i).getUsername());
-//        myHolder.mPublisher.setText(models.get(i).getPublisher());
-//
-//        // The ClickListener checks which model is clicked and create intent
-//        myHolder.setItemClickListener(new ItemClickListener() {
-//            @Override
-//            public void OnItemClickListener(View v, int Position) {
-//                String gDesc = models.get(Position).getDescription();
-//                String gUser = models.get(Position).getUsername();
-//                String gPublisher = models.get(Position).getPublisher();
-//                BitmapDrawable bitmapDrawableImage = (BitmapDrawable)myHolder.mImeaView.getDrawable();
-//                BitmapDrawable bitmapDrawableAvatar = (BitmapDrawable)myHolder.mAvatar.getDrawable();
-//
-//
-//                Bitmap bitmapImage = bitmapDrawableImage.getBitmap();
-//                Bitmap bitmapAvatar = bitmapDrawableAvatar.getBitmap();
-//
-//                // Compress the bitmap as stream convert to array of bytes
-//                ByteArrayOutputStream imageStream = new ByteArrayOutputStream();
-//                ByteArrayOutputStream avatarStream = new ByteArrayOutputStream();
-//                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100,imageStream);
-//                bitmapAvatar.compress(Bitmap.CompressFormat.PNG, 100,avatarStream);
-//
-//                byte[] imageBytes = imageStream.toByteArray();
-//                byte[] avatarBytes = avatarStream.toByteArray();
-//
-//                //Creat intent and put information into it
-//                Intent intent = new Intent(c, ArtifactDetailActivity.class);
-//                intent.putExtra("iTitle", gPublisher);
-//                intent.putExtra("iDesc", gDesc);
-//                intent.putExtra("iUser", gUser);
-//                intent.putExtra("iImage", imageBytes);
-//                intent.putExtra("iAvatar", avatarBytes);
-//                c.startActivity(intent);
-//            }
-//        });
-//
-//        myHolder.setItemClickListener(new ItemClickListener() {
-//            @Override
-//            public void OnItemClickListener(View v, int Position) {
-//                if (models.get(Position).getTitle().equals("This is Art1")){
-//
-//                }
-//            }
-//        });
+        holder.username.setText(artifactItem.getUid());
+        holder.time.setText(artifactItem.getLastUpdateDateTime());
+        holder.description.setText(artifactItem.getDescription());
 
+        List<Uri> mediaList = new ArrayList<>();
+        for (String mediaUrl: artifactItem.getMediaDataUrls()) {
+            Log.d(TAG, "media uri" + mediaUrl);
+            mediaList.add(Uri.parse(mediaUrl));
+        }
+
+
+        // image view
+        if (artifactItem.getMediaType() == TYPE_IMAGE) {
+            // recycler view adapter for display images
+            ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
+            // recycler view for display images
+            RecyclerView imageRecyclerView;
+
+            // set frame layout param
+            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParam.gravity = Gravity.CENTER;
+
+            // set recycler view images
+            RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
+                    RecyclerView.LayoutParams.MATCH_PARENT,
+                    RecyclerView.LayoutParams.WRAP_CONTENT
+            );
+            imageRecyclerView = new RecyclerView(context);
+            imageRecyclerView.setLayoutParams(recyclerViewParam);
+
+            // images horizontally
+            LinearLayoutManager layoutManager = new LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+            );
+            imageRecyclerView.setLayoutManager(layoutManager);
+
+            // image adapter
+            imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
+                    200,
+                    200,
+                    context
+            );
+            for (Uri image: mediaList) {
+                imagesRecyclerViewAdapter.addData(image);
+            }
+            imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
+            holder.postImage.setLayoutParams(layoutParam);
+            holder.postImage.addView(imageRecyclerView);
+            // video view
+        } else if (artifactItem.getMediaType() == TYPE_VIDEO) {
+            // set frame layout param
+            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            layoutParam.gravity = Gravity.CENTER;
+
+            // set media
+            VideoView mediaView = new VideoView(context);
+            mediaView.setLayoutParams(new FrameLayout.LayoutParams(
+                    800,
+                    1200)
+            );
+            mediaView.setVideoURI(mediaList.get(0));
+            mediaView.setMediaController(new MediaController(context));
+            mediaView.start();
+            mediaView.requestFocus();
+            mediaView.setOnCompletionListener(mp -> {
+                Log.d(TAG, "Video play finish.");
+            });
+            mediaView.setOnErrorListener((mp, what, extra) -> {
+                Log.d(TAG, "Video play error!!!");
+                return false;
+            });
+
+            holder.postImage.setLayoutParams(layoutParam);
+            holder.postImage.addView(mediaView);
+        } else {
+            Log.e(TAG, "unknown media type !!!");
+        }
     }
 
     @Override
-    public int getItemCount() {
-        return dataSet.size();
+    public int getItemCount() { return artifactItemList.size(); }
+
+    public void setData(List<ArtifactItem> newData) {
+        artifactItemList = newData;
+        notifyDataSetChanged();
     }
 
+    // *************************************** getter & setters ***********************************
+    public void addData(ArtifactItem artifactItem) {
+        // 0 to add data at start
+        this.artifactItemList.add(0, artifactItem);
+        notifyDataSetChanged();
+    }
 }
