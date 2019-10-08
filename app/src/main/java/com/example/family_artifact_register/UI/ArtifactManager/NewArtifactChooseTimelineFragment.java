@@ -28,6 +28,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
+import static com.example.family_artifact_register.UI.Util.NewTimelineListener.EXISTING_ARTIFACT_TIMELINE;
 import static com.example.family_artifact_register.UI.Util.NewTimelineListener.NEW_ARTIFACT_TIMELINE;
 
 /**
@@ -143,20 +144,27 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_confirm);
         existingTimelineConfirmButton.setOnClickListener(view1 -> {
             String selectedTimelineTitle = existingTimelineSpinner.getSelectedItem().toString();
+            ArtifactTimeline selected = null;
 
-            // new timeline's title has non-empty length
-            if (selectedTimelineTitle.isEmpty()) {
-                Toasty.error(getContext(), R.string.new_artifact_new_timeline_empty_title_warning, Toasty.LENGTH_LONG)
-                        .show();
-            } else {
-                // pass data to activity
-                ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, selectedTimelineTitle);
-                Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
-                // call NewArtifactActivity method to start upload
-                ((StartUploadListener)getActivity()).uploadNewArtifact();
-                // finish the activity
-                getActivity().finish();
+            for (ArtifactTimeline t: timelines) {
+                if (t.getTitle().equals(selectedTimelineTitle)) {
+                    selected = t;
+                    break;
+                }
             }
+
+            if (selected == null) {
+                Log.e(TAG, "selected timeline is null !!!");
+            }
+
+            // pass selected timeline to activity
+            ((NewTimelineListener)getActivity()).setTimeline(EXISTING_ARTIFACT_TIMELINE, selectedTimelineTitle);
+            ((NewTimelineListener)getActivity()).setSelectedTimeline(selected);
+            Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
+            // call NewArtifactActivity method to start upload
+            ((StartUploadListener)getActivity()).uploadNewArtifact();
+            // finish the activity
+            getActivity().finish();
         });
 
         // initially all views except radio buttons are invisible, one of them is visible only when
