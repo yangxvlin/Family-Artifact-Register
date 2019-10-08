@@ -123,9 +123,8 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         newTimelineConfirmButton.setOnClickListener(view1 -> {
             String newTimelineTitle = newTimelineTitleEditText.getText().toString();
 
-            // new timeline's title has non-empty length
-            // TODO new timeline's title should not collide with existing timelines
-            if (newTimelineTitle.isEmpty()) {
+            // new timeline's title has non-empty length and not previously created
+            if (newTimelineTitle.isEmpty() && !timelineTitles.contains(newTimelineTitle)) {
                 Toasty.error(getContext(), R.string.new_artifact_new_timeline_empty_title_warning, Toasty.LENGTH_LONG)
                         .show();
             } else {
