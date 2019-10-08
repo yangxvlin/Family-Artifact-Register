@@ -2,6 +2,7 @@ package com.example.family_artifact_register.UI.Social;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -9,12 +10,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchViewModel;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchViewModelFactory;
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
-public class FriendSearchActivity extends AppCompatActivity {
+public class ContactSearchActivity extends AppCompatActivity {
+
+    /**
+     * class tag
+     */
+    public static final String TAG = ContactSearchActivity.class.getSimpleName();
+
+    private ContactSearchViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,10 +37,14 @@ public class FriendSearchActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Add new friend");
 
-        // fake user data
-        String[] data = new String[] {"5", "6", "7", "8"};
+        viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
 
         EditText searchEditText = findViewById(R.id.search_edit_text);
+
+        String storedQuery = viewModel.getQuery();
+        if(storedQuery != null)
+            searchEditText.setText(storedQuery);
+
         // listen to see if the user has finished typing
         // https://stackoverflow.com/a/8063533
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -39,13 +57,12 @@ public class FriendSearchActivity extends AppCompatActivity {
                                 event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if (event == null || !event.isShiftPressed()) {
                         // user is done typing
-                        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                        Intent intent = new Intent(v.getContext(), ContactSearchResultActivity.class);
                         String query = v.getText().toString();
-                        ArrayList<String> result = search(query, data);
-                        Intent i = new Intent(v.getContext(), FriendSearchResultActivity.class);
-                        i.putExtra("query", v.getText().toString());
-                        i.putExtra("key", result.toArray(new String[result.size()]));
-                        startActivity(i);
+                        viewModel.setQuery(query);
+                        Log.i(TAG, query);
+                        intent.putExtra("query", query);
+                        startActivity(intent);
                         // consume the action
                         return true;
                     }
@@ -54,16 +71,5 @@ public class FriendSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-        // TODO: implementation for search logic
-    }
-
-    // to be moved to a class in the logic layer
-    private ArrayList<String> search(String target, String[] users) {
-        ArrayList<String> out = new ArrayList<>();
-        for(String i : users) {
-            if(i.equals(target))
-                out.add(i);
-        }
-        return out;
     }
 }

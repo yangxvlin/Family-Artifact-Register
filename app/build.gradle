@@ -5,12 +5,18 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.example.family_artifact_register"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -118,7 +124,7 @@ dependencies {
     // photo & video take
     // https://github.com/jkwiecien/EasyImage
     implementation 'com.github.jkwiecien:EasyImage:3.0.3'
-    // photo & video compress
+    // photo & video compress, only image part used
     // https://github.com/Tourenathan-G5organisation/SiliCompressor
     implementation 'com.iceteck.silicompressorr:silicompressor:2.2.2'
 
@@ -129,6 +135,23 @@ dependencies {
 
     // timeline
     implementation 'com.github.vipulasri:timelineview:1.1.0'
+
+    // ******************************************************************************************
+    // beautiful toast message library
+    // https://github.com/GrenderG/Toasty
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+
+    // ******************************************************************************************
+    // ViewModel and LiveData (lifecycle component)
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+//    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+//    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0'
+
+    // room persistence library
+    implementation 'androidx.room:room-runtime:2.2.0-rc01'
+    annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
+    androidTestImplementation 'androidx.room:room-testing:2.2.0-rc01'
 
 }
 

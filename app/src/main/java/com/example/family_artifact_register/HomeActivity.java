@@ -15,21 +15,15 @@ import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 13:33:24
  * @description main activity let user to use the app
  */
-public class MainActivity2 extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     /**
      * class tag
      */
@@ -70,21 +64,7 @@ public class MainActivity2 extends AppCompatActivity {
     /**
      * firebase authentication
      */
-    private FirebaseAuth mFirebaseAuth;
-
-    /**
-     * firebase request code
-     */
-    public static final int RC_SIGN_IN = 1;
-
-    /**
-     * control firebase state info
-     */
-    private FirebaseAuth.AuthStateListener mAuthStateListner;
-
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
-            new AuthUI.IdpConfig.PhoneBuilder().build());
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
 
     /**
      * bottom navigation item click listener to switch between fragments
@@ -122,27 +102,6 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        // set firebase sign in layout
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mAuthStateListner = firebaseAuth -> {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user!=null) {
-                Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setIsSmartLockEnabled(false)
-                                .setAvailableProviders(providers)
-                                .setLogo(R.drawable.icon_forget_me_not_1)
-                                .build(),
-                        RC_SIGN_IN
-                );
-
-            }
-        };
-
         // setup bottom navigation bar
         navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -168,18 +127,6 @@ public class MainActivity2 extends AppCompatActivity {
         } else if (tag.equals(MeFragment.TAG)) {
             setTitle(R.string.bottom_bar_profile);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListner);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
     }
 
     // **************************************** action bar menu ***********************************

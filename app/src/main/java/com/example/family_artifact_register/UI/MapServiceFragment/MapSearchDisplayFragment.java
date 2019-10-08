@@ -1,17 +1,16 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,19 +38,43 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * class tag
      */
     public static final String TAG = MapSearchDisplayFragment.class.getSimpleName();
-    private Marker currentMarker = null;
+    private MapLocation currentMapLocation;
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters. The map is by default interactive.
+     * @param locations The locations to be displayed on the google map
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance(List<MapLocation> locations) {
+        return MapDisplayFragment.newInstance(locations, false);
+    }
+
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters. The points to be displayed is by default empty
+     * @param staticMap If the map is static (limited interaction)
+     *
+     * @return A new instance of fragment MapDisplayFragment.
+     */
+    public static MapDisplayFragment newInstance(boolean staticMap) {
+        return MapDisplayFragment.newInstance(new ArrayList<>(), staticMap);
+    }
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
-     * @param myLocations The locations to be displayed on the google map
+     * @param locations The locations to be displayed on the google map
+     * @param staticMap If the map displayed should be static (limited interaction)
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance(List<MyLocation> myLocations) {
-        MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
+    public static MapDisplayFragment newInstance(List<MapLocation> locations, boolean staticMap) {
+        MapDisplayFragment fragment = new MapDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(LOCATIONS, (Serializable) myLocations);
+        bundle.putBoolean(STATIC, staticMap);
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,11 +85,11 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      *
      * @return A new instance of fragment MapDisplayFragment.
      */
-    public static MapDisplayFragment newInstance() {
+    public static MapSearchDisplayFragment newInstance() {
         MapSearchDisplayFragment fragment = new MapSearchDisplayFragment();
         Bundle bundle = new Bundle();
-        List<Place> places = new ArrayList<>();
-        bundle.putSerializable(LOCATIONS, (Serializable) places);
+        List<MapLocation> locations = new ArrayList<>();
+        bundle.putSerializable(LOCATIONS, (Serializable) locations);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -114,6 +137,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
+                currentMapLocation = MapLocation.newInstance(place);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                 LatLng latLng = place.getLatLng();
                 // Creating a marker
@@ -122,9 +146,13 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
                 // Setting the position for the marker
                 markerOptions.position(latLng);
 
-                // Setting the title for the marker.
+                // Setting the snippet for the marker.
                 // This will be displayed on taping the marker
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                markerOptions.snippet(latLng.latitude + " : " + latLng.longitude);
+
+                // add user's search text to marker
+                // by XuLin Yang
+                markerOptions.title(place.getName());
 
                 // Clears the previously touched position
                 mMap.clear();
@@ -133,7 +161,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
                 // Placing a marker on the touched position
-                currentMarker = mMap.addMarker(markerOptions);
+                mMap.addMarker(markerOptions);
             }
 
             @Override
@@ -149,6 +177,7 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
         super.onMapReady(googleMap);
         // Setting a click event handler for the map
         mMap.setOnMapClickListener(latLng -> {
+            currentMapLocation = MapLocation.newInstance(latLng);
             Log.i(TAG, "Clicked map at " + latLng.toString());
             // Creating a marker
             MarkerOptions markerOptions = new MarkerOptions();
@@ -156,9 +185,12 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             // Setting the position for the marker
             markerOptions.position(latLng);
 
-            // Setting the title for the marker.
+            // Setting the snippet for the marker.
             // This will be displayed on taping the marker
-            markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+            markerOptions.snippet(latLng.latitude + " : " + latLng.longitude);
+
+            // TODO get the place name by latLng
+//            markerOptions.title();
 
             // Clears the previously touched position
             mMap.clear();
@@ -167,17 +199,11 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
             // Placing a marker on the touched position
-            currentMarker = mMap.addMarker(markerOptions);
+            mMap.addMarker(markerOptions);
         });
     }
 
-    public MyLocation getSelectedLocation() {
-        MyLocation location = null;
-        if (currentMarker != null) {
-            location = new MyLocation();
-            location.setLongitude(currentMarker.getPosition().longitude);
-            location.setLatitude(currentMarker.getPosition().latitude);
-        }
-        return location;
+    public MapLocation getSelectedLocation() {
+        return currentMapLocation;
     }
 }

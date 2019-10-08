@@ -1,0 +1,50 @@
+{
+  "projectName": "Family-Artifact-Register",
+  "projectOwner": "yangxvlin",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "chen-dudu",
+      "name": "LiGuo Chen",
+      "avatar_url": "https://avatars1.githubusercontent.com/chen-dudu",
+      "profile": "https://github.com/chen-dudu",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "HaiChaoS",
+      "name": "HaiChao Song",
+      "avatar_url": "https://avatars2.githubusercontent.com/HaichaoS",
+      "profile": "https://github.com/HaichaoS",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Dovermore",
+      "name": "ZhuoQun Huang",
+      "avatar_url": "https://avatars2.githubusercontent.com/Dovermore",
+      "profile": "https://github.com/Dovermore",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "yangxvlin",
+      "name": "XuLinYang",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26871369?v=4",
+      "profile": "https://yangxvlin.github.io",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

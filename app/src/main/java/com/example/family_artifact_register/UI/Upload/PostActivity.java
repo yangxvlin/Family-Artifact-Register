@@ -1,8 +1,4 @@
-package com.example.family_artifact_register;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.family_artifact_register.UI.Upload;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -16,10 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.family_artifact_register.HomeActivity;
+import com.example.family_artifact_register.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -27,10 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -60,7 +58,7 @@ public class PostActivity extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PostActivity.this, MainActivity2.class));
+                startActivity(new Intent(PostActivity.this, HomeActivity.class));
                 finish();
             }
         });
@@ -107,22 +105,24 @@ public class PostActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
                         myUri = task.toString();
+                        String myUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("posts");
+                        DatabaseReference reference = FirebaseDatabase.getInstance()
+                                .getReference("posts");
 
-                        String postid = reference.push().getKey();
+                        String postid = reference.child(myUser).push().getKey();
 
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("postid", postid);
                         hashMap.put("postimage", myUri);
                         hashMap.put("description", description.getText().toString());
-                        hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        hashMap.put("publisher", myUser);
 
-                        reference.child(postid).setValue(hashMap);
+                        reference.child(myUser).child(postid).setValue(hashMap);
 
                         progressDialog.dismiss();
 
-                        startActivity(new Intent(PostActivity.this, MainActivity2.class));
+                        startActivity(new Intent(PostActivity.this, HomeActivity.class));
                         finish();
                     } else {
                         Toast.makeText(PostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
@@ -154,7 +154,7 @@ public class PostActivity extends AppCompatActivity {
             image_added.setImageURI(imageUri);
         } else {
             Toast.makeText(this, "Something gone wrong", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(PostActivity.this, MainActivity2.class));
+            startActivity(new Intent(PostActivity.this, HomeActivity.class));
             finish();
         }
     }

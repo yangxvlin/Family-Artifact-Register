@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +47,7 @@ public class FriendActivity extends BaseActionBarActivity {
         // retrieve user's friend data from DB
 //        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 //        try {
-//            dataSet.add(firebaseAuth.getCurrentUser().getEmail());
+//            dataSet.add(firebaseAuth.getCurrentUserInfo().getEmail());
 //        }
 //        catch (Exception e) {
 //            System.out.println("@@@@  user is null");
@@ -115,7 +114,7 @@ public class FriendActivity extends BaseActionBarActivity {
 //                System.out.println(textView.getText());
                 String value = (String) textView.getText();
                 AppCompatActivity currentActivity = (AppCompatActivity) view.getContext();
-                Intent i = new Intent(currentActivity, FriendDetailActivity.class);
+                Intent i = new Intent(currentActivity, ContactDetailActivity.class);
                 i.putExtra("key", value);
                 startActivity(i);
             }

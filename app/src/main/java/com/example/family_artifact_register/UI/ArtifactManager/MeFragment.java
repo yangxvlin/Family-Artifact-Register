@@ -41,6 +41,8 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
      */
     private MyArtifactsRecyclerViewAdapter myArtifactsRecyclerViewAdapter;
 
+    RecyclerView mRecyclerView;
+
     // *******************************************************************************************
 
     private MeFragmentPresenter mfp;
@@ -62,7 +64,7 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
 
         // create artifacts recycler view
         if (getView() != null) {
-            RecyclerView mRecyclerView = getView().findViewById(R.id.recycler_view_my_artifacts);
+            mRecyclerView = getView().findViewById(R.id.recycler_view_my_artifacts);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(layoutManager);
             myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter();
@@ -82,6 +84,18 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
         add.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
             startActivity(intent);
+        });
+
+        // recycler view's scroll to hide the floating button
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    add.hide();
+                } else if (dy < 0) {
+                    add.show();
+                }
+            }
         });
     }
 

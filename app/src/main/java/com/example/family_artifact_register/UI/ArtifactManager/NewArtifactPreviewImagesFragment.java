@@ -8,24 +8,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.MediaListener;
 import com.example.family_artifact_register.UI.Util.NewArtifactPreviewImageGridViewAdapter;
+import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import es.dmoral.toasty.Toasty;
 import pl.aprilapps.easyphotopicker.ChooserType;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
 
-import static com.example.family_artifact_register.UI.Util.ImageProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 
-public class NewArtifactPreviewImagesFragment extends Fragment {
+public class NewArtifactPreviewImagesFragment extends Fragment implements IFragment, OnBackPressedListener {
     /**
      * class tag
      */
@@ -48,7 +54,7 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Preview Images");
+        getActivity().setTitle(R.string.preview_image);
 
         easyImage = new EasyImage.Builder(getContext())
                 // Chooser only
@@ -66,20 +72,25 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
                 .build();
 
         // to next fragment
-//        FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_media_floating_button_confirm);
-//        confirm.setOnClickListener(view1 -> {
-//            HappenedTimeFragment happenedTime = HappenedTimeFragment.newInstance();
-//            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.addToBackStack("next");
-//            fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
-//            fragmentTransaction.commit();
-//        });
+        FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_preview_images_floating_button_confirm);
+        confirm.setOnClickListener(view1 -> {
+            if (imageAdapter.getCount() > 0) {
+                NewArtifactHappenedTimeFragment happenedTime = NewArtifactHappenedTimeFragment.newInstance();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack("next");
+                fragmentTransaction.replace(R.id.activity_new_artifact_main_view, happenedTime);
+                fragmentTransaction.commit();
+            } else {
+                Toasty.error(getContext(), R.string.not_enough_image_warning, Toast.LENGTH_SHORT, true)
+                        .show();
+            }
+        });
 
         // choose images from camera
-//        FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_media_camera);
-//        camera.setOnClickListener(view1 -> {
-//            easyImage.openCameraForImage(this);
-//        });
+        FloatingActionButton camera = view.findViewById(R.id.fragment_new_artifact_preview_images_floating_button_camera);
+        camera.setOnClickListener(view1 -> {
+            easyImage.openCameraForImage(this);
+        });
 
         // choose images form album
         FloatingActionButton album = view.findViewById(R.id.fragment_new_artifact_preview_images_floating_button_album);
@@ -88,7 +99,7 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
         });
 
         GridView gridView = (GridView) view.findViewById(R.id.fragment_new_artifact_preview_images_grid_view);
-        imageAdapter = new NewArtifactPreviewImageGridViewAdapter(getContext(), ((NewArtifactActivity2)getActivity()).getData());
+        imageAdapter = new NewArtifactPreviewImageGridViewAdapter(getContext(), ((MediaListener)getActivity()).getData());
         gridView.setAdapter(imageAdapter);
     }
 
@@ -100,16 +111,15 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
 
         easyImage.handleActivityResult(requestCode, resultCode, data, getActivity(), new DefaultCallback() {
             @Override
-            public void onMediaFilesPicked(MediaFile[] imageFiles, MediaSource source) {
-                for (MediaFile imageFile : imageFiles) {
-                    Log.d("EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
-                    Uri image = Uri.fromFile(imageFile.getFile());
-//                    mediaData.add(image);
-                    ((NewArtifactActivity2)getActivity()).addData(image, TYPE_IMAGE);
-                }
-
-                if (source == MediaSource.DOCUMENTS) {
-                    imageAdapter.notifyDataSetChanged();
+            public void onMediaFilesPicked(MediaFile[] mediaFiles, MediaSource source) {
+                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE) {
+                    // call back to parent activity
+                    for (MediaFile imageFile : mediaFiles) {
+                        Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
+                        Uri image = Uri.fromFile(imageFile.getFile());
+                        ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
+                        imageAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -125,5 +135,11 @@ public class NewArtifactPreviewImagesFragment extends Fragment {
                 //Not necessary to remove any files manually anymore
             }
         });
+    }
+
+    // ************************************ implement interface ***********************************
+    @Override
+    public void onBackPressed() {
+        ((MediaListener)getActivity()).clearData();
     }
 }

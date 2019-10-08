@@ -48,3 +48,6 @@
 **/Thumbs.db
 
 /docs/*.mp4
+
+# export path for local database schema
+**/app/schemas/
