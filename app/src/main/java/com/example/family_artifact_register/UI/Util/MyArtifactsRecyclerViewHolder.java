@@ -5,7 +5,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
@@ -19,7 +18,7 @@ public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
 //    int frame;
     FrameLayout frame;
 
-    Fragment mediaFragment;
+//    Fragment mediaFragment;
 
     public MyArtifactsRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
