@@ -33,7 +33,7 @@ public class ArtifactItem extends Artifact {
     private int likes;
 
     // The associated timeline
-    private ArtifactTimeline artifactTimeline;
+    private String artifactTimelineId;
 
     public ArtifactItem() {
         super();
@@ -49,7 +49,7 @@ public class ArtifactItem extends Artifact {
                         int mediaType, List<String> mediaDataUrls, String description,
                         String locationUploadedId, String locationHappenedId,
                         String locationStoredId, String happenedDateTime,
-                        ArtifactTimeline artifactTimeline) {
+                        String artifactTimelineId) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.mediaType = mediaType;
         this.mediaDataUrls = mediaDataUrls;
@@ -59,7 +59,7 @@ public class ArtifactItem extends Artifact {
         this.locationStoredId = locationStoredId;
         this.happenedDateTime = happenedDateTime;
         this.likes = 0;
-        this.artifactTimeline = artifactTimeline;
+        this.artifactTimelineId = artifactTimelineId;
     }
 
     @Override
@@ -149,12 +149,12 @@ public class ArtifactItem extends Artifact {
         this.locationStoredId = locationStoredId;
     }
 
-    public ArtifactTimeline getArtifactTimeline() {
-        return artifactTimeline;
+    public String getArtifactTimelineId() {
+        return artifactTimelineId;
     }
 
-    void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
-        this.artifactTimeline = artifactTimeline;
+    void setArtifactTimelineId(String artifactTimelineId) {
+        this.artifactTimelineId = artifactTimelineId;
     }
 
     public static ArtifactItem newInstance(String uploadDateTime,
@@ -166,7 +166,7 @@ public class ArtifactItem extends Artifact {
                                            String locationHappenedId,
                                            String locationStoredId,
                                            String happenedDateTime,
-                                           ArtifactTimeline artifactTimeline
+                                           String artifactTimelineId
                                            ) {
         return new ArtifactItem(null,
                 null,
@@ -179,7 +179,7 @@ public class ArtifactItem extends Artifact {
                 locationHappenedId,
                 locationStoredId,
                 happenedDateTime,
-                artifactTimeline
+                artifactTimelineId
         );
     }
 }

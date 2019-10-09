@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
-import com.example.family_artifact_register.Util.CacheDirectoryHelper;
 import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

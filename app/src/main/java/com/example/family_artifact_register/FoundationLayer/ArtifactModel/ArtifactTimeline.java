@@ -31,6 +31,10 @@ public class ArtifactTimeline extends Artifact {
         this.title = title;
     }
 
+    public ArtifactTimeline(){
+        super();
+    }
+
     public ArtifactTimeline(String title) {
         super();
 

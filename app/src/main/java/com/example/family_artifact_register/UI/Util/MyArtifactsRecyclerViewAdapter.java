@@ -20,6 +20,8 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
@@ -79,6 +81,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
                     FrameLayout.LayoutParams.WRAP_CONTENT
             );
             layoutParam.gravity = Gravity.CENTER;
+            layoutParam.topMargin = 20;
 
             // set recycler view images
             RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
@@ -140,12 +143,25 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
+
+        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
+            }
+        });
     }
 
     @Override
     public int getItemCount() { return artifactItemList.size(); }
 
     public void setData(List<ArtifactItem> newData) {
+        Collections.sort(newData, new Comparator<ArtifactItem>() {
+            @Override
+            public int compare(ArtifactItem artifactItem, ArtifactItem t1) {
+                return -1 * artifactItem.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
+            }
+        });
         artifactItemList = newData;
         notifyDataSetChanged();
     }

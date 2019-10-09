@@ -271,7 +271,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.v(TAG, "me fragment created");
+        Log.v(TAG, "hub fragment created");
         return inflater.inflate(R.layout.fragment_hub, container, false);
     }
 
@@ -299,10 +299,17 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
         hfp = new HubFragmentPresenter(this);
 
         // add new artifact
-        FloatingActionButton add = getView().findViewById(R.id.hub_fab);
+        FloatingActionButton add = view.findViewById(R.id.hub_fab);
         add.setOnClickListener(view1 -> {
+            Log.d(TAG, "Press hub fab");
             Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
             startActivity(intent);
+        });
+
+        // refresh hub
+        FloatingActionButton refresh = view.findViewById(R.id.hub_refresh);
+        refresh.setOnClickListener(view1 -> {
+            viewModel.getPostsChange();
         });
 
         // recycler view's scroll to hide the floating button
@@ -311,8 +318,10 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
                     add.hide();
+                    refresh.hide();
                 } else if (dy < 0) {
                     add.show();
+                    refresh.show();
                 }
             }
         });
