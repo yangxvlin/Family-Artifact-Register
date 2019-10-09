@@ -71,7 +71,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_savee_black"
+                android:src="@drawable/ic_detail"
                 android:tint="@color/primaryTextColor">
 
             </ImageView>
