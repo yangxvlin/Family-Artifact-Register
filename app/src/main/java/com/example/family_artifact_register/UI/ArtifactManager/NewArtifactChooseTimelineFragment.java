@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.NewTimelineListener;
@@ -24,9 +25,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.dmoral.toasty.Toasty;
 
+import static com.example.family_artifact_register.UI.Util.NewTimelineListener.EXISTING_ARTIFACT_TIMELINE;
 import static com.example.family_artifact_register.UI.Util.NewTimelineListener.NEW_ARTIFACT_TIMELINE;
 
 /**
@@ -56,6 +59,8 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
     private String slectedTimelineTitle = null;
 
+    private List<ArtifactTimeline> timelines;
+
     public NewArtifactChooseTimelineFragment() {
         // required empty constructor
     }
@@ -84,11 +89,16 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
         existingTimelineSpinner = view.findViewById(R.id.existing_timeline_spinner);
 
-        // TODO pull existing timeline data from server
-        timelineTitles = new ArrayList<>();
-        timelineTitles.add("timeline1");
-        timelineTitles.add("timeline2");
-        timelineTitles.add("timeline3");
+        // TODO pull existing timeline titles from server
+//        timelineTitles = new ArrayList<>();
+//        timelineTitles.add("timeline1");
+//        timelineTitles.add("timeline2");
+//        timelineTitles.add("timeline3");
+        timelines = ((NewTimelineListener)this.getActivity()).getArtifactTimelines();
+        timelineTitles = timelines.stream()
+                                    .map(ArtifactTimeline::getTitle)
+                                    .collect(Collectors.toCollection(ArrayList::new));
+
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
@@ -120,10 +130,12 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         newTimelineConfirmButton.setOnClickListener(view1 -> {
             String newTimelineTitle = newTimelineTitleEditText.getText().toString();
 
-            // new timeline's title has non-empty length
-            // TODO new timeline's title should not collide with existing timelines
+            // new timeline's title has non-empty length and not previously created
             if (newTimelineTitle.isEmpty()) {
                 Toasty.error(getContext(), R.string.new_artifact_new_timeline_empty_title_warning, Toasty.LENGTH_LONG)
+                        .show();
+            } else if (timelineTitles.contains(newTimelineTitle)) {
+                Toasty.error(getContext(), R.string.new_artifact_timeline_exists_warning, Toasty.LENGTH_LONG)
                         .show();
             } else {
                 // pass data to activity
@@ -138,20 +150,27 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         existingTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_existing_timeline_confirm);
         existingTimelineConfirmButton.setOnClickListener(view1 -> {
             String selectedTimelineTitle = existingTimelineSpinner.getSelectedItem().toString();
+            ArtifactTimeline selected = null;
 
-            // new timeline's title has non-empty length
-            if (selectedTimelineTitle.isEmpty()) {
-                Toasty.error(getContext(), R.string.new_artifact_new_timeline_empty_title_warning, Toasty.LENGTH_LONG)
-                        .show();
-            } else {
-                // pass data to activity
-                ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, selectedTimelineTitle);
-                Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
-                // call NewArtifactActivity method to start upload
-                ((StartUploadListener)getActivity()).uploadNewArtifact();
-                // finish the activity
-                getActivity().finish();
+            for (ArtifactTimeline t: timelines) {
+                if (t.getTitle().equals(selectedTimelineTitle)) {
+                    selected = t;
+                    break;
+                }
             }
+
+            if (selected == null) {
+                Log.e(TAG, "selected timeline is null !!!");
+            }
+
+            // pass selected timeline to activity
+            ((NewTimelineListener)getActivity()).setTimeline(EXISTING_ARTIFACT_TIMELINE, selectedTimelineTitle);
+            ((NewTimelineListener)getActivity()).setSelectedTimeline(selected);
+            Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
+            // call NewArtifactActivity method to start upload
+            ((StartUploadListener)getActivity()).uploadNewArtifact();
+            // finish the activity
+            getActivity().finish();
         });
 
         // initially all views except radio buttons are invisible, one of them is visible only when
