@@ -142,8 +142,7 @@ public class MapLocationManager {
                 .addOnFailureListener(DefaultListeners.getInstance().getOnFailureListener(TAG))
                 .addOnCanceledListener(DefaultListeners.getInstance().getOnCanceledListener(TAG))
                 // This is a safe cast (I believe)
-                .addOnSuccessListener((OnSuccessListener<DocumentSnapshot>)
-                        DefaultListeners.getInstance().<DocumentSnapshot>getOnSuccessListener(TAG))
+                .addOnSuccessListener(DefaultListeners.getInstance().getOnSuccessListener(TAG))
                 .addOnSuccessListener(
                         documentSnapshot -> {
                             if (documentSnapshot.exists()) {
