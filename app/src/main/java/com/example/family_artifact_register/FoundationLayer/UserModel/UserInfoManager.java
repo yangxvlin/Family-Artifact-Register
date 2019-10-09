@@ -354,7 +354,6 @@ public class UserInfoManager {
      */
     public LiveData<List<UserInfo>> searchUserInfo(String query) {
         MutableLiveData<List<UserInfo>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(new ArrayList<>());
         LiveDataListDispatchHelper<UserInfo> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData);
         for (String field: new String[]{UserInfo.DISPLAY_NAME, UserInfo.EMAIL,
