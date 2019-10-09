@@ -9,15 +9,15 @@ import java.util.List;
 public class DetailFragmentPresenter {
 
     private IView view;
-    private ArtifactItem artifactItem;
+    private String Pid;
 
-    public DetailFragmentPresenter(IView view, ArtifactItem artifactItem) {
+    public DetailFragmentPresenter(IView view, String Pid) {
         this.view = view;
-        this.artifactItem = artifactItem;
+        this.Pid = Pid;
     }
 
     public interface IView {
-        void addData(ArtifactItem artifactItem);
+        void addData(String Pid);
     }
 
 }

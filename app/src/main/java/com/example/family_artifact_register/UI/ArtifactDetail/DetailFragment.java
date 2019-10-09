@@ -41,7 +41,7 @@ public class DetailFragment extends Fragment implements DetailFragmentPresenter.
 
     // *******************************************************************************************
 
-    private DetailFragmentPresenter hfp;
+    private DetailFragmentPresenter dfp;
 
     private DetailViewModel viewModel;
 
@@ -80,7 +80,7 @@ public class DetailFragment extends Fragment implements DetailFragmentPresenter.
         }
 
         // create presenter
-        hfp = new DetailFragmentPresenter(this);
+        dfp = new DetailFragmentPresenter(this, Pid);
 
         viewModel.getArtifactItem(Pid).observe(this, new Observer<ArtifactItem>() {
             @Override

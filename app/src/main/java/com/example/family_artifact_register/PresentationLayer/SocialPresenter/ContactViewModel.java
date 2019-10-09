@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.PresentationLayer.SocialPresenter;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +15,7 @@ import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepo
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,6 +30,8 @@ public class ContactViewModel extends AndroidViewModel {
     private UserInfoManager manager = UserInfoManager.getInstance();
 
     private LiveData<UserInfo> currentUser = manager.listenUserInfo(manager.getCurrentUid());
+
+    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private List<String> friendUids;
 
@@ -66,6 +70,23 @@ public class ContactViewModel extends AndroidViewModel {
                         public void onChanged(UserInfo userInfo) {
                             friends.getValue().add(userInfo);
                             friends.setValue(friends.getValue());
+                            String url = userInfo.getPhotoUrl();
+                            if(url == null) {
+                                userInfo.setPhotoUrl(null);
+                                friends.setValue(friends.getValue());
+                            }
+                            else {
+                                helper.loadByRemoteUri(userInfo.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                                    @Override
+                                    public void onChanged(Uri uri) {
+                                        userInfo.setPhotoUrl(uri.toString());
+//                                    friends.getValue().add(userInfo);
+                                        friends.setValue(friends.getValue());
+                                    }
+                                });
+                            }
+//                            friends.getValue().add(userInfo);
+//                            friends.setValue(friends.getValue());
                         }
                     });
                 }

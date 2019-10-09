@@ -136,18 +136,9 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
         }
     }
 
-    @Override
-    public int getItemCount() { return artifactItemList.size(); }
-
-    public void setData(List<ArtifactItem> newData) {
-        artifactItemList = newData;
+    public void setData(ArtifactItem newData) {
+        artifactItem = newData;
         notifyDataSetChanged();
     }
 
-    // *************************************** getter & setters ***********************************
-    public void addData(ArtifactItem artifactItem) {
-        // 0 to add data at start
-        this.artifactItemList.add(0, artifactItem);
-        notifyDataSetChanged();
-    }
 }

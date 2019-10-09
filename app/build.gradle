@@ -133,6 +133,9 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
+    // timeline
+    implementation 'com.github.vipulasri:timelineview:1.1.0'
+
     // ******************************************************************************************
     // beautiful toast message library
     // https://github.com/GrenderG/Toasty
@@ -149,6 +152,12 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.0-rc01'
     annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
     androidTestImplementation 'androidx.room:room-testing:2.2.0-rc01'
+
+    // ******************************************************************************************
+    // crop thumbnail from video
+    // https://github.com/bumptech/glide
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

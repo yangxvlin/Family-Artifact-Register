@@ -73,6 +73,8 @@
             android:name=".UI.ArtifactManager.HappenedActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
 
+        <activity android:name=".UI.ArtifactTimeline.TimelineActivity"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
