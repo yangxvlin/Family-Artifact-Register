@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
@@ -27,14 +28,14 @@ public class MeViewModel extends AndroidViewModel {
 
     private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
-    private LiveData<List<ArtifactItem>> artifactList;
+    private MutableLiveData<List<ArtifactItem>> artifactList;
 
     private String currentUid;
 
     public MeViewModel(Application application) {
         super(application);
         currentUid = userInfoManager.getCurrentUid();
-        artifactList = artifactManager.getArtifactItemByUid(currentUid);
+        artifactList = (MutableLiveData<List<ArtifactItem>>) artifactManager.getArtifactItemByUid(currentUid);
         artifactList.observeForever(new Observer<List<ArtifactItem>>() {
             @Override
             public void onChanged(List<ArtifactItem> artifactItems) {
@@ -49,6 +50,7 @@ public class MeViewModel extends AndroidViewModel {
                                         .map(Objects::toString)
                                         .collect(Collectors.toList())
                             );
+                            artifactList.setValue(artifactList.getValue());
                         }
                     });
                 }

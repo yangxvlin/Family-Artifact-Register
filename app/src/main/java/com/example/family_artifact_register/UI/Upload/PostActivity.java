@@ -1,5 +1,10 @@
 package com.example.family_artifact_register.UI.Upload;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -11,10 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.family_artifact_register.HomeActivity;
 import com.example.family_artifact_register.R;
@@ -47,6 +48,9 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         close = findViewById(R.id.close);
         image_added = findViewById(R.id.image_added);

@@ -6,9 +6,12 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
@@ -16,6 +19,8 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModel;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.DescriptionListener;
 import com.example.family_artifact_register.UI.Util.HappenedLocationListener;
@@ -28,7 +33,6 @@ import com.example.family_artifact_register.UI.Util.StartUploadListener;
 import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,10 +76,19 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
 
     private int timelineStrategy;
 
+    /**
+     * user's timeline from DB
+     */
+    private List<ArtifactTimeline> timelines = new ArrayList<>();
+
+    private ArtifactTimeline selectedArtifactTimeline = null;
+
     // TODO might be changed later
     private String timelineTitle;
 
     private MapLocation uploadLocation;
+
+    private NewArtifactViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,14 +96,28 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         setContentView(R.layout.activity_new_artifact_2);
         mediaData = new ArrayList<>();
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
 
         // initialize first fragment
         fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.activity_new_artifact_main_view, mediaFragment).commit();
+
+        viewModel = ViewModelProviders.of(this, new NewArtifactViewModelFactory(getApplication())).get(NewArtifactViewModel.class);
+
+        viewModel.getTimeline().observe(this, new Observer<List<ArtifactTimeline>>() {
+            @Override
+            public void onChanged(List<ArtifactTimeline> artifactTimelines) {
+                Log.d(TAG, "data from db arrived");
+                // data arrives
+                timelines = artifactTimelines;
+            }
+        });
     }
 
     @Override
@@ -153,18 +180,23 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
                                                         null);
         am.addArtifact(newItem);
 
-        ArtifactTimeline timeline;
+        ArtifactTimeline timeline = null;
+        // add new timeline to DB
         if (timelineStrategy == NEW_ARTIFACT_TIMELINE) {
             timeline = new ArtifactTimeline(null, UserInfoManager.getInstance().getCurrentUid(), currentTimeString, currentTimeString, new ArrayList<>(), timelineTitle);
             timeline.addArtifactPostId(newItem.getPostId());
             Log.d(TAG, newItem.getPostId() + "\n"+ timeline.getPostId());
             Log.d(TAG, Arrays.toString(timeline.getArtifactItemPostIds().toArray()));
 
-            am.addArtifact(timeline);
+//            am.addArtifact(timeline);
+        } else if (timelineStrategy == EXISTING_ARTIFACT_TIMELINE) {
+            timeline = selectedArtifactTimeline;
         } else {
-            // get timeline from remote DB
-            timeline = null;
+            Log.e(TAG, "unknown timeline strategy !!!");
         }
+
+        // associate timeline with item
+        am.associateArtifactItemAndArtifactTimeline(newItem, timeline);
     }
 
     /**
@@ -250,5 +282,15 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     @Override
     public String getTimelineTitle() {
         return this.timelineTitle;
+    }
+
+    @Override
+    public List<ArtifactTimeline> getArtifactTimelines() {
+        return this.timelines;
+    }
+
+    @Override
+    public void setSelectedTimeline(ArtifactTimeline selectedTimeline) {
+        this.selectedArtifactTimeline = selectedTimeline;
     }
 }
