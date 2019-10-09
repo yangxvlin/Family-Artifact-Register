@@ -31,6 +31,9 @@ public class ArtifactItem extends Artifact {
     // DateTime when the event unfolded
     private String happenedDateTime;
 
+    // Number of likes item has
+    private int likes;
+
     // The associated timeline
     private String artifactTimelineId;
 
@@ -57,6 +60,7 @@ public class ArtifactItem extends Artifact {
         this.locationHappenedId = locationHappenedId;
         this.locationStoredId = locationStoredId;
         this.happenedDateTime = happenedDateTime;
+        this.likes = 0;
         this.artifactTimelineId = artifactTimelineId;
     }
 
@@ -114,6 +118,9 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
     }
 
+    public int getlikes() {return likes;}
+
+    public void setlikes(int likes) {this.likes=likes;}
 
     @Override
     public String getLastUpdateDateTime() {

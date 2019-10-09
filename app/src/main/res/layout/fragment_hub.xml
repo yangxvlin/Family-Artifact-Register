@@ -9,15 +9,31 @@
     <include layout="@layout/recycler_view"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/hub_fab"
+    android:id="@+id/hub_fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="40dp"
+    app:srcCompat="@drawable/ic_add"
+    app:backgroundTint="@android:color/white"
+    app:tint="@color/primaryColor"
+    app:rippleColor="@color/primaryColor"
+    android:layout_marginTop="10dp"
+    />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/hub_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="40dp"
-        app:srcCompat="@drawable/floating_button_add"
+        android:layout_marginBottom="100dp"
+        app:srcCompat="@drawable/ic_refresh"
         app:backgroundTint="@android:color/white"
         app:tint="@color/primaryColor"
-        app:rippleColor="@color/primaryColor"/>
+        app:rippleColor="@color/primaryColor"
+        android:layout_marginTop="10dp"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
