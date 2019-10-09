@@ -31,9 +31,9 @@ public class ContactViewModel extends AndroidViewModel {
 
     private List<String> friendUids;
 
-
 //    private MediatorLiveData<List<UserInfo>> friends = new MediatorLiveData<>();
     private MediatorLiveData<Set<UserInfo>> friends = new MediatorLiveData<>();
+
 
     public ContactViewModel(Application application) {
         super(application);
@@ -74,7 +74,6 @@ public class ContactViewModel extends AndroidViewModel {
     }
 
     public LiveData<Set<UserInfo>> getContacts() {
-
         return friends;
     }
 }

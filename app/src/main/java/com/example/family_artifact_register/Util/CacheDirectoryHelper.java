@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.family_artifact_register.UI.Util.TimeToString;
 
+import android.os.Environment;
 import java.io.File;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public class CacheDirectoryHelper {
 
     public File getCacheDirectory() {
         return cacheDirectory;
+//        return new File(Environment.getExternalStorageDirectory().toString() ); //+ "/family_artifact_register_");
     }
 
     public File createNewFile(String postFix) {

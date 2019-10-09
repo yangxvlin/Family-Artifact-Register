@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,7 +18,6 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModelFactory;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Util.BaseActionBarActivity;
 
 
 /**
@@ -55,6 +55,9 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new PostDetailViewModelFactory(
                 getApplication(), selectedPid)).get(PostDetailViewModel.class);
 
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         Observer<ArtifactItem> postObserver = new Observer<ArtifactItem>() {
             @Override
