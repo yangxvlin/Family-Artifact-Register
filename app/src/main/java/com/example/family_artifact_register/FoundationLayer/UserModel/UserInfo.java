@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> {
+    // Encapsulate database attribute access
     public static final String UID = "uid";
     public static final String DISPLAY_NAME = "displayName";
     public static final String EMAIL = "email";
