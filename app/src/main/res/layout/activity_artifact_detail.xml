@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="#fff"
-    tools:context=".UI.ArtifactHub.ArtifactDetailActivity">
+    tools:context=".UI.ArtifactDetail.ArtifactDetailActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="25dp"
