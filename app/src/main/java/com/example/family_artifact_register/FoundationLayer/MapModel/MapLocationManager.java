@@ -9,9 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.DefaultListeners;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,7 +28,7 @@ import java.util.List;
  */
 public class MapLocationManager {
     /**
-    Tag for logging
+     * Tag for logging
      */
     private static final String TAG = MapLocationManager.class.getSimpleName();
 
@@ -42,7 +44,8 @@ public class MapLocationManager {
     private CollectionReference mMapLocationCollection;
 
     private MapLocationManager() {
-        mMapLocationCollection = FirebaseFirestore.getInstance().collection(DBConstant.MAP_LOCATION);
+        mMapLocationCollection = FirebaseFirestore.getInstance()
+                .collection(DBConstant.MAP_LOCATION);
     }
 
     /**
@@ -92,7 +95,7 @@ public class MapLocationManager {
                 new LiveDataListDispatchHelper<>(uploadHelperLiveData, 10000);
 
         liveDataListDispatchHelper.addWaitingTask();
-        for (String localImageUrl: mapLocation.getImageUrls()) {
+        for (String localImageUrl : mapLocation.getImageUrls()) {
             liveDataListDispatchHelper.addWaitingTask();
 
             Uri localUri = Uri.parse(localImageUrl);
@@ -129,17 +132,31 @@ public class MapLocationManager {
     /**
      * Get Map location based on ID, the LiveData returned from here won't be updated and need to be
      * requested again if want to refresh (this is different from UserManager
+     *
      * @param mapLocationId Id of MapLocation
      * @return MapLocation found by id.
      */
     public LiveData<MapLocation> getMapLocationById(String mapLocationId) {
         MutableLiveData<MapLocation> mapLocationMutableLiveData = new MutableLiveData<>();
-        mMapLocationCollection.document(mapLocationId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                // TODO something need to be done?
-            }
-        });
+        mMapLocationCollection.document(mapLocationId).get()
+                .addOnFailureListener(DefaultListeners.getInstance().getOnFailureListener(TAG))
+                .addOnCanceledListener(DefaultListeners.getInstance().getOnCanceledListener(TAG))
+                // This is a safe cast (I believe)
+                .addOnSuccessListener((OnSuccessListener<DocumentSnapshot>)
+                        DefaultListeners.getInstance().<DocumentSnapshot>getOnSuccessListener(TAG))
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                // Set the live data value
+                                mapLocationMutableLiveData.setValue(
+                                        documentSnapshot.toObject(MapLocation.class)
+                                );
+                            } else {
+                                // TODO handle this case
+                                // The value is not found
+                            }
+                        }
+                );
         return mapLocationMutableLiveData;
     }
 }
