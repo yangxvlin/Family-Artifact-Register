@@ -35,7 +35,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_artifact_detail);
+        setContentView(R.layout.fragment_detail);
 
         // force the system not to display action bar title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -43,7 +43,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         mTitleTv = findViewById(R.id.publisher);
         mDescTv = findViewById(R.id.desc);
         mUserTv = findViewById(R.id.user);
-        mImageIv = findViewById(R.id.imageIv);
+//        mImageIv = findViewById(R.id.imageIv);
         mAvatarIv = findViewById(R.id.avatarIv);
 
         // Use intent to send information to artifact detail activity
@@ -93,6 +93,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
 //    @Override
 //    protected int getLayoutResource() {
-//        return R.layout.activity_artifact_detail;
+//        return R.layout.fragment_detail;
 //    }
 }

@@ -1,31 +1,23 @@
 package com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailFragmentPresenter {
 
-    private List<String> images;
     private IView view;
+    private ArtifactItem artifactItem;
 
-    public DetailFragmentPresenter(IView view) {
+    public DetailFragmentPresenter(IView view, ArtifactItem artifactItem) {
         this.view = view;
-        // tmp data
-        this.images = initImages();
-
-        for (String aImage: this.images) {
-//            this.view.addData(((Artifact) aItem).getCreatedDate(), aItem.getDescription(), aItem.getImages(), aItem.getVideos());
-        }
-    }
-
-    private List<String> initImages() {
-
-        List<String> res = new ArrayList<>();
-        return res;
+        this.artifactItem = artifactItem;
     }
 
     public interface IView {
-        void addData(String image);
+        void addData(ArtifactItem artifactItem);
     }
 
 }
