@@ -3,21 +3,26 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.example.family_artifact_register.Util.Callback;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
@@ -44,24 +49,6 @@ public class UserInfoManager {
         if (instance == null) {
             instance = new UserInfoManager();
         }
-
-        // Listen to current user data
-        instance.mUserCollection
-                .document(instance.mCurrentUid)
-                .addSnapshotListener((documentSnapshot, e) -> {
-                    // Catch and log the error
-                    if (e != null) {
-                        Log.e(TAG, "mCurrentUid listen:error", e);
-                        return;
-                    }
-                    // Successfully fetched data
-                    if (documentSnapshot != null && documentSnapshot.exists()) {
-                        instance.mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
-                    } else {
-                        Log.e(TAG,"get failed: current user does not exist: " + instance.mCurrentUid);
-                    }
-                });
-
         return instance;
     }
 
@@ -93,28 +80,85 @@ public class UserInfoManager {
 
 
     private UserInfoManager() {
-        mCurrentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mUserCollection = FirebaseFirestore.getInstance().collection(DBConstant.USER_INFO);
+        setupOrUpdateUserDatabase();
+        // Set the state of UserInfoManager when the auth state changes
+        FirebaseAuth.getInstance().addAuthStateListener(
+                firebaseAuth -> {
+                    // Already logged in
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user!=null) {
+                        mCurrentUid = user.getUid();
 
-        // Listen to current user data
-        mUserCollection
-                .document(mCurrentUid)
-                .addSnapshotListener((documentSnapshot, e) -> {
-                    // Catch and log the error
-                    if (e != null) {
-                        Log.e(TAG, "mCurrentUid listen:error", e);
-                        return;
-                    }
-                    // Successfully fetched data
-                    if (documentSnapshot != null && documentSnapshot.exists()) {
-                        mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
+                        mUserCollection = FirebaseFirestore.getInstance()
+                                .collection(DBConstant.USER_INFO);
+                        // Listen to current user data
+                        mUserCollection
+                                .document(mCurrentUid)
+                                .addSnapshotListener((documentSnapshot, e) -> {
+                                    // Catch and log the error
+                                    if (e != null) {
+                                        Log.e(TAG, "mCurrentUid listen:error", e);
+                                        return;
+                                    }
+                                    // Successfully fetched data
+                                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                                        mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
+                                    } else {
+                                        Log.e(TAG,"get failed: current user does not exist: " + mCurrentUid);
+                                    }
+                                });
+                        // Reset registration Map
+                        mListenerRegistrationMap = new HashMap<>();
                     } else {
-                        Log.e(TAG,"get failed: current user does not exist: " + mCurrentUid);
+                        // Cleanup the listeners
+                        for (Pair<ListenerRegistration, Integer> listenerRegistrationIntegerPair:
+                                mListenerRegistrationMap.values()) {
+                            // clean the listener
+                            listenerRegistrationIntegerPair.first.remove();
+                        }
+                        mListenerRegistrationMap = new HashMap<>();
                     }
-                });
-
-        mListenerRegistrationMap = new HashMap<>();
+                }
+        );
     }
+
+    private void setupOrUpdateUserDatabase() {
+        // Already logged in
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user!=null) {
+            mCurrentUid = user.getUid();
+
+            mUserCollection = FirebaseFirestore.getInstance()
+                    .collection(DBConstant.USER_INFO);
+            // Listen to current user data
+            mUserCollection
+                    .document(mCurrentUid)
+                    .addSnapshotListener((documentSnapshot, e) -> {
+                        // Catch and log the error
+                        if (e != null) {
+                            Log.e(TAG, "mCurrentUid listen:error", e);
+                            return;
+                        }
+                        // Successfully fetched data
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
+                        } else {
+                            Log.e(TAG,"get failed: current user does not exist: " + mCurrentUid);
+                        }
+                    });
+            // Reset registration Map
+            mListenerRegistrationMap = new HashMap<>();
+        } else {
+            // Cleanup the listeners
+            for (Pair<ListenerRegistration, Integer> listenerRegistrationIntegerPair:
+                    mListenerRegistrationMap.values()) {
+                // clean the listener
+                listenerRegistrationIntegerPair.first.remove();
+            }
+            mListenerRegistrationMap = new HashMap<>();
+        }
+    }
+
 
     /**
      * Get Uid of current user
@@ -362,8 +406,8 @@ public class UserInfoManager {
                             } else {
                                 for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
                                     UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                                    Log.i(TAG, "found (" + field +") equal to (" + query + ")" +
-                                            "user: "+ userInfo.toString());
+                                    Log.i(TAG, "found (" + field +") equal to (" + query + ")"
+                                            + "user: "+ userInfo.toString());
 
                                     // Add info to the dispatcher
                                     liveDataListDispatchHelper.addResult(userInfo);

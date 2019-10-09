@@ -93,11 +93,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name=".Util.DownloadBroadcastHelper">
-            <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-            </intent-filter>
-        </receiver>
     </application> <!-- CAMERA -->
     <uses-feature android:name="android.hardware.camera" />
 

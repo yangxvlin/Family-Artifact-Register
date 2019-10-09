@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -20,9 +21,12 @@ import java.util.Map;
  * This class handles the event when download is finished
  */
 public class DownloadBroadcastHelper extends BroadcastReceiver {
-    private static final DownloadBroadcastHelper ourInstance = new DownloadBroadcastHelper();
+    private static DownloadBroadcastHelper ourInstance = null;
 
     public static DownloadBroadcastHelper getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new DownloadBroadcastHelper();
+        }
         return ourInstance;
     }
 
@@ -34,6 +38,9 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
         downloadManager = (DownloadManager) MyApplication
                 .getContext()
                 .getSystemService(Context.DOWNLOAD_SERVICE);
+        ourInstance = this;
+        MyApplication.getContext().registerReceiver(this,
+                new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override

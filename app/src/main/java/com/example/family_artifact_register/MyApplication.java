@@ -8,7 +8,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
+import com.example.family_artifact_register.Util.DownloadBroadcastHelper;
+import com.example.family_artifact_register.Util.UriHelper;
 
 public class MyApplication extends Application {
     private static Application sApplication;
@@ -27,6 +31,13 @@ public class MyApplication extends Application {
         sApplication = this;
         // set whole app cache directory
         CacheDirectoryHelper.getInstance().setCacheDirectory(this.getExternalCacheDir());
+
+        // initialise all helper singleton
+        FirebaseAuthHelper.getInstance();
+        FirebaseStorageHelper.getInstance();
+        DownloadBroadcastHelper.getInstance();
+        UriHelper.getInstance();
+        CacheDirectoryHelper.getInstance();
 
         // register to be informed of activities starting up
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
