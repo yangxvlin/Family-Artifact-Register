@@ -8,6 +8,8 @@ import java.util.List;
  * @description artifact data type for each family artifact
  */
 public class ArtifactItem extends Artifact {
+    public static final String TAG = ArtifactItem.class.getSimpleName();
+
     // Media type of the media urls
     private int mediaType;
 
