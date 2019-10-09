@@ -27,20 +27,28 @@ import java.util.Map;
  */
 public class ArtifactManager {
     /**
-     * Tag for logging
+     Tag for logging
      */
     private static final String TAG = ArtifactManager.class.getSimpleName();
 
     private static final ArtifactManager ourInstance = new ArtifactManager();
+
+    public static ArtifactManager getInstance() {
+        return ourInstance;
+    }
+
     private UserInfoManager userInfoManager;
+
     /**
      * The database reference used artifact timeline.
      */
     private CollectionReference mArtifactItemCollection;
+
     /**
      * The database reference used for artifact item.
      */
     private CollectionReference mArtifactTimelineCollection;
+
     /**
      * Active listeners used (this should be cleared if not used)
      */
@@ -57,10 +65,6 @@ public class ArtifactManager {
                 .getInstance()
                 .collection(DBConstant.ARTIFACT_TIMELINE);
         userInfoManager = UserInfoManager.getInstance();
-    }
-
-    public static ArtifactManager getInstance() {
-        return ourInstance;
     }
 
     public void addArtifact(Artifact artifact) {
@@ -111,8 +115,8 @@ public class ArtifactManager {
 
         liveDataListDispatchHelper.addWaitingTask();
 
-        Log.d(TAG, "Artifact Media Urls: " + artifact.getMediaDataUrls().toString());
-        for (String localMediaDataUrl : artifact.getMediaDataUrls()) {
+        Log.d(TAG, "Artifact Media Urls: "+ artifact.getMediaDataUrls().toString());
+        for (String localMediaDataUrl: artifact.getMediaDataUrls()) {
 
             Log.d(TAG, "Iterated to URL: " + localMediaDataUrl);
             Uri localUri = Uri.parse(localMediaDataUrl);
@@ -179,7 +183,7 @@ public class ArtifactManager {
         MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactItem> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
-        for (String postId : new HashSet<>(postIds)) {
+        for (String postId: new HashSet<>(postIds)) {
             liveDataListDispatchHelper.addWaitingTask();
             LiveData<ArtifactItem> artifactItemLiveData = getArtifactItemByPostId(postId);
             artifactItemLiveData.observeForever(
@@ -230,7 +234,7 @@ public class ArtifactManager {
         MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactTimeline> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
-        for (String postId : new HashSet<>(postIds)) {
+        for (String postId: new HashSet<>(postIds)) {
             liveDataListDispatchHelper.addWaitingTask();
             LiveData<ArtifactTimeline> artifactTimelineLiveData = getArtifactTimelineByPostId(postId);
             artifactTimelineLiveData.observeForever(

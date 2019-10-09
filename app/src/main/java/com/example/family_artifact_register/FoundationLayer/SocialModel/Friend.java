@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.FoundationLayer.SocialModel;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -12,11 +13,11 @@ import androidx.room.Index;
         primaryKeys = {"user", "friend"},
         foreignKeys = {
                 @ForeignKey(entity = User.class,
-                        parentColumns = "username",
-                        childColumns = "user"),
+                            parentColumns = "username",
+                            childColumns = "user"),
                 @ForeignKey(entity = User.class,
-                        parentColumns = "username",
-                        childColumns = "friend")},
+                            parentColumns = "username",
+                            childColumns = "friend")},
         indices = {@Index("user"), @Index("friend")})
 public class Friend {
     @NonNull
