@@ -20,7 +20,7 @@ public class User {
     public String area;
 
     public User(String username, String nickname, String area) {
-        this.username = username;
+        this.username =username;
         this.nickname = nickname;
         this.area = area;
     }
