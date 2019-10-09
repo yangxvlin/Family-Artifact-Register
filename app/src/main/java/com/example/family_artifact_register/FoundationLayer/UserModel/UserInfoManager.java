@@ -88,13 +88,15 @@ public class UserInfoManager {
     }
 
     private void setupOrUpdateUserDatabase(FirebaseAuth firebaseAuth) {
-        // Already logged in
+        // Set up the user collection for firebase
+        mUserCollection = FirebaseFirestore.getInstance()
+                .collection(DBConstant.USER_INFO);
+
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user!=null) {
+            // Already logged in
             mCurrentUid = user.getUid();
 
-            mUserCollection = FirebaseFirestore.getInstance()
-                    .collection(DBConstant.USER_INFO);
             // Listen to current user data
             mUserCollection
                     .document(mCurrentUid)
@@ -104,6 +106,7 @@ public class UserInfoManager {
                             Log.e(TAG, "mCurrentUid listen:error", e);
                             return;
                         }
+
                         // Successfully fetched data
                         if (documentSnapshot != null && documentSnapshot.exists()) {
                             mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
