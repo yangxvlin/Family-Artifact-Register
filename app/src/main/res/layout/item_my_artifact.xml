@@ -18,6 +18,7 @@
             android:text="create time"
             android:textStyle="bold"
             android:textSize="22sp"
+            android:textColor="@color/black"
         />
 
         <TextView
@@ -27,6 +28,7 @@
             android:text="artifact's description"
             android:layout_marginTop="5dp"
             android:textSize="18sp"
+            android:textColor="@color/black"
         />
 
         <FrameLayout
