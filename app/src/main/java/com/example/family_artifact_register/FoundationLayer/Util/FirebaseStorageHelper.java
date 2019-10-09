@@ -16,6 +16,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -28,10 +29,17 @@ public class FirebaseStorageHelper {
 
     private static final FirebaseStorageHelper ourInstance = new FirebaseStorageHelper();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
+
+    public static FirebaseStorageHelper getInstance() {
+        return ourInstance;
+    }
+
     // Map Remote storage location and local storage location together
     private BiMap<String, Uri> remoteLocalBiMap = HashBiMap.create();
+
     // Finds the correct cache directory
     private CacheDirectoryHelper mCacheDirectoryHelper = CacheDirectoryHelper.getInstance();
+
     // Firebase storage location
     private StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
@@ -42,13 +50,9 @@ public class FirebaseStorageHelper {
         }
     }
 
-    public static FirebaseStorageHelper getInstance() {
-        return ourInstance;
-    }
-
     private static Uri checkAddUriScheme(Uri uri) {
         if (uri.getScheme() == null) {
-            uri = Uri.parse("file://" + uri.toString());
+            uri = Uri.parse("file://"+uri.toString());
         }
         return uri;
     }
@@ -94,7 +98,7 @@ public class FirebaseStorageHelper {
                                 remoteLocalBiMap.put(remotePath, finalUri);
                                 Log.d(TAG, "Successfully uploaded, Adding to BiMap " +
                                         "remotePath: " + remotePath + ", finalUri" + finalUri + "\n"
-                                        + remoteLocalBiMap.toString());
+                                + remoteLocalBiMap.toString());
                             }
                     );
         }
@@ -102,7 +106,6 @@ public class FirebaseStorageHelper {
 
     /**
      * Load the remote url resource to local storage and set the Uri to it in the livedata
-     *
      * @param remoteUrl The remote Url to download resource with
      * @return LiveData of the destination Uri
      */
@@ -144,7 +147,6 @@ public class FirebaseStorageHelper {
 
     /**
      * Load the remote url resource to local storage and set the Uri to it in the livedata
-     *
      * @param remoteUrls The remote Url to download resource with
      * @return LiveData of the destination Uri
      */
