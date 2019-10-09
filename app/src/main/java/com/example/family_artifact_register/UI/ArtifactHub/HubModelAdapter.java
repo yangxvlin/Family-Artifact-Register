@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactDetail.DetailFragment;
 import com.example.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewHolder;
 
@@ -149,6 +150,16 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
+
+        holder.viewDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pid = artifactItem.getPostId();
+                Intent i = new Intent(view.getContext(), DetailFragment.class);
+                i.putExtra("selectedPid", pid);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
