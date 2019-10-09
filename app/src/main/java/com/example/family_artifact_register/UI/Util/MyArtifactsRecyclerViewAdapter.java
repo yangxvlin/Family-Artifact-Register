@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.Util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,12 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
@@ -149,6 +152,9 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
+                Intent activityChangeIntent = new Intent(context, TimelineActivity.class);
+                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemList.get(position).getArtifactTimelineId());
+                context.startActivity(activityChangeIntent);
             }
         });
     }

@@ -3,6 +3,7 @@ package com.example.family_artifact_register.UI.ArtifactTimeline;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -30,6 +32,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = TimelineActivity.class.getSimpleName();
 
+    public static final String TIMELINE_ID_KEY = "timelineID";
+
     private RecyclerView recyclerView;
     private TimelineAdapter adapter;
 
@@ -46,15 +50,15 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         owner = this;
-//        Intent intent = getIntent();
-//        timelineID = intent.getStringExtra("timelineID");
+        Intent intent = getIntent();
+        timelineID = intent.getStringExtra(TIMELINE_ID_KEY);
 
         recyclerView = (RecyclerView) findViewById(R.id.timeline_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TimelineAdapter();
         recyclerView.setAdapter(adapter);
 
-        viewModel = ViewModelProviders.of(this, new TimelineViewModelFactory(getApplication())).get(TimelineViewModel.class);
+        viewModel = ViewModelProviders.of(this, new TimelineViewModelFactory(getApplication(), timelineID)).get(TimelineViewModel.class);
 
         viewModel.getTimeline(timelineID).observe(owner, new Observer<ArtifactTimeline>() {
             @Override
@@ -73,7 +77,25 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
 
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
+        }
+
         // TODO what happens when back arrow is clicked (who is the parent)
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // https://stackoverflow.com/a/30059647
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
@@ -120,7 +142,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return dataSet.size();
+            if(dataSet != null) {
+                return dataSet.size();
+            }
+            return 0;
         }
 
         @Override
