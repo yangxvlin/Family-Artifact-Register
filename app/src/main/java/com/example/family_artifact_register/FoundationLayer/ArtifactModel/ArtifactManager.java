@@ -256,7 +256,7 @@ public class ArtifactManager {
         mArtifactTimelineCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
-                            task.getResult().isEmpty()) {
+                            !task.getResult().isEmpty()) {
                         mutableLiveData.setValue(task.getResult().toObjects(ArtifactTimeline.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());
@@ -264,5 +264,13 @@ public class ArtifactManager {
                 }
         );
         return mutableLiveData;
+    }
+
+    public void associateArtifactItemAndArtifactTimeline(ArtifactItem item,
+                                                         ArtifactTimeline timeline) {
+        timeline.addArtifactPostId(item.getPostId());
+        item.setArtifactTimelineId(timeline.getPostId());
+        storeArtifact(timeline);
+        storeArtifact(item);
     }
 }

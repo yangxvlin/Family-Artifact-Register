@@ -25,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.dmoral.toasty.Toasty;
 
@@ -89,13 +90,14 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         existingTimelineSpinner = view.findViewById(R.id.existing_timeline_spinner);
 
         // TODO pull existing timeline titles from server
-        timelineTitles = new ArrayList<>();
-        timelineTitles.add("timeline1");
-        timelineTitles.add("timeline2");
-        timelineTitles.add("timeline3");
-//        timelineTitles = timelines.stream()
-//                                    .map(ArtifactTimeline::getTitle)
-//                                    .collect(Collectors.toCollection(ArrayList::new));
+//        timelineTitles = new ArrayList<>();
+//        timelineTitles.add("timeline1");
+//        timelineTitles.add("timeline2");
+//        timelineTitles.add("timeline3");
+        timelines = ((NewTimelineListener)this.getActivity()).getArtifactTimelines();
+        timelineTitles = timelines.stream()
+                                    .map(ArtifactTimeline::getTitle)
+                                    .collect(Collectors.toCollection(ArrayList::new));
 
 
         // Create an ArrayAdapter using the string array and a default spinner layout

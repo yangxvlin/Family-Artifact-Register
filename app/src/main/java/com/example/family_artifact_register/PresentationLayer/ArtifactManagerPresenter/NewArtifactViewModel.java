@@ -24,6 +24,7 @@ public class NewArtifactViewModel extends AndroidViewModel {
     public LiveData<List<ArtifactTimeline>> getTimeline() {
         // TODO get current uid has a bug, may need to find another way to retrieve timeline data
         // get all the timelines current user has
+        System.out.println("live data asking: " + userInfoManager.getCurrentUid());
         return artifactManager.getArtifactTimelineByUid(userInfoManager.getCurrentUid());
     }
 }

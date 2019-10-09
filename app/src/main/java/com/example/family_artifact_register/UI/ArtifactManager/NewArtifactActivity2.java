@@ -109,7 +109,9 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
         viewModel.getTimeline().observe(this, new Observer<List<ArtifactTimeline>>() {
             @Override
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
-                // TODO implement logic when data arrives
+                Log.d(TAG, "data from db arrived");
+                // data arrives
+                timelines = artifactTimelines;
             }
         });
     }
@@ -174,7 +176,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
                                                         null);
         am.addArtifact(newItem);
 
-        ArtifactTimeline timeline;
+        ArtifactTimeline timeline = null;
         // add new timeline to DB
         if (timelineStrategy == NEW_ARTIFACT_TIMELINE) {
             timeline = new ArtifactTimeline(null, UserInfoManager.getInstance().getCurrentUid(), currentTimeString, currentTimeString, new ArrayList<>(), timelineTitle);
@@ -182,15 +184,15 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
             Log.d(TAG, newItem.getPostId() + "\n"+ timeline.getPostId());
             Log.d(TAG, Arrays.toString(timeline.getArtifactItemPostIds().toArray()));
 
-            am.addArtifact(timeline);
+//            am.addArtifact(timeline);
+        } else if (timelineStrategy == EXISTING_ARTIFACT_TIMELINE) {
+            timeline = selectedArtifactTimeline;
         } else {
-            // TODO associate new artifact item to existing timeline
-            timeline = null;
-            assert selectedArtifactTimeline != null;
-            // TODO is this correct way to associate new artifact item to existing timeline
-            // selectedArtifactTimeline.addArtifactPostId(newItem.getPostId());
-            // am.addArtifact(selectedArtifactTimeline);
+            Log.e(TAG, "unknown timeline strategy !!!");
         }
+
+        // associate timeline with item
+        am.associateArtifactItemAndArtifactTimeline(newItem, timeline);
     }
 
     /**
