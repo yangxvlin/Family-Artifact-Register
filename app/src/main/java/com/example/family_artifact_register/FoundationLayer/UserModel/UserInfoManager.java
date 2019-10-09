@@ -44,6 +44,24 @@ public class UserInfoManager {
         if (instance == null) {
             instance = new UserInfoManager();
         }
+
+        // Listen to current user data
+        instance.mUserCollection
+                .document(instance.mCurrentUid)
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    // Catch and log the error
+                    if (e != null) {
+                        Log.e(TAG, "mCurrentUid listen:error", e);
+                        return;
+                    }
+                    // Successfully fetched data
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        instance.mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
+                    } else {
+                        Log.e(TAG,"get failed: current user does not exist: " + instance.mCurrentUid);
+                    }
+                });
+
         return instance;
     }
 
@@ -253,8 +271,7 @@ public class UserInfoManager {
      * @param requestCode specifier for the db request
      * @param userInfoCallback function to invoke after completion
      */
-    public void storeUserInfo(UserInfo userInfo, int requestCode,
-                              Callback<Void> userInfoCallback) {
+    public void storeUserInfo(UserInfo userInfo, int requestCode, Callback<Void> userInfoCallback) {
         String uid = userInfo.getUid();
         mUserCollection
                 .document(uid)

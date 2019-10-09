@@ -9,6 +9,7 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.MyApplication;
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
+import com.example.family_artifact_register.Util.Callback;
 import com.example.family_artifact_register.Util.DownloadBroadcastHelper;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -16,6 +17,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class FirebaseAuthHelper {
+    // Return code if the user already exist.
+    public static final int RESULT_USER_EXIST = 0;
+    // Return code if the user doesn't exist before.
+    public static final int RESULT_NEW_USER = -1;
+
     private static final String TAG = FirebaseAuthHelper.class.getSimpleName();
 
     private static final FirebaseAuthHelper instance = new FirebaseAuthHelper();
@@ -38,9 +44,11 @@ public class FirebaseAuthHelper {
     }
 
 
-    public void checkRegisterUser(FirebaseUser firebaseUser) {
+    public void checkRegisterUser(FirebaseUser firebaseUser, Callback<Void> callback,
+                                  int requestCode) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String uid = firebaseUser.getUid();
+        Uri photoUri = firebaseUser.getPhotoUrl();
         db.collection(DBConstant.USER_INFO)
                 .document(uid)
                 .get()
@@ -48,9 +56,11 @@ public class FirebaseAuthHelper {
                         task -> {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot documentSnapshot = task.getResult();
-                                if (documentSnapshot != null && documentSnapshot.exists()) {
-                                    Log.d(TAG, "DocumentSnapshot data: "
+                                if (documentSnapshot != null && documentSnapshot.exists() &&
+                                        documentSnapshot.toObject(UserInfo.class) != null) {
+                                    Log.d(TAG, "User already exist: "
                                             + documentSnapshot.getData());
+                                    callback.callback(requestCode, RESULT_USER_EXIST, null);
                                 } else {
                                     Log.d(TAG, "No such user info, adding to db");
                                     UserInfo userInfo = FirebaseAuthHelper
@@ -61,7 +71,14 @@ public class FirebaseAuthHelper {
                                     // Store the info
                                     UserInfoManager
                                             .getInstance()
-                                            .storeUserInfo(userInfo, 0, null);
+                                            .storeUserInfo(userInfo, 0,
+                                                    (requestCode1, resultCode, data) -> {
+                                                if (photoUri != null) {
+                                                    retrieveSetPhoto(photoUri, userInfo);
+                                                }
+                                                callback.callback(requestCode1,
+                                                        RESULT_NEW_USER, null);
+                                            });
                                 }
                             } else {
                                 Log.d(TAG, "get failed with ", task.getException());
@@ -76,22 +93,30 @@ public class FirebaseAuthHelper {
      */
     private void retrieveSetPhoto(Uri photoUri, UserInfo userInfo) {
         try {
+            Log.d(TAG, "Starting accessing DownloadManager and creating request for" +
+                    "downloading user profile photo: " + photoUri.toString());
             DownloadManager downloadManager = (DownloadManager) MyApplication
                     .getContext()
                     .getSystemService(Context.DOWNLOAD_SERVICE);
 
+            Log.d(TAG, "creating request");
+            Uri uri = Uri.parse(CacheDirectoryHelper
+                            .getInstance()
+                            .createNewFile(".png")
+                            .toString());
+            Log.d(TAG, uri.toString());
+            Log.d(TAG, uri.getPath());
+            Log.d(TAG, uri.getScheme());
             // Create request
             DownloadManager.Request request = new DownloadManager.Request(photoUri);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI |
                     DownloadManager.Request.NETWORK_MOBILE)
-                    .setDestinationUri(Uri.parse(CacheDirectoryHelper
-                            .getInstance()
-                            .createNewFile()
-                            .toString()))
+                    .setDestinationUri(uri)
                     .setDescription("externalProfilePhoto")
                     .setNotificationVisibility(
                             DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
+            Log.d(TAG, "registering helper");
             // Add callback to the retrieval of url
             DownloadBroadcastHelper.getInstance().addCallback(
                     new DownloadBroadcastHelper.DownloadCallback() {
@@ -103,6 +128,7 @@ public class FirebaseAuthHelper {
                         }
                     }
             );
+            Log.d(TAG, "Downloading user profile photo: " + photoUri.toString());
             downloadManager.enqueue(request);
         } catch (NullPointerException e) {
             Log.w(TAG, "Failed to get downloadManager: " + e.toString());

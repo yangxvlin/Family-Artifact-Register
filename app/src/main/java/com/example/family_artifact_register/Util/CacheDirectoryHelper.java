@@ -1,11 +1,16 @@
 package com.example.family_artifact_register.Util;
 
+import android.net.Uri;
+import android.util.Log;
+
+import com.example.family_artifact_register.UI.Util.TimeToString;
+
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 public class CacheDirectoryHelper {
+    private static final String TAG = CacheDirectoryHelper.class.getSimpleName();
+
     private File cacheDirectory = null;
 
     private static final CacheDirectoryHelper ourInstance = new CacheDirectoryHelper();
@@ -25,18 +30,24 @@ public class CacheDirectoryHelper {
         return cacheDirectory;
     }
 
-    public File createNewFile() {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_").format(new Date());
+    public File createNewFile(String postFix) {
+        String timeStamp = TimeToString.getCurrentTimeFormattedString();
         File newFile = getCacheDirectory()
                 .toPath()
-                .resolve(timeStamp+UUID.randomUUID().toString())
+                .resolve(timeStamp+UUID.randomUUID().toString()+postFix)
                 .toFile();
-        while (!newFile.exists()) {
+        Log.d(TAG, "Creating newFile Uri: " + newFile.toString());
+        while (newFile.exists()) {
             newFile = getCacheDirectory()
                     .toPath()
                     .resolve(timeStamp+UUID.randomUUID().toString())
                     .toFile();
         }
+        newFile = new File(UriHelper.getInstance()
+                .checkAddScheme(
+                        newFile.toString())
+                .toString());
+        Log.d(TAG, "After adding scheme newFile Uri: " + newFile.toString());
         return newFile;
     }
 }
