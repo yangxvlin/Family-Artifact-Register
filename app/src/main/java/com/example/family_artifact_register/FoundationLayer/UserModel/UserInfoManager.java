@@ -3,14 +3,11 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
-import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.example.family_artifact_register.Util.Callback;
@@ -22,7 +19,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
