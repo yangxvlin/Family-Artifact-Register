@@ -1,6 +1,5 @@
 package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -23,8 +22,8 @@ public abstract class Artifact {
     }
 
     /**
-     * Constructor used by firestore, but this is abstract class, won't be used directly,
-     * only for setting up the interfaces
+     * Constructor used by firestore, but this is abstract class, won't be used directly, only for
+     * setting up the interfaces
      */
     public Artifact(String postId, String uid, String uploadDateTime, String lastUpdateDateTime) {
         if (postId == null) {
