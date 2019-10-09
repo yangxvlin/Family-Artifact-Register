@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.Social;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -167,6 +168,10 @@ public class ContactFragment extends Fragment implements IFragment {
                     currentItem = dataSetIterator.next();
                     holder.textView.setText(currentItem.getDisplayName());
                     holder.itemId = currentItem.getUid();
+                    String url = currentItem.getPhotoUrl();
+                    if(url != null) {
+                        holder.imageView.setImageURI(Uri.parse(url));
+                    }
                 } else {
                     Log.e(TAG ,"error iterating data", new Throwable());
                 }

@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.Social;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModelFactory;
@@ -59,6 +59,10 @@ public class ContactDetailActivity extends AppCompatActivity {
                 username.setText(newData.getDisplayName());
                 nickname.setText("nickName");
                 area.setText("area");
+                String url = newData.getPhotoUrl();
+                if(url != null) {
+                    avatar.setImageURI(Uri.parse(url));
+                }
             }
         };
 
