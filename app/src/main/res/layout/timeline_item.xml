@@ -5,19 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:layout_marginHorizontal="10dp"
+    >
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         app:markerSize="25dp"
-        app:lineWidth="2dp"
-        app:startLineColor="@color/black"
-        app:endLineColor="@color/black"
+        app:lineWidth="3dp"
+        app:startLineColor="@color/primaryColor"
+        app:endLineColor="@color/primaryColor"
         app:markerInCenter="false"
         android:layout_marginStart="5dp"
-        app:marker="@drawable/timeline_marker"/>
+        app:marker="@drawable/timeline_marker"
+    />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,12 +34,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2019-09-23"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+        />
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            app:cardElevation="5dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"

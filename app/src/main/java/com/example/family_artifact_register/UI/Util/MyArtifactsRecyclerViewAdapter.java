@@ -14,6 +14,8 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -95,6 +97,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             imageRecyclerView = new RecyclerView(context);
             imageRecyclerView.setLayoutParams(recyclerViewParam);
 
+
             // images horizontally
             LinearLayoutManager layoutManager = new LinearLayoutManager(
                     context,
@@ -102,6 +105,11 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
                     false
             );
             imageRecyclerView.setLayoutManager(layoutManager);
+
+            // set the divider between list item
+            DividerItemDecoration divider = new DividerItemDecoration(imageRecyclerView.getContext(), layoutManager.getOrientation());
+            divider.setDrawable(ContextCompat.getDrawable(context, R.drawable.divider_wechat_white));
+            imageRecyclerView.addItemDecoration(divider);
 
             // image adapter
             imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
