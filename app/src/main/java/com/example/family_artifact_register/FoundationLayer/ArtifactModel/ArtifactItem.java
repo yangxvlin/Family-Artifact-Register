@@ -44,6 +44,7 @@ public class ArtifactItem extends Artifact {
     /**
      * Create new artifact item. This constructor is used by firestore and shouldn't be accessed
      * externally
+     *
      * @deprecated Use manager/newInstance method to create new artifact. Don't use constructor
      */
     @Deprecated
@@ -62,6 +63,32 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
         this.likes = 0;
         this.artifactTimelineId = artifactTimelineId;
+    }
+
+    public static ArtifactItem newInstance(String uploadDateTime,
+                                           String lastUpdateDateTime,
+                                           int mediaType,
+                                           List<String> mediaDataUrls,
+                                           String description,
+                                           String locationUploadedId,
+                                           String locationHappenedId,
+                                           String locationStoredId,
+                                           String happenedDateTime,
+                                           String artifactTimelineId
+    ) {
+        return new ArtifactItem(null,
+                null,
+                uploadDateTime,
+                lastUpdateDateTime,
+                mediaType,
+                mediaDataUrls,
+                description,
+                locationUploadedId,
+                locationHappenedId,
+                locationStoredId,
+                happenedDateTime,
+                artifactTimelineId
+        );
     }
 
     @Override
@@ -86,7 +113,9 @@ public class ArtifactItem extends Artifact {
         return mediaDataUrls;
     }
 
-    public void setMediaDataUrls(List<String> userDeviceMediaUris) { this.mediaDataUrls = userDeviceMediaUris; }
+    public void setMediaDataUrls(List<String> userDeviceMediaUris) {
+        this.mediaDataUrls = userDeviceMediaUris;
+    }
 
     void addMediaDataUrls(String mediaDataUrl) {
         mediaDataUrls.add(mediaDataUrl);
@@ -104,7 +133,6 @@ public class ArtifactItem extends Artifact {
         this.description = description;
     }
 
-
     @Override
     public String getUploadDateTime() {
         return super.getUploadDateTime();
@@ -118,9 +146,13 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
     }
 
-    public int getlikes() {return likes;}
+    public int getlikes() {
+        return likes;
+    }
 
-    public void setlikes(int likes) {this.likes=likes;}
+    public void setlikes(int likes) {
+        this.likes = likes;
+    }
 
     @Override
     public String getLastUpdateDateTime() {
@@ -157,31 +189,5 @@ public class ArtifactItem extends Artifact {
 
     void setArtifactTimelineId(String artifactTimelineId) {
         this.artifactTimelineId = artifactTimelineId;
-    }
-
-    public static ArtifactItem newInstance(String uploadDateTime,
-                                           String lastUpdateDateTime,
-                                           int mediaType,
-                                           List<String> mediaDataUrls,
-                                           String description,
-                                           String locationUploadedId,
-                                           String locationHappenedId,
-                                           String locationStoredId,
-                                           String happenedDateTime,
-                                           String artifactTimelineId
-                                           ) {
-        return new ArtifactItem(null,
-                null,
-                uploadDateTime,
-                lastUpdateDateTime,
-                mediaType,
-                mediaDataUrls,
-                description,
-                locationUploadedId,
-                locationHappenedId,
-                locationStoredId,
-                happenedDateTime,
-                artifactTimelineId
-        );
     }
 }
