@@ -109,9 +109,11 @@ public class UserInfoManager {
 
                         // Successfully fetched data
                         if (documentSnapshot != null && documentSnapshot.exists()) {
-                            mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
+                            mCurrentUserInfoLiveData.setValue(documentSnapshot
+                                    .toObject(UserInfo.class));
                         } else {
-                            Log.e(TAG,"get failed: current user does not exist: " + mCurrentUid);
+                            Log.e(TAG,"get failed: current user does not exist: "
+                                    + mCurrentUid);
                         }
                     });
             // Reset registration Map
