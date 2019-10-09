@@ -8,6 +8,8 @@ import java.util.List;
  * @description artifact data type for each family artifact
  */
 public class ArtifactItem extends Artifact {
+    public static final String TAG = ArtifactItem.class.getSimpleName();
+
     // Media type of the media urls
     private int mediaType;
 
@@ -29,8 +31,11 @@ public class ArtifactItem extends Artifact {
     // DateTime when the event unfolded
     private String happenedDateTime;
 
+    // Number of likes item has
+    private int likes;
+
     // The associated timeline
-    private ArtifactTimeline artifactTimeline;
+    private String artifactTimelineId;
 
     public ArtifactItem() {
         super();
@@ -39,6 +44,7 @@ public class ArtifactItem extends Artifact {
     /**
      * Create new artifact item. This constructor is used by firestore and shouldn't be accessed
      * externally
+     *
      * @deprecated Use manager/newInstance method to create new artifact. Don't use constructor
      */
     @Deprecated
@@ -46,7 +52,7 @@ public class ArtifactItem extends Artifact {
                         int mediaType, List<String> mediaDataUrls, String description,
                         String locationUploadedId, String locationHappenedId,
                         String locationStoredId, String happenedDateTime,
-                        ArtifactTimeline artifactTimeline) {
+                        String artifactTimelineId) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.mediaType = mediaType;
         this.mediaDataUrls = mediaDataUrls;
@@ -55,7 +61,34 @@ public class ArtifactItem extends Artifact {
         this.locationHappenedId = locationHappenedId;
         this.locationStoredId = locationStoredId;
         this.happenedDateTime = happenedDateTime;
-        this.artifactTimeline = artifactTimeline;
+        this.likes = 0;
+        this.artifactTimelineId = artifactTimelineId;
+    }
+
+    public static ArtifactItem newInstance(String uploadDateTime,
+                                           String lastUpdateDateTime,
+                                           int mediaType,
+                                           List<String> mediaDataUrls,
+                                           String description,
+                                           String locationUploadedId,
+                                           String locationHappenedId,
+                                           String locationStoredId,
+                                           String happenedDateTime,
+                                           String artifactTimelineId
+    ) {
+        return new ArtifactItem(null,
+                null,
+                uploadDateTime,
+                lastUpdateDateTime,
+                mediaType,
+                mediaDataUrls,
+                description,
+                locationUploadedId,
+                locationHappenedId,
+                locationStoredId,
+                happenedDateTime,
+                artifactTimelineId
+        );
     }
 
     @Override
@@ -80,6 +113,10 @@ public class ArtifactItem extends Artifact {
         return mediaDataUrls;
     }
 
+    public void setMediaDataUrls(List<String> userDeviceMediaUris) {
+        this.mediaDataUrls = userDeviceMediaUris;
+    }
+
     void addMediaDataUrls(String mediaDataUrl) {
         mediaDataUrls.add(mediaDataUrl);
     }
@@ -96,7 +133,6 @@ public class ArtifactItem extends Artifact {
         this.description = description;
     }
 
-
     @Override
     public String getUploadDateTime() {
         return super.getUploadDateTime();
@@ -110,6 +146,13 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
     }
 
+    public int getlikes() {
+        return likes;
+    }
+
+    public void setlikes(int likes) {
+        this.likes = likes;
+    }
 
     @Override
     public String getLastUpdateDateTime() {
@@ -140,37 +183,11 @@ public class ArtifactItem extends Artifact {
         this.locationStoredId = locationStoredId;
     }
 
-    public ArtifactTimeline getArtifactTimeline() {
-        return artifactTimeline;
+    public String getArtifactTimelineId() {
+        return artifactTimelineId;
     }
 
-    void setArtifactTimeline(ArtifactTimeline artifactTimeline) {
-        this.artifactTimeline = artifactTimeline;
-    }
-
-    public static ArtifactItem newInstance(String uploadDateTime,
-                                           String lastUpdateDateTime,
-                                           int mediaType,
-                                           List<String> mediaDataUrls,
-                                           String description,
-                                           String locationUploadedId,
-                                           String locationHappenedId,
-                                           String locationStoredId,
-                                           String happenedDateTime,
-                                           ArtifactTimeline artifactTimeline
-                                           ) {
-        return new ArtifactItem(null,
-                null,
-                uploadDateTime,
-                lastUpdateDateTime,
-                mediaType,
-                mediaDataUrls,
-                description,
-                locationUploadedId,
-                locationHappenedId,
-                locationStoredId,
-                happenedDateTime,
-                artifactTimeline
-        );
+    void setArtifactTimelineId(String artifactTimelineId) {
+        this.artifactTimelineId = artifactTimelineId;
     }
 }

@@ -11,14 +11,13 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -28,33 +27,20 @@ import java.util.Map;
  */
 public class ArtifactManager {
     /**
-     Tag for logging
+     * Tag for logging
      */
     private static final String TAG = ArtifactManager.class.getSimpleName();
 
     private static final ArtifactManager ourInstance = new ArtifactManager();
-
-    public static ArtifactManager getInstance() {
-        return ourInstance;
-    }
-
     private UserInfoManager userInfoManager;
-
     /**
      * The database reference used artifact timeline.
      */
     private CollectionReference mArtifactItemCollection;
-
     /**
      * The database reference used for artifact item.
      */
     private CollectionReference mArtifactTimelineCollection;
-
-    /**
-     * Storage reference for storing images
-     */
-    private StorageReference mArtifactMediaStorageReference;
-
     /**
      * Active listeners used (this should be cleared if not used)
      */
@@ -70,10 +56,11 @@ public class ArtifactManager {
         mArtifactTimelineCollection = FirebaseFirestore
                 .getInstance()
                 .collection(DBConstant.ARTIFACT_TIMELINE);
-        mArtifactMediaStorageReference = FirebaseStorage
-                .getInstance()
-                .getReference(DBConstant.ARTIFACT_ITEM_MEDIA);
         userInfoManager = UserInfoManager.getInstance();
+    }
+
+    public static ArtifactManager getInstance() {
+        return ourInstance;
     }
 
     public void addArtifact(Artifact artifact) {
@@ -99,43 +86,61 @@ public class ArtifactManager {
         }
         artifactReference = mArtifactItemCollection.document(artifact.getPostId());
 
-        // Get reference based on current mapLocation id
-        StorageReference artifactMediaStorageReference = mArtifactMediaStorageReference
-                .child(artifact.getPostId());
+        Log.i(TAG, "adding artifact media...");
+        MutableLiveData<List<String>> uploadHelperLiveData = new MutableLiveData<>();
+        uploadHelperLiveData.observeForever(
+                new Observer<List<String>>() {
+                    @Override
+                    public void onChanged(List<String> remoteUrls) {
+                        Log.i(TAG, "adding artifact to firestore, with remoteUrl: " + remoteUrls.toString());
+                        artifact.getMediaDataUrls().clear();
+                        for (String url : remoteUrls) {
+                            artifact.addMediaDataUrls(url);
+                        }
+                        // Now store the actual Artifact
+                        artifactReference.set(artifact)
+                                .addOnFailureListener(e -> Log.w(TAG,
+                                        "Error Uploading artifact:" + artifact.toString() +
+                                                "e:" + e.toString()));
+                        uploadHelperLiveData.removeObserver(this);
+                    }
+                }
+        );
+        LiveDataListDispatchHelper<String> liveDataListDispatchHelper =
+                new LiveDataListDispatchHelper<>(uploadHelperLiveData, 60000);
 
-        // 2. Store Photo (same as what's in MapLocation)
-        Map<String, String> mediaUrlMap = new HashMap<>();
-        int i = 0;
-        if (artifact.getMediaDataUrls() != null) {
-            for (String mediaUrl : artifact.getMediaDataUrls()) {
-                mediaUrlMap.put(artifact.getPostId()+"_"+i, mediaUrl);
-                Log.i(TAG, "Url: {" + artifact.getPostId()+"_"+i + ", " + mediaUrlMap.get(mediaUrl) + "}");
-                i += 1;
+        liveDataListDispatchHelper.addWaitingTask();
+
+        Log.d(TAG, "Artifact Media Urls: " + artifact.getMediaDataUrls().toString());
+        for (String localMediaDataUrl : artifact.getMediaDataUrls()) {
+
+            Log.d(TAG, "Iterated to URL: " + localMediaDataUrl);
+            Uri localUri = Uri.parse(localMediaDataUrl);
+            Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
+                    .getInstance()
+                    .uploadByUri(localUri);
+            if (uploadTask != null) {
+                liveDataListDispatchHelper.addWaitingTask();
+                uploadTask.addOnCompleteListener(
+                        task -> {
+                            Log.d(TAG, "Finished Uploading: " + localMediaDataUrl);
+                            if (task.isSuccessful()) {
+                                liveDataListDispatchHelper.addResult(FirebaseStorageHelper
+                                        .getInstance()
+                                        .getRemoteByLocalUri(localUri));
+                                Log.d(TAG, "Successfully upload media Url: {" + localMediaDataUrl + "}");
+                            } else {
+                                Log.w(TAG, "Error Uploading media Url: {" + localMediaDataUrl
+                                        + "}, e:" + task.getException());
+                            }
+                            liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
+                        }
+                );
+            } else {
+                Log.d(TAG, "localMediaDataUrl:" + localMediaDataUrl + ", already in database");
             }
         }
-
-        Log.i(TAG, "adding artifact media...");
-        for (String key: mediaUrlMap.keySet()) {
-            Log.i(TAG, "Url: {" + key + ", " + mediaUrlMap.get(key) + "}");
-            FirebaseStorageHelper.getInstance()
-                    .uploadByUri(Uri.parse(mediaUrlMap.get(key)), artifactMediaStorageReference, key)
-                    .addOnFailureListener(e -> Log.w(TAG,
-                            "Error Uploading media Url: {" + key + ", " +
-                                    mediaUrlMap.get(key) + "}, e:" + e.toString()))
-                    .addOnSuccessListener(taskSnapshot -> Log.d(TAG,
-                            "Successfully upload media Url: {" + key + ", " +
-                                    mediaUrlMap.get(key) + "}"));
-            artifact.removeMediaDataUrls(mediaUrlMap.get(key));
-            artifact.addMediaDataUrls(key);
-        }
-
-        // 3. Upload Artifact
-        Log.i(TAG, "adding artifact to fire store...");
-        // Now store the actual artifact
-        artifactReference.set(artifact)
-                .addOnFailureListener(e -> Log.w(TAG,
-                        "Error Uploading artifact:" + artifact.toString() +
-                                "e:" + e.toString()));
+        liveDataListDispatchHelper.completeWaitingTaskAndDispatch();
     }
 
     private void storeArtifact(ArtifactTimeline artifact) {
@@ -151,7 +156,7 @@ public class ArtifactManager {
         // Now store the actual artifact
         artifactReference.set(artifact)
                 .addOnFailureListener(e -> Log.w(TAG,
-                        "Error Uploading Location:" + artifact.toString() +
+                        "Error Uploading Artifact:" + artifact.toString() +
                                 "e:" + e.toString()));
     }
 
@@ -174,7 +179,7 @@ public class ArtifactManager {
         MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactItem> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
-        for (String postId: new HashSet<>(postIds)) {
+        for (String postId : new HashSet<>(postIds)) {
             liveDataListDispatchHelper.addWaitingTask();
             LiveData<ArtifactItem> artifactItemLiveData = getArtifactItemByPostId(postId);
             artifactItemLiveData.observeForever(
@@ -196,7 +201,7 @@ public class ArtifactManager {
         mArtifactItemCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
-                            task.getResult().isEmpty()) {
+                            !task.getResult().isEmpty()) {
                         mutableLiveData.setValue(task.getResult().toObjects(ArtifactItem.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());
@@ -225,7 +230,7 @@ public class ArtifactManager {
         MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactTimeline> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
-        for (String postId: new HashSet<>(postIds)) {
+        for (String postId : new HashSet<>(postIds)) {
             liveDataListDispatchHelper.addWaitingTask();
             LiveData<ArtifactTimeline> artifactTimelineLiveData = getArtifactTimelineByPostId(postId);
             artifactTimelineLiveData.observeForever(
@@ -247,7 +252,7 @@ public class ArtifactManager {
         mArtifactTimelineCollection.whereEqualTo("uid", uid).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && task.getResult() != null &&
-                            task.getResult().isEmpty()) {
+                            !task.getResult().isEmpty()) {
                         mutableLiveData.setValue(task.getResult().toObjects(ArtifactTimeline.class));
                     } else {
                         Log.e(TAG, "getArtifactByUid failed: " + task.getException());
@@ -255,5 +260,13 @@ public class ArtifactManager {
                 }
         );
         return mutableLiveData;
+    }
+
+    public void associateArtifactItemAndArtifactTimeline(ArtifactItem item,
+                                                         ArtifactTimeline timeline) {
+        timeline.addArtifactPostId(item.getPostId());
+        item.setArtifactTimelineId(timeline.getPostId());
+        storeArtifact(timeline);
+        storeArtifact(item);
     }
 }

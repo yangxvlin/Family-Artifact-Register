@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -35,7 +36,9 @@ public class ContactSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_search2);
 
-        getSupportActionBar().setTitle("Add new friend");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Add new friend");
+        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
 

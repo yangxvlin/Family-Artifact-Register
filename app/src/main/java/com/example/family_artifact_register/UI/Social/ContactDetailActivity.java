@@ -3,10 +3,14 @@ package com.example.family_artifact_register.UI.Social;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,14 +34,16 @@ public class ContactDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_detail);
 
         // force the system not to display action bar title
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar);
         TextView username = (TextView) findViewById(R.id.username);
         TextView nickname = (TextView) findViewById(R.id.nickname);
         TextView area = (TextView) findViewById(R.id.area);
 
-        TextView sendMessage = findViewById(R.id.send_message);
+        RelativeLayout sendMessage = (RelativeLayout) findViewById(R.id.send_button);
 
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
@@ -65,5 +71,12 @@ public class ContactDetailActivity extends AppCompatActivity {
                 System.out.println("sending messssssssage #####");
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.friend_detail_menu, menu);
+        return true;
     }
 }
