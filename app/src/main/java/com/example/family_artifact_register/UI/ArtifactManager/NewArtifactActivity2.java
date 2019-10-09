@@ -78,7 +78,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     /**
      * user's timeline from DB
      */
-    private List<ArtifactTimeline> timelines;
+    private List<ArtifactTimeline> timelines = new ArrayList<>();
 
     private ArtifactTimeline selectedArtifactTimeline = null;
 
