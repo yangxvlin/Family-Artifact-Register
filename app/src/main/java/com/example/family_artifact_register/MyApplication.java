@@ -12,7 +12,7 @@ import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHel
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
 import com.example.family_artifact_register.Util.DownloadBroadcastHelper;
-import com.example.family_artifact_register.Util.UriHelper;
+import com.example.family_artifact_register.Util.FileHelper;
 
 public class MyApplication extends Application {
     private static Application sApplication;
@@ -36,7 +36,7 @@ public class MyApplication extends Application {
         FirebaseAuthHelper.getInstance();
         FirebaseStorageHelper.getInstance();
         DownloadBroadcastHelper.getInstance();
-        UriHelper.getInstance();
+        FileHelper.getInstance();
         CacheDirectoryHelper.getInstance();
 
         // register to be informed of activities starting up

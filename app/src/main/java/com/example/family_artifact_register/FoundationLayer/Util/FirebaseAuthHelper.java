@@ -93,15 +93,6 @@ public class FirebaseAuthHelper {
      */
     private void retrieveSetPhoto(Uri photoUri, UserInfo userInfo) {
         try {
-            Log.d(TAG, "Starting accessing DownloadManager and creating request for" +
-                    "downloading user profile photo: " + photoUri.toString());
-//            File imageStorageDir = new File(MyApplication.getContext().getExternalCacheDir(),
-//                    MyApplication.getApplication().getPackageName()+"_tmp");
-//            if (!imageStorageDir.exists()) {
-//                //noinspection ResultOfMethodCallIgnored
-//                imageStorageDir.mkdirs();
-//            }
-//
             // default image extension
             String imgExtension = ".png";
 
@@ -116,36 +107,36 @@ public class FirebaseAuthHelper {
                     .getContext()
                     .getSystemService(Context.DOWNLOAD_SERVICE);
 
-            Log.d(TAG, "creating request");
-            Uri uri = Uri.parse(CacheDirectoryHelper
+            Uri uri = Uri.fromFile(CacheDirectoryHelper
                             .getInstance()
-                            .createNewFile(imgExtension)
-                            .toString());
-//            String fileName = new File(uri.toString()).getName();
+                            .createNewFile(imgExtension));
+
             // Create request
             DownloadManager.Request request = new DownloadManager.Request(photoUri);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI |
                     DownloadManager.Request.NETWORK_MOBILE)
-//                    .setDestinationInExternalPublicDir(DIRECTORY_PICTURES +
-//                            File.separator, fileName)
                     .setDestinationUri(uri)
                     .setDescription("externalProfilePhoto")
                     .setNotificationVisibility(
                             DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            Log.d(TAG, "registering helper");
+
+            long mDownloadId = downloadManager.enqueue(request);
+            Log.d(TAG, "downloading url: " + photoUri.toString()
+                    + "\nTo localUri: " + uri.toString()
+                    + "\nDownloading code: " + mDownloadId);
+
             // Add callback to the retrieval of url
             DownloadBroadcastHelper.getInstance().addCallback(
                     new DownloadBroadcastHelper.DownloadCallback() {
                         @Override
-                        public void callback(long downloadId, Uri data) {
-                            UserInfoManager.getInstance().setPhoto(data, userInfo);
+                        public void callback(long downloadId) {
+                            if (downloadId == mDownloadId)
+                                UserInfoManager.getInstance().setPhoto(uri, userInfo);
                             // Remove this download callback
                             DownloadBroadcastHelper.getInstance().removeCallback(this);
                         }
                     }
             );
-            Log.d(TAG, "Downloading user profile photo: " + photoUri.toString());
-            downloadManager.enqueue(request);
         } catch (NullPointerException e) {
             Log.w(TAG, "Failed to get downloadManager: " + e.toString());
         }

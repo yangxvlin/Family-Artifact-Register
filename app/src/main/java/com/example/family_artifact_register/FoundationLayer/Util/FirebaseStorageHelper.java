@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
+import com.example.family_artifact_register.Util.FileHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -61,11 +62,18 @@ public class FirebaseStorageHelper {
         Path localFilePath = new File(localUri.toString()).toPath();
         Path localStoragePath;
         if (localUri.getScheme() != null) {
-            localStoragePath = (new File("file:/" + mCacheDirectoryHelper.getCacheDirectory().toString())).toPath();
+            localStoragePath = (
+                    FileHelper.getInstance().checkAddScheme(
+                            mCacheDirectoryHelper
+                            .getCacheDirectory()))
+                    .toPath();
         } else {
             localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
         }
-
+        Log.d(TAG, "LocalUri: " + localUri.toString()
+                + "\nlocalFilePath: " + localFilePath.toString()
+                + "\nlocalStoragePath: " + localStoragePath.toString()
+        );
         Path remotePath = localStoragePath.relativize(localFilePath);
         return remotePath.toString();
     }

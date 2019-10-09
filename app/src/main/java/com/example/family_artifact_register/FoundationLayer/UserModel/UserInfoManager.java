@@ -80,51 +80,16 @@ public class UserInfoManager {
 
 
     private UserInfoManager() {
-        setupOrUpdateUserDatabase();
+        setupOrUpdateUserDatabase(FirebaseAuth.getInstance());
         // Set the state of UserInfoManager when the auth state changes
         FirebaseAuth.getInstance().addAuthStateListener(
-                firebaseAuth -> {
-                    // Already logged in
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user!=null) {
-                        mCurrentUid = user.getUid();
-
-                        mUserCollection = FirebaseFirestore.getInstance()
-                                .collection(DBConstant.USER_INFO);
-                        // Listen to current user data
-                        mUserCollection
-                                .document(mCurrentUid)
-                                .addSnapshotListener((documentSnapshot, e) -> {
-                                    // Catch and log the error
-                                    if (e != null) {
-                                        Log.e(TAG, "mCurrentUid listen:error", e);
-                                        return;
-                                    }
-                                    // Successfully fetched data
-                                    if (documentSnapshot != null && documentSnapshot.exists()) {
-                                        mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
-                                    } else {
-                                        Log.e(TAG,"get failed: current user does not exist: " + mCurrentUid);
-                                    }
-                                });
-                        // Reset registration Map
-                        mListenerRegistrationMap = new HashMap<>();
-                    } else {
-                        // Cleanup the listeners
-                        for (Pair<ListenerRegistration, Integer> listenerRegistrationIntegerPair:
-                                mListenerRegistrationMap.values()) {
-                            // clean the listener
-                            listenerRegistrationIntegerPair.first.remove();
-                        }
-                        mListenerRegistrationMap = new HashMap<>();
-                    }
-                }
+                this::setupOrUpdateUserDatabase
         );
     }
 
-    private void setupOrUpdateUserDatabase() {
+    private void setupOrUpdateUserDatabase(FirebaseAuth firebaseAuth) {
         // Already logged in
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user!=null) {
             mCurrentUid = user.getUid();
 
@@ -402,7 +367,8 @@ public class UserInfoManager {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
                             if (querySnapshot == null || querySnapshot.isEmpty()) {
-                                Log.i(TAG, "failed to find (" + field +") equal to (" + query + ")");
+                                Log.i(TAG, "failed to find (" + field +") " +
+                                        "equal to (" + query + ")");
                             } else {
                                 for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
                                     UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
