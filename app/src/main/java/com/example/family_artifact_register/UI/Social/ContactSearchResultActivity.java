@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -94,7 +95,9 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             }
         });
 
+        ActionBar actionBar = getSupportActionBar();
         getSupportActionBar().setTitle(query);
+        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
     }
 
     private void setupRecyclerView() {

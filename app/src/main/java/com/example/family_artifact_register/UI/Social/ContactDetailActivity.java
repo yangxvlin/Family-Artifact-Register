@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -33,7 +34,9 @@ public class ContactDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_detail);
 
         // force the system not to display action bar title
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar);
         TextView username = (TextView) findViewById(R.id.username);
