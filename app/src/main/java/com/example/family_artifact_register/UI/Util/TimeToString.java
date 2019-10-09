@@ -19,10 +19,4 @@ public class TimeToString {
         String time = format.format(Calendar.getInstance().getTime());
         return time;
     }
-
-    public static String getCurrentTimeFormattedStringForFileName() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
-        String time = format.format(Calendar.getInstance().getTime());
-        return time;
-    }
 }
