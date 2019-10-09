@@ -1,5 +1,7 @@
 package com.example.family_artifact_register.UI.Util;
 
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,7 +10,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -19,6 +24,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
@@ -45,6 +51,8 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 //    private FragmentManager fm;
 
     private Context context;
+
+    private boolean isFullScreen = false;
 
     public MyArtifactsRecyclerViewAdapter(Context context) {
         this.artifactItemList = new ArrayList<>();
@@ -131,27 +139,74 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
             layoutParam.gravity = Gravity.CENTER;
+            layoutParam.topMargin = 20;
+            layoutParam.bottomMargin = 20;
 
-            // set media
-            VideoView mediaView = new VideoView(context);
-            mediaView.setLayoutParams(new FrameLayout.LayoutParams(
-                    800,
-                    1200)
+            // set up image view layout
+            ImageView iv = new ImageView(context);
+            iv.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
+            // image cropped in center to ge square
+            iv.setAdjustViewBounds(true);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            // set thumbnail from video to image
+            Glide.with(context)
+                    .load(mediaList.get(0)) // or URI/path
+                    .into(iv); //imageview to set thumbnail to
+            // start video when clicked the thumbnail
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // whole screen dialog of image
+                    Dialog dia = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                    VideoView videoView = new VideoView(context);
+                    videoView.setLayoutParams(
+                            new ActionBar.LayoutParams(
+                                    ActionBar.LayoutParams.MATCH_PARENT,
+                                    ActionBar.LayoutParams.MATCH_PARENT
+                            )
+                    );
+                    videoView.setVideoURI(mediaList.get(0));
+                    videoView.setMediaController(new MediaController(context));
+                    videoView.start();
+                    videoView.requestFocus();
+                    videoView.setOnCompletionListener(mp -> {
+                        Log.d(TAG, "Video play finish.");
+                    });
+                    videoView.setOnErrorListener((mp, what, extra) -> {
+                        Log.d(TAG, "Video play error!!!");
+                        return false;
+                    });
+                    // click to return
+                    videoView.setOnClickListener(v -> {
+                        dia.dismiss();
+                    });
+                    dia.setContentView(videoView);
+                    dia.show();
+
+                    dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
+                    Window w = dia.getWindow();
+                    WindowManager.LayoutParams lp = w.getAttributes();
+                    lp.x = 0;
+                    lp.y = 40;
+                    dia.onWindowAttributesChanged(lp);
+                }
+            });
+
+            // add a play icon to the thumbnail
+            ImageView playIcon = new ImageView(context);
+            LinearLayout.LayoutParams playIconLayout = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
             );
-            mediaView.setVideoURI(mediaList.get(0));
-            mediaView.setMediaController(new MediaController(context));
-            mediaView.start();
-            mediaView.requestFocus();
-            mediaView.setOnCompletionListener(mp -> {
-                Log.d(TAG, "Video play finish.");
-            });
-            mediaView.setOnErrorListener((mp, what, extra) -> {
-                Log.d(TAG, "Video play error!!!");
-                return false;
-            });
+            playIconLayout.gravity = Gravity.CENTER;
+            playIcon.setLayoutParams(playIconLayout);
+            playIcon.setImageResource(R.drawable.ic_play_circle_filled_white);
 
+            // set frame's layout and add image view to it programmatically
             holder.frame.setLayoutParams(layoutParam);
-            holder.frame.addView(mediaView);
+            holder.frame.addView(iv);
+            holder.frame.addView(playIcon);
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
