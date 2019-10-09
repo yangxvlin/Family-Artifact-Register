@@ -6,18 +6,15 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -47,7 +44,7 @@ public class HubViewModel extends AndroidViewModel {
 //            public void onChanged(List<ArtifactItem> artifactItems) {
 //                for(ArtifactItem item: artifactItems) {
 //                    List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
-//                    fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
+//                    fSHelper.loadByRemoteUrl(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
 //                        @Override
 //                        public void onChanged(List<Uri> uris) {
 //                            Log.d(TAG, "local uris: " + uris.toString());
@@ -100,7 +97,7 @@ public class HubViewModel extends AndroidViewModel {
             public void onChanged(List<ArtifactItem> artifactItems) {
                 for(ArtifactItem item: artifactItems) {
                     List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
-                    fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
+                    fSHelper.loadByRemoteUrl(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
                         @Override
                         public void onChanged(List<Uri> uris) {
                             Log.d(TAG, "local uris: " + uris.toString());

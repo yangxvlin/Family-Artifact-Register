@@ -2,6 +2,7 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import android.net.Uri;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -52,7 +53,7 @@ public class ArtifactManager {
     /**
      * Active listeners used (this should be cleared if not used)
      */
-    private Map<String, ListenerRegistration> mListenerRegistrationMap;
+    private Map<String, Pair<ListenerRegistration, Integer>> mListenerRegistrationMap;
 
     /**
      * Instantiate artifact manager, also give it a user manager for updating current user.
@@ -65,6 +66,10 @@ public class ArtifactManager {
                 .getInstance()
                 .collection(DBConstant.ARTIFACT_TIMELINE);
         userInfoManager = UserInfoManager.getInstance();
+    }
+
+    private void setupOrUpdateArtifactDatabase() {
+        // TODO clean listeners
     }
 
     public void addArtifact(Artifact artifact) {

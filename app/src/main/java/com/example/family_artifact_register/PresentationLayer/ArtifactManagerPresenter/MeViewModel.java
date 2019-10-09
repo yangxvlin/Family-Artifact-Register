@@ -41,7 +41,7 @@ public class MeViewModel extends AndroidViewModel {
             public void onChanged(List<ArtifactItem> artifactItems) {
                 for(ArtifactItem item: artifactItems) {
                     List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
-                    fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
+                    fSHelper.loadByRemoteUrl(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
                         @Override
                         public void onChanged(List<Uri> uris) {
                             Log.d(TAG, "local uris: " + uris.toString());

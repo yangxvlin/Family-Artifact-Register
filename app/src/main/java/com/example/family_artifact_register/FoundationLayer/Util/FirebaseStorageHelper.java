@@ -16,7 +16,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -109,7 +108,7 @@ public class FirebaseStorageHelper {
      * @param remoteUrl The remote Url to download resource with
      * @return LiveData of the destination Uri
      */
-    public LiveData<Uri> loadByRemoteUri(String remoteUrl) {
+    public LiveData<Uri> loadByRemoteUrl(String remoteUrl) {
         MutableLiveData<Uri> mutableLiveData = new MutableLiveData<>();
         Uri localUri = parseRemoteUrl(remoteUrl);
         if (remoteLocalBiMap.get(remoteUrl) != null) {
@@ -150,13 +149,13 @@ public class FirebaseStorageHelper {
      * @param remoteUrls The remote Url to download resource with
      * @return LiveData of the destination Uri
      */
-    public LiveData<List<Uri>> loadByRemoteUri(List<String> remoteUrls) {
+    public LiveData<List<Uri>> loadByRemoteUrl(List<String> remoteUrls) {
         MutableLiveData<List<Uri>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<Uri> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData);
 
         for (String remoteUrl : remoteUrls) {
-            LiveData<Uri> liveData = loadByRemoteUri(remoteUrl);
+            LiveData<Uri> liveData = loadByRemoteUrl(remoteUrl);
             liveDataListDispatchHelper.addWaitingTask();
             liveData.observeForever(new Observer<Uri>() {
                 @Override
