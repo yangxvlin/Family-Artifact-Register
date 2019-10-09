@@ -1,5 +1,9 @@
 package com.example.family_artifact_register.UI.Util;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
+
+import java.util.List;
+
 public interface NewTimelineListener {
 
     int NEW_ARTIFACT_TIMELINE = 0;
@@ -11,4 +15,8 @@ public interface NewTimelineListener {
     int getTimelineType();
 
     String getTimelineTitle();
+
+    List<ArtifactTimeline> getArtifactTimelines();
+
+    void setSelectedTimeline(ArtifactTimeline selectedTimeline);
 }

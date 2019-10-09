@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.family_artifact_register.MainActivity2;
+import com.example.family_artifact_register.HomeActivity;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,7 +62,7 @@ public class PostActivity extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PostActivity.this, MainActivity2.class));
+                startActivity(new Intent(PostActivity.this, HomeActivity.class));
                 finish();
             }
         });
@@ -126,7 +126,7 @@ public class PostActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
 
-                        startActivity(new Intent(PostActivity.this, MainActivity2.class));
+                        startActivity(new Intent(PostActivity.this, HomeActivity.class));
                         finish();
                     } else {
                         Toast.makeText(PostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
@@ -158,7 +158,7 @@ public class PostActivity extends AppCompatActivity {
             image_added.setImageURI(imageUri);
         } else {
             Toast.makeText(this, "Something gone wrong", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(PostActivity.this, MainActivity2.class));
+            startActivity(new Intent(PostActivity.this, HomeActivity.class));
             finish();
         }
     }

@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity2"></activity>
+        <activity android:name=".HomeActivity"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".test.MapTestActivity"

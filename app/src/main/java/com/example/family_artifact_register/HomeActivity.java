@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * @time 2019-9-21 13:33:24
  * @description main activity let user to use the app
  */
-public class MainActivity2 extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     /**
      * class tag
      */

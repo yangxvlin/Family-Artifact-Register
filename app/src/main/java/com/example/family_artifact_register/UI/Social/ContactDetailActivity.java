@@ -3,8 +3,11 @@ package com.example.family_artifact_register.UI.Social;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -40,7 +43,7 @@ public class ContactDetailActivity extends AppCompatActivity {
         TextView nickname = (TextView) findViewById(R.id.nickname);
         TextView area = (TextView) findViewById(R.id.area);
 
-        TextView sendMessage = findViewById(R.id.send_message);
+        RelativeLayout sendMessage = (RelativeLayout) findViewById(R.id.send_button);
 
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
@@ -68,5 +71,12 @@ public class ContactDetailActivity extends AppCompatActivity {
                 System.out.println("sending messssssssage #####");
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.friend_detail_menu, menu);
+        return true;
     }
 }
