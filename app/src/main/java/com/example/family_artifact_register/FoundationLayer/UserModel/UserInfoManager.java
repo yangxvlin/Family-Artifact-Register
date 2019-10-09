@@ -3,12 +3,14 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.example.family_artifact_register.Util.Callback;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -28,6 +30,13 @@ import java.util.Map;
  * Class for managing user information
  */
 public class UserInfoManager {
+    // Return code if the request for userInfo is ok (successful)
+    public static final int RESULT_OK = 0;
+    // Return code if the request for userInfo is cancelled (unsuccessful)
+    public static final int RESULT_CANCELLED = -1;
+    // Return code if the request for userInfo is failed (unsuccessful)
+    public static final int RESULT_FAILURE = 1;
+
     private static final String TAG = UserInfoManager.class.getSimpleName();
     private static UserInfoManager instance;
 
@@ -219,8 +228,13 @@ public class UserInfoManager {
         }
     }
 
+    /**
+     * Store the given userInfo into database without callback
+     * @param userInfo The userInfo to store
+     */
     public void storeUserInfo(UserInfo userInfo) {
         String uid = userInfo.getUid();
+        storeUserInfo(userInfo, 0,null);
         mUserCollection
                 .document(uid)
                 .set(userInfo)
@@ -231,6 +245,39 @@ public class UserInfoManager {
                 .addOnFailureListener(e ->
                         Log.w(TAG, "Error writing user info" +
                                 userInfo.toString(), e));
+    }
+
+    /**
+     * Store the given userInfo into database with callback
+     * @param userInfo The userInfo to store
+     * @param requestCode specifier for the db request
+     * @param userInfoCallback function to invoke after completion
+     */
+    public void storeUserInfo(UserInfo userInfo, int requestCode,
+                              Callback<Void> userInfoCallback) {
+        String uid = userInfo.getUid();
+        mUserCollection
+                .document(uid)
+                .set(userInfo)
+                .addOnCompleteListener(
+                        task -> {
+                            int resultCode = RESULT_FAILURE;
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "User information"
+                                        + userInfo.toString()
+                                        + "successfully written!");
+                                resultCode = RESULT_OK;
+                            } else if (task.isCanceled()) {
+                                Log.w(TAG, "Error writing user info" +
+                                        userInfo.toString(), task.getException());
+                                resultCode = RESULT_CANCELLED;
+                            }
+                            if (userInfoCallback != null) {
+                                userInfoCallback.callback(requestCode, resultCode,
+                                        task.getResult());
+                            }
+                        }
+                );
     }
 
     /**
@@ -347,6 +394,39 @@ public class UserInfoManager {
 
     /**
      * Set the Photo Uri for current user
+     * @param photoUri The photo uri to set with (has to be local)
+     */
+    public void setPhoto(Uri photoUri, UserInfo userInfo) {
+        // TODO this part is potentially dangerous to async error
+        Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
+                .getInstance()
+                .uploadByUri(photoUri);
+        if (uploadTask != null) {
+            uploadTask.addOnFailureListener(
+                    e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
+                            photoUri.toString(), e)
+            ).addOnSuccessListener(taskSnapshot -> {
+                // Change and store the user info to db after image complete
+                userInfo
+                    .setPhotoUrl(FirebaseStorageHelper
+                            .getInstance()
+                            .getRemoteByLocalUri(photoUri));
+            storeUserInfo(userInfo);})
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error update user new Uri info to FireStore failed" +
+                                    userInfo.toString(), e));
+        } else {
+            // Photo already stored, simply store user information
+            userInfo
+                    .setPhotoUrl(FirebaseStorageHelper
+                            .getInstance()
+                            .getRemoteByLocalUri(photoUri));
+            storeUserInfo(userInfo);
+        }
+    }
+
+    /**
+     * Set the Photo Uri for current user
      * @param photoUri The photo uri to set with
      */
     public void setPhoto(Uri photoUri) {
@@ -355,22 +435,7 @@ public class UserInfoManager {
             return;
         }
         UserInfo currentUserInfo = mCurrentUserInfoLiveData.getValue();
-        Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
-                .getInstance()
-                .uploadByUri(photoUri);
-
-        if (uploadTask != null) {
-            uploadTask.addOnFailureListener(
-                    e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
-                            photoUri.toString(), e)
-            ).addOnSuccessListener(taskSnapshot -> currentUserInfo
-                    .setPhotoUrl(FirebaseStorageHelper
-                            .getInstance()
-                            .getRemoteByLocalUri(photoUri)))
-                    .addOnFailureListener(e ->
-                            Log.w(TAG, "Error update user new Uri info to FireStore failed" +
-                                    currentUserInfo.toString(), e));
-        }
+        setPhoto(photoUri, currentUserInfo);
     }
 
     /**

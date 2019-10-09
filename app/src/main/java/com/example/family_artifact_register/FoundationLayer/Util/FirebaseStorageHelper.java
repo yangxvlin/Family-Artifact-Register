@@ -106,14 +106,13 @@ public class FirebaseStorageHelper {
     public LiveData<Uri> loadByRemoteUri(String remoteUrl) {
         MutableLiveData<Uri> mutableLiveData = new MutableLiveData<>();
         Uri localUri = parseRemoteUrl(remoteUrl);
-        if (remoteLocalBiMap.get(remoteUrl) != null) {
-            // If already loaded
-            mutableLiveData.setValue(remoteLocalBiMap.get(remoteUrl));
-        } else if (new File(localUri.toString()).exists()) {
+        if (new File(localUri.toString()).exists()) {
             // Exist in local
             mutableLiveData.setValue(localUri);
             // add to mapping
-            remoteLocalBiMap.put(remoteUrl, localUri);
+            if (!remoteLocalBiMap.containsKey(remoteUrl)) {
+                remoteLocalBiMap.put(remoteUrl, localUri);
+            }
         } else {
             // If not loaded yet
             StorageReference mFileStorageReference = mStorageReference.child(remoteUrl);

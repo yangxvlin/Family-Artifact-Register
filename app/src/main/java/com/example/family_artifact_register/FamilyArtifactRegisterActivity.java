@@ -24,11 +24,6 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
 
     /**
-     * firebase authentication
-     */
-    private FirebaseAuth mFirebaseAuth;
-
-    /**
      * firebase request code
      */
     public static final int RC_SIGN_IN = 1;
@@ -55,16 +50,16 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity {
 
     private void checkAndSignIn() {
         // set firebase sign in layout
-        mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListner = firebaseAuth -> {
+            // Already logged in
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user!=null) {
                 // Check user even if signed in to register him to database (if haven't)
                 FirebaseAuthHelper.getInstance().checkRegisterUser(user);
                 Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
                 startHomeActivity();
-            }
-            else {
+            } else {
+                // Signed out or hasn't logged in
                 startActivityForResult(
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
@@ -112,12 +107,12 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListner);
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
+        FirebaseAuth.getInstance().removeAuthStateListener(mAuthStateListner);
     }
 }
