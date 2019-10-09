@@ -95,7 +95,7 @@
             android:layout_marginStart="8dp"
             android:textStyle="bold"
             android:id="@+id/publisher"
-            android:text="publisher"
+            android:text="time"
             android:textColor="@color/primaryTextColor">
 
         </TextView>
