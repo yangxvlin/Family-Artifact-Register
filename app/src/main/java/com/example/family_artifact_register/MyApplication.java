@@ -26,7 +26,7 @@ public class MyApplication extends Application {
         super.onCreate();
         sApplication = this;
         // set whole app cache directory
-        CacheDirectoryHelper.getInstance().setCacheDirectory(this.getCacheDir());
+        CacheDirectoryHelper.getInstance().setCacheDirectory(this.getExternalCacheDir());
 
         // register to be informed of activities starting up
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {

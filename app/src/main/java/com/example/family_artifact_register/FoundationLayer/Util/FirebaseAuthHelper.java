@@ -3,6 +3,7 @@ package com.example.family_artifact_register.FoundationLayer.Util;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
@@ -14,6 +15,10 @@ import com.example.family_artifact_register.Util.DownloadBroadcastHelper;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.File;
+
+import static android.os.Environment.DIRECTORY_PICTURES;
 
 
 public class FirebaseAuthHelper {
@@ -95,6 +100,23 @@ public class FirebaseAuthHelper {
         try {
             Log.d(TAG, "Starting accessing DownloadManager and creating request for" +
                     "downloading user profile photo: " + photoUri.toString());
+            File imageStorageDir = new File(MyApplication.getContext().getExternalCacheDir(),
+                    MyApplication.getApplication().getPackageName()+"_tmp");
+            if (!imageStorageDir.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                imageStorageDir.mkdirs();
+            }
+
+            // default image extension
+            String imgExtension = ".png";
+
+            if (photoUri.toString().contains(".gif"))
+                imgExtension = ".gif";
+            else if (photoUri.toString().contains(".jpg"))
+                imgExtension = ".jpg";
+            else if (photoUri.toString().contains(".3gp"))
+                imgExtension = ".3gp";
+
             DownloadManager downloadManager = (DownloadManager) MyApplication
                     .getContext()
                     .getSystemService(Context.DOWNLOAD_SERVICE);
@@ -102,20 +124,18 @@ public class FirebaseAuthHelper {
             Log.d(TAG, "creating request");
             Uri uri = Uri.parse(CacheDirectoryHelper
                             .getInstance()
-                            .createNewFile(".png")
+                            .createNewFile(imgExtension)
                             .toString());
-            Log.d(TAG, uri.toString());
-            Log.d(TAG, uri.getPath());
-            Log.d(TAG, uri.getScheme());
+            String fileName = new File(uri.toString()).getName();
             // Create request
             DownloadManager.Request request = new DownloadManager.Request(photoUri);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI |
                     DownloadManager.Request.NETWORK_MOBILE)
-                    .setDestinationUri(uri)
+                    .setDestinationInExternalPublicDir(DIRECTORY_PICTURES +
+                            File.separator, fileName)
                     .setDescription("externalProfilePhoto")
                     .setNotificationVisibility(
                             DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
             Log.d(TAG, "registering helper");
             // Add callback to the retrieval of url
             DownloadBroadcastHelper.getInstance().addCallback(
