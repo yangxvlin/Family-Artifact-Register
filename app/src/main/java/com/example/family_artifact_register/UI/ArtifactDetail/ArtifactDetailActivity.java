@@ -20,6 +20,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPres
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModelFactory;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 
 
 /**
@@ -54,7 +55,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
         // Use intent to send information to artifact detail activity
         Intent intent = getIntent();
-        String selectedPid = intent.getStringExtra("selectedPid");
+        String artifactItemPostId = intent.getStringExtra("artifactItemPostId");
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication())).get(DetailViewModel.class);
 
@@ -71,6 +72,18 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 mTitleTv.setText(artifactItem.getPostId());
                 mDescTv.setText(artifactItem.getDescription());
                 mUserTv.setText(artifactItem.getUid());
+
+                artifactItem.getMediaDataUrls();
+                switch ( artifactItem.getMediaType()) {
+                    case (MediaProcessHelper.TYPE_IMAGE): {
+
+                        break;
+                    }
+                    case (MediaProcessHelper.TYPE_VIDEO): {
+                        break;
+                    }
+                }
+
             }
         };
 
@@ -84,7 +97,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(manager);
 
-        viewModel.getArtifactItem(selectedPid).observe(this, postObserver);
+        viewModel.getArtifactItem(artifactItemPostId).observe(this, postObserver);
 
         recyclerView.setAdapter(new DetailImageAdapter(this));
 

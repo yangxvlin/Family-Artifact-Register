@@ -54,4 +54,6 @@ public class DetailViewModel extends AndroidViewModel {
 
         return item;
     }
+
+
 }
