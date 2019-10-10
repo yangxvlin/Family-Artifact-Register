@@ -54,6 +54,8 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 
     private boolean isFullScreen = false;
 
+    private List<Uri> mediaList;
+
     public MyArtifactsRecyclerViewAdapter(Context context) {
         this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
@@ -74,139 +76,39 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         holder.time.setText(artifactItemWrapper.getLastUpdateDateTime());
         holder.description.setText(artifactItemWrapper.getDescription());
 
-        List<Uri> mediaList = new ArrayList<>();
+        mediaList = new ArrayList<>();
         for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri" + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }
 
         holder.clearFrame();
+        // set frame layout param
+        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParam.gravity = Gravity.CENTER;
+        layoutParam.topMargin = 20;
+        layoutParam.bottomMargin = 20;
+
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
-            // recycler view adapter for display images
-            ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
-            // recycler view for display images
-            RecyclerView imageRecyclerView;
 
-            // set frame layout param
-            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParam.gravity = Gravity.CENTER;
-            layoutParam.topMargin = 20;
-            layoutParam.bottomMargin = 20;
+            View imagesRecyclerView = getImageRecyclerView();
 
-            // set recycler view images
-            RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
-                    RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.WRAP_CONTENT
-            );
-            imageRecyclerView = new RecyclerView(context);
-            imageRecyclerView.setLayoutParams(recyclerViewParam);
-
-
-            // images horizontally
-            LinearLayoutManager layoutManager = new LinearLayoutManager(
-                    context,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-            );
-            imageRecyclerView.setLayoutManager(layoutManager);
-
-            // set the divider between list item
-            DividerItemDecoration divider = new DividerItemDecoration(imageRecyclerView.getContext(), layoutManager.getOrientation());
-            divider.setDrawable(ContextCompat.getDrawable(context, R.drawable.divider_wechat_white));
-            imageRecyclerView.addItemDecoration(divider);
-
-            // image adapter
-            imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
-                    200,
-                    200,
-                    context
-            );
-            for (Uri image: mediaList) {
-                imagesRecyclerViewAdapter.addData(image);
-            }
-            imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
+            holder.frame.addView(imagesRecyclerView);
             holder.frame.setLayoutParams(layoutParam);
-            holder.frame.addView(imageRecyclerView);
         // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-            // set frame layout param
-            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-            layoutParam.gravity = Gravity.CENTER;
-            layoutParam.topMargin = 20;
-            layoutParam.bottomMargin = 20;
+            ImageView iv = getVideoThumbnail();
 
-            // set up image view layout
-            ImageView iv = new ImageView(context);
-            iv.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
-            // image cropped in center to ge square
-            iv.setAdjustViewBounds(true);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // set thumbnail from video to image
-            Glide.with(context)
-                    .load(mediaList.get(0)) // or URI/path
-                    .into(iv); //imageview to set thumbnail to
-            // start video when clicked the thumbnail
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // whole screen dialog of image
-                    Dialog dia = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-
-                    VideoView videoView = new VideoView(context);
-                    videoView.setLayoutParams(
-                            new ActionBar.LayoutParams(
-                                    ActionBar.LayoutParams.MATCH_PARENT,
-                                    ActionBar.LayoutParams.MATCH_PARENT
-                            )
-                    );
-                    videoView.setVideoURI(mediaList.get(0));
-                    videoView.setMediaController(new MediaController(context));
-                    videoView.start();
-                    videoView.requestFocus();
-                    videoView.setOnCompletionListener(mp -> {
-                        Log.d(TAG, "Video play finish.");
-                    });
-                    videoView.setOnErrorListener((mp, what, extra) -> {
-                        Log.d(TAG, "Video play error!!!");
-                        return false;
-                    });
-                    // click to return
-                    videoView.setOnClickListener(v -> {
-                        dia.dismiss();
-                    });
-                    dia.setContentView(videoView);
-                    dia.show();
-
-                    dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
-                    Window w = dia.getWindow();
-                    WindowManager.LayoutParams lp = w.getAttributes();
-                    lp.x = 0;
-                    lp.y = 40;
-                    dia.onWindowAttributesChanged(lp);
-                }
-            });
-
-            // add a play icon to the thumbnail
-            ImageView playIcon = new ImageView(context);
-            LinearLayout.LayoutParams playIconLayout = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-            playIconLayout.gravity = Gravity.CENTER;
-            playIcon.setLayoutParams(playIconLayout);
-            playIcon.setImageResource(R.drawable.ic_play_circle_filled_white);
+            ImageView playIcon = getVideoPlayIcon();
 
             // set frame's layout and add image view to it programmatically
-            holder.frame.setLayoutParams(layoutParam);
             holder.frame.addView(iv);
             holder.frame.addView(playIcon);
+            holder.frame.setLayoutParams(layoutParam);
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
@@ -244,6 +146,120 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     }
 
     // *************************************** getter & setters ***********************************
+    private RecyclerView getImageRecyclerView() {
+        // recycler view adapter for display images
+        ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
+        // recycler view for display images
+        RecyclerView imageRecyclerView;
+
+        // set recycler view images
+        RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
+                RecyclerView.LayoutParams.MATCH_PARENT,
+                RecyclerView.LayoutParams.WRAP_CONTENT
+        );
+        imageRecyclerView = new RecyclerView(context);
+        imageRecyclerView.setLayoutParams(recyclerViewParam);
+
+        // images horizontally
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+        );
+        imageRecyclerView.setLayoutManager(layoutManager);
+
+        // set the divider between list item
+        DividerItemDecoration divider = new DividerItemDecoration(
+                imageRecyclerView.getContext(),
+                layoutManager.getOrientation()
+        );
+        divider.setDrawable(ContextCompat.getDrawable(context, R.drawable.divider_wechat_white));
+        imageRecyclerView.addItemDecoration(divider);
+
+        // image adapter
+        imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
+                200,
+                200,
+                context
+        );
+        for (Uri image: mediaList) {
+            imagesRecyclerViewAdapter.addData(image);
+        }
+        imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
+
+        return imageRecyclerView;
+    }
+
+    private ImageView getVideoThumbnail() {
+        // set up image view layout
+        ImageView iv = new ImageView(context);
+        iv.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
+        // image cropped in center to ge square
+        iv.setAdjustViewBounds(true);
+        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        // set thumbnail from video to image
+        Glide.with(context)
+                .load(mediaList.get(0)) // or URI/path
+                .into(iv); //imageview to set thumbnail to
+        // start video when clicked the thumbnail
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // whole screen dialog of image
+                Dialog dia = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+                VideoView videoView = new VideoView(context);
+                videoView.setLayoutParams(
+                        new ActionBar.LayoutParams(
+                                ActionBar.LayoutParams.MATCH_PARENT,
+                                ActionBar.LayoutParams.MATCH_PARENT
+                        )
+                );
+                videoView.setVideoURI(mediaList.get(0));
+                videoView.setMediaController(new MediaController(context));
+                videoView.start();
+                videoView.requestFocus();
+                videoView.setOnCompletionListener(mp -> {
+                    Log.d(TAG, "Video play finish.");
+                });
+                videoView.setOnErrorListener((mp, what, extra) -> {
+                    Log.d(TAG, "Video play error!!!");
+                    return false;
+                });
+                // click to return
+                videoView.setOnClickListener(v -> {
+                    dia.dismiss();
+                });
+                dia.setContentView(videoView);
+                dia.show();
+
+                dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
+                Window w = dia.getWindow();
+                WindowManager.LayoutParams lp = w.getAttributes();
+                lp.x = 0;
+                lp.y = 40;
+                dia.onWindowAttributesChanged(lp);
+            }
+        });
+
+        return iv;
+    }
+
+    private ImageView getVideoPlayIcon() {
+        // add a play icon to the thumbnail
+        ImageView playIcon = new ImageView(context);
+        LinearLayout.LayoutParams playIconLayout = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        playIconLayout.gravity = Gravity.CENTER;
+        playIcon.setLayoutParams(playIconLayout);
+        playIcon.setImageResource(R.drawable.ic_play_circle_filled_white);
+
+        return playIcon;
+    }
+
+
 //    public void addData(ArtifactItem artifactItem) {
 //        // 0 to add data at start
 //        this.artifactItemWrapperList.add(0, artifactItem);
