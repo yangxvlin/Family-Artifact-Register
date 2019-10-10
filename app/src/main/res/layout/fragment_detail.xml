@@ -60,7 +60,7 @@
         android:textSize="22sp"
         android:textColor="#000"
         android:textStyle="bold"
-        android:layout_below="@id/recycler_view"
+        android:layout_below="@id/detail_recycler_view"
         android:layout_marginTop="5dp"
         >
     </TextView>

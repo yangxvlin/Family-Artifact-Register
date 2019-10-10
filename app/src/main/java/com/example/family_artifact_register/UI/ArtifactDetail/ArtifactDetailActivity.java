@@ -68,7 +68,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 Log.i(TAG, "some changes happened");
 
                 // Set artifact information the same as activity hub
-                mTitleTv.setText(artifactItem.getUid());
+                mTitleTv.setText(artifactItem.getPostId());
                 mDescTv.setText(artifactItem.getDescription());
                 mUserTv.setText(artifactItem.getUid());
             }
@@ -87,6 +87,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         viewModel.getArtifactItem(selectedPid).observe(this, postObserver);
 
         recyclerView.setAdapter(new DetailImageAdapter(this));
+
+
 
 //        String mTitle = intent.getStringExtra("iTitle");
 //        String mDesc = intent.getStringExtra("iDesc");

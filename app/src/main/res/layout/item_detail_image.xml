@@ -8,6 +8,7 @@ android:layout_height="wrap_content">
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/post_image"
+    android:src="@mipmap/ic_launcher"
     android:scaleType="centerCrop"
     />
 
