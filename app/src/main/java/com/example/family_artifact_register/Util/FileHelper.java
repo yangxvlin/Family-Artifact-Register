@@ -35,6 +35,19 @@ public class FileHelper {
 
     public File checkAddScheme(File file) {
         Uri uri = Uri.parse(file.toString());
-        return new File(checkAddScheme(uri).toString());
+        return new File(uri.toString());
+    }
+
+    /**
+     * Wrapper for make dir (hide away the check exist)
+     * @param file The directory to make
+     * @return if the mkdirs is successful
+     */
+    public boolean mkdirs(File file) {
+        if (file.isDirectory() && file.exists()) {
+            return true;
+        } else {
+            return file.mkdirs();
+        }
     }
 }
