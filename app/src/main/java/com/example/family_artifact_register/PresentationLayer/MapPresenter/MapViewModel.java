@@ -27,7 +27,7 @@ public class MapViewModel extends AndroidViewModel {
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
     private MapLocationManager mapLocationManager = MapLocationManager.getInstance();
 
-    private LiveData<List<ArtifactItem>> artifacts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
+    private LiveData<List<ArtifactItem>> artifacts;
 
     private List<MapLocation> mapLocations = new ArrayList<>();
 
@@ -35,6 +35,8 @@ public class MapViewModel extends AndroidViewModel {
 
     public MapViewModel(@NonNull Application application) {
         super(application);
+        artifacts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
+        locations.setValue(mapLocations);
     }
 
     public LiveData<List<MapLocation>> getLocations() {
@@ -48,8 +50,8 @@ public class MapViewModel extends AndroidViewModel {
                     locations.addSource(loc, new Observer<MapLocation>() {
                         @Override
                         public void onChanged(MapLocation mapLocation) {
-                            locations.getValue().add(mapLocation);
-                            locations.setValue(locations.getValue());
+                            mapLocations.add(mapLocation);
+                            locations.setValue(mapLocations);
                             Log.d(TAG, "map location returned from DB: " + mapLocation.toString());
                         }
                     });
