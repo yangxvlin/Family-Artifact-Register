@@ -110,6 +110,7 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
         viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItemWrapper>>() {
             @Override
             public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
+//                mRecyclerView.removeAllViews();
                 Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
                 myArtifactsRecyclerViewAdapter.setData(artifactItemWrappers);
                 Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());

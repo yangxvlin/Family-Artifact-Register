@@ -55,6 +55,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     private boolean isFullScreen = false;
 
     public MyArtifactsRecyclerViewAdapter(Context context) {
+        this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
 //        this.fm = fm;
     }
@@ -79,7 +80,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             mediaList.add(Uri.parse(mediaUrl));
         }
 
-
+        holder.clearFrame();
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
             // recycler view adapter for display images
@@ -230,13 +231,15 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     }
 
     public void setData(List<ArtifactItemWrapper> newData) {
+        artifactItemWrapperList.clear();
+
         Collections.sort(newData, new Comparator<ArtifactItemWrapper>() {
             @Override
             public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
                 return -1 * artifactItemWrapper.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
             }
         });
-        artifactItemWrapperList = newData;
+        artifactItemWrapperList.addAll(newData);
         notifyDataSetChanged();
     }
 
