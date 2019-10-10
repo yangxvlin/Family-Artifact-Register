@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.Util.FileHelper;
 
 import java.util.List;
 
@@ -73,6 +74,8 @@ public class MediaViewHelper {
     }
 
     public static ImageView getVideoThumbnail(int thumbnailWidth, int thumbnailHeight, Uri video, Context context) {
+        Uri videoUri = FileHelper.getInstance().checkAddScheme(video);
+
         // set up image view layout
         ImageView iv = new ImageView(context);
         iv.setLayoutParams(new LinearLayout.LayoutParams(thumbnailWidth, thumbnailHeight));
@@ -81,7 +84,7 @@ public class MediaViewHelper {
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         // set thumbnail from video to image
         Glide.with(context)
-                .load(video) // or URI/path
+                .load(videoUri) // or URI/path
                 .into(iv); //imageview to set thumbnail to
         // start video when clicked the thumbnail
         iv.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +100,7 @@ public class MediaViewHelper {
                                 ActionBar.LayoutParams.MATCH_PARENT
                         )
                 );
-                videoView.setVideoURI(video);
+                videoView.setVideoURI(videoUri);
                 videoView.setMediaController(new MediaController(context));
                 videoView.start();
                 videoView.requestFocus();
