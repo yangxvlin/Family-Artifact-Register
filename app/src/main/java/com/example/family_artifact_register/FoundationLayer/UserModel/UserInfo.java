@@ -92,7 +92,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return photoUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
+    void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
 
