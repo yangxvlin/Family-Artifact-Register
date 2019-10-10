@@ -65,14 +65,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
 
         GridLayoutManager manager = new GridLayoutManager(this, 3);
-        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return position == 0 ? 3 : 1;
-            }
-        });
-
         recyclerView.setLayoutManager(manager);
+
 
         DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
 
@@ -87,6 +81,24 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 mTitleTv.setText(artifactItem.getPostId());
                 mDescTv.setText(artifactItem.getDescription());
                 mUserTv.setText(artifactItem.getUid());
+
+                if (manager.getSpanSizeLookup() != null) {
+                    if (artifactItem.getMediaDataUrls().size() <= 1) {
+                        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                            @Override
+                            public int getSpanSize(int position) {
+                                return 3;
+                            }
+                        });
+                    } else {
+                        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                            @Override
+                            public int getSpanSize(int position) {
+                                return 1;
+                            }
+                        });
+                    }
+                }
 
                 artifactItem.getMediaDataUrls();
                 switch ( artifactItem.getMediaType()) {

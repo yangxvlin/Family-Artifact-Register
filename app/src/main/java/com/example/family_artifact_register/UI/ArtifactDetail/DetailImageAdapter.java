@@ -1,39 +1,25 @@
 package com.example.family_artifact_register.UI.ArtifactDetail;
 
 import android.content.Context;
-import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactHub.HubModelViewHolder;
-import com.example.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
-import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
 public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHolder>{
 
     private static final String TAG = com.example.family_artifact_register.UI.Util.
             MyArtifactsRecyclerViewAdapter.class.getSimpleName();
 //    private ArtifactItem arti
-    private List<String> postImages;
+    private List<String> postImageUris;
 
 //    private FragmentManager fm;
 
@@ -54,9 +40,9 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
     @Override
     public void onBindViewHolder(@NonNull DetailImageViewHolder holder, int position) {
 
-        String url = postImages.get(position);
+        String url = postImageUris.get(position);
         if(url != null) {
-            holder.postImage.setImageURI(Uri.parse(url));
+            holder.setPostImageUri(Uri.parse(url));
         }
 
 //        List<Uri> mediaList = new ArrayList<>();
@@ -143,14 +129,14 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
 
     @Override
     public int getItemCount() {
-        if(postImages != null) {
-            return postImages.size();
+        if(postImageUris != null) {
+            return postImageUris.size();
         }
         return 0;
     }
 
     public void setData(List<String> newData) {
-        postImages = newData;
+        postImageUris = newData;
         Log.d(TAG,"Post New Data: " + newData);
         notifyDataSetChanged();
     }
