@@ -1,7 +1,9 @@
 package com.example.family_artifact_register.UI.Social;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -43,20 +46,22 @@ public class NewContactDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
-//        username.setText();
-//        area.setText("");
 
         viewModel = ViewModelProviders.of(this, new NewContactDetailViewModelFactory(getApplication(), selectedUid)).get(NewContactDetailViewModel.class);
 
-        Observer<UserInfo> newContactObserver = new Observer<UserInfo>() {
+        viewModel.getUser().observe(this, new Observer<UserInfoWrapper>() {
             @Override
-            public void onChanged(UserInfo newData) {
+            public void onChanged(UserInfoWrapper newData) {
+                Log.d(TAG, "user data come back from DB: " + newData.toString());
                 username.setText(newData.getDisplayName());
                 area.setText("area");
+                String url = newData.getPhotoUrl();
+                if(url != null) {
+                    Log.d(TAG, "URL is " + url);
+                    avatar.setImageURI(Uri.parse(url));
+                }
             }
-        };
-
-        viewModel.getUser().observe(this, newContactObserver);
+        });
 
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +71,7 @@ public class NewContactDetailActivity extends AppCompatActivity {
                 addFriend.setClickable(false);
                 addFriend.setFocusable(false);
                 addFriend.setBackground(null);
-                viewModel.insert(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                viewModel.insert();
                 addFriend.setText("Added to list");
             }
         });

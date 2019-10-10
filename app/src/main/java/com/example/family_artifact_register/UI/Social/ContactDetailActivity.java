@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 
 
@@ -51,16 +51,18 @@ public class ContactDetailActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, new ContactDetailViewModelFactory(getApplication(), selectedUid)).get(ContactDetailViewModel.class);
 
-        Observer<UserInfo> contactObserver = new Observer<UserInfo>() {
+        Observer<UserInfoWrapper> contactObserver = new Observer<UserInfoWrapper>() {
             @Override
-            public void onChanged(UserInfo newData) {
+            public void onChanged(UserInfoWrapper newData) {
                 // display user detail information using the latest data
                 Log.i(TAG, "some changes happened");
+                Log.d(TAG, "user info: " + newData.toString());
                 username.setText(newData.getDisplayName());
                 nickname.setText("nickName");
                 area.setText("area");
                 String url = newData.getPhotoUrl();
                 if(url != null) {
+                    Log.d(TAG, "URL is not null");
                     avatar.setImageURI(Uri.parse(url));
                 }
             }
