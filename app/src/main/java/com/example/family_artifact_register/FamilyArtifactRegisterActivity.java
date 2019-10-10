@@ -17,10 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-
-
 public class FamilyArtifactRegisterActivity extends AppCompatActivity {
     /**
      * class tag
