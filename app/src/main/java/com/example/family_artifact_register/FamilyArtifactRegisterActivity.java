@@ -1,12 +1,11 @@
 package com.example.family_artifact_register;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
 import com.example.family_artifact_register.Util.Callback;
@@ -17,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 public class FamilyArtifactRegisterActivity extends AppCompatActivity implements Callback<Void> {
     /**
@@ -65,7 +66,9 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                 FirebaseAuthHelper.getInstance().checkRegisterUser(user,
                         this, CHECK_USER_DB);
 
-                Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
+                Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
+                        .show();
                 startHomeActivity();
             } else {
                 // Signed out or hasn't logged in
@@ -84,6 +87,11 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
 
     private void startHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    private void startCollectUserInfoActivity() {
+        Intent intent = new Intent(this, CollectUserInfoActivity.class);
         startActivity(intent);
     }
 
@@ -118,13 +126,18 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
         if (requestCode == CHECK_USER_DB) {
             switch (resultCode) {
                 case (FirebaseAuthHelper.RESULT_USER_EXIST):
-                    Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
-                    startHomeActivity();
+//                     Toast.makeText(this, R.string.user_signed_in, Toast.LENGTH_SHORT).show();
+                    Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
+                            .show();
+                     startHomeActivity();
+//                    startCollectUserInfoActivity();
                     break;
                 case (FirebaseAuthHelper.RESULT_NEW_USER):
-                    Toast.makeText(this, "Registration Successful",
-                            Toast.LENGTH_SHORT).show();
-                    startHomeActivity();
+                    // Toast.makeText(this, R.string.registeration_successful,
+                    //        Toast.LENGTH_SHORT).show();
+                    Toasty.success(this, R.string.registeration_successful, Toasty.LENGTH_LONG)
+                            .show();
+                    startCollectUserInfoActivity();
                     break;
             }
         }
