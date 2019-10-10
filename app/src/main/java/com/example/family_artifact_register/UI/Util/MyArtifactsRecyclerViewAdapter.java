@@ -1,7 +1,5 @@
 package com.example.family_artifact_register.UI.Util;
 
-import android.app.ActionBar;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,21 +8,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
@@ -37,6 +27,9 @@ import java.util.List;
 import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 
 /**
  * @author XuLin Yang 904904,
@@ -95,15 +88,15 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
 
-            View imagesRecyclerView = getImageRecyclerView();
+            View imagesRecyclerView = getImageRecyclerView(200, 200, mediaList, context);
 
             holder.frame.addView(imagesRecyclerView);
             holder.frame.setLayoutParams(layoutParam);
         // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-            ImageView iv = getVideoThumbnail();
+            ImageView iv = getVideoThumbnail(200, 200, mediaList.get(0), context);
 
-            ImageView playIcon = getVideoPlayIcon();
+            ImageView playIcon = getVideoPlayIcon(context);
 
             // set frame's layout and add image view to it programmatically
             holder.frame.addView(iv);
@@ -146,118 +139,6 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     }
 
     // *************************************** getter & setters ***********************************
-    private RecyclerView getImageRecyclerView() {
-        // recycler view adapter for display images
-        ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
-        // recycler view for display images
-        RecyclerView imageRecyclerView;
-
-        // set recycler view images
-        RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
-                RecyclerView.LayoutParams.MATCH_PARENT,
-                RecyclerView.LayoutParams.WRAP_CONTENT
-        );
-        imageRecyclerView = new RecyclerView(context);
-        imageRecyclerView.setLayoutParams(recyclerViewParam);
-
-        // images horizontally
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-        );
-        imageRecyclerView.setLayoutManager(layoutManager);
-
-        // set the divider between list item
-        DividerItemDecoration divider = new DividerItemDecoration(
-                imageRecyclerView.getContext(),
-                layoutManager.getOrientation()
-        );
-        divider.setDrawable(ContextCompat.getDrawable(context, R.drawable.divider_wechat_white));
-        imageRecyclerView.addItemDecoration(divider);
-
-        // image adapter
-        imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
-                200,
-                200,
-                context
-        );
-        for (Uri image: mediaList) {
-            imagesRecyclerViewAdapter.addData(image);
-        }
-        imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
-
-        return imageRecyclerView;
-    }
-
-    private ImageView getVideoThumbnail() {
-        // set up image view layout
-        ImageView iv = new ImageView(context);
-        iv.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
-        // image cropped in center to ge square
-        iv.setAdjustViewBounds(true);
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        // set thumbnail from video to image
-        Glide.with(context)
-                .load(mediaList.get(0)) // or URI/path
-                .into(iv); //imageview to set thumbnail to
-        // start video when clicked the thumbnail
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // whole screen dialog of image
-                Dialog dia = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-
-                VideoView videoView = new VideoView(context);
-                videoView.setLayoutParams(
-                        new ActionBar.LayoutParams(
-                                ActionBar.LayoutParams.MATCH_PARENT,
-                                ActionBar.LayoutParams.MATCH_PARENT
-                        )
-                );
-                videoView.setVideoURI(mediaList.get(0));
-                videoView.setMediaController(new MediaController(context));
-                videoView.start();
-                videoView.requestFocus();
-                videoView.setOnCompletionListener(mp -> {
-                    Log.d(TAG, "Video play finish.");
-                });
-                videoView.setOnErrorListener((mp, what, extra) -> {
-                    Log.d(TAG, "Video play error!!!");
-                    return false;
-                });
-                // click to return
-                videoView.setOnClickListener(v -> {
-                    dia.dismiss();
-                });
-                dia.setContentView(videoView);
-                dia.show();
-
-                dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
-                Window w = dia.getWindow();
-                WindowManager.LayoutParams lp = w.getAttributes();
-                lp.x = 0;
-                lp.y = 40;
-                dia.onWindowAttributesChanged(lp);
-            }
-        });
-
-        return iv;
-    }
-
-    private ImageView getVideoPlayIcon() {
-        // add a play icon to the thumbnail
-        ImageView playIcon = new ImageView(context);
-        LinearLayout.LayoutParams playIconLayout = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-        playIconLayout.gravity = Gravity.CENTER;
-        playIcon.setLayoutParams(playIconLayout);
-        playIcon.setImageResource(R.drawable.ic_play_circle_filled_white);
-
-        return playIcon;
-    }
 
 
 //    public void addData(ArtifactItem artifactItem) {
