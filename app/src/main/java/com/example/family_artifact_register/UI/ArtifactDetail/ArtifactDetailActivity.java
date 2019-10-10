@@ -11,8 +11,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
+import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModelFactory;
 import com.example.family_artifact_register.R;
@@ -27,10 +31,11 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
 
-    private PostDetailViewModel viewModel;
+    private DetailViewModel viewModel;
 
     TextView mTitleTv, mDescTv, mUserTv;
-    ImageView mImageIv, mAvatarIv;
+    ImageView mAvatarIv;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +50,13 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         mUserTv = findViewById(R.id.user);
 //        mImageIv = findViewById(R.id.imageIv);
         mAvatarIv = findViewById(R.id.avatarIv);
+        recyclerView = findViewById(R.id.detail_recycler_view);
 
         // Use intent to send information to artifact detail activity
         Intent intent = getIntent();
         String selectedPid = intent.getStringExtra("selectedPid");
 
-        viewModel = ViewModelProviders.of(this, new PostDetailViewModelFactory(
-                getApplication(), selectedPid)).get(PostDetailViewModel.class);
+        viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication())).get(DetailViewModel.class);
 
 
         ActionBar actionBar = getSupportActionBar();
@@ -69,7 +74,19 @@ public class ArtifactDetailActivity extends AppCompatActivity {
             }
         };
 
-        viewModel.getPost().observe(this, postObserver);
+        GridLayoutManager manager = new GridLayoutManager(this, 3);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? 3 : 1;
+            }
+        });
+
+        recyclerView.setLayoutManager(manager);
+
+        viewModel.getArtifactItem(selectedPid).observe(this, postObserver);
+
+        recyclerView.setAdapter(new DetailImageAdapter(this));
 
 //        String mTitle = intent.getStringExtra("iTitle");
 //        String mDesc = intent.getStringExtra("iDesc");
