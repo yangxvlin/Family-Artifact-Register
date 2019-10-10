@@ -1,27 +1,17 @@
 package com.example.family_artifact_register.FoundationLayer.Util;
 
-import android.app.DownloadManager;
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
-import com.example.family_artifact_register.MyApplication;
-import com.example.family_artifact_register.Util.CacheDirectoryHelper;
-import com.example.family_artifact_register.Util.Callback;
-import com.example.family_artifact_register.Util.DownloadBroadcastHelper;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 
 public class FirebaseAuthHelper {
-    // Return code if the user already exist.
-    public static final int RESULT_USER_EXIST = 0;
-    // Return code if the user doesn't exist before.
-    public static final int RESULT_NEW_USER = -1;
-
     private static final String TAG = FirebaseAuthHelper.class.getSimpleName();
 
     private static final FirebaseAuthHelper instance = new FirebaseAuthHelper();
@@ -30,25 +20,23 @@ public class FirebaseAuthHelper {
         return instance;
     }
 
-    /**
-     * Construct a new user based on a FirebaseUser object.
-     * @param firebaseUser The FirebaseUser to convert from
-     * @return The new user object constructed from FirebaseUser
-     */
-    public UserInfo basicUserInfoFromFirebaseUser(FirebaseUser firebaseUser) {
-        return UserInfo.newInstance(
+    public UserInfo userFromFirebaseUser(FirebaseUser firebaseUser) {
+        Uri photoUri = firebaseUser.getPhotoUrl();
+        return new UserInfo(
                 firebaseUser.getUid(),
                 firebaseUser.getDisplayName(),
                 firebaseUser.getEmail(),
-                firebaseUser.getPhoneNumber());
+                firebaseUser.getPhoneNumber(),
+                photoUri != null ? photoUri.toString() : null,
+                new HashMap<>(),
+                new HashMap<>(),
+                new HashMap<>());
     }
 
 
-    public void checkRegisterUser(FirebaseUser firebaseUser, Callback<Void> callback,
-                                  int requestCode) {
+    public void checkRegisterUser(FirebaseUser firebaseUser) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String uid = firebaseUser.getUid();
-        Uri photoUri = firebaseUser.getPhotoUrl();
         db.collection(DBConstant.USER_INFO)
                 .document(uid)
                 .get()
@@ -56,89 +44,20 @@ public class FirebaseAuthHelper {
                         task -> {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot documentSnapshot = task.getResult();
-                                if (documentSnapshot != null && documentSnapshot.exists() &&
-                                        documentSnapshot.toObject(UserInfo.class) != null) {
-                                    Log.d(TAG, "User already exist: "
-                                            + documentSnapshot.getData());
-                                    callback.callback(requestCode, RESULT_USER_EXIST, null);
+                                if (documentSnapshot != null && documentSnapshot.exists()) {
+                                    Log.d(TAG, "DocumentSnapshot data: " + documentSnapshot.getData());
                                 } else {
                                     Log.d(TAG, "No such user info, adding to db");
                                     UserInfo userInfo = FirebaseAuthHelper
                                             .getInstance()
-                                            .basicUserInfoFromFirebaseUser(
+                                            .userFromFirebaseUser(
                                                     firebaseUser
                                             );
-                                    // Store the info
-                                    UserInfoManager
-                                            .getInstance()
-                                            .storeUserInfo(userInfo, 0,
-                                                    (requestCode1, resultCode, data) -> {
-                                                if (photoUri != null) {
-                                                    retrieveSetPhoto(photoUri, userInfo);
-                                                }
-                                                callback.callback(requestCode1,
-                                                        RESULT_NEW_USER, null);
-                                            });
+                                    UserInfoManager.getInstance().storeUserInfo(userInfo);
                                 }
                             } else {
                                 Log.d(TAG, "get failed with ", task.getException());
                             }
                         });
-
-    }
-
-    /**
-     * Retrieve and set Photo uri of a given FirebaseUser
-     * @param photoUri The photoUri to retrieve and set
-     */
-    private void retrieveSetPhoto(Uri photoUri, UserInfo userInfo) {
-        try {
-            // default image extension
-            String imgExtension = ".png";
-
-            if (photoUri.toString().contains(".gif"))
-                imgExtension = ".gif";
-            else if (photoUri.toString().contains(".jpg"))
-                imgExtension = ".jpg";
-            else if (photoUri.toString().contains(".3gp"))
-                imgExtension = ".3gp";
-
-            DownloadManager downloadManager = (DownloadManager) MyApplication
-                    .getContext()
-                    .getSystemService(Context.DOWNLOAD_SERVICE);
-
-            Uri uri = Uri.fromFile(CacheDirectoryHelper
-                            .getInstance()
-                            .createNewFile(imgExtension));
-
-            // Create request
-            DownloadManager.Request request = new DownloadManager.Request(photoUri);
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI |
-                    DownloadManager.Request.NETWORK_MOBILE)
-                    .setDestinationUri(uri)
-                    .setDescription("externalProfilePhoto")
-                    .setNotificationVisibility(
-                            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-            long mDownloadId = downloadManager.enqueue(request);
-            Log.d(TAG, "downloading url: " + photoUri.toString()
-                    + "\nTo localUri: " + uri.toString()
-                    + "\nDownloading code: " + mDownloadId);
-
-            // Add callback to the retrieval of url
-            DownloadBroadcastHelper.getInstance().addCallback(
-                    new DownloadBroadcastHelper.DownloadCallback() {
-                        @Override
-                        public void callback(long downloadId) {
-                            if (downloadId == mDownloadId)
-                                UserInfoManager.getInstance().setPhoto(uri, userInfo);
-                            // Remove this download callback
-                            DownloadBroadcastHelper.getInstance().removeCallback(this);
-                        }
-                    }
-            );
-        } catch (NullPointerException e) {
-            Log.w(TAG, "Failed to get downloadManager: " + e.toString());
-        }
     }
 }
