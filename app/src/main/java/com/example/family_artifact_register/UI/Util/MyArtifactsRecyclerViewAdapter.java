@@ -45,8 +45,6 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 
     private Context context;
 
-    private boolean isFullScreen = false;
-
     private List<Uri> mediaList;
 
     public MyArtifactsRecyclerViewAdapter(Context context) {
