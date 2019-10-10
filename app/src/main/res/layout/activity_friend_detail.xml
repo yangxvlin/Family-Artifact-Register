@@ -1,115 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/app_bar">-->
-
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/tool_bar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            app:menu="@menu/toolbar_menu"-->
-<!--            app:navigationIcon="@drawable/arrow_back"/>-->
-
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="300dp"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:id="@+id/avatar"
-            android:contentDescription="avatar"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:src="@drawable/default_avatar_detail"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentStart="true"/>
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap|snapMargins">
+
+            <ImageView
+                android:id="@+id/collapse_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/gradient_background"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.8"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="25dp"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.15">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:contentDescription="avatar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/default_avatar_detail"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text=""
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_toEndOf="@id/avatar"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="15dp"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:padding="30dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_toEndOf="@id/avatar"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/username"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="33sp"
-                android:textStyle="bold"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="23sp"/>
+                <ImageView
+                    android:id="@+id/phone_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="phone number"/>
 
-            <TextView
-                android:id="@+id/area"
+                <TextView
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="23sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="23sp"/>
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="email address"/>
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="23sp"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/small_divider"/>
-
-    <RelativeLayout
-        android:id="@+id/send_button"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackground">
-
-        <ImageView
-            android:id="@+id/message_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/message_icon"
-            android:paddingTop="19dp"/>
-
-        <TextView
-            android:id="@+id/send_message"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:text="Send Message"
-            android:textSize="25sp"
-            android:textColor="@color/primaryColor"
-            android:gravity="center"
-            android:layout_toRightOf="@id/message_icon"
-            android:layout_marginStart="10dp"/>
-
-    </RelativeLayout>
-
-    <include layout="@layout/line_divider"/>
-
-<!--    <com.google.android.material.button.MaterialButton-->
-<!--        android:layout_marginTop="100dp"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="70dp"-->
-<!--        app:cornerRadius="0dp"-->
-<!--        android:background="#00ff00"-->
-<!--        app:strokeColor="#0000ff"-->
-<!--        android:shadowColor="#ff0000"-->
-<!--        android:text="Send message"-->
-<!--        android:textSize="20sp"/>-->
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
