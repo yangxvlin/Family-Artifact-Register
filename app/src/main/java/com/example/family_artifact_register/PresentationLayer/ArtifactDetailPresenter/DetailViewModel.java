@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
@@ -46,6 +47,7 @@ public class DetailViewModel extends AndroidViewModel {
                                         .map(Objects::toString)
                                         .collect(Collectors.toList())
                         );
+                        ((MutableLiveData) item).setValue(item.getValue());
 //                artifactList.setValue(artifactList.getValue());
                     }
                 });

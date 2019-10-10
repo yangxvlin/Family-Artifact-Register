@@ -63,6 +63,21 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
+
+        GridLayoutManager manager = new GridLayoutManager(this, 3);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? 3 : 1;
+            }
+        });
+
+        recyclerView.setLayoutManager(manager);
+
+        DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
+
+        recyclerView.setAdapter(detailImageAdapter);
+
         Observer<ArtifactItem> postObserver = new Observer<ArtifactItem>() {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
@@ -76,7 +91,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 artifactItem.getMediaDataUrls();
                 switch ( artifactItem.getMediaType()) {
                     case (MediaProcessHelper.TYPE_IMAGE): {
-
+                        detailImageAdapter.setData(artifactItem.getMediaDataUrls());
                         break;
                     }
                     case (MediaProcessHelper.TYPE_VIDEO): {
@@ -87,19 +102,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
             }
         };
 
-        GridLayoutManager manager = new GridLayoutManager(this, 3);
-        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return position == 0 ? 3 : 1;
-            }
-        });
-
-        recyclerView.setLayoutManager(manager);
-
         viewModel.getArtifactItem(artifactItemPostId).observe(this, postObserver);
 
-        recyclerView.setAdapter(new DetailImageAdapter(this));
 
 
 

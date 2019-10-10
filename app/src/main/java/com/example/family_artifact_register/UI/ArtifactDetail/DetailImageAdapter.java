@@ -151,6 +151,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
 
     public void setData(List<String> newData) {
         postImages = newData;
+        Log.d(TAG,"Post New Data: " + newData);
         notifyDataSetChanged();
     }
 
