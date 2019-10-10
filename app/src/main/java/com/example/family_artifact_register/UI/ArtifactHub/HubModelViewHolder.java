@@ -16,7 +16,7 @@ import com.example.family_artifact_register.R;
 public class HubModelViewHolder extends RecyclerView.ViewHolder {
 
             public TextView username, time, description, timeline;
-            public ImageView avatar;
+            public ImageView avatar, like;
 
             public FrameLayout postImage;
 
@@ -28,6 +28,7 @@ public class HubModelViewHolder extends RecyclerView.ViewHolder {
                 this.avatar = itemView.findViewById(R.id.avatar);
                 this.postImage = itemView.findViewById(R.id.post_image);
                 this.timeline = itemView.findViewById(R.id.timeline);
+                this.like = itemView.findViewById(R.id.like);
             }
 
         }
