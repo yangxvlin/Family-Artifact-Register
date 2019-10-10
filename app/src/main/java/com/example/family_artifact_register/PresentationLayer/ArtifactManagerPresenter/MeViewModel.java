@@ -14,6 +14,7 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,27 +31,39 @@ public class MeViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<ArtifactItem>> artifactList;
 
+    private MutableLiveData<List<ArtifactItemWrapper>> artifactWrapperList;
+
     private String currentUid;
 
     public MeViewModel(Application application) {
         super(application);
         currentUid = userInfoManager.getCurrentUid();
         artifactList = (MutableLiveData<List<ArtifactItem>>) artifactManager.getArtifactItemByUid(currentUid);
+        artifactWrapperList = new MutableLiveData<>();
+        ArrayList<ArtifactItemWrapper> wrappers = new ArrayList<>();
+        artifactWrapperList.setValue(wrappers);
         artifactList.observeForever(new Observer<List<ArtifactItem>>() {
             @Override
             public void onChanged(List<ArtifactItem> artifactItems) {
                 for(ArtifactItem item: artifactItems) {
                     List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
+                    ArtifactItemWrapper wrapper = new ArtifactItemWrapper(item);
+
                     fSHelper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
                         @Override
                         public void onChanged(List<Uri> uris) {
                             Log.d(TAG, "local uris: " + uris.toString());
-                            item.setMediaDataUrls(
+
+                            // load data to wrapper
+                            wrapper.setLocalMediaDataUrls(
                                     uris.stream()
                                         .map(Objects::toString)
                                         .collect(Collectors.toList())
                             );
-                            artifactList.setValue(artifactList.getValue());
+
+                            wrappers.add(wrapper);
+                            artifactWrapperList.setValue(wrappers);
+                            // artifactList.setValue(artifactList.getValue());
                         }
                     });
                 }
@@ -58,7 +71,11 @@ public class MeViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<ArtifactItem>> getArtifactList() {
-        return artifactList;
+//    public LiveData<List<ArtifactItem>> getArtifactList() {
+//        return artifactList;
+//    }
+
+    public LiveData<List<ArtifactItemWrapper>> getArtifactList() {
+        return artifactWrapperList;
     }
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeFragmentPresenter;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModelFactory;
@@ -106,11 +107,13 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
             }
         });
 
-        viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItem>>() {
+        viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItemWrapper>>() {
             @Override
-            public void onChanged(List<ArtifactItem> artifactItems) {
-                Log.d(TAG, "enter onchange");
-                myArtifactsRecyclerViewAdapter.setData(artifactItems);
+            public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
+                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
+                myArtifactsRecyclerViewAdapter.setData(artifactItemWrappers);
+                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
+
             }
         });
     }
@@ -123,7 +126,8 @@ public class MeFragment extends Fragment implements MeFragmentPresenter.IView, I
     // ********************************** implement presenter ************************************
     @Override
     public void addData(ArtifactItem artifactItem) {
-        myArtifactsRecyclerViewAdapter.addData(artifactItem);
+        Log.e(getFragmentTag(), "illegal access !!!");
+//        myArtifactsRecyclerViewAdapter.addData(artifactItem);
     }
 
     @Override

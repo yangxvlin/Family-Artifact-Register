@@ -2,6 +2,7 @@ package com.example.family_artifact_register.PresentationLayer.ArtifactManagerPr
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public class ArtifactItemWrapper {
 
     private ArtifactItem artifactItem;
 
-    private List<String> localMediaList = null;
+    private List<String> localMediaList = new ArrayList<>();
 
     public ArtifactItemWrapper(ArtifactItem artifactItem) {
         this.artifactItem = artifactItem;

@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 
@@ -46,7 +46,7 @@ import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TY
 public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsRecyclerViewHolder> {
 
     private static final String TAG = MyArtifactsRecyclerViewAdapter.class.getSimpleName();
-    private List<ArtifactItem> artifactItemList;
+    private List<ArtifactItemWrapper> artifactItemWrapperList;
 
 //    private FragmentManager fm;
 
@@ -55,7 +55,6 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     private boolean isFullScreen = false;
 
     public MyArtifactsRecyclerViewAdapter(Context context) {
-        this.artifactItemList = new ArrayList<>();
         this.context = context;
 //        this.fm = fm;
     }
@@ -69,20 +68,20 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 
     @Override
     public void onBindViewHolder(@NonNull MyArtifactsRecyclerViewHolder holder, int position) {
-        ArtifactItem artifactItem = artifactItemList.get(position);
+        ArtifactItemWrapper artifactItemWrapper = artifactItemWrapperList.get(position);
 
-        holder.time.setText(artifactItem.getLastUpdateDateTime());
-        holder.description.setText(artifactItem.getDescription());
+        holder.time.setText(artifactItemWrapper.getLastUpdateDateTime());
+        holder.description.setText(artifactItemWrapper.getDescription());
 
         List<Uri> mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItem.getMediaDataUrls()) {
+        for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri" + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }
 
 
         // image view
-        if (artifactItem.getMediaType() == TYPE_IMAGE) {
+        if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
             // recycler view adapter for display images
             ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
             // recycler view for display images
@@ -132,7 +131,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             holder.frame.setLayoutParams(layoutParam);
             holder.frame.addView(imageRecyclerView);
         // video view
-        } else if (artifactItem.getMediaType() == TYPE_VIDEO) {
+        } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             // set frame layout param
             LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
@@ -216,30 +215,35 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             public void onClick(View view) {
                 Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
                 Intent activityChangeIntent = new Intent(context, TimelineActivity.class);
-                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemList.get(position).getArtifactTimelineId());
+                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemWrapperList.get(position).getArtifactTimelineId());
                 context.startActivity(activityChangeIntent);
             }
         });
     }
 
     @Override
-    public int getItemCount() { return artifactItemList.size(); }
+    public int getItemCount() {
+        if (artifactItemWrapperList == null) {
+            return 0;
+        }
+        return artifactItemWrapperList.size();
+    }
 
-    public void setData(List<ArtifactItem> newData) {
-        Collections.sort(newData, new Comparator<ArtifactItem>() {
+    public void setData(List<ArtifactItemWrapper> newData) {
+        Collections.sort(newData, new Comparator<ArtifactItemWrapper>() {
             @Override
-            public int compare(ArtifactItem artifactItem, ArtifactItem t1) {
-                return -1 * artifactItem.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
+            public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+                return -1 * artifactItemWrapper.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
             }
         });
-        artifactItemList = newData;
+        artifactItemWrapperList = newData;
         notifyDataSetChanged();
     }
 
     // *************************************** getter & setters ***********************************
-    public void addData(ArtifactItem artifactItem) {
-        // 0 to add data at start
-        this.artifactItemList.add(0, artifactItem);
-        notifyDataSetChanged();
-    }
+//    public void addData(ArtifactItem artifactItem) {
+//        // 0 to add data at start
+//        this.artifactItemWrapperList.add(0, artifactItem);
+//        notifyDataSetChanged();
+//    }
 }
