@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
+import com.example.family_artifact_register.Util.Callback;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,21 +18,21 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-public class FamilyArtifactRegisterActivity extends AppCompatActivity {
+public class FamilyArtifactRegisterActivity extends AppCompatActivity implements Callback<Void> {
     /**
      * class tag
      */
     private final String TAG = getClass().getSimpleName();
 
     /**
-     * firebase authentication
+     * firebase request code
      */
-    private FirebaseAuth mFirebaseAuth;
+    public static final int RC_SIGN_IN = 1;
 
     /**
      * firebase request code
      */
-    public static final int RC_SIGN_IN = 1;
+    public static final int CHECK_USER_DB = 2;
 
     /**
      * control firebase state info
@@ -56,16 +57,18 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity {
 
     private void checkAndSignIn() {
         // set firebase sign in layout
-        mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListner = firebaseAuth -> {
+            // Already logged in
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user!=null) {
                 // Check user even if signed in to register him to database (if haven't)
-                FirebaseAuthHelper.getInstance().checkRegisterUser(user);
+                FirebaseAuthHelper.getInstance().checkRegisterUser(user,
+                        this, CHECK_USER_DB);
+
                 Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
                 startHomeActivity();
-            }
-            else {
+            } else {
+                // Signed out or hasn't logged in
                 startActivityForResult(
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
@@ -98,8 +101,8 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity {
                     return;
                 }
                 // Successfully signed in, get user and start home activity
-                FirebaseAuthHelper.getInstance().checkRegisterUser(firebaseUser);
-                startHomeActivity();
+                FirebaseAuthHelper.getInstance().checkRegisterUser(firebaseUser,
+                        this , CHECK_USER_DB);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -111,14 +114,31 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity {
     }
 
     @Override
+    public void callback(int requestCode, int resultCode, Void data) {
+        if (requestCode == CHECK_USER_DB) {
+            switch (resultCode) {
+                case (FirebaseAuthHelper.RESULT_USER_EXIST):
+                    Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
+                    startHomeActivity();
+                    break;
+                case (FirebaseAuthHelper.RESULT_NEW_USER):
+                    Toast.makeText(this, "Registration Successful",
+                            Toast.LENGTH_SHORT).show();
+                    startHomeActivity();
+                    break;
+            }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListner);
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
+        FirebaseAuth.getInstance().removeAuthStateListener(mAuthStateListner);
     }
 }

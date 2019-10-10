@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> {
+    // Encapsulate database attribute access
     public static final String UID = "uid";
     public static final String DISPLAY_NAME = "displayName";
     public static final String EMAIL = "email";
@@ -72,8 +73,14 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         this.artifactTimelineIds = artifactTimelineIds;
     }
 
-    public UserInfo(String uid, String displayName) {
-        this(uid, displayName, null, null, null,
+    public static UserInfo newInstance(String uid, String displayName) {
+        return new UserInfo(uid, displayName, null, null, null,
+                new HashMap<>(), new HashMap<>(), new HashMap<>());
+    }
+
+    public static UserInfo newInstance(String uid, String displayName,
+                                       String email, String phoneNumber) {
+        return new UserInfo(uid, displayName, email, phoneNumber, null,
                 new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
@@ -85,7 +92,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return photoUrl;
     }
 
-    void setPhotoUrl(String photoUrl) {
+    public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
 
