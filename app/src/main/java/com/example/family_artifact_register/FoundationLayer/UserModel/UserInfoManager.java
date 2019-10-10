@@ -388,7 +388,6 @@ public class UserInfoManager {
                     }
             );
         }
-        Log.d(TAG, mutableLiveData.getValue().toString());
         return mutableLiveData;
     }
 
