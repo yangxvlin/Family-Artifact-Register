@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewHolder;
 
@@ -30,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
@@ -149,6 +151,18 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
+
+        holder.timeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String timelineId = artifactItem.getArtifactTimelineId();
+                Log.d(TAG, "Timeline ID: " + timelineId);
+                Intent i = new Intent(view.getContext(), TimelineActivity.class);
+                i.putExtra(TIMELINE_ID_KEY, timelineId);
+                context.startActivity(i);
+            }
+        });
+
     }
 
     @Override
