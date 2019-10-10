@@ -39,14 +39,22 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
                 ArrayList<UserInfoWrapper> resultList = new ArrayList<>();
                 for(UserInfo i: userInfos) {
                     UserInfoWrapper wrapper = new UserInfoWrapper(i);
-                    helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
-                        @Override
-                        public void onChanged(Uri uri) {
-                            wrapper.setPhotoUrl(uri.toString());
-                            resultList.add(wrapper);
-                            result.postValue(resultList);
-                        }
-                    });
+                    String url = wrapper.getPhotoUrl();
+                    if(url == null) {
+                        wrapper.setPhotoUrl(null);
+                        resultList.add(wrapper);
+                        result.postValue(resultList);
+                    }
+                    else {
+                        helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                            @Override
+                            public void onChanged(Uri uri) {
+                                wrapper.setPhotoUrl(uri.toString());
+                                resultList.add(wrapper);
+                                result.postValue(resultList);
+                            }
+                        });
+                    }
                 }
             }
         });
