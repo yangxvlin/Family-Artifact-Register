@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
+import com.example.family_artifact_register.Util.FileHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -61,11 +62,18 @@ public class FirebaseStorageHelper {
         Path localFilePath = new File(localUri.toString()).toPath();
         Path localStoragePath;
         if (localUri.getScheme() != null) {
-            localStoragePath = (new File("file:/" + mCacheDirectoryHelper.getCacheDirectory().toString())).toPath();
+            localStoragePath = (
+                    FileHelper.getInstance().checkAddScheme(
+                            mCacheDirectoryHelper
+                            .getCacheDirectory()))
+                    .toPath();
         } else {
             localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
         }
-
+        Log.d(TAG, "LocalUri: " + localUri.toString()
+                + "\nlocalFilePath: " + localFilePath.toString()
+                + "\nlocalStoragePath: " + localStoragePath.toString()
+        );
         Path remotePath = localStoragePath.relativize(localFilePath);
         return remotePath.toString();
     }
@@ -112,14 +120,13 @@ public class FirebaseStorageHelper {
     public LiveData<Uri> loadByRemoteUri(String remoteUrl) {
         MutableLiveData<Uri> mutableLiveData = new MutableLiveData<>();
         Uri localUri = parseRemoteUrl(remoteUrl);
-        if (remoteLocalBiMap.get(remoteUrl) != null) {
-            // If already loaded
-            mutableLiveData.setValue(remoteLocalBiMap.get(remoteUrl));
-        } else if (new File(localUri.toString()).exists()) {
+        if (new File(localUri.toString()).exists()) {
             // Exist in local
             mutableLiveData.setValue(localUri);
             // add to mapping
-            remoteLocalBiMap.put(remoteUrl, localUri);
+            if (!remoteLocalBiMap.containsKey(remoteUrl)) {
+                remoteLocalBiMap.put(remoteUrl, localUri);
+            }
         } else {
             // If not loaded yet
             StorageReference mFileStorageReference = mStorageReference.child(remoteUrl);
