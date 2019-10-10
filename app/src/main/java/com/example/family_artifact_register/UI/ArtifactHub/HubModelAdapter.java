@@ -157,7 +157,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 String pid = artifactItem.getPostId();
                 Intent i = new Intent(view.getContext(), DetailFragment.class);
                 i.putExtra("selectedPid", pid);
-                startActivity(i);
+                context.startActivity(i);
             }
         });
     }
