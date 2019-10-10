@@ -30,8 +30,9 @@ import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TY
 
 public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHolder>{
 
-    private static final String TAG = com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter.class.getSimpleName();
-    private ArtifactItem artifactItem;
+    private static final String TAG = com.example.family_artifact_register.UI.Util.
+            MyArtifactsRecyclerViewAdapter.class.getSimpleName();
+//    private ArtifactItem arti
     private List<String> postImages;
 
 //    private FragmentManager fm;
@@ -39,7 +40,6 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
     private Context context;
 
     public DetailImageAdapter(Context context) {
-        this.postImages = new ArrayList<>();
         this.context = context;
 //        this.fm = fm;
     }
@@ -54,90 +54,103 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
     @Override
     public void onBindViewHolder(@NonNull DetailImageViewHolder holder, int position) {
 
-        List<Uri> mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItem.getMediaDataUrls()) {
-            Log.d(TAG, "media uri" + mediaUrl);
-            mediaList.add(Uri.parse(mediaUrl));
+        String url = postImages.get(position);
+        if(url != null) {
+            holder.postImage.setImageURI(Uri.parse(url));
         }
 
-        // image view
-        if (artifactItem.getMediaType() == TYPE_IMAGE) {
-            // recycler view adapter for display images
-            ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
-            // recycler view for display images
-            RecyclerView imageRecyclerView;
-
-            // set frame layout param
-            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParam.gravity = Gravity.CENTER;
-
-            // set recycler view images
-            RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
-                    RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.WRAP_CONTENT
-            );
-            imageRecyclerView = new RecyclerView(context);
-            imageRecyclerView.setLayoutParams(recyclerViewParam);
-
-            // images horizontally
-            LinearLayoutManager layoutManager = new LinearLayoutManager(
-                    context,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-            );
-            imageRecyclerView.setLayoutManager(layoutManager);
-
-            // image adapter
-            imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
-                    200,
-                    200,
-                    context
-            );
-            for (Uri image: mediaList) {
-                imagesRecyclerViewAdapter.addData(image);
-            }
-            imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
-            holder.postImage.setLayoutParams(layoutParam);
-            holder.postImage.addView(imageRecyclerView);
-            // video view
-        } else if (artifactItem.getMediaType() == TYPE_VIDEO) {
-            // set frame layout param
-            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-            layoutParam.gravity = Gravity.CENTER;
-
-            // set media
-            VideoView mediaView = new VideoView(context);
-            mediaView.setLayoutParams(new FrameLayout.LayoutParams(
-                    800,
-                    1200)
-            );
-            mediaView.setVideoURI(mediaList.get(0));
-            mediaView.setMediaController(new MediaController(context));
-            mediaView.start();
-            mediaView.requestFocus();
-            mediaView.setOnCompletionListener(mp -> {
-                Log.d(TAG, "Video play finish.");
-            });
-            mediaView.setOnErrorListener((mp, what, extra) -> {
-                Log.d(TAG, "Video play error!!!");
-                return false;
-            });
-
-            holder.postImage.setLayoutParams(layoutParam);
-            holder.postImage.addView(mediaView);
-        } else {
-            Log.e(TAG, "unknown media type !!!");
-        }
+//        List<Uri> mediaList = new ArrayList<>();
+//        for (String mediaUrl: artifactItem.getMediaDataUrls()) {
+//            Log.d(TAG, "media uri" + mediaUrl);
+//            mediaList.add(Uri.parse(mediaUrl));
+//        }
+//
+//        // image view
+//        if (artifactItem.getMediaType() == TYPE_IMAGE) {
+//            // recycler view adapter for display images
+//            ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
+//            // recycler view for display images
+//            RecyclerView imageRecyclerView;
+//
+//            // set frame layout param
+//            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+//                    FrameLayout.LayoutParams.MATCH_PARENT,
+//                    FrameLayout.LayoutParams.WRAP_CONTENT
+//            );
+//            layoutParam.gravity = Gravity.CENTER;
+//
+//            // set recycler view images
+//            RecyclerView.LayoutParams recyclerViewParam = new RecyclerView.LayoutParams(
+//                    RecyclerView.LayoutParams.MATCH_PARENT,
+//                    RecyclerView.LayoutParams.WRAP_CONTENT
+//            );
+//            imageRecyclerView = new RecyclerView(context);
+//            imageRecyclerView.setLayoutParams(recyclerViewParam);
+//
+//            // images horizontally
+//            LinearLayoutManager layoutManager = new LinearLayoutManager(
+//                    context,
+//                    LinearLayoutManager.HORIZONTAL,
+//                    false
+//            );
+//            imageRecyclerView.setLayoutManager(layoutManager);
+//
+//            // image adapter
+//            imagesRecyclerViewAdapter = new ImagesRecyclerViewAdapter(
+//                    200,
+//                    200,
+//                    context
+//            );
+//            for (Uri image: mediaList) {
+//                imagesRecyclerViewAdapter.addData(image);
+//            }
+//            imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
+//            holder.postImage.setLayoutParams(layoutParam);
+//            holder.postImage.addView(imageRecyclerView);
+//            // video view
+//        } else if (artifactItem.getMediaType() == TYPE_VIDEO) {
+//            // set frame layout param
+//            LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+//                    FrameLayout.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT
+//            );
+//            layoutParam.gravity = Gravity.CENTER;
+//
+//            // set media
+//            VideoView mediaView = new VideoView(context);
+//            mediaView.setLayoutParams(new FrameLayout.LayoutParams(
+//                    800,
+//                    1200)
+//            );
+//            mediaView.setVideoURI(mediaList.get(0));
+//            mediaView.setMediaController(new MediaController(context));
+//            mediaView.start();
+//            mediaView.requestFocus();
+//            mediaView.setOnCompletionListener(mp -> {
+//                Log.d(TAG, "Video play finish.");
+//            });
+//            mediaView.setOnErrorListener((mp, what, extra) -> {
+//                Log.d(TAG, "Video play error!!!");
+//                return false;
+//            });
+//
+//            holder.postImage.setLayoutParams(layoutParam);
+//            holder.postImage.addView(mediaView);
+//        } else {
+//            Log.e(TAG, "unknown media type !!!");
+//        }
     }
 
-    public void setData(ArtifactItem newData) {
-        artifactItem = newData;
+    @Override
+    public int getItemCount() {
+        if(postImages != null) {
+            return postImages.size();
+        }
+        return 0;
+    }
+
+    public void setData(List<String> newData) {
+        postImages = newData;
         notifyDataSetChanged();
     }
 
