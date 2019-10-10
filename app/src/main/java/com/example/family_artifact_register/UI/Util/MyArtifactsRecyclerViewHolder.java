@@ -31,4 +31,8 @@ public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
         frame = itemView.findViewById(R.id.item_my_artifact_media);
         navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
     }
+
+    public void clearFrame() {
+        frame.removeAllViews();
+    }
 }
