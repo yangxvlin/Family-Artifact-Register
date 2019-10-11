@@ -49,7 +49,7 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVi
  */
 public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
-    private static final String TAG = com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter.class.getSimpleName();
+    private static final String TAG = HubModelAdapter.class.getSimpleName();
     private List<ArtifactItemWrapper> artifactItemWrapperList;
 
 //    private FragmentManager fm;
