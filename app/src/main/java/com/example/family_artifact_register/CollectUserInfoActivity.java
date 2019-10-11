@@ -165,7 +165,7 @@ public class CollectUserInfoActivity extends AppCompatActivity {
     }
 
     private void upload() {
-        UserInfo userInfo = UserInfo.newInstance(null, userName, avatarUri.toString());
+        UserInfo userInfo = UserInfo.newInstance(UserInfoManager.getInstance().getCurrentUid(), userName, avatarUri.toString());
         UserInfoManager.getInstance().storeUserInfo(userInfo);
     }
 
