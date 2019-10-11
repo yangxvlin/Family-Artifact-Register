@@ -51,7 +51,7 @@ public class FirebaseStorageHelper {
 
     private static Uri checkAddUriScheme(Uri uri) {
         if (uri.getScheme() == null) {
-            uri = uri.buildUpon().scheme("content").build();
+            uri = uri.buildUpon().scheme("file").build();
         }
         return uri;
     }
