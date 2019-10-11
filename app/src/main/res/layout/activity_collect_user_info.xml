@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_margin="20dp"
 >
 
     <LinearLayout
@@ -20,10 +20,9 @@
             android:layout_height="150dp"
             android:src="@drawable/default_avatar_list"
             app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000"
+            app:civ_border_color="@color/wechat_white"
             android:layout_gravity="center_horizontal"
             android:layout_marginVertical="20dp"
-            android:visibility="gone"
         />
 
         <!-- User's name -->
@@ -39,51 +38,52 @@
                 android:layout_height="wrap_content"
                 android:inputType="textCapCharacters"
                 android:maxLines="1"
+                android:background="@color/wechat_white"
             />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:layout_margin="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/please_choose_avatar"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="18sp"
-        />
+<!--        <TextView-->
+<!--            android:layout_margin="4dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/please_choose_avatar"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18sp"-->
+<!--        />-->
 
-        <!--choose avatar-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            >
+<!--        &lt;!&ndash;choose avatar&ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center"-->
+<!--            >-->
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/activity_collect_user_info_floating_button_camera"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:src="@drawable/camera_button"
-                android:layout_margin="16dp"
-                app:backgroundTint="@android:color/white"
-                app:tint="@color/primaryColor"
-                app:rippleColor="@color/primaryColor"
-                />
+<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                android:id="@+id/activity_collect_user_info_floating_button_camera"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end|bottom"-->
+<!--                android:src="@drawable/camera_button"-->
+<!--                android:layout_margin="16dp"-->
+<!--                app:backgroundTint="@android:color/white"-->
+<!--                app:tint="@color/primaryColor"-->
+<!--                app:rippleColor="@color/primaryColor"-->
+<!--                />-->
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/activity_collect_user_info_floating_button_album"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:src="@drawable/image_button"
-                android:layout_margin="16dp"
-                app:backgroundTint="@android:color/white"
-                app:tint="@color/primaryColor"
-                app:rippleColor="@color/primaryColor"
-                />
-        </LinearLayout>
+<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                android:id="@+id/activity_collect_user_info_floating_button_album"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end|bottom"-->
+<!--                android:src="@drawable/image_button"-->
+<!--                android:layout_margin="16dp"-->
+<!--                app:backgroundTint="@android:color/white"-->
+<!--                app:tint="@color/primaryColor"-->
+<!--                app:rippleColor="@color/primaryColor"-->
+<!--                />-->
+<!--        </LinearLayout>-->
 
         <!--finish button-->
         <RelativeLayout
