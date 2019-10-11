@@ -117,7 +117,13 @@ public class FirebaseStorageHelper {
             mutableLiveData.setValue(localUri);
             // add to mapping
             if (!remoteLocalBiMap.containsKey(remoteUrl)) {
-                remoteLocalBiMap.put(remoteUrl, localUri);
+                // FIXME this try catch should be removed after someone fixed their problem in code
+                try {
+                    remoteLocalBiMap.put(remoteUrl, localUri);
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "Failed to put into bimap, e: " + e.toString() +
+                            "remoteUrl: " + remoteUrl + ", localUri: " + localUri);
+                }
             }
         } else {
             // If not loaded yet
