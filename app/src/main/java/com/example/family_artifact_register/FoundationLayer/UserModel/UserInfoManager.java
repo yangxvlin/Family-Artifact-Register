@@ -271,7 +271,8 @@ public class UserInfoManager {
      * @param requestCode specifier for the db request
      * @param userInfoCallback function to invoke after completion
      */
-    @Deprecated()
+    // FIXME very very bad database practice!
+    @Deprecated
     public void storeUserInfo(UserInfo userInfo, int requestCode, Callback<Void> userInfoCallback) {
         String uid = userInfo.getUid();
         mUserCollection
@@ -284,6 +285,10 @@ public class UserInfoManager {
                                 Log.d(TAG, "User information"
                                         + userInfo.toString()
                                         + "successfully written!");
+                                // FIXME temporary solution for when new user just registered
+                                if (getCurrentUid() != null && getCurrentUid().equals(uid)) {
+                                    mCurrentUserInfoLiveData.setValue(userInfo);
+                                }
                                 resultCode = RESULT_OK;
                             } else if (task.isCanceled()) {
                                 Log.w(TAG, "Error writing user info" +
@@ -291,8 +296,7 @@ public class UserInfoManager {
                                 resultCode = RESULT_CANCELLED;
                             }
                             if (userInfoCallback != null) {
-                                userInfoCallback.callback(requestCode, resultCode,
-                                        task.getResult());
+                                userInfoCallback.callback(requestCode, resultCode, task.getResult());
                             }
                         }
                 );
