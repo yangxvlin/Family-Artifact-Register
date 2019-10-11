@@ -342,10 +342,10 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
     public static HubFragment newInstance() { return new HubFragment(); }
 
     // ********************************** implement presenter ************************************
-//    @Override
-//    public void addData(ArtifactItem artifactItem) {
-//        hubModelAdapter.addData(artifactItem);
-//    }
+    @Override
+    public void addData(ArtifactItem artifactItem) {
+        Log.d(TAG, "addData");
+    }
 
     @Override
     public String getFragmentTag() { return TAG; }
