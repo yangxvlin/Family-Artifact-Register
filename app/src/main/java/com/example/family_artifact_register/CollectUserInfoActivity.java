@@ -10,7 +10,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -165,8 +164,8 @@ public class CollectUserInfoActivity extends AppCompatActivity {
     }
 
     private void upload() {
-        UserInfo userInfo = UserInfo.newInstance(null, userName);
-        UserInfoManager.getInstance().storeUserInfo(userInfo);
+        UserInfoManager.getInstance().setDisplayName(userName);
+        UserInfoManager.getInstance().setPhoto(avatarUri);
     }
 
     private void toHomeActivity() {
