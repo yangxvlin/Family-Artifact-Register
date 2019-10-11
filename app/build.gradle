@@ -158,6 +158,13 @@ dependencies {
     // https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+    // ******************************************************************************************
+    // tab layout library
+    // https://github.com/ogaclejapan/SmartTabLayout
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
+    //Optional: see how to use the utility.
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'
