@@ -93,16 +93,24 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
-        Observer<Set<UserInfoWrapper>> contactObserver = new Observer<Set<UserInfoWrapper>>() {
+        contactModel.getPersonalProfile().observe(this, new Observer<UserInfoWrapper>() {
+            @Override
+            public void onChanged(UserInfoWrapper wrapper) {
+                String url = wrapper.getPhotoUrl();
+                if(url != null) {
+                    userProfile.setImageURI(Uri.parse(url));
+                }
+            }
+        });
+
+        contactModel.getContacts().observe(this, new Observer<Set<UserInfoWrapper>>() {
             @Override
             public void onChanged(Set<UserInfoWrapper> newData) {
                 // when there is a change in the friend list, give the new one to list adapter
                 // Update the cached copy of the users in the adapter
                 adapter.setData(newData);
             }
-        };
-
-        contactModel.getContacts().observe(this, contactObserver);
+        });
 
         return view;
     }

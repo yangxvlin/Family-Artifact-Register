@@ -22,16 +22,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.WeakHashMap;
 
 public class ContactViewModel extends AndroidViewModel {
 
     public static final String TAG = ContactViewModel.class.getSimpleName();
 
     private UserInfoManager manager = UserInfoManager.getInstance();
+    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private LiveData<UserInfo> currentUser = manager.listenUserInfo(manager.getCurrentUid());
-
-    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private List<String> friendUids;
 
@@ -40,6 +40,7 @@ public class ContactViewModel extends AndroidViewModel {
 
     private MediatorLiveData<Set<UserInfoWrapper>> friends = new MediatorLiveData<>();
 
+    private MutableLiveData<UserInfoWrapper> me = new MutableLiveData<>();
 
     public ContactViewModel(Application application) {
         super(application);
@@ -100,4 +101,30 @@ public class ContactViewModel extends AndroidViewModel {
     public LiveData<Set<UserInfoWrapper>> getContacts() {
         return friends;
     }
+
+    public LiveData<UserInfoWrapper> getPersonalProfile() {
+        manager.listenUserInfo(manager.getCurrentUid()).observeForever(new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                if(wrapper.getPhotoUrl() == null) {
+                    wrapper.setPhotoUrl(null);
+                    me.postValue(wrapper);
+                }
+                else {
+                    helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                        @Override
+                        public void onChanged(Uri uri) {
+                            wrapper.setPhotoUrl(uri.toString());
+                            me.postValue(wrapper);
+                        }
+                    });
+                }
+
+            }
+        });
+        return me;
+    }
+
+    public String getCurrentUid() { return manager.getCurrentUid(); }
 }
