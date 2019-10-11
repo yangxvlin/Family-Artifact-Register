@@ -7,16 +7,34 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/recycler_view"/>
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/friend_list_fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|end"
-    android:layout_marginEnd="20dp"
-    android:layout_marginBottom="40dp"
-    app:srcCompat="@drawable/add_friend_icon"
-    app:backgroundTint="@android:color/white"
-    app:tint="@color/primaryColor"
-    app:rippleColor="@color/primaryColor"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="35dp" >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_profile"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/default_avatar_list"
+            android:clickable="true"
+            android:layout_margin="5dp"
+            android:elevation="5dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/friend_list_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/add_friend_icon"
+            app:backgroundTint="@android:color/white"
+            app:tint="@color/primaryColor"
+            app:rippleColor="@color/primaryColor"
+            android:layout_below="@+id/user_profile"
+            android:layout_margin="5dp"/>
+
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
