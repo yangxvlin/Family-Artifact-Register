@@ -57,7 +57,7 @@ public class FirebaseStorageHelper {
     }
 
     private String extractLocalUri(Uri localUri) {
-        Path localFilePath = new File(localUri.toString()).toPath();
+        Path localFilePath = new File(localUri.getPath()).toPath();
         Path localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
         Log.d(TAG, "LocalUri: " + localUri.toString()
                 + "\nlocalFilePath: " + localFilePath.toString()
