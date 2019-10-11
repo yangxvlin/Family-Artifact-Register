@@ -57,11 +57,11 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
     }
 
     private void checkAndSignIn() {
-        // set firebase sign in layout
+        // set firebase sign in listener
         mAuthStateListner = firebaseAuth -> {
             // Already logged in
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user!=null) {
+            if (user != null) {
                 // Check user even if signed in to register him to database (if haven't)
                 FirebaseAuthHelper.getInstance().checkRegisterUser(user,
                         this, CHECK_USER_DB);
@@ -123,6 +123,8 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
 
     @Override
     public void callback(int requestCode, int resultCode, Void data) {
+        Log.d(TAG, "Auth callback triggered with request code: " + requestCode +
+                ", result code: " + resultCode);
         if (requestCode == CHECK_USER_DB) {
             switch (resultCode) {
                 case (FirebaseAuthHelper.RESULT_USER_EXIST):
@@ -133,11 +135,16 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
 //                    startCollectUserInfoActivity();
                     break;
                 case (FirebaseAuthHelper.RESULT_NEW_USER):
-                    // Toast.makeText(this, R.string.registeration_successful,
+                    // Toast.makeText(this, R.string.registration_successful,
                     //        Toast.LENGTH_SHORT).show();
-                    Toasty.success(this, R.string.registeration_successful, Toasty.LENGTH_LONG)
+                    Toasty.success(this, R.string.registration_successful, Toasty.LENGTH_LONG)
                             .show();
                     startCollectUserInfoActivity();
+                    break;
+                case (FirebaseAuthHelper.RESULT_FAILURE):
+                    Log.e(TAG, "Storing user information to database failed");
+                    Toasty.error(this, R.string.auth_failure, Toasty.LENGTH_LONG)
+                            .show();
                     break;
             }
         }

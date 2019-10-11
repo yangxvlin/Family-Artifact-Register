@@ -89,9 +89,10 @@
     <string name="default_info_snippet">系统定位服务已禁用，无法找到您的位置</string>
     <string name="no_location">暂无定位</string>
     <string name="user_signed_in">欢迎：用户登录</string>
-    <string name="registeration_successful">注册成功！</string>
+    <string name="registration_successful">注册成功！</string>
     <string name="please_choose_avatar">请选择用户头像：</string>
     <string name="pick_media">选择回忆</string>
     <string name="choose_avatar">选择头像</string>
+    <string name="auth_failure">用户身份验证失败</string>
 
 </resources>
