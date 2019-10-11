@@ -1,8 +1,6 @@
 package com.example.family_artifact_register.UI.Util;
 
 
-import android.app.ActionBar;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +8,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -22,6 +17,8 @@ import com.example.family_artifact_register.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImageOnClickOpenDialogListener;
 
 /**
  * a recycler view adapter for displaying multiple images with customized image size;
@@ -91,34 +88,7 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
         // System.out.println("set bitmap finished");
 
         holder.imageView.setLayoutParams(layoutParams);
-        holder.imageView.setOnClickListener(view -> {
-            // whole screen dialog of image
-            Dialog dia = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-//            dia.setContentView(R.layout.start_image_dialog);
-
-            ImageView imageView = new ImageView(context);
-            imageView.setLayoutParams(
-                new ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.MATCH_PARENT
-                )
-            );
-            imageView.setImageBitmap(bitmap);
-            // click to return
-            imageView.setOnClickListener(v -> {
-                dia.dismiss();
-            });
-            dia.setContentView(imageView);
-//            imageView.setBackgroundResource(R.mipmap.iv_android);
-            dia.show();
-
-            dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
-            Window w = dia.getWindow();
-            WindowManager.LayoutParams lp = w.getAttributes();
-            lp.x = 0;
-            lp.y = 40;
-            dia.onWindowAttributesChanged(lp);
-        });
+        setImageOnClickOpenDialogListener(holder.imageView, images.get(position), context);
     }
 
     @Override

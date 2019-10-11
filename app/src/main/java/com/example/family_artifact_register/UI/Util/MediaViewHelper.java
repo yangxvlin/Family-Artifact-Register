@@ -32,7 +32,7 @@ import java.util.List;
 public class MediaViewHelper {
     public static final String TAG = MediaViewHelper.class.getSimpleName();
 
-    public static void getImagesViewPager(List<Uri> images, Context context, UltraViewPager ultraViewPager, Boolean infiniteLoop) {
+    public static void setImagesViewPager(List<Uri> images, Context context, UltraViewPager ultraViewPager, Boolean infiniteLoop) {
         ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
         //initialize ImageUltraPagerAdapter，and add child view to UltraViewPager
         PagerAdapter adapter = new ImageUltraPagerAdapter(images, context);
@@ -273,5 +273,35 @@ public class MediaViewHelper {
         playIcon.setImageResource(R.drawable.ic_play_circle_filled_white);
 
         return playIcon;
+    }
+
+    public static void setImageOnClickOpenDialogListener(View imageView, Uri image, Context context) {
+        imageView.setOnClickListener(view -> {
+            // whole screen dialog of image
+            Dialog dia = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+            ImageView iv = new ImageView(context);
+            iv.setLayoutParams(
+                    new ActionBar.LayoutParams(
+                            ActionBar.LayoutParams.MATCH_PARENT,
+                            ActionBar.LayoutParams.MATCH_PARENT
+                    )
+            );
+            iv.setImageURI(image);
+            // click to return
+            iv.setOnClickListener(v -> {
+                dia.dismiss();
+            });
+            dia.setContentView(iv);
+//            dia.setContentView(imageView);
+//            imageView.setBackgroundResource(R.mipmap.iv_android);
+            dia.show();
+
+            dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
+            Window w = dia.getWindow();
+            WindowManager.LayoutParams lp = w.getAttributes();
+            lp.x = 0;
+            lp.y = 40;
+            dia.onWindowAttributesChanged(lp);
+        });
     }
 }

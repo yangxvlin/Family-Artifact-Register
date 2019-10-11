@@ -24,7 +24,7 @@ import java.util.List;
 import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
-import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImagesViewPager;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImagesViewPager;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 
@@ -90,7 +90,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 //            View imageSlider = getImagesSliderView(400, 400, mediaList, context);
 //            holder.frame.addView(imageSlider);
 
-            getImagesViewPager(mediaList, context, holder.ultraViewPager, true);
+            setImagesViewPager(mediaList, context, holder.ultraViewPager, true);
             holder.frame.setVisibility(View.GONE);
 //            holder.ultraViewPager.setPadding(0, 20, 0, 20);
             holder.ultraViewPager.setVisibility(View.VISIBLE);
