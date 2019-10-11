@@ -99,7 +99,9 @@
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">397146774529537</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb397146774529537</string>
-<!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
+    <string name="event_my_title">My Event</string>
+    <string name="event_friend_title">Friend Event</string>
+    <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
     <!-- Twitter consumer key and secret -->
     <!--    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>-->
     <!--    <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>-->
