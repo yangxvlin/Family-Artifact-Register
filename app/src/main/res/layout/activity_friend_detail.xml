@@ -38,7 +38,7 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.15">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/avatar"
                     android:contentDescription="avatar"
                     android:layout_width="50dp"
