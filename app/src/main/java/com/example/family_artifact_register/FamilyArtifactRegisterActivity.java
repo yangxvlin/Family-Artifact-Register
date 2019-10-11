@@ -44,7 +44,7 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
      * Available sign-in providers
      */
     List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
+            new AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
             new AuthUI.IdpConfig.PhoneBuilder().build(),
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.FacebookBuilder().build());
