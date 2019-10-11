@@ -131,7 +131,6 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
         if (requestCode == CHECK_USER_DB) {
             switch (resultCode) {
                 case (FirebaseAuthHelper.RESULT_USER_EXIST):
-                    System.out.println(12345);
 //                     Toast.makeText(this, R.string.user_signed_in, Toast.LENGTH_SHORT).show();
                     Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
                             .show();
@@ -139,7 +138,6 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
 //                    startCollectUserInfoActivity();
                     break;
                 case (FirebaseAuthHelper.RESULT_NEW_USER):
-                    System.out.println(45678);
                     // Toast.makeText(this, R.string.registration_successful,
                     //        Toast.LENGTH_SHORT).show();
                     Toasty.success(this, R.string.registration_successful, Toasty.LENGTH_LONG)
@@ -147,7 +145,6 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                     startCollectUserInfoActivity();
                     break;
                 case (FirebaseAuthHelper.RESULT_FAILURE):
-                    System.out.println(56789);
                     Log.e(TAG, "Storing user information to database failed");
                     Toasty.error(this, R.string.auth_failure, Toasty.LENGTH_LONG)
                             .show();
