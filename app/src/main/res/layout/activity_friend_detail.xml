@@ -96,8 +96,9 @@
                     android:layout_toEndOf="@id/phone_icon"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/black"
-                    android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -136,8 +137,9 @@
                     android:layout_toEndOf="@id/email_icon"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/black"
-                    android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"/>
 
                 <TextView
                     android:layout_width="wrap_content"

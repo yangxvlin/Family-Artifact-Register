@@ -43,6 +43,9 @@ public class ContactDetailActivity extends AppCompatActivity {
         TextView phoneNumber = (TextView) findViewById(R.id.phone_number);
         TextView email = (TextView) findViewById(R.id.email);
 
+        phoneNumber.setSelected(true);
+        email.setSelected(true);
+
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
 //        username.setText(selectedUser);
