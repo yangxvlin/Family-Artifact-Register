@@ -103,7 +103,9 @@ public class FirebaseAuthHelper {
      * Retrieve and set Photo uri of a given FirebaseUser
      * @param photoUri The photoUri to retrieve and set
      */
+    @Deprecated()
     private void retrieveSetPhoto(Uri photoUri, UserInfo userInfo) {
+        // TODO: 2019-10-11 THIS class need change!
         try {
             // default image extension
             String imgExtension = ".png";

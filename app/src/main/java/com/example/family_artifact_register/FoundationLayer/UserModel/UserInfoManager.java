@@ -263,16 +263,6 @@ public class UserInfoManager {
     public void storeUserInfo(UserInfo userInfo) {
         String uid = userInfo.getUid();
         storeUserInfo(userInfo, 0,null);
-        mUserCollection
-                .document(uid)
-                .set(userInfo)
-                .addOnSuccessListener(aVoid ->
-                        Log.d(TAG, "User information: "
-                                + userInfo.toString()
-                                + " successfully written!"))
-                .addOnFailureListener(e ->
-                        Log.w(TAG, "Error writing user info" +
-                                userInfo.toString(), e));
     }
 
     /**
@@ -281,6 +271,7 @@ public class UserInfoManager {
      * @param requestCode specifier for the db request
      * @param userInfoCallback function to invoke after completion
      */
+    @Deprecated()
     public void storeUserInfo(UserInfo userInfo, int requestCode, Callback<Void> userInfoCallback) {
         String uid = userInfo.getUid();
         mUserCollection
@@ -421,8 +412,10 @@ public class UserInfoManager {
 
     /**
      * Set the Photo Uri for current user
+     *
      * @param photoUri The photo uri to set with (has to be local)
      */
+    @Deprecated()
     public void setPhoto(Uri photoUri, UserInfo userInfo) {
         // TODO this part is potentially dangerous to async error
         Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
@@ -435,10 +428,11 @@ public class UserInfoManager {
             ).addOnSuccessListener(taskSnapshot -> {
                 // Change and store the user info to db after image complete
                 userInfo
-                    .setPhotoUrl(FirebaseStorageHelper
-                            .getInstance()
-                            .getRemoteByLocalUri(photoUri));
-            storeUserInfo(userInfo);})
+                        .setPhotoUrl(FirebaseStorageHelper
+                                .getInstance()
+                                .getRemoteByLocalUri(photoUri));
+                storeUserInfo(userInfo);
+            })
                     .addOnFailureListener(e ->
                             Log.w(TAG, "Error update user new Uri info to FireStore failed" +
                                     userInfo.toString(), e));
