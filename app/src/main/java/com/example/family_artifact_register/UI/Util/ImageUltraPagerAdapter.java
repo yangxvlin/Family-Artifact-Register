@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImageOnClickOpenDialogListener;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImageOnClickOpenDialogSliderListener;
 
 public class ImageUltraPagerAdapter extends PagerAdapter {
     private List<Uri> images;
@@ -51,7 +51,8 @@ public class ImageUltraPagerAdapter extends PagerAdapter {
         imageView.setImageURI(images.get(position));
         imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        setImageOnClickOpenDialogListener(imageView, images.get(position), context);
+        // setImageOnClickOpenDialogListener(imageView, images.get(position), context);
+        setImageOnClickOpenDialogSliderListener(imageView, images, context, position);
         container.addView(linearLayout);
 //        linearLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, container.getContext().getResources().getDisplayMetrics());
 //        linearLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, container.getContext().getResources().getDisplayMetrics());

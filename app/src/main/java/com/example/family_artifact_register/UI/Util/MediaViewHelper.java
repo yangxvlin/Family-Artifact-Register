@@ -25,8 +25,10 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.Util.FileHelper;
+import com.kodmap.app.library.PopopDialogBuilder;
 import com.tmall.ultraviewpager.UltraViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MediaViewHelper {
@@ -303,6 +305,42 @@ public class MediaViewHelper {
             lp.x = 0;
             lp.y = 40;
             dia.onWindowAttributesChanged(lp);
+        });
+    }
+
+    public static void setImageOnClickOpenDialogSliderListener(View imageView, List<Uri> images, Context context, int selectedIndex) {
+        List<String> imagesUriString = new ArrayList<>();
+        for (Uri image: images) {
+            imagesUriString.add("file:/" + image.toString());
+        }
+
+        imageView.setOnClickListener(view -> {
+            Dialog dialog = new PopopDialogBuilder(context)
+                    // Set list like as option1 or option2 or option3
+                    .setList(imagesUriString, selectedIndex)
+                    // or setList with initial position that like .setList(list,position)
+                    // Set dialog header color
+                    .setHeaderBackgroundColor(R.color.primaryColor)
+                    // Set dialog background color
+                    .setDialogBackgroundColor(R.color.color_dialog_bg)
+                    // Set close icon drawable
+                    .setCloseDrawable(R.drawable.ic_close_white_24dp)
+                    // Set loading view for pager image and preview image
+                    .setLoadingView(R.layout.loading_view)
+                    // Set dialog style
+                    .setDialogStyle(R.style.DialogStyle)
+                    // Choose selector type, indicator or thumbnail
+                    .showThumbSlider(true)
+                    // Set image scale type for slider image
+                    .setSliderImageScaleType(ImageView.ScaleType.FIT_CENTER)
+                    // Set indicator drawable
+                     .setSelectorIndicator(R.drawable.sample_indicator_selector)
+                    // Enable or disable zoomable
+                    .setIsZoomable(true)
+                    // Build Km Slider Popup Dialog
+                    .build();
+
+            dialog.show();
         });
     }
 }
