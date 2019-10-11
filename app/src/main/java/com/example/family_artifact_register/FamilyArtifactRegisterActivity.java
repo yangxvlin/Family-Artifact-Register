@@ -69,8 +69,8 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                         this, CHECK_USER_DB);
 
                 // Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
-                Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
-                        .show();
+//                Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
+//                        .show();
 //                startHomeActivity();
             } else {
                 Log.d(TAG, "user hasn't signed in");
