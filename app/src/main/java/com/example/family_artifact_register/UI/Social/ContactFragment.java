@@ -63,6 +63,16 @@ public class ContactFragment extends Fragment implements IFragment {
 
         setupRecyclerView(view);
 
+        ImageView userProfile = (ImageView) view.findViewById(R.id.user_profile);
+        userProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ContactDetailActivity.class);
+                intent.putExtra("selectedUid", contactModel.getCurrentUid());
+                startActivity(intent);
+            }
+        });
+
         FloatingActionButton fab = view.findViewById(R.id.friend_list_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
