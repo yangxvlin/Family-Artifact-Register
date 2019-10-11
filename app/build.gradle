@@ -53,6 +53,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-storage:16.0.4'
     implementation 'com.google.firebase:firebase-database:16.0.4'
+    implementation 'com.google.firebase:firebase-dynamic-links:19.0.0'
     testImplementation 'junit:junit:4.12'
     // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'

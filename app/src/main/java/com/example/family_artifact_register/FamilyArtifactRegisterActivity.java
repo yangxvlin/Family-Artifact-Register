@@ -11,6 +11,8 @@ import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHel
 import com.example.family_artifact_register.Util.Callback;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.firebase.ui.auth.util.ExtraConstants;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,7 +25,7 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
     /**
      * class tag
      */
-    private final String TAG = getClass().getSimpleName();
+    public static final String TAG = FamilyArtifactRegisterActivity.class.getSimpleName();
 
     /**
      * firebase request code
@@ -40,21 +42,60 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
      */
     private FirebaseAuth.AuthStateListener mAuthStateListner;
 
-    /**
-     * Available sign-in providers
-     */
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
-            new AuthUI.IdpConfig.PhoneBuilder().build(),
-            new AuthUI.IdpConfig.GoogleBuilder().build(),
-            new AuthUI.IdpConfig.FacebookBuilder().build());
+    private AuthUI.SignInIntentBuilder signInIntentBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family_artifact_register);
+
+        buildSignInIntentBuilder();
+        catchEmailLinkSignIn();
         createCheckAndSigninListener();
+
         FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
+    }
+
+    private void buildSignInIntentBuilder() {
+
+        ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
+                        .setAndroidPackageName("com.example.family_artifact_register", true, null)
+                        .setHandleCodeInApp(true)
+                        .setUrl(getString(R.string.dynamic_link_url))
+                        .build();
+
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder()
+                        .enableEmailLinkSignIn()
+                        .setActionCodeSettings(actionCodeSettings)
+                        .build(),
+                // new AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
+                new AuthUI.IdpConfig.PhoneBuilder()
+                        .build(),
+                new AuthUI.IdpConfig.GoogleBuilder()
+                        .build(),
+                new AuthUI.IdpConfig.FacebookBuilder()
+                        .build());
+
+        signInIntentBuilder = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setIsSmartLockEnabled(false)
+                .setAvailableProviders(providers)
+                .setLogo(R.drawable.icon_forget_me_not_1);
+    }
+
+    private void catchEmailLinkSignIn() {
+        Log.d(TAG, "Intent: " + getIntent().getExtras());
+        if (AuthUI.canHandleIntent(getIntent())) {
+            if (getIntent().getExtras() == null) {
+                return;
+            }
+            String link = getIntent().getExtras().getString(ExtraConstants.EMAIL_LINK_SIGN_IN);
+            Log.d(TAG, "link: " + link);
+            if (link != null) {
+                signInIntentBuilder.setEmailLink(link);
+            }
+        }
     }
 
     private void createCheckAndSigninListener() {
@@ -65,8 +106,7 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
             if (user != null) {
                 Log.d(TAG, "user already signed in");
                 // Check user even if signed in to register him to database (if haven't)
-                FirebaseAuthHelper.getInstance().checkRegisterUser(user,
-                        this, CHECK_USER_DB);
+                FirebaseAuthHelper.getInstance().checkRegisterUser(user, this, CHECK_USER_DB);
 
                 // Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
 //                Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
@@ -76,14 +116,11 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                 Log.d(TAG, "user hasn't signed in");
                 // Signed out or hasn't logged in
                 startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setIsSmartLockEnabled(false)
-                                .setAvailableProviders(providers)
-                                .setLogo(R.drawable.icon_forget_me_not_1)
+                        signInIntentBuilder
                                 .build(),
                         RC_SIGN_IN
                 );
+
             }
         };
     }

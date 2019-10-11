@@ -29,6 +29,16 @@
         -->
         <activity android:name=".FamilyArtifactRegisterActivity"
             android:theme="@style/splashTheme">
+
+<!--            <intent-filter android:label="@string/filter_view_http_email_link_auth">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="https"-->
+<!--                    android:host="it-project-artifact.firebaseapp.com"-->
+<!--                    android:pathPrefix="/link-auth" />-->
+<!--            </intent-filter>-->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
