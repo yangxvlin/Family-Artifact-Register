@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -82,6 +84,11 @@ public class CollectUserInfoActivity extends AppCompatActivity {
         fromAlbumButton.setOnClickListener(view1 -> {
             easyImage.openGallery(this);
         });
+
+        finishButton.setOnClickListener(view -> {
+            upload();
+            toHomeActivity();
+        });
     }
 
     @Override
@@ -151,5 +158,15 @@ public class CollectUserInfoActivity extends AppCompatActivity {
     private void updateAvatar() {
         avatarImagePreview.setImageURI(avatarUri);
         avatarImagePreview.setVisibility(View.VISIBLE);
+    }
+
+    private void upload() {
+        UserInfo userInfo = UserInfo.newInstance(null, userName);
+        UserInfoManager.getInstance().storeUserInfo(userInfo);
+    }
+
+    private void toHomeActivity() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }
