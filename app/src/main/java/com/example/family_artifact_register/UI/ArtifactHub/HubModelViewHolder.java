@@ -33,4 +33,7 @@ public class HubModelViewHolder extends RecyclerView.ViewHolder {
                 this.viewDetail = itemView.findViewById(R.id.view_detail);
             }
 
+            public void clearFrame() { postImage.removeAllViews();
+    }
+
         }

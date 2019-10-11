@@ -328,10 +328,9 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
-        viewModel.getPosts().observe(this, new Observer<List<ArtifactItem>>() {
+        viewModel.getPosts().observe(this, new Observer<List<ArtifactItemWrapper>>() {
             @Override
             public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
-                Log.d(TAG, "enter onchange");
                 hubModelAdapter.setData(artifactItemWrappers);
             }
         });
@@ -343,10 +342,10 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
     public static HubFragment newInstance() { return new HubFragment(); }
 
     // ********************************** implement presenter ************************************
-    @Override
-    public void addData(ArtifactItem artifactItem) {
-        hubModelAdapter.addData(artifactItem);
-    }
+//    @Override
+//    public void addData(ArtifactItem artifactItem) {
+//        hubModelAdapter.addData(artifactItem);
+//    }
 
     @Override
     public String getFragmentTag() { return TAG; }

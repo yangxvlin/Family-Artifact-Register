@@ -100,8 +100,8 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
             View imagesRecyclerView = getImageRecyclerView(200, 200, mediaList, context);
 
-            holder.frame.addView(imagesRecyclerView);
-            holder.frame.setLayoutParams(layoutParam);
+            holder.postImage.addView(imagesRecyclerView);
+            holder.postImage.setLayoutParams(layoutParam);
             // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             ImageView iv = getVideoThumbnail(200, 200, mediaList.get(0), context);
@@ -109,9 +109,9 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             ImageView playIcon = getVideoPlayIcon(context);
 
             // set frame's layout and add image view to it programmatically
-            holder.frame.addView(iv);
-            holder.frame.addView(playIcon);
-            holder.frame.setLayoutParams(layoutParam);
+            holder.postImage.addView(iv);
+            holder.postImage.addView(playIcon);
+            holder.postImage.setLayoutParams(layoutParam);
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
