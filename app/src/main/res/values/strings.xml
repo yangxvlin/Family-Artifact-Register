@@ -55,10 +55,11 @@
     <string name="menu_sign_out">Sign Out</string>
 
     <!-- main activity functionality -->
-    <string name="artifact_hub">Family Artifact Hub</string>
+    <string name="artifact_hub">Artifact Hub</string>
     <string name="friends">Friends</string>
     <string name="artifact_management">Artifact Management</string>
     <string name="artifact_map">Artifact Footprint</string>
+    <string name="artifact_event">Artifact Event</string>
 
     <!-- artifactItem manage activity functionality -->
     <string name="new_artifact">New Artifact</string>
