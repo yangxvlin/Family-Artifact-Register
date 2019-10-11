@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
+import com.example.family_artifact_register.UI.Event.EventFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -57,6 +58,11 @@ public class HomeActivity extends AppCompatActivity {
     private MeFragment meFragment = MeFragment.newInstance();
 
     /**
+     * Event page
+     */
+    private EventFragment eventFragment = EventFragment.newInstance();
+
+    /**
      * the fragment is active
      */
     Fragment active = hubFragment;
@@ -92,6 +98,11 @@ public class HomeActivity extends AppCompatActivity {
                         fm.beginTransaction().hide(active).show(meFragment).commit();
                         active = meFragment;
                         return true;
+                    case R.id.item_event:
+                        setTitle(R.string.artifact_event);
+                        fm.beginTransaction().hide(active).show(eventFragment).commit();
+                        active = eventFragment;
+                        return true;
                 }
                 return false;
             };
@@ -111,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
         fm.beginTransaction().add(R.id.main_view, mapFragment).hide(mapFragment).commit();
         fm.beginTransaction().add(R.id.main_view, contactFragment).hide(contactFragment).commit();
+        fm.beginTransaction().add(R.id.main_view, eventFragment).hide(eventFragment).commit();
         fm.beginTransaction().add(R.id.main_view, hubFragment).commit();
     }
 
@@ -128,6 +140,8 @@ public class HomeActivity extends AppCompatActivity {
             setTitle(R.string.artifact_map);
         } else if (tag.equals(MeFragment.TAG)) {
             setTitle(R.string.bottom_bar_profile);
+        } else if (tag.equals(EventFragment.TAG)) {
+            setTitle(R.string.artifact_event);
         }
     }
 
