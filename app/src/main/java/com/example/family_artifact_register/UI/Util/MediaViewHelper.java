@@ -45,8 +45,9 @@ public class MediaViewHelper {
                 .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
                 .setFocusColor(context.getColor(R.color.primaryColor))
                 .setNormalColor(context.getColor(R.color.wechat_grey))
+                // TODO size of indicator
                 .setRadius((int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
+                        TypedValue.COMPLEX_RADIX_0p23,
                         images.size(),
                         context.getResources().getDisplayMetrics())
                 );
