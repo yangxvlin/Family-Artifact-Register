@@ -3,14 +3,17 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.example.family_artifact_register.Util.Callback;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,6 +31,13 @@ import java.util.Map;
  * Class for managing user information
  */
 public class UserInfoManager {
+    // Return code if the request for userInfo is ok (successful)
+    public static final int RESULT_OK = 0;
+    // Return code if the request for userInfo is cancelled (unsuccessful)
+    public static final int RESULT_CANCELLED = -1;
+    // Return code if the request for userInfo is failed (unsuccessful)
+    public static final int RESULT_FAILURE = 1;
+
     private static final String TAG = UserInfoManager.class.getSimpleName();
     private static UserInfoManager instance;
 
@@ -66,28 +76,55 @@ public class UserInfoManager {
 
 
     private UserInfoManager() {
-        mCurrentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mUserCollection = FirebaseFirestore.getInstance().collection(DBConstant.USER_INFO);
-
-        // Listen to current user data
-        mUserCollection
-                .document(mCurrentUid)
-                .addSnapshotListener((documentSnapshot, e) -> {
-                    // Catch and log the error
-                    if (e != null) {
-                        Log.e(TAG, "mCurrentUid listen:error", e);
-                        return;
-                    }
-                    // Successfully fetched data
-                    if (documentSnapshot != null && documentSnapshot.exists()) {
-                        mCurrentUserInfoLiveData.setValue(documentSnapshot.toObject(UserInfo.class));
-                    } else {
-                        Log.e(TAG,"get failed: current user does not exist: " + mCurrentUid);
-                    }
-                });
-
-        mListenerRegistrationMap = new HashMap<>();
+        setupOrUpdateUserDatabase(FirebaseAuth.getInstance());
+        // Set the state of UserInfoManager when the auth state changes
+        FirebaseAuth.getInstance().addAuthStateListener(
+                this::setupOrUpdateUserDatabase
+        );
     }
+
+    private void setupOrUpdateUserDatabase(FirebaseAuth firebaseAuth) {
+        // Set up the user collection for firebase
+        mUserCollection = FirebaseFirestore.getInstance()
+                .collection(DBConstant.USER_INFO);
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user!=null) {
+            // Already logged in
+            mCurrentUid = user.getUid();
+
+            // Listen to current user data
+            mUserCollection
+                    .document(mCurrentUid)
+                    .addSnapshotListener((documentSnapshot, e) -> {
+                        // Catch and log the error
+                        if (e != null) {
+                            Log.e(TAG, "mCurrentUid listen:error", e);
+                            return;
+                        }
+
+                        // Successfully fetched data
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            mCurrentUserInfoLiveData.setValue(documentSnapshot
+                                    .toObject(UserInfo.class));
+                        } else {
+                            Log.e(TAG,"get failed: current user does not exist: "
+                                    + mCurrentUid);
+                        }
+                    });
+            // Reset registration Map
+            mListenerRegistrationMap = new HashMap<>();
+        } else {
+            // Cleanup the listeners
+            for (Pair<ListenerRegistration, Integer> listenerRegistrationIntegerPair:
+                    mListenerRegistrationMap.values()) {
+                // clean the listener
+                listenerRegistrationIntegerPair.first.remove();
+            }
+            mListenerRegistrationMap = new HashMap<>();
+        }
+    }
+
 
     /**
      * Get Uid of current user
@@ -219,8 +256,13 @@ public class UserInfoManager {
         }
     }
 
+    /**
+     * Store the given userInfo into database without callback
+     * @param userInfo The userInfo to store
+     */
     public void storeUserInfo(UserInfo userInfo) {
         String uid = userInfo.getUid();
+        storeUserInfo(userInfo, 0,null);
         mUserCollection
                 .document(uid)
                 .set(userInfo)
@@ -231,6 +273,38 @@ public class UserInfoManager {
                 .addOnFailureListener(e ->
                         Log.w(TAG, "Error writing user info" +
                                 userInfo.toString(), e));
+    }
+
+    /**
+     * Store the given userInfo into database with callback
+     * @param userInfo The userInfo to store
+     * @param requestCode specifier for the db request
+     * @param userInfoCallback function to invoke after completion
+     */
+    public void storeUserInfo(UserInfo userInfo, int requestCode, Callback<Void> userInfoCallback) {
+        String uid = userInfo.getUid();
+        mUserCollection
+                .document(uid)
+                .set(userInfo)
+                .addOnCompleteListener(
+                        task -> {
+                            int resultCode = RESULT_FAILURE;
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "User information"
+                                        + userInfo.toString()
+                                        + "successfully written!");
+                                resultCode = RESULT_OK;
+                            } else if (task.isCanceled()) {
+                                Log.w(TAG, "Error writing user info" +
+                                        userInfo.toString(), task.getException());
+                                resultCode = RESULT_CANCELLED;
+                            }
+                            if (userInfoCallback != null) {
+                                userInfoCallback.callback(requestCode, resultCode,
+                                        task.getResult());
+                            }
+                        }
+                );
     }
 
     /**
@@ -281,7 +355,6 @@ public class UserInfoManager {
      */
     public LiveData<List<UserInfo>> searchUserInfo(String query) {
         MutableLiveData<List<UserInfo>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(new ArrayList<>());
         LiveDataListDispatchHelper<UserInfo> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData);
         for (String field: new String[]{UserInfo.DISPLAY_NAME, UserInfo.EMAIL,
@@ -294,12 +367,13 @@ public class UserInfoManager {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
                             if (querySnapshot == null || querySnapshot.isEmpty()) {
-                                Log.i(TAG, "failed to find (" + field +") equal to (" + query + ")");
+                                Log.i(TAG, "failed to find (" + field +") " +
+                                        "equal to (" + query + ")");
                             } else {
                                 for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
                                     UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                                    Log.i(TAG, "found (" + field +") equal to (" + query + ")" +
-                                            "user: "+ userInfo.toString());
+                                    Log.i(TAG, "found (" + field +") equal to (" + query + ")"
+                                            + "user: "+ userInfo.toString());
 
                                     // Add info to the dispatcher
                                     liveDataListDispatchHelper.addResult(userInfo);
@@ -314,7 +388,6 @@ public class UserInfoManager {
                     }
             );
         }
-        Log.d(TAG, mutableLiveData.getValue().toString());
         return mutableLiveData;
     }
 
@@ -347,6 +420,39 @@ public class UserInfoManager {
 
     /**
      * Set the Photo Uri for current user
+     * @param photoUri The photo uri to set with (has to be local)
+     */
+    public void setPhoto(Uri photoUri, UserInfo userInfo) {
+        // TODO this part is potentially dangerous to async error
+        Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
+                .getInstance()
+                .uploadByUri(photoUri);
+        if (uploadTask != null) {
+            uploadTask.addOnFailureListener(
+                    e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
+                            photoUri.toString(), e)
+            ).addOnSuccessListener(taskSnapshot -> {
+                // Change and store the user info to db after image complete
+                userInfo
+                    .setPhotoUrl(FirebaseStorageHelper
+                            .getInstance()
+                            .getRemoteByLocalUri(photoUri));
+            storeUserInfo(userInfo);})
+                    .addOnFailureListener(e ->
+                            Log.w(TAG, "Error update user new Uri info to FireStore failed" +
+                                    userInfo.toString(), e));
+        } else {
+            // Photo already stored, simply store user information
+            userInfo
+                    .setPhotoUrl(FirebaseStorageHelper
+                            .getInstance()
+                            .getRemoteByLocalUri(photoUri));
+            storeUserInfo(userInfo);
+        }
+    }
+
+    /**
+     * Set the Photo Uri for current user
      * @param photoUri The photo uri to set with
      */
     public void setPhoto(Uri photoUri) {
@@ -355,22 +461,7 @@ public class UserInfoManager {
             return;
         }
         UserInfo currentUserInfo = mCurrentUserInfoLiveData.getValue();
-        Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
-                .getInstance()
-                .uploadByUri(photoUri);
-
-        if (uploadTask != null) {
-            uploadTask.addOnFailureListener(
-                    e -> Log.w(TAG, "Error writing user Image Uri to Storage failed" +
-                            photoUri.toString(), e)
-            ).addOnSuccessListener(taskSnapshot -> currentUserInfo
-                    .setPhotoUrl(FirebaseStorageHelper
-                            .getInstance()
-                            .getRemoteByLocalUri(photoUri)))
-                    .addOnFailureListener(e ->
-                            Log.w(TAG, "Error update user new Uri info to FireStore failed" +
-                                    currentUserInfo.toString(), e));
-        }
+        setPhoto(photoUri, currentUserInfo);
     }
 
     /**

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.Util.CacheDirectoryHelper;
+import com.example.family_artifact_register.Util.FileHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -16,7 +17,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -28,7 +28,6 @@ public class FirebaseStorageHelper {
     private static final String TAG = FirebaseStorageHelper.class.getSimpleName();
 
     private static final FirebaseStorageHelper ourInstance = new FirebaseStorageHelper();
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public static FirebaseStorageHelper getInstance() {
         return ourInstance;
@@ -52,20 +51,18 @@ public class FirebaseStorageHelper {
 
     private static Uri checkAddUriScheme(Uri uri) {
         if (uri.getScheme() == null) {
-            uri = Uri.parse("file://"+uri.toString());
+            uri = uri.buildUpon().scheme("content").build();
         }
         return uri;
     }
 
     private String extractLocalUri(Uri localUri) {
         Path localFilePath = new File(localUri.toString()).toPath();
-        Path localStoragePath;
-        if (localUri.getScheme() != null) {
-            localStoragePath = (new File("file:/" + mCacheDirectoryHelper.getCacheDirectory().toString())).toPath();
-        } else {
-            localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
-        }
-
+        Path localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
+        Log.d(TAG, "LocalUri: " + localUri.toString()
+                + "\nlocalFilePath: " + localFilePath.toString()
+                + "\nlocalStoragePath: " + localStoragePath.toString()
+        );
         Path remotePath = localStoragePath.relativize(localFilePath);
         return remotePath.toString();
     }
@@ -79,7 +76,7 @@ public class FirebaseStorageHelper {
         Path remoteFilePath = new File(remoteUrl).toPath();
         Path localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
         Path remotePath = localStoragePath.resolve(remoteFilePath);
-        return checkAddUriScheme(Uri.parse(remotePath.toString()));
+        return Uri.parse(remotePath.toString());
     }
 
     public Task<UploadTask.TaskSnapshot> uploadByUri(Uri uri) {
@@ -95,7 +92,7 @@ public class FirebaseStorageHelper {
             return mStorageReference.child(remotePath).putFile(finalUri)
                     .addOnSuccessListener(
                             taskSnapshot -> {
-                                remoteLocalBiMap.put(remotePath, finalUri);
+                                remoteLocalBiMap.put(remotePath, uri);
                                 Log.d(TAG, "Successfully uploaded, Adding to BiMap " +
                                         "remotePath: " + remotePath + ", finalUri" + finalUri + "\n"
                                 + remoteLocalBiMap.toString());
@@ -112,35 +109,48 @@ public class FirebaseStorageHelper {
     public LiveData<Uri> loadByRemoteUri(String remoteUrl) {
         MutableLiveData<Uri> mutableLiveData = new MutableLiveData<>();
         Uri localUri = parseRemoteUrl(remoteUrl);
-        if (remoteLocalBiMap.get(remoteUrl) != null) {
-            // If already loaded
-            mutableLiveData.setValue(remoteLocalBiMap.get(remoteUrl));
-        } else if (new File(localUri.toString()).exists()) {
+        File localFile = new File(localUri.toString());
+        Log.d(TAG, "remote url: " + remoteUrl + "\nlocal uri: " + localUri.toString());
+        if (localFile.exists()) {
+            Log.d(TAG, "localFile exists!");
             // Exist in local
             mutableLiveData.setValue(localUri);
             // add to mapping
-            remoteLocalBiMap.put(remoteUrl, localUri);
+            if (!remoteLocalBiMap.containsKey(remoteUrl)) {
+                remoteLocalBiMap.put(remoteUrl, localUri);
+            }
         } else {
             // If not loaded yet
-            StorageReference mFileStorageReference = mStorageReference.child(remoteUrl);
-            mFileStorageReference.getFile(localUri).addOnSuccessListener(
-                    new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            // set value in map (cache)
-                            remoteLocalBiMap.put(remoteUrl, localUri);
-                            // Notify observer
-                            mutableLiveData.setValue(localUri);
+            // First make directory then start query
+            // Make directory
+            if (localFile.getParentFile() != null && FileHelper.getInstance()
+                    .mkdirs(localFile.getParentFile())) {
+                // Query database
+                StorageReference mFileStorageReference = mStorageReference.child(remoteUrl);
+                mFileStorageReference.getFile(localUri).addOnSuccessListener(
+                        new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                Log.w(TAG, "Successfully getting remote Url: " + remoteUrl +
+                                        "\nLocal Uri: " + localUri.toString());
+                                // set value in map (cache)
+                                remoteLocalBiMap.putIfAbsent(remoteUrl, localUri);
+                                // Notify observer
+                                mutableLiveData.setValue(localUri);
+                            }
                         }
-                    }
-            ).addOnFailureListener(
-                    new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Failed to get remote Url: " + remoteUrl);
+                ).addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Failed to get remote Url: " + remoteUrl);
+                            }
                         }
-                    }
-            );
+                );
+            } else {
+                Log.w(TAG, "Failed to create directory for storing remote Url: " + remoteUrl +
+                        "\nlocalUri: " + localUri.toString());
+            }
         }
         return mutableLiveData;
     }
@@ -170,7 +180,6 @@ public class FirebaseStorageHelper {
     }
 
     public String getRemoteByLocalUri(Uri uri) {
-        uri = checkAddUriScheme(uri);
         return remoteLocalBiMap.inverse().get(uri);
     }
 }
