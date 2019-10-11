@@ -161,17 +161,8 @@ dependencies {
 
     // ******************************************************************************************
     // image slide view library
-    // https://github.com/daimajia/AndroidImageSlider
-    implementation "com.android.support:support-v4:+"
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.nineoldandroids:library:2.4.0'
-    implementation 'com.daimajia.slider:library:1.1.5@aar'
-
-    // https://github.com/siralam/LoopingViewPager?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=6576
-    implementation 'com.asksira.android:loopingviewpager:1.1.4'
-
     // https://github.com/alibaba/UltraViewPager
-    compile ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
         transitive = true
     }
 }
