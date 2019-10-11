@@ -94,5 +94,6 @@
     <string name="pick_media">选择回忆</string>
     <string name="choose_avatar">选择头像</string>
     <string name="auth_failure">用户身份验证失败</string>
+    <string name="nickname_hint">昵称</string>
 
 </resources>
