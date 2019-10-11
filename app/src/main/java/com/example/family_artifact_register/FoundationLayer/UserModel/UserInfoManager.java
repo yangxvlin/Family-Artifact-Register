@@ -108,7 +108,7 @@ public class UserInfoManager {
                             mCurrentUserInfoLiveData.setValue(documentSnapshot
                                     .toObject(UserInfo.class));
                         } else {
-                            Log.e(TAG,"get failed: current user does not exist: "
+                            Log.w(TAG,"Listen currentUid failed: current user does not exist: "
                                     + mCurrentUid);
                         }
                     });
@@ -267,9 +267,9 @@ public class UserInfoManager {
                 .document(uid)
                 .set(userInfo)
                 .addOnSuccessListener(aVoid ->
-                        Log.d(TAG, "User information"
+                        Log.d(TAG, "User information: "
                                 + userInfo.toString()
-                                + "successfully written!"))
+                                + " successfully written!"))
                 .addOnFailureListener(e ->
                         Log.w(TAG, "Error writing user info" +
                                 userInfo.toString(), e));

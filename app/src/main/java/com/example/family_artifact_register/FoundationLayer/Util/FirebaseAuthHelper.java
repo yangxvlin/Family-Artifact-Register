@@ -80,13 +80,13 @@ public class FirebaseAuthHelper {
                                                         if (photoUri != null) {
                                                             retrieveSetPhoto(photoUri, userInfo);
                                                         }
-                                                        callback.callback(requestCode1,
+                                                        callback.callback(requestCode,
                                                                 RESULT_NEW_USER, null);
                                                         break;
                                                     }
                                                     case (UserInfoManager.RESULT_CANCELLED):
                                                     case (UserInfoManager.RESULT_FAILURE):
-                                                        callback.callback(requestCode1,
+                                                        callback.callback(requestCode,
                                                                 RESULT_FAILURE, null);
                                                         break;
                                                 }
