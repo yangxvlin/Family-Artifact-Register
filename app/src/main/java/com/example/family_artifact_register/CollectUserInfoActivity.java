@@ -5,28 +5,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.aprilapps.easyphotopicker.ChooserType;
-import pl.aprilapps.easyphotopicker.DefaultCallback;
-import pl.aprilapps.easyphotopicker.EasyImage;
-import pl.aprilapps.easyphotopicker.MediaFile;
-import pl.aprilapps.easyphotopicker.MediaSource;
-
-import static com.example.family_artifact_register.MyApplication.getContext;
-import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.compressUriImage;
 
 public class CollectUserInfoActivity extends AppCompatActivity {
 
@@ -40,11 +31,9 @@ public class CollectUserInfoActivity extends AppCompatActivity {
 
     private CircleImageView avatarImagePreview;
 
-    private FloatingActionButton fromCameraButton;
+//    private FloatingActionButton fromCameraButton;
 
-    private FloatingActionButton fromAlbumButton;
-
-    private EasyImage easyImage;
+//    private FloatingActionButton fromAlbumButton;
 
     private Uri avatarUri = null;
 
@@ -59,31 +48,30 @@ public class CollectUserInfoActivity extends AppCompatActivity {
         setUserNameInputListener();
 
         avatarImagePreview = findViewById(R.id.activity_collect_user_info_avatar);
-        fromCameraButton = findViewById(R.id.activity_collect_user_info_floating_button_camera);
-        fromAlbumButton = findViewById(R.id.activity_collect_user_info_floating_button_album);
+//        fromCameraButton = findViewById(R.id.activity_collect_user_info_floating_button_camera);
+//        fromAlbumButton = findViewById(R.id.activity_collect_user_info_floating_button_album);
 
-        easyImage = new EasyImage.Builder(getContext())
-                // Chooser only
-                // Will appear as a system chooser title, DEFAULT empty string
-                .setChooserTitle(getString(R.string.choose_avatar))
-                // Will tell chooser that it should show documents or gallery apps
-//                .setChooserType(ChooserType.CAMERA_AND_DOCUMENTS) // you can use this or the one below
-                .setChooserType(ChooserType.CAMERA_AND_GALLERY)
-                // Setting to true will cause taken pictures to show up in the device gallery, DEFAULT false
-                .setCopyImagesToPublicGalleryFolder(false)
-                // Sets the name for images stored if setCopyImagesToPublicGalleryFolder = true
-                .setFolderName("EasyImage sample")
-                // Allow multiple picking
-                .allowMultiple(true)
-                .build();
+//        fromCameraButton.setOnClickListener(view1 -> {
+//            easyImage.openCameraForImage(this);
+//        });
 
-        fromCameraButton.setOnClickListener(view1 -> {
-            easyImage.openCameraForImage(this);
+        avatarImagePreview.setOnClickListener(view1 -> {
+            // easyImage.openGallery(this);
+            // start picker to get image for cropping and then use the image in cropping activity
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .start(this);
         });
 
-        fromAlbumButton.setOnClickListener(view1 -> {
-            easyImage.openGallery(this);
-        });
+//        fromAlbumButton.setOnClickListener(view1 -> {
+//            // easyImage.openGallery(this);
+//            // start picker to get image for cropping and then use the image in cropping activity
+//            CropImage.activity()
+//                    .setGuidelines(CropImageView.Guidelines.ON)
+//                    .setCropShape(CropImageView.CropShape.OVAL)
+//                    .start(this);
+//        });
 
         finishButton.setOnClickListener(view -> {
             upload();
@@ -92,41 +80,57 @@ public class CollectUserInfoActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-            @Override
-            public void onMediaFilesPicked(MediaFile[] mediaFiles, MediaSource source) {
-
-                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE || source == MediaSource.GALLERY) {
-                    // call back to parent activity
-                    for (MediaFile imageFile : mediaFiles) {
-                        Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
-                        Uri image = Uri.fromFile(imageFile.getFile());
-                        avatarUri = compressUriImage(getContext(), image, false);
-                        updateAvatar();
-                        setButtonVisibility();
-                    }
-
-                } else {
-                    Log.e(TAG, "unknown media source !!!");
-                }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                avatarUri = result.getUri();
+                updateAvatar();
+                setButtonVisibility();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
-
-            @Override
-            public void onImagePickerError(@NonNull Throwable error, @NonNull MediaSource source) {
-                //Some error handling
-                error.printStackTrace();
-            }
-
-            @Override
-            public void onCanceled(@NonNull MediaSource source) {
-                System.out.println("cancelled !!!");
-                //Not necessary to remove any files manually anymore
-            }
-        });
+        }
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+//            @Override
+//            public void onMediaFilesPicked(MediaFile[] mediaFiles, MediaSource source) {
+//
+//                if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE || source == MediaSource.GALLERY) {
+//                    // call back to parent activity
+//                    for (MediaFile imageFile : mediaFiles) {
+//                        Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
+//                        Uri image = Uri.fromFile(imageFile.getFile());
+//                        avatarUri = compressUriImage(getContext(), image, false);
+//                        updateAvatar();
+//                        setButtonVisibility();
+//                    }
+//
+//                } else {
+//                    Log.e(TAG, "unknown media source !!!");
+//                }
+//            }
+//
+//            @Override
+//            public void onImagePickerError(@NonNull Throwable error, @NonNull MediaSource source) {
+//                //Some error handling
+//                error.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onCanceled(@NonNull MediaSource source) {
+//                System.out.println("cancelled !!!");
+//                //Not necessary to remove any files manually anymore
+//            }
+//        });
+//    }
 
     private void setButtonVisibility() {
         // require username
