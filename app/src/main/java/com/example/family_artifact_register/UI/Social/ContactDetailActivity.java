@@ -40,10 +40,8 @@ public class ContactDetailActivity extends AppCompatActivity {
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar);
         TextView username = (TextView) findViewById(R.id.username);
-        TextView nickname = (TextView) findViewById(R.id.nickname);
-        TextView area = (TextView) findViewById(R.id.area);
-
-        RelativeLayout sendMessage = (RelativeLayout) findViewById(R.id.send_button);
+        TextView phoneNumber = (TextView) findViewById(R.id.phone_number);
+        TextView email = (TextView) findViewById(R.id.email);
 
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
@@ -58,8 +56,8 @@ public class ContactDetailActivity extends AppCompatActivity {
                 Log.i(TAG, "some changes happened");
                 Log.d(TAG, "user info: " + newData.toString());
                 username.setText(newData.getDisplayName());
-                nickname.setText("nickName");
-                area.setText("area");
+//                phoneNumber.setText(newData.getPhoneNumber());
+                email.setText(newData.getEmail());
                 String url = newData.getPhotoUrl();
                 if(url != null) {
                     Log.d(TAG, "URL is not null");
@@ -70,13 +68,13 @@ public class ContactDetailActivity extends AppCompatActivity {
 
         viewModel.getUser().observe(this, contactObserver);
 
-        sendMessage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                System.out.println("sending messssssssage #####");
-            }
-        });
+//        sendMessage.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("sending messssssssage #####");
+//            }
+//        });
     }
 
     @Override
