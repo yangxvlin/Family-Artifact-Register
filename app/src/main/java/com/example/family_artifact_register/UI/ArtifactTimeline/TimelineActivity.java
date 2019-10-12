@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.ArtifactTimeline;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,8 +20,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModelFactory;
 import com.example.family_artifact_register.R;
@@ -39,7 +40,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private TimelineViewModel viewModel;
 
-    private List<ArtifactItem> artifacts;
+    private List<ArtifactItemWrapper> artifacts;
 
     private String timelineID;
 
@@ -67,9 +68,9 @@ public class TimelineActivity extends AppCompatActivity {
 
                 getSupportActionBar().setTitle(artifactTimeline.getTitle());
 
-                viewModel.getArtifactItems(artifactTimeline.getArtifactItemPostIds()).observe(owner, new Observer<List<ArtifactItem>>() {
+                viewModel.getArtifactItems(artifactTimeline.getArtifactItemPostIds()).observe(owner, new Observer<List<ArtifactItemWrapper>>() {
                     @Override
-                    public void onChanged(List<ArtifactItem> newData) {
+                    public void onChanged(List<ArtifactItemWrapper> newData) {
                         Log.d(TAG, "get artifacts from DB, using postIDs in timeline");
                         adapter.setData(newData);
                     }
@@ -106,7 +107,7 @@ public class TimelineActivity extends AppCompatActivity {
             public TextView time;
             public TextView title;
             public TextView description;
-            // to be changed to fragment to handle different types of medias
+            // TODO handle multiple instance of same type, and different types
             public ImageView media;
             public String itemId;
 
@@ -121,7 +122,7 @@ public class TimelineActivity extends AppCompatActivity {
             }
         }
 
-        private List<ArtifactItem> dataSet;
+        private List<ArtifactItemWrapper> dataSet;
 
         public TimelineAdapter() {}
 
@@ -137,7 +138,12 @@ public class TimelineActivity extends AppCompatActivity {
             holder.time.setText(dataSet.get(position).getUploadDateTime());
             holder.description.setText(dataSet.get(position).getDescription());
             holder.itemId = dataSet.get(position).getPostId();
-//            holder.media.setImageResource(dataSet);
+            List<String> urls = dataSet.get(position).getLocalMediaDataUrls();
+            Log.d(TAG, "urls from DB: " + urls.toString());
+            if(urls.size() > 0) {
+                // TODO implementation for displaying multiple images
+                holder.media.setImageURI(Uri.parse(urls.get(0)));
+            }
         }
 
         @Override
@@ -153,7 +159,7 @@ public class TimelineActivity extends AppCompatActivity {
             return TimelineView.getTimeLineViewType(position, getItemCount());
         }
 
-        public void setData(List<ArtifactItem> newData) {
+        public void setData(List<ArtifactItemWrapper> newData) {
             dataSet = newData;
             notifyDataSetChanged();
         }
