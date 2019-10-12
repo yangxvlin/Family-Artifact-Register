@@ -22,22 +22,25 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.WeakHashMap;
 
 public class ContactViewModel extends AndroidViewModel {
 
     public static final String TAG = ContactViewModel.class.getSimpleName();
 
     private UserInfoManager manager = UserInfoManager.getInstance();
+    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private LiveData<UserInfo> currentUser = manager.listenUserInfo(manager.getCurrentUid());
-
-    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private List<String> friendUids;
 
 //    private MediatorLiveData<List<UserInfo>> friends = new MediatorLiveData<>();
-    private MediatorLiveData<Set<UserInfo>> friends = new MediatorLiveData<>();
+//    private MediatorLiveData<Set<UserInfo>> friends = new MediatorLiveData<>();
 
+    private MediatorLiveData<Set<UserInfoWrapper>> friends = new MediatorLiveData<>();
+
+    private MutableLiveData<UserInfoWrapper> me = new MutableLiveData<>();
 
     public ContactViewModel(Application application) {
         super(application);
@@ -47,9 +50,9 @@ public class ContactViewModel extends AndroidViewModel {
             public void onChanged(UserInfo userInfo) {
                 friendUids = new ArrayList<>(userInfo.getFriendUids().keySet());
 
-                friends.setValue(new TreeSet<>(new Comparator<UserInfo>() {
+                friends.setValue(new TreeSet<>(new Comparator<UserInfoWrapper>() {
                     @Override
-                    public int compare(UserInfo userInfo, UserInfo t1) {
+                    public int compare(UserInfoWrapper userInfo, UserInfoWrapper t1) {
                         return userInfo.getUid().compareTo(t1.getUid());
                     }
                 }));
@@ -68,18 +71,19 @@ public class ContactViewModel extends AndroidViewModel {
                     friends.addSource(i, new Observer<UserInfo>() {
                         @Override
                         public void onChanged(UserInfo userInfo) {
-                            friends.getValue().add(userInfo);
+                            UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                            friends.getValue().add(wrapper);
                             friends.setValue(friends.getValue());
-                            String url = userInfo.getPhotoUrl();
+                            String url = wrapper.getPhotoUrl();
                             if(url == null) {
-                                userInfo.setPhotoUrl(null);
+                                wrapper.setPhotoUrl(null);
                                 friends.setValue(friends.getValue());
                             }
                             else {
-                                helper.loadByRemoteUri(userInfo.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                                helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
-                                        userInfo.setPhotoUrl(uri.toString());
+                                        wrapper.setPhotoUrl(uri.toString());
 //                                    friends.getValue().add(userInfo);
                                         friends.setValue(friends.getValue());
                                     }
@@ -94,7 +98,33 @@ public class ContactViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<Set<UserInfo>> getContacts() {
+    public LiveData<Set<UserInfoWrapper>> getContacts() {
         return friends;
     }
+
+    public LiveData<UserInfoWrapper> getPersonalProfile() {
+        manager.listenUserInfo(manager.getCurrentUid()).observeForever(new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                if(wrapper.getPhotoUrl() == null) {
+                    wrapper.setPhotoUrl(null);
+                    me.postValue(wrapper);
+                }
+                else {
+                    helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                        @Override
+                        public void onChanged(Uri uri) {
+                            wrapper.setPhotoUrl(uri.toString());
+                            me.postValue(wrapper);
+                        }
+                    });
+                }
+
+            }
+        });
+        return me;
+    }
+
+    public String getCurrentUid() { return manager.getCurrentUid(); }
 }

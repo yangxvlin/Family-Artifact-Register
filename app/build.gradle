@@ -29,6 +29,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // https://stackoverflow.com/questions/44509608/duplicate-files-copied-in-apk-meta-inf-library-release-kotlin-module
+    packagingOptions {
+        pickFirst 'META-INF/library_release.kotlin_module'
+    }
 }
 
 dependencies {
@@ -161,6 +166,24 @@ dependencies {
     // https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+    // ******************************************************************************************
+    // image slide view library
+    // https://github.com/alibaba/UltraViewPager
+    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+        transitive = true
+    }
+    // open dialog to page view images
+    // https://github.com/smhdk/KM-Popup-Image-Slider?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7336
+    implementation 'com.github.smhdk:KM-Popup-Image-Slider:v1.2.1'
+
+    // ******************************************************************************************
+    // tab layout library
+    // https://github.com/ogaclejapan/SmartTabLayout
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
+    //Optional: see how to use the utility.
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

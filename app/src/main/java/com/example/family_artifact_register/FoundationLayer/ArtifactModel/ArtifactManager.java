@@ -3,6 +3,7 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -14,10 +15,15 @@ import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDis
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -179,6 +185,29 @@ public class ArtifactManager {
         return mutableLiveData;
     }
 
+    public LiveData<ArtifactItem> listenArtifactItemByPostId(String postId, String listenerIdentifier) {
+        MutableLiveData<ArtifactItem> mutableLiveData = new MutableLiveData<>();
+        // Start Listening data snapshot
+        ListenerRegistration listenerRegistration = mArtifactItemCollection
+                .document(postId)
+                .addSnapshotListener(
+                        (documentSnapshot, e) -> {
+                            if (e == null && documentSnapshot != null) {
+                                ArtifactItem artifactItem = null;
+                                if (documentSnapshot.exists()) {
+                                    artifactItem = documentSnapshot.toObject(ArtifactItem.class);
+                                }
+                                mutableLiveData.setValue(artifactItem);
+                            } else {
+                                Log.w(TAG, "DB query result in error: " + e);
+                            }
+                        }
+                );
+        // Register listener to remove in the future
+        mListenerRegistrationMap.put(listenerIdentifier, listenerRegistration);
+        return mutableLiveData;
+    }
+
     public LiveData<List<ArtifactItem>> getArtifactItemByPostId(List<String> postIds, int timeout) {
         MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactItem> liveDataListDispatchHelper =
@@ -212,6 +241,31 @@ public class ArtifactManager {
                     }
                 }
         );
+        return mutableLiveData;
+    }
+
+    public LiveData<List<ArtifactItem>> listenArtifactItemByUid(String uid, String listenerIdentifier) {
+        MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
+        ListenerRegistration listenerRegistration = mArtifactItemCollection.whereEqualTo("uid", uid)
+                .addSnapshotListener(
+                        (queryDocumentSnapshots, e) -> {
+                            if (e == null && queryDocumentSnapshots != null) {
+                                List<ArtifactItem> itemList = new ArrayList<>();
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    // Query is not empty, update value
+                                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                                        if (documentSnapshot.exists()) {
+                                            itemList.add(documentSnapshot.toObject(ArtifactItem.class));
+                                        }
+                                    }
+                                }
+                                mutableLiveData.setValue(itemList);
+                            } else {
+                                Log.w(TAG, "DB query result in error: " + e);
+                            }
+                        }
+                );
+        mListenerRegistrationMap.put(listenerIdentifier, listenerRegistration);
         return mutableLiveData;
     }
 
@@ -264,6 +318,38 @@ public class ArtifactManager {
                 }
         );
         return mutableLiveData;
+    }
+
+    public LiveData<List<ArtifactTimeline>> listenArtifactTimelineByUid(String uid, String listenerIdentifier) {
+        MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
+        ListenerRegistration listenerRegistration = mArtifactTimelineCollection.whereEqualTo("uid", uid)
+                .addSnapshotListener(
+                        (queryDocumentSnapshots, e) -> {
+                            if (e == null && queryDocumentSnapshots != null) {
+                                List<ArtifactTimeline> timelineList = new ArrayList<>();
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    // Query is not empty, update value
+                                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                                        if (documentSnapshot.exists()) {
+                                            timelineList.add(documentSnapshot.toObject(ArtifactTimeline.class));
+                                        }
+                                    }
+                                }
+                                mutableLiveData.setValue(timelineList);
+                            } else {
+                                Log.w(TAG, "DB query result in error: " + e);
+                            }
+                        }
+                );
+        mListenerRegistrationMap.put(listenerIdentifier, listenerRegistration);
+        return mutableLiveData;
+    }
+
+    public void removeListener(String listenerIdentifier) {
+        if (mListenerRegistrationMap.containsKey(listenerIdentifier)) {
+            mListenerRegistrationMap.get(listenerIdentifier).remove();
+            mListenerRegistrationMap.remove(listenerIdentifier);
+        }
     }
 
     public void associateArtifactItemAndArtifactTimeline(ArtifactItem item,

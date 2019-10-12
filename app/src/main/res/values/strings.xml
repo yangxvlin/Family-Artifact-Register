@@ -55,10 +55,11 @@
     <string name="menu_sign_out">Sign Out</string>
 
     <!-- main activity functionality -->
-    <string name="artifact_hub">Family Artifact Hub</string>
+    <string name="artifact_hub">Artifact Hub</string>
     <string name="friends">Friends</string>
     <string name="artifact_management">Artifact Management</string>
-    <string name="artifact_map">Map</string>
+    <string name="artifact_map">Artifact Footprint</string>
+    <string name="artifact_event">Artifact Event</string>
 
     <!-- artifactItem manage activity functionality -->
     <string name="new_artifact">New Artifact</string>
@@ -98,6 +99,7 @@
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">397146774529537</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb397146774529537</string>
+
     <string name="user_signed_in">Welcome: Signed In</string>
     <string name="registration_successful">Registration Successful!</string>
     <string name="auth_failure">Registration/Login failed.</string>
@@ -105,6 +107,10 @@
     <string name="pick_media">Pick media</string>
     <string name="choose_avatar">Choose Avatar</string>
     <string name="nickname_hint">Nickname</string>
+
+    <string name="event_my_title">My Event</string>
+    <string name="event_friend_title">Friend Event</string>
+
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
     <!-- Twitter consumer key and secret -->
     <!--    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>-->
