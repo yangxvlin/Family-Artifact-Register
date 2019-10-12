@@ -25,8 +25,12 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModelFactory;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactHub.ArtifactDetailActivity;
+import com.example.family_artifact_register.UI.Social.ContactSearchActivity;
 import com.github.vipulasri.timelineview.TimelineView;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TimelineActivity extends AppCompatActivity {
@@ -101,7 +105,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
-        public class TimelineViewHolder extends RecyclerView.ViewHolder {
+        public class TimelineViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public TimelineView timelineView;
             public TextView time;
@@ -120,11 +124,27 @@ public class TimelineActivity extends AppCompatActivity {
                 this.media = itemView.findViewById(R.id.timeline_item_media);
                 timelineView.initLine(viewType);
             }
+
+            @Override
+            public void onClick(View view) {
+                // when artifact item is clicked, jump to detail page of the item
+                Log.d(TAG, "timeline item is clicked");
+                Intent intent = new Intent(view.getContext(), ArtifactDetailActivity.class);
+                intent.putExtra("selectedPid", itemId);
+                startActivity(intent);
+            }
         }
 
-        private List<ArtifactItemWrapper> dataSet;
+        private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
 
-        public TimelineAdapter() {}
+        public TimelineAdapter() {
+            dataSet.sort(new Comparator<ArtifactItemWrapper>() {
+                @Override
+                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+                    return artifactItemWrapper.getUploadDateTime().compareTo(t1.getUploadDateTime());
+                }
+            });
+        }
 
         @NonNull
         @Override
