@@ -1,9 +1,11 @@
 package com.example.family_artifact_register;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,9 +14,15 @@ import com.example.family_artifact_register.Util.Callback;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.util.ExtraConstants;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.dynamiclinks.internal.DynamicLinkData;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,8 +67,9 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
     private void buildSignInIntentBuilder() {
 
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                        .setAndroidPackageName("com.example.family_artifact_register", true, null)
+                        .setAndroidPackageName(getString(R.string.packageName), true, null)
                         .setHandleCodeInApp(true)
+//                        .setDynamicLinkDomain(getString(R.string.dynamic_link_domain))
                         .setUrl(getString(R.string.dynamic_link_url))
                         .build();
 
@@ -90,6 +99,31 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
             if (getIntent().getExtras() == null) {
                 return;
             }
+
+            FirebaseDynamicLinks.getInstance()
+                    .getDynamicLink(getIntent())
+                    .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                        @Override
+                        public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                            // Get deep link from result (may be null if no link is found)
+                            Uri deepLink = null;
+                            if (pendingDynamicLinkData != null) {
+                                deepLink = pendingDynamicLinkData.getLink();
+                            }
+                            // Handle the deep link. For example, open the linked
+                            // content, or apply promotional credit to the user's
+                            // account.
+
+                            Log.d(TAG, deepLink.toString());
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "getDynamicLink:onFailure", e);
+                        }
+                    });
+
             String link = getIntent().getExtras().getString(ExtraConstants.EMAIL_LINK_SIGN_IN);
             Log.d(TAG, "link: " + link);
             if (link != null) {

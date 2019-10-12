@@ -105,7 +105,10 @@
     <string name="pick_media">Pick media</string>
     <string name="choose_avatar">Choose Avatar</string>
     <string name="filter_view_http_email_link_auth">Family Ai Email Link Login</string>
-    <string name="dynamic_link_url" translatable="false">https://familyai.page.link/Wcr6</string>
+<!--    <string name="dynamic_link_url" translatable="false">https://artifact.page.link/email-link-auth</string>-->
+    <string name="dynamic_link_url" translatable="false">https://it-project-artifact.firebaseapp.com/</string>
+    <string name="dynamic_link_domain" translatable="false">artifact.page.link</string>
+    <string name="packageName" translatable="false">com.example.family_artifact_register</string>
 
     <!-- Twitter consumer key and secret -->
     <!--    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>-->
