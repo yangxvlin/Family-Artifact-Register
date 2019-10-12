@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class MeViewModel extends AndroidViewModel {
+public class MyArtifactItemsViewModel extends AndroidViewModel {
 
-    public static final String TAG = MeViewModel.class.getSimpleName();
+    public static final String TAG = MyArtifactItemsViewModel.class.getSimpleName();
 
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
 
@@ -35,7 +35,7 @@ public class MeViewModel extends AndroidViewModel {
 
     private String currentUid;
 
-    public MeViewModel(Application application) {
+    public MyArtifactItemsViewModel(Application application) {
         super(application);
         currentUid = userInfoManager.getCurrentUid();
         artifactList = (MutableLiveData<List<ArtifactItem>>) artifactManager.getArtifactItemByUid(currentUid);
