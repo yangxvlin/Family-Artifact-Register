@@ -52,8 +52,8 @@ public class TimelineViewModel extends AndroidViewModel {
                 for(ArtifactItem item: artifactItems) {
                     ArtifactItemWrapper wrapper = new ArtifactItemWrapper(item);
                     Log.d(TAG, "artifact item from DB: " + wrapper.toString());
-//                    wrappers.add(wrapper);
-//                    artifacts.postValue(wrappers);
+                    wrappers.add(wrapper);
+                    artifacts.postValue(wrappers);
                     helper.loadByRemoteUri(item.getMediaDataUrls()).observeForever(new Observer<List<Uri>>() {
                         @Override
                         public void onChanged(List<Uri> uris) {
@@ -63,7 +63,6 @@ public class TimelineViewModel extends AndroidViewModel {
                                             .map(Objects::toString)
                                             .collect(Collectors.toList())
                             );
-                            wrappers.add(wrapper);
                             artifacts.postValue(wrappers);
                         }
                     });
