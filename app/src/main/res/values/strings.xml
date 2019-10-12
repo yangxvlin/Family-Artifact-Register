@@ -99,8 +99,18 @@
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">397146774529537</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb397146774529537</string>
+
+    <string name="user_signed_in">Welcome: Signed In</string>
+    <string name="registration_successful">Registration Successful!</string>
+    <string name="auth_failure">Registration/Login failed.</string>
+    <string name="please_choose_avatar">Please Choose Avatar:</string>
+    <string name="pick_media">Pick media</string>
+    <string name="choose_avatar">Choose Avatar</string>
+    <string name="nickname_hint">Nickname</string>
+
     <string name="event_my_title">My Event</string>
     <string name="event_friend_title">Friend Event</string>
+
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
     <!-- Twitter consumer key and secret -->
     <!--    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>-->

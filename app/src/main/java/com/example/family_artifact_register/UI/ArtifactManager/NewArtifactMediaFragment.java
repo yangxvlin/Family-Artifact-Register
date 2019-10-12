@@ -71,7 +71,7 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
         easyImage = new EasyImage.Builder(getContext())
                 // Chooser only
                 // Will appear as a system chooser title, DEFAULT empty string
-                .setChooserTitle("Pick media")
+                .setChooserTitle(getString(R.string.pick_media))
                 // Will tell chooser that it should show documents or gallery apps
 //                .setChooserType(ChooserType.CAMERA_AND_DOCUMENTS) // you can use this or the one below
                 .setChooserType(ChooserType.CAMERA_AND_GALLERY)

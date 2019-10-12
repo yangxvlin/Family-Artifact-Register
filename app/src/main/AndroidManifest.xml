@@ -38,6 +38,7 @@
 
         <activity android:name=".HomeActivity"></activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".CollectUserInfoActivity" />
         <activity
             android:name=".test.MapTestActivity"
             android:label="@string/title_activity_fullscreen" />
