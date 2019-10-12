@@ -29,7 +29,7 @@ public class MediaProcessHelper {
     public static final int TYPE_VIDEO = 2;
     private static final String TAG = MediaProcessHelper.class.getSimpleName();
 
-    public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) throws IOException {
+    public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) {
 //        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         // store in app cache directory
         File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/") ;

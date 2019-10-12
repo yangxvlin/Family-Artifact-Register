@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +24,7 @@ import java.util.List;
 import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
-import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImagesViewPager;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 
@@ -69,37 +66,48 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 
         mediaList = new ArrayList<>();
         for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
-            Log.d(TAG, "media uri" + mediaUrl);
+            Log.d(TAG, "media uri: " + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }
 
         holder.clearFrame();
         // set frame layout param
-        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-        );
-        layoutParam.gravity = Gravity.CENTER;
-        layoutParam.topMargin = 20;
-        layoutParam.bottomMargin = 20;
+//        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
+//                FrameLayout.LayoutParams.MATCH_PARENT,
+//                FrameLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        layoutParam.gravity = Gravity.CENTER;
+//        layoutParam.topMargin = 20;
+//        layoutParam.bottomMargin = 20;
 
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
 
-            View imagesRecyclerView = getImageRecyclerView(200, 200, mediaList, context);
+            // View imagesRecyclerView = getImageRecyclerView(200, 200, mediaList, context);
 
-            holder.frame.addView(imagesRecyclerView);
-            holder.frame.setLayoutParams(layoutParam);
+            // holder.frame.addView(imagesRecyclerView);
+
+//            View imageSlider = getImagesSliderView(400, 400, mediaList, context);
+//            holder.frame.addView(imageSlider);
+
+            setImagesViewPager(mediaList, context, holder.ultraViewPager, true);
+            holder.frame.setVisibility(View.GONE);
+//            holder.ultraViewPager.setPadding(0, 20, 0, 20);
+            holder.ultraViewPager.setVisibility(View.VISIBLE);
+//            holder.frame.addView(imagesViewPager);
+
+//            holder.frame.setLayoutParams(layoutParam);
         // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-            ImageView iv = getVideoThumbnail(200, 200, mediaList.get(0), context);
+            ImageView iv = getVideoThumbnail(mediaList.get(0), context);
 
             ImageView playIcon = getVideoPlayIcon(context);
 
             // set frame's layout and add image view to it programmatically
             holder.frame.addView(iv);
             holder.frame.addView(playIcon);
-            holder.frame.setLayoutParams(layoutParam);
+//            holder.frame.setLayoutParams(layoutParam);
+            holder.ultraViewPager.setVisibility(View.GONE);
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
