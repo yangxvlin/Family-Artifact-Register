@@ -50,6 +50,7 @@ public class MeFragment extends Fragment implements IFragment {
 //                .add(R.string.title, WithArgumentsPageFragment.class, new Bundler().putString("key", "value").get()),
 //                 .add("title", PageFragment.class)
                 .add(getString(R.string.my_artifact_items_title), MyArtifactItemsFragment.class)
+                .add(getString(R.string.my_artifact_timelines_title), MyArtifactTimelinesFragment.class)
                 // .add(getString(R.string.me_my_title), MyEventFragment.class)
                 .create());
 

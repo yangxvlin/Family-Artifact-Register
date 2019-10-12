@@ -100,5 +100,6 @@
     <string name="event_my_title">我的活动</string>
     <string name="event_friend_title">朋友的活动</string>
     <string name="my_artifact_items_title">我的文物</string>
+    <string name="my_artifact_timelines_title">我的时间线</string>
 
 </resources>

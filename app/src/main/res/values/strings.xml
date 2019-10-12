@@ -111,6 +111,7 @@
     <string name="event_my_title">My Event</string>
     <string name="event_friend_title">Friend Event</string>
     <string name="my_artifact_items_title">My Artifact Items</string>
+    <string name="my_artifact_timelines_title">My Artifact Timelines</string>
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
     <!-- Twitter consumer key and secret -->
