@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -28,6 +28,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.UI.ArtifactManager.BaseCancelToolBarActivity;
+import com.example.family_artifact_register.UI.ArtifactManager.HappenedActivity;
 import com.example.family_artifact_register.UI.Util.UploadArtifactAdapter;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;

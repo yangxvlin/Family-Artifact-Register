@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
 import android.os.Bundle;
 import android.util.Log;

@@ -21,6 +21,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyArtifactItemsViewModel;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
