@@ -9,15 +9,24 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.example.family_artifact_register.IFragment;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModel;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModelFactory;
 import com.example.family_artifact_register.R;
+
+import java.util.List;
 
 public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = MyArtifactTimelinesFragment.class.getSimpleName();
+
+    private MyTimelineViewModel viewModel;
 
     public MyArtifactTimelinesFragment() {
         // Required empty public constructor
@@ -33,6 +42,15 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this, new MyTimelineViewModelFactory(getActivity().getApplication())).get(MyTimelineViewModel.class);
+
+        viewModel.getTimelines().observe(this, new Observer<List<ArtifactTimeline>>() {
+            @Override
+            public void onChanged(List<ArtifactTimeline> artifactTimelines) {
+                // TODO logic when data comes back from DB
+            }
+        });
     }
 
     /**
