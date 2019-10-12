@@ -320,7 +320,8 @@ public class MediaViewHelper {
                     .setList(imagesUriString, selectedIndex)
                     // or setList with initial position that like .setList(list,position)
                     // Set dialog header color
-                    .setHeaderBackgroundColor(R.color.primaryColor)
+                    .setHeaderBackgroundColor(R.color.color_dialog_bg)
+//                    .setHeaderBackgroundColor(R.color.primaryColor)
                     // Set dialog background color
                     .setDialogBackgroundColor(R.color.color_dialog_bg)
                     // Set close icon drawable

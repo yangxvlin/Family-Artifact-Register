@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity;
 
 import static com.example.family_artifact_register.UI.Util.ActivityNavigator.navigateFromTo;
 
