@@ -173,6 +173,14 @@ dependencies {
     // open dialog to page view images
     // https://github.com/smhdk/KM-Popup-Image-Slider?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7336
     implementation 'com.github.smhdk:KM-Popup-Image-Slider:v1.2.1'
+
+    // ******************************************************************************************
+    // tab layout library
+    // https://github.com/ogaclejapan/SmartTabLayout
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
+    //Optional: see how to use the utility.
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

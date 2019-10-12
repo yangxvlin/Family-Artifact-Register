@@ -59,6 +59,7 @@
     <string name="friends">朋友</string>
     <string name="artifact_management">管理我的家庭文物</string>
     <string name="artifact_map">文物地图</string>
+    <string name="artifact_event">活动</string>
 
     <!-- 家庭文物管理界面 -->
     <string name="new_artifact">新的家庭文物</string>
@@ -88,5 +89,7 @@
     <string name="default_info_title">默认地点</string>
     <string name="default_info_snippet">系统定位服务已禁用，无法找到您的位置</string>
     <string name="no_location">暂无定位</string>
+    <string name="event_my_title">我的活动</string>
+    <string name="event_friend_title">朋友的活动</string>
 
 </resources>
