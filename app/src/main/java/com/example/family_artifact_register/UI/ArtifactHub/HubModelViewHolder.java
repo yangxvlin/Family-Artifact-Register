@@ -29,7 +29,7 @@ public class HubModelViewHolder extends RecyclerView.ViewHolder {
                 this.description = itemView.findViewById(R.id.description);
                 this.avatar = itemView.findViewById(R.id.avatar);
                 this.postImage = itemView.findViewById(R.id.post_image);
-                this.timeline = itemView.findViewById(R.id.timeline);
+                this.timeline = itemView.findViewById(R.id.view_timeline);
                 this.like = itemView.findViewById(R.id.like);
                 this.likes = itemView.findViewById(R.id.likes);
                 this.like = itemView.findViewById(R.id.like);

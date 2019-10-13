@@ -32,6 +32,7 @@ import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewHolde
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -126,6 +127,16 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 String pid = artifactItemWrapper.getPostId();
                 Intent i = new Intent(view.getContext(), ArtifactDetailActivity.class);
                 i.putExtra("artifactItemPostId", pid);
+                context.startActivity(i);
+            }
+        });
+
+        holder.timeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tid = artifactItemWrapper.getArtifactTimelineId();
+                Intent i = new Intent(view.getContext(), TimelineActivity.class);
+                i.putExtra("timelineID", tid);
                 context.startActivity(i);
             }
         });
