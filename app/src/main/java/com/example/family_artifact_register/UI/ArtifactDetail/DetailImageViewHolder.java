@@ -12,17 +12,17 @@ import com.example.family_artifact_register.R;
 
 public class DetailImageViewHolder extends RecyclerView.ViewHolder {
 
-    TextView  mDescTv, mUserTv, mPublisher;
-    ImageView mAvatarIv;
+//    TextView  mDescTv, mUserTv, mPublisher;
+//    ImageView mAvatarIv;
     public FrameLayout postImage;
 
     public DetailImageViewHolder(View itemView) {
         super(itemView);
-        this.mAvatarIv = itemView.findViewById(R.id.avatarIv);
-        this.mUserTv = itemView.findViewById(R.id.user);
+//        this.mAvatarIv = itemView.findViewById(R.id.avatarIv);
+//        this.mUserTv = itemView.findViewById(R.id.user);
         this.postImage = itemView.findViewById(R.id.post_image);
-        this.mPublisher = itemView.findViewById(R.id.publisher);
-        this.mDescTv = itemView.findViewById(R.id.desc);
+//        this.mPublisher = itemView.findViewById(R.id.publisher);
+//        this.mDescTv = itemView.findViewById(R.id.desc);
     }
 
     public void clearFrame() { postImage.removeAllViews(); }

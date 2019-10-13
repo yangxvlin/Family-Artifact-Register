@@ -52,7 +52,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private String PostID;
 
-//    private TextView post, desc, user;
+    private TextView post, desc, user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,9 +67,9 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         detailImageAdapter = new DetailImageAdapter(this);
         recyclerView.setAdapter(detailImageAdapter);
 
-//        post = findViewById(R.id.publisher);
-//        desc = findViewById(R.id.desc);
-//        user = findViewById(R.id.user);
+        post = findViewById(R.id.publisher);
+        desc = findViewById(R.id.desc);
+        user = findViewById(R.id.user);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -79,10 +79,10 @@ public class ArtifactDetailActivity extends AppCompatActivity {
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
                 Log.d(TAG, "Some changes happen");
 
-//                // Set artifact information the same as activity hub
-//                post.setText(artifactItemWrapper.getPostId());
-//                desc.setText(artifactItemWrapper.getDescription());
-//                user.setText(artifactItemWrapper.getUid());
+                // Set artifact information the same as activity hub
+                post.setText(artifactItemWrapper.getPostId());
+                desc.setText(artifactItemWrapper.getDescription());
+                user.setText(artifactItemWrapper.getUid());
 
                 if (layoutManager.getSpanSizeLookup() != null) {
                     if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {

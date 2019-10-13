@@ -236,21 +236,18 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
     private static final String TAG = DetailImageAdapter.class.getSimpleName();
     private ArtifactItemWrapper artifactItemWrapper;
 
-//    private FragmentManager fm;
-
     private Context context;
 
     private List<Uri> mediaList;
 
     public DetailImageAdapter(Context context) {
         this.context = context;
-//        this.fm = fm;
     }
 
     @NonNull
     @Override
     public DetailImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_detail, parent, false);
+        View view = View.inflate(parent.getContext(), R.layout.fragment_detail, null);
         return new DetailImageViewHolder(view);
     }
 
@@ -279,7 +276,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
 
-            View imagesRecyclerView = getImageRecyclerView(500, 500, mediaList, context);
+            View imagesRecyclerView = getImageRecyclerView(300, 300, mediaList, context);
 
             holder.postImage.addView(imagesRecyclerView);
             holder.postImage.setLayoutParams(layoutParam);
