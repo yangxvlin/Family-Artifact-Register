@@ -16,9 +16,7 @@ import java.util.List;
 
 public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHolder>{
 
-    private static final String TAG = com.example.family_artifact_register.UI.Util.
-            MyArtifactsRecyclerViewAdapter.class.getSimpleName();
-//    private ArtifactItem arti
+    private static final String TAG = DetailImageAdapter.class.getSimpleName();
     private List<String> postImageUris;
 
 //    private FragmentManager fm;

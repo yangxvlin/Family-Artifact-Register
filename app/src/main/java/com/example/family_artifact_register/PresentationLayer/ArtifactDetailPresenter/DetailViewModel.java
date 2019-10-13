@@ -29,7 +29,7 @@ public class DetailViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArtifactItem> item;
 
-    private MutableLiveData<ArtifactItemWrapper> itemWrapper;
+    private MutableLiveData<ArtifactItemWrapper> itemWrapper = new MutableLiveData<>();
 
     public DetailViewModel(Application application) {
         super(application);
@@ -79,6 +79,10 @@ public class DetailViewModel extends AndroidViewModel {
         });
 
         return item;
+    }
+
+    public LiveData<ArtifactItemWrapper> getArtifact() {
+        return itemWrapper;
     }
 
 

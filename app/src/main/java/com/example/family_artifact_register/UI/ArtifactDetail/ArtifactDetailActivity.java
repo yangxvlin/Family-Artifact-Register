@@ -4,6 +4,7 @@ package com.example.family_artifact_register.UI.ArtifactDetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +16,22 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailFragmentPresenter;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
+
+import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 
 
 /**
@@ -34,6 +45,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private DetailViewModel viewModel;
 
+    private DetailImageAdapter detailImageAdapter;
+
     TextView mTitleTv, mDescTv, mUserTv;
     ImageView mAvatarIv;
     RecyclerView recyclerView;
@@ -42,6 +55,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_detail);
+
+        viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication())).get(DetailViewModel.class);
 
         // force the system not to display action bar title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -57,33 +72,28 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String artifactItemPostId = intent.getStringExtra("artifactItemPostId");
 
-        viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication())).get(DetailViewModel.class);
-
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
-
         GridLayoutManager manager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(manager);
-
 
         DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
 
         recyclerView.setAdapter(detailImageAdapter);
 
-        Observer<ArtifactItem> postObserver = new Observer<ArtifactItem>() {
+        Observer<ArtifactItemWrapper> postObserver = new Observer<ArtifactItemWrapper>() {
             @Override
-            public void onChanged(ArtifactItem artifactItem) {
+            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
                 Log.i(TAG, "some changes happened");
 
                 // Set artifact information the same as activity hub
-                mTitleTv.setText(artifactItem.getPostId());
-                mDescTv.setText(artifactItem.getDescription());
-                mUserTv.setText(artifactItem.getUid());
+                mTitleTv.setText(artifactItemWrapper.getPostId());
+                mDescTv.setText(artifactItemWrapper.getDescription());
+                mUserTv.setText(artifactItemWrapper.getUid());
 
                 if (manager.getSpanSizeLookup() != null) {
-                    if (artifactItem.getMediaDataUrls().size() <= 1) {
+                    if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
                         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                             @Override
                             public int getSpanSize(int position) {
@@ -100,21 +110,26 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     }
                 }
 
-                artifactItem.getMediaDataUrls();
-                switch ( artifactItem.getMediaType()) {
-                    case (MediaProcessHelper.TYPE_IMAGE): {
-                        detailImageAdapter.setData(artifactItem.getMediaDataUrls());
-                        break;
-                    }
-                    case (MediaProcessHelper.TYPE_VIDEO): {
-                        break;
-                    }
-                }
+//                artifactItem.getMediaDataUrls();
+//                switch ( artifactItem.getMediaType()) {
+//                    case (MediaProcessHelper.TYPE_IMAGE): {
+//                        detailImageAdapter.setData(artifactItem.getMediaDataUrls());
+//                        break;
+//                    }
+//                    case (MediaProcessHelper.TYPE_VIDEO): {
+//                        break;
+//                    }
+//                }
 
             }
         };
 
-        viewModel.getArtifactItem(artifactItemPostId).observe(this, postObserver);
+        viewModel.getImages().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> urls) {
+                detailImageAdapter.setData(urls);
+            }
+        });
 
 
 
