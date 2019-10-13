@@ -7,12 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_my_artifacts"
+    <tellh.com.stickyheaderview_rv.StickyHeaderView
+        android:id="@+id/stickyHeaderView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_my_artifact"
-    />
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_my_artifacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_my_artifact"
+        />
+    </tellh.com.stickyheaderview_rv.StickyHeaderView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fragment_me_floating_button_add"
