@@ -1,7 +1,6 @@
 package com.example.family_artifact_register.UI.Util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,19 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
-import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImagesViewPager;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImagesViewPager;
 
 /**
  * @author XuLin Yang 904904,
@@ -112,15 +109,15 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             Log.e(TAG, "unknown media type !!!");
         }
 
-        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
-                Intent activityChangeIntent = new Intent(context, TimelineActivity.class);
-                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemWrapperList.get(position).getArtifactTimelineId());
-                context.startActivity(activityChangeIntent);
-            }
-        });
+//        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
+//                Intent activityChangeIntent = new Intent(context, TimelineActivity.class);
+//                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemWrapperList.get(position).getArtifactTimelineId());
+//                context.startActivity(activityChangeIntent);
+//            }
+//        });
     }
 
     @Override
