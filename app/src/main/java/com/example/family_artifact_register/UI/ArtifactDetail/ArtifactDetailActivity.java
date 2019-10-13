@@ -124,10 +124,10 @@ public class ArtifactDetailActivity extends AppCompatActivity {
             }
         };
 
-        viewModel.getImages().observe(this, new Observer<List<String>>() {
+        viewModel.getArtifact().observe(this, new Observer<ArtifactItemWrapper>() {
             @Override
-            public void onChanged(List<String> urls) {
-                detailImageAdapter.setData(urls);
+            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
+                detailImageAdapter.setData(artifactItemWrapper);
             }
         });
 
