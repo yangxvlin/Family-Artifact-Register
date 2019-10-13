@@ -67,11 +67,11 @@
             </ImageView>
 
             <ImageView
-                android:id="@+id/save"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/view_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_savee_black"
+                android:src="@drawable/ic_detail"
                 android:tint="@color/primaryTextColor">
 
             </ImageView>
@@ -95,7 +95,7 @@
             android:layout_marginStart="8dp"
             android:textStyle="bold"
             android:id="@+id/publisher"
-            android:text="publisher"
+            android:text="time"
             android:textColor="@color/primaryTextColor">
 
         </TextView>
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:id="@+id/timeline"
             android:text="View Artifact Timeline"
             android:textColor="@color/primaryLightColor">

@@ -46,7 +46,7 @@
             android:name=".UI.ArtifactHub.HubActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".UI.ArtifactHub.ArtifactDetailActivity"
+            android:name=".UI.ArtifactDetail.ArtifactDetailActivity"
             android:parentActivityName=".UI.ArtifactHub.HubActivity" />
         <activity
             android:name=".UI.Social.FriendActivity"
