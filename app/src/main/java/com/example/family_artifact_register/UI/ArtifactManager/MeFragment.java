@@ -44,6 +44,8 @@ public class MeFragment extends Fragment implements IFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+//        getChildFragmentManager().beginTransaction().add(R.id.frame1111, MyArtifactItemsFragment.newInstance()).commit();
+
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
 //                .add(R.string.title, PageFragment.class)

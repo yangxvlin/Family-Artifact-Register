@@ -1,6 +1,5 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,10 +21,8 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.ArtifactItemHeaderViewBinder;
 import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.ArtifactItemViewBinder;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2;
 import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.StickyArtifactItemHeader;
 import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.StickyArtifactItemItem;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,23 +85,23 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
 
 
         // add new artifact button
-        FloatingActionButton add = view.findViewById(R.id.fragment_me_floating_button_add);
-        add.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
-            startActivity(intent);
-        });
-
-        // recycler view's scroll to hide the floating button
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    add.hide();
-                } else if (dy < 0) {
-                    add.show();
-                }
-            }
-        });
+//        FloatingActionButton add = view.findViewById(R.id.fragment_me_floating_button_add);
+//        add.setOnClickListener(view1 -> {
+//            Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
+//            startActivity(intent);
+//        });
+//
+//        // recycler view's scroll to hide the floating button
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                if (dy > 0) {
+//                    add.hide();
+//                } else if (dy < 0) {
+//                    add.show();
+//                }
+//            }
+//        });
 
         viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItemWrapper>>() {
             @Override
@@ -113,7 +110,6 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
 //                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
 //                myArtifactsRecyclerViewAdapter.setData(artifactItemWrappers);
 //                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
-                mRecyclerView.removeAllViews();
                 Collections.sort(artifactItemWrappers, new Comparator<ArtifactItemWrapper>() {
                     @Override
                     public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
@@ -130,14 +126,17 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
                 artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
 
                 for (ArtifactItemWrapper wrapper: artifactItemWrappers) {
+                    Log.d(TAG, "size = " + artifactItemList.size());
                     String wrapperPrefix = wrapper.getUploadDateTime().substring(0, 7);
                     if (wrapperPrefix.equals(currentPrefix)) {
+                        //artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
                         artifactItemList.add(new StickyArtifactItemItem(wrapper, getContext()));
                     } else {
                         currentPrefix = wrapperPrefix;
                         artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
                         artifactItemList.add(new StickyArtifactItemItem(wrapper, getContext()));
                     }
+                    Log.d(TAG, "size = " + artifactItemList.size());
                 }
 
                 adapter = new StickyHeaderViewAdapter(artifactItemList)
