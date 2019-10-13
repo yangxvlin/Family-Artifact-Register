@@ -136,14 +136,15 @@ public class TimelineActivity extends AppCompatActivity {
         }
 
         private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
+        private Comparator<ArtifactItemWrapper> comparator;
 
         public TimelineAdapter() {
-            dataSet.sort(new Comparator<ArtifactItemWrapper>() {
+            comparator = new Comparator<ArtifactItemWrapper>() {
                 @Override
                 public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
-                    return artifactItemWrapper.getUploadDateTime().compareTo(t1.getUploadDateTime());
+                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
                 }
-            });
+            };
         }
 
         @NonNull
@@ -155,7 +156,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull TimelineViewHolder holder, int position) {
-            holder.time.setText(dataSet.get(position).getUploadDateTime());
+            holder.time.setText(dataSet.get(position).getHappenedDateTime());
             holder.description.setText(dataSet.get(position).getDescription());
             holder.itemId = dataSet.get(position).getPostId();
             List<String> urls = dataSet.get(position).getLocalMediaDataUrls();
@@ -181,6 +182,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         public void setData(List<ArtifactItemWrapper> newData) {
             dataSet = newData;
+            dataSet.sort(comparator);
             notifyDataSetChanged();
         }
     }
