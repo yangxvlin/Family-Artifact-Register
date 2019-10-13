@@ -28,6 +28,7 @@ import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactHub.ArtifactDetailActivity;
 import com.example.family_artifact_register.UI.Social.ContactSearchActivity;
 import com.github.vipulasri.timelineview.TimelineView;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -105,12 +106,13 @@ public class TimelineActivity extends AppCompatActivity {
 
     public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
-        public class TimelineViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public class TimelineViewHolder extends RecyclerView.ViewHolder {
 
             public TimelineView timelineView;
             public TextView time;
             public TextView title;
             public TextView description;
+            public MaterialButton detailButotn;
             // TODO handle multiple instance of same type, and different types
             public ImageView media;
             public String itemId;
@@ -121,17 +123,20 @@ public class TimelineActivity extends AppCompatActivity {
                 this.time= itemView.findViewById(R.id.timeline_item_upload_time);
                 this.title = itemView.findViewById(R.id.timeline_item_title);
                 this.description = itemView.findViewById(R.id.timeline_item_description);
+                this.detailButotn = itemView.findViewById(R.id.artifact_detail);
                 this.media = itemView.findViewById(R.id.timeline_item_media);
                 timelineView.initLine(viewType);
-            }
 
-            @Override
-            public void onClick(View view) {
-                // when artifact item is clicked, jump to detail page of the item
-                Log.d(TAG, "timeline item is clicked");
-                Intent intent = new Intent(view.getContext(), ArtifactDetailActivity.class);
-                intent.putExtra("selectedPid", itemId);
-                startActivity(intent);
+                detailButotn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // when artifact item is clicked, jump to detail page of the item
+                        Log.d(TAG, "timeline item is clicked");
+                        Intent intent = new Intent(view.getContext(), ArtifactDetailActivity.class);
+                        intent.putExtra("selectedPid", itemId);
+                        startActivity(intent);
+                    }
+                });
             }
         }
 
