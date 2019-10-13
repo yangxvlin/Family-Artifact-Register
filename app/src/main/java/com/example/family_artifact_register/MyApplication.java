@@ -30,7 +30,7 @@ public class MyApplication extends Application {
         super.onCreate();
         sApplication = this;
         // set whole app cache directory
-        CacheDirectoryHelper.getInstance().setCacheDirectory(this.getExternalCacheDir());
+        CacheDirectoryHelper.getInstance().setCacheDirectory(this.getCacheDir());
 
         // initialise all helper singleton
         FirebaseAuthHelper.getInstance();

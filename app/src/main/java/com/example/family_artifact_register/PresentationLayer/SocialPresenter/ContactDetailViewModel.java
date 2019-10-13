@@ -6,6 +6,8 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
@@ -14,33 +16,37 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
+import java.sql.Wrapper;
+
 public class ContactDetailViewModel extends AndroidViewModel {
 
     public static final String TAG = ContactDetailViewModel.class.getSimpleName();
 
-    private LiveData<UserInfo> selectedUser;
-
-    private UserInfoManager manager;
-
+    private UserInfoManager manager = UserInfoManager.getInstance();;
     private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
+
+    private MutableLiveData<UserInfoWrapper> selectedUser = new MutableLiveData<>();
 
     public ContactDetailViewModel(Application application, String selectedUid) {
         super(application);
         Log.i(TAG, "enter view model cons");
-        manager = UserInfoManager.getInstance();
-        selectedUser = manager.listenUserInfo(selectedUid);
-        selectedUser.observeForever(new Observer<UserInfo>() {
+        manager.listenUserInfo(selectedUid).observeForever(new Observer<UserInfo>() {
             @Override
             public void onChanged(UserInfo userInfo) {
-                String url = userInfo.getPhotoUrl();
+                Log.d(TAG, "user info come back from DB: " + userInfo.toString());
+                UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                String url = wrapper.getPhotoUrl();
                 if(url == null) {
-                    selectedUser.getValue().setPhotoUrl(null);
+                    wrapper.setPhotoUrl(null);
+                    selectedUser.postValue(wrapper);
                 }
                 else {
                     helper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(Uri uri) {
-                            selectedUser.getValue().setPhotoUrl(uri.toString());
+                            Log.d(TAG, "photo uri come back from DB: " + uri.toString());
+                            wrapper.setPhotoUrl(uri.toString());
+                            selectedUser.postValue(wrapper);
                         }
                     });
                 }
@@ -48,5 +54,5 @@ public class ContactDetailViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<UserInfo> getUser() { return selectedUser; }
+    public LiveData<UserInfoWrapper> getUser() { return selectedUser; }
 }

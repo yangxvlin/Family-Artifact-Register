@@ -38,6 +38,7 @@
 
         <activity android:name=".HomeActivity"></activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".CollectUserInfoActivity" />
         <activity
             android:name=".test.MapTestActivity"
             android:label="@string/title_activity_fullscreen" />
@@ -45,7 +46,7 @@
             android:name=".UI.ArtifactHub.HubActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".UI.ArtifactHub.ArtifactDetailActivity"
+            android:name=".UI.ArtifactDetail.ArtifactDetailActivity"
             android:parentActivityName=".UI.ArtifactHub.HubActivity" />
         <activity
             android:name=".UI.Social.FriendActivity"
@@ -66,9 +67,9 @@
             android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".UI.ArtifactManager.NewArtifactActivity"
+            android:name=".UI.ArtifactManager.NewArtifact.NewArtifactActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
-        <activity android:name=".UI.ArtifactManager.NewArtifactActivity2" />
+        <activity android:name=".UI.ArtifactManager.NewArtifact.NewArtifactActivity2" />
         <activity
             android:name=".UI.ArtifactManager.HappenedActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
@@ -95,15 +96,17 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-    </application> <!-- CAMERA -->
-    <uses-feature android:name="android.hardware.camera" />
+    </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+  
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

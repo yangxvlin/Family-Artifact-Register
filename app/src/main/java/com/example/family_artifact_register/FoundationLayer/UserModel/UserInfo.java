@@ -78,6 +78,11 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
                 new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
+    public static UserInfo newInstance(String uid, String displayName, String photoUrl) {
+        return new UserInfo(uid, displayName, null, null, photoUrl,
+                new HashMap<>(), new HashMap<>(), new HashMap<>());
+    }
+
     public static UserInfo newInstance(String uid, String displayName,
                                        String email, String phoneNumber) {
         return new UserInfo(uid, displayName, email, phoneNumber, null,
@@ -92,7 +97,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return photoUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
+    void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
 

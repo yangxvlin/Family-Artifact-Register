@@ -1,18 +1,22 @@
 package com.example.family_artifact_register.PresentationLayer.SocialPresenter;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.SocialModel.User;
 import com.example.family_artifact_register.FoundationLayer.SocialModel.UserRepository;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactSearchResultViewModel extends AndroidViewModel {
@@ -21,14 +25,39 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
      */
     public static final String TAG = ContactSearchResultViewModel.class.getSimpleName();
 
-    private UserInfoManager manager;
-    private LiveData<List<UserInfo>> result;
+    private UserInfoManager manager = UserInfoManager.getInstance();
+    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
+
+    private MutableLiveData<List<UserInfoWrapper>> result = new MutableLiveData<>();
     private UserInfo currentUser;
 
     public ContactSearchResultViewModel(Application application, String query) {
         super(application);
-        manager = UserInfoManager.getInstance();
-        result = manager.searchUserInfo(query);
+        manager.searchUserInfo(query).observeForever(new Observer<List<UserInfo>>() {
+            @Override
+            public void onChanged(List<UserInfo> userInfos) {
+                ArrayList<UserInfoWrapper> resultList = new ArrayList<>();
+                for(UserInfo i: userInfos) {
+                    UserInfoWrapper wrapper = new UserInfoWrapper(i);
+                    String url = wrapper.getPhotoUrl();
+                    if(url == null) {
+                        wrapper.setPhotoUrl(null);
+                        resultList.add(wrapper);
+                        result.postValue(resultList);
+                    }
+                    else {
+                        helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                            @Override
+                            public void onChanged(Uri uri) {
+                                wrapper.setPhotoUrl(uri.toString());
+                                resultList.add(wrapper);
+                                result.postValue(resultList);
+                            }
+                        });
+                    }
+                }
+            }
+        });
         currentUser = manager.getCurrentUserInfo();
 //        result.observeForever(userInfos -> {
 //            for (UserInfo userInfo: userInfos) {
@@ -37,15 +66,8 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
 //        });
     }
 
-    public LiveData<List<UserInfo>> getUsers() { return result; }
+    public LiveData<List<UserInfoWrapper>> getUsers() { return result; }
 
-    public String getUidByName(String username) {
-        for(UserInfo i: result.getValue()) {
-            if(username.equals(i.getDisplayName()))
-                return i.getUid();
-        }
-        return null;
-    }
 
     public UserInfo getCurrentUser() { return currentUser; }
 }

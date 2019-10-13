@@ -1,12 +1,11 @@
 package com.example.family_artifact_register;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
 import com.example.family_artifact_register.Util.Callback;
@@ -17,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 public class FamilyArtifactRegisterActivity extends AppCompatActivity implements Callback<Void> {
     /**
@@ -43,30 +44,36 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
      * Available sign-in providers
      */
     List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
+            new AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
             new AuthUI.IdpConfig.PhoneBuilder().build(),
-            new AuthUI.IdpConfig.GoogleBuilder().build());
+            new AuthUI.IdpConfig.GoogleBuilder().build(),
+            new AuthUI.IdpConfig.FacebookBuilder().build());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family_artifact_register);
-        checkAndSignIn();
+        createCheckAndSigninListener();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
     }
 
-    private void checkAndSignIn() {
-        // set firebase sign in layout
+    private void createCheckAndSigninListener() {
+        // set firebase sign in listener
         mAuthStateListner = firebaseAuth -> {
             // Already logged in
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user!=null) {
+            if (user != null) {
+                Log.d(TAG, "user already signed in");
                 // Check user even if signed in to register him to database (if haven't)
                 FirebaseAuthHelper.getInstance().checkRegisterUser(user,
                         this, CHECK_USER_DB);
 
-                Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
-                startHomeActivity();
+                // Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
+//                Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
+//                        .show();
+//                startHomeActivity();
             } else {
+                Log.d(TAG, "user hasn't signed in");
                 // Signed out or hasn't logged in
                 startActivityForResult(
                         AuthUI.getInstance()
@@ -83,6 +90,11 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
 
     private void startHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    private void startCollectUserInfoActivity() {
+        Intent intent = new Intent(this, CollectUserInfoActivity.class);
         startActivity(intent);
     }
 
@@ -114,30 +126,44 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
 
     @Override
     public void callback(int requestCode, int resultCode, Void data) {
+        Log.d(TAG, "Auth callback triggered with request code: " + requestCode +
+                ", result code: " + resultCode);
         if (requestCode == CHECK_USER_DB) {
             switch (resultCode) {
                 case (FirebaseAuthHelper.RESULT_USER_EXIST):
-                    Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
-                    startHomeActivity();
+//                     Toast.makeText(this, R.string.user_signed_in, Toast.LENGTH_SHORT).show();
+                    Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
+                            .show();
+                     startHomeActivity();
+//                    startCollectUserInfoActivity();
                     break;
                 case (FirebaseAuthHelper.RESULT_NEW_USER):
-                    Toast.makeText(this, "Registration Successful",
-                            Toast.LENGTH_SHORT).show();
-                    startHomeActivity();
+                    // Toast.makeText(this, R.string.registration_successful,
+                    //        Toast.LENGTH_SHORT).show();
+                    Toasty.success(this, R.string.registration_successful, Toasty.LENGTH_LONG)
+                            .show();
+                    startCollectUserInfoActivity();
+                    break;
+                case (FirebaseAuthHelper.RESULT_FAILURE):
+                    Log.e(TAG, "Storing user information to database failed");
+                    Toasty.error(this, R.string.auth_failure, Toasty.LENGTH_LONG)
+                            .show();
                     break;
             }
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Log.d(TAG, "FamilyArtifactRegisterMain onResume");
+//        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
+//    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "FamilyArtifactRegisterMain onDestroy");
         FirebaseAuth.getInstance().removeAuthStateListener(mAuthStateListner);
     }
 }

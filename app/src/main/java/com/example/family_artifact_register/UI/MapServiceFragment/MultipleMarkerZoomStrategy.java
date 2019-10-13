@@ -20,8 +20,8 @@ public class MultipleMarkerZoomStrategy extends MarkerZoomStrategy {
         for (Marker marker : markers) {
             builder.include(marker.getPosition());
         }
-        int padding = 100; // offset from edges of the map in pixels
+        int padding = 0; // offset from edges of the map in pixels
         LatLngBounds bounds = builder.build();
-        return CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        return CameraUpdateFactory.newLatLngBounds(bounds, 10, 10, padding);
     }
 }

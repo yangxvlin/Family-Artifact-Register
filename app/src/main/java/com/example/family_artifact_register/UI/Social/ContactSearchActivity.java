@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
@@ -43,7 +44,9 @@ public class ContactSearchActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
 
         EditText searchEditText = findViewById(R.id.search_edit_text);
-
+        if(searchEditText.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
         String storedQuery = viewModel.getQuery();
         if(storedQuery != null)
             searchEditText.setText(storedQuery);

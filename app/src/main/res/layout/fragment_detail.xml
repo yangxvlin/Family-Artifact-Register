@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#fff"
+    tools:context=".UI.ArtifactDetail.ArtifactDetailActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/avatarIv"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginBottom="10dp">
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user"
+        android:text="Username"
+        android:textSize="16dp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/avatarIv"
+        android:layout_toEndOf="@id/avatarIv"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        >
+
+    </TextView>
+
+    <FrameLayout
+        android:id="@+id/post_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/avatarIv">
+
+    </FrameLayout>
+
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageIv"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:src="@mipmap/ic_launcher"-->
+<!--        android:layout_below="@id/avatarIv"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:layout_marginEnd="10dp">-->
+
+<!--    </ImageView>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/publisher"
+        android:text="Publisher"
+        android:textSize="22sp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:layout_below="@id/post_image"
+        android:layout_marginTop="5dp"
+        >
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/desc"
+        android:text="Description"
+        android:textSize="18sp"
+        android:textColor="#a9a9a9"
+        android:layout_below="@id/publisher"
+        android:layout_marginTop="5dp"
+        >
+    </TextView>
+
+</RelativeLayout>

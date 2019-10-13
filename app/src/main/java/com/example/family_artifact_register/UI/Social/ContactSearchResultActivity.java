@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.Social;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +21,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 
 import java.util.List;
@@ -76,9 +77,9 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 //            }
 //        };
 
-        viewModel.getUsers().observe(this, new Observer<List<UserInfo>>() {
+        viewModel.getUsers().observe(this, new Observer<List<UserInfoWrapper>>() {
             @Override
-            public void onChanged(List<UserInfo> newData) {
+            public void onChanged(List<UserInfoWrapper> newData) {
                 // search result back from database
                 Log.d(TAG, "search observer invoked, result: "+ newData.size() +" comes back");
                 if(newData.size() > 0) {
@@ -87,7 +88,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         Log.d(TAG, e.toString());
                     }
-                    for (UserInfo user : newData)
+                    for (UserInfoWrapper user : newData)
                         Log.d(TAG, user.toString());
                     // got a match
                     adapter.setData(newData);
@@ -155,7 +156,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         }
 
         private ContactSearchResultViewModel viewModel;
-        private List<UserInfo> dataSet;
+        private List<UserInfoWrapper> dataSet;
 
         @NonNull
         @Override
@@ -169,6 +170,10 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             if(dataSet != null) {
                 holder.textView.setText(dataSet.get(position).getDisplayName());
                 holder.itemId = dataSet.get(position).getUid();
+                String url = dataSet.get(position).getPhotoUrl();
+                if(url != null) {
+                    holder.imageView.setImageURI(Uri.parse(url));
+                }
             }
             else
                 // TODO what to display when data is not ready
@@ -182,7 +187,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             return 0;
         }
 
-        public void setData(List<UserInfo> newData) {
+        public void setData(List<UserInfoWrapper> newData) {
             dataSet = newData;
             notifyDataSetChanged();
         }

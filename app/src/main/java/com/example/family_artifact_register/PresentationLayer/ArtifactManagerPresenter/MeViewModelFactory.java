@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
-
 /**
  * this class is only used to provide additional param to instantiate view model object
  */
@@ -22,6 +20,6 @@ public class MeViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new MeViewModel(application);
+        return (T) new MyArtifactItemsViewModel(application);
     }
 }

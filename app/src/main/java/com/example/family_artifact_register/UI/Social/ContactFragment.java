@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,6 +63,16 @@ public class ContactFragment extends Fragment implements IFragment {
 
         setupRecyclerView(view);
 
+        ImageView userProfile = (ImageView) view.findViewById(R.id.user_profile);
+        userProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ContactDetailActivity.class);
+                intent.putExtra("selectedUid", contactModel.getCurrentUid());
+                startActivity(intent);
+            }
+        });
+
         FloatingActionButton fab = view.findViewById(R.id.friend_list_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,16 +93,24 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
-        Observer<Set<UserInfo>> contactObserver = new Observer<Set<UserInfo>>() {
+        contactModel.getPersonalProfile().observe(this, new Observer<UserInfoWrapper>() {
             @Override
-            public void onChanged(Set<UserInfo> newData) {
+            public void onChanged(UserInfoWrapper wrapper) {
+                String url = wrapper.getPhotoUrl();
+                if(url != null) {
+                    userProfile.setImageURI(Uri.parse(url));
+                }
+            }
+        });
+
+        contactModel.getContacts().observe(this, new Observer<Set<UserInfoWrapper>>() {
+            @Override
+            public void onChanged(Set<UserInfoWrapper> newData) {
                 // when there is a change in the friend list, give the new one to list adapter
                 // Update the cached copy of the users in the adapter
                 adapter.setData(newData);
             }
-        };
-
-        contactModel.getContacts().observe(this, contactObserver);
+        });
 
         return view;
     }
@@ -149,8 +167,8 @@ public class ContactFragment extends Fragment implements IFragment {
         }
 
         private ContactViewModel viewModel;
-        private Set<UserInfo> dataSet;
-        private Iterator<UserInfo> dataSetIterator;
+        private Set<UserInfoWrapper> dataSet;
+        private Iterator<UserInfoWrapper> dataSetIterator;
 
         @NonNull
         @Override
@@ -163,7 +181,7 @@ public class ContactFragment extends Fragment implements IFragment {
         public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewHolder holder, int position) {
             // data is ready to be displayed
             if(dataSet != null) {
-                UserInfo currentItem = null;
+                UserInfoWrapper currentItem = null;
                 if(dataSetIterator.hasNext()) {
                     currentItem = dataSetIterator.next();
                     holder.textView.setText(currentItem.getDisplayName());
@@ -191,7 +209,7 @@ public class ContactFragment extends Fragment implements IFragment {
             return 0;
         }
 
-        public void setData(Set<UserInfo> newData) {
+        public void setData(Set<UserInfoWrapper> newData) {
             // solution from codelab
             dataSet = newData;
             dataSetIterator = dataSet.iterator();

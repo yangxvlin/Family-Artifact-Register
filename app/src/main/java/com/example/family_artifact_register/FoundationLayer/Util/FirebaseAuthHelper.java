@@ -21,6 +21,8 @@ public class FirebaseAuthHelper {
     public static final int RESULT_USER_EXIST = 0;
     // Return code if the user doesn't exist before.
     public static final int RESULT_NEW_USER = -1;
+    // Return code if the registration failed
+    public static final int RESULT_FAILURE = 1;
 
     private static final String TAG = FirebaseAuthHelper.class.getSimpleName();
 
@@ -73,11 +75,21 @@ public class FirebaseAuthHelper {
                                             .getInstance()
                                             .storeUserInfo(userInfo, 0,
                                                     (requestCode1, resultCode, data) -> {
-                                                if (photoUri != null) {
-                                                    retrieveSetPhoto(photoUri, userInfo);
+                                                switch (resultCode) {
+                                                    case (UserInfoManager.RESULT_OK): {
+                                                        if (photoUri != null) {
+                                                            retrieveSetPhoto(photoUri, userInfo);
+                                                        }
+                                                        callback.callback(requestCode,
+                                                                RESULT_NEW_USER, null);
+                                                        break;
+                                                    }
+                                                    case (UserInfoManager.RESULT_CANCELLED):
+                                                    case (UserInfoManager.RESULT_FAILURE):
+                                                        callback.callback(requestCode,
+                                                                RESULT_FAILURE, null);
+                                                        break;
                                                 }
-                                                callback.callback(requestCode1,
-                                                        RESULT_NEW_USER, null);
                                             });
                                 }
                             } else {
@@ -91,7 +103,9 @@ public class FirebaseAuthHelper {
      * Retrieve and set Photo uri of a given FirebaseUser
      * @param photoUri The photoUri to retrieve and set
      */
+    @Deprecated()
     private void retrieveSetPhoto(Uri photoUri, UserInfo userInfo) {
+        // TODO: 2019-10-11 THIS class need change!
         try {
             // default image extension
             String imgExtension = ".png";

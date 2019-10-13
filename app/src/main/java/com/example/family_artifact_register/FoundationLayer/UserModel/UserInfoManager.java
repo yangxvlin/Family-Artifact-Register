@@ -108,7 +108,7 @@ public class UserInfoManager {
                             mCurrentUserInfoLiveData.setValue(documentSnapshot
                                     .toObject(UserInfo.class));
                         } else {
-                            Log.e(TAG,"get failed: current user does not exist: "
+                            Log.w(TAG,"Listen currentUid failed: current user does not exist: "
                                     + mCurrentUid);
                         }
                     });
@@ -263,16 +263,6 @@ public class UserInfoManager {
     public void storeUserInfo(UserInfo userInfo) {
         String uid = userInfo.getUid();
         storeUserInfo(userInfo, 0,null);
-        mUserCollection
-                .document(uid)
-                .set(userInfo)
-                .addOnSuccessListener(aVoid ->
-                        Log.d(TAG, "User information"
-                                + userInfo.toString()
-                                + "successfully written!"))
-                .addOnFailureListener(e ->
-                        Log.w(TAG, "Error writing user info" +
-                                userInfo.toString(), e));
     }
 
     /**
@@ -281,6 +271,8 @@ public class UserInfoManager {
      * @param requestCode specifier for the db request
      * @param userInfoCallback function to invoke after completion
      */
+    // FIXME very very bad database practice!
+    @Deprecated
     public void storeUserInfo(UserInfo userInfo, int requestCode, Callback<Void> userInfoCallback) {
         String uid = userInfo.getUid();
         mUserCollection
@@ -293,6 +285,10 @@ public class UserInfoManager {
                                 Log.d(TAG, "User information"
                                         + userInfo.toString()
                                         + "successfully written!");
+                                // FIXME temporary solution for when new user just registered
+                                if (getCurrentUid() != null && getCurrentUid().equals(uid)) {
+                                    mCurrentUserInfoLiveData.setValue(userInfo);
+                                }
                                 resultCode = RESULT_OK;
                             } else if (task.isCanceled()) {
                                 Log.w(TAG, "Error writing user info" +
@@ -300,8 +296,7 @@ public class UserInfoManager {
                                 resultCode = RESULT_CANCELLED;
                             }
                             if (userInfoCallback != null) {
-                                userInfoCallback.callback(requestCode, resultCode,
-                                        task.getResult());
+                                userInfoCallback.callback(requestCode, resultCode, task.getResult());
                             }
                         }
                 );
@@ -388,7 +383,6 @@ public class UserInfoManager {
                     }
             );
         }
-        Log.d(TAG, mutableLiveData.getValue().toString());
         return mutableLiveData;
     }
 
@@ -421,8 +415,10 @@ public class UserInfoManager {
 
     /**
      * Set the Photo Uri for current user
+     *
      * @param photoUri The photo uri to set with (has to be local)
      */
+    @Deprecated()
     public void setPhoto(Uri photoUri, UserInfo userInfo) {
         // TODO this part is potentially dangerous to async error
         Task<UploadTask.TaskSnapshot> uploadTask = FirebaseStorageHelper
@@ -435,10 +431,11 @@ public class UserInfoManager {
             ).addOnSuccessListener(taskSnapshot -> {
                 // Change and store the user info to db after image complete
                 userInfo
-                    .setPhotoUrl(FirebaseStorageHelper
-                            .getInstance()
-                            .getRemoteByLocalUri(photoUri));
-            storeUserInfo(userInfo);})
+                        .setPhotoUrl(FirebaseStorageHelper
+                                .getInstance()
+                                .getRemoteByLocalUri(photoUri));
+                storeUserInfo(userInfo);
+            })
                     .addOnFailureListener(e ->
                             Log.w(TAG, "Error update user new Uri info to FireStore failed" +
                                     userInfo.toString(), e));

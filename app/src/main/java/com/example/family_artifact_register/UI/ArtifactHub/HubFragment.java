@@ -1,41 +1,31 @@
 package com.example.family_artifact_register.UI.ArtifactHub;
 
 import android.content.Intent;
-import android.database.Observable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.IFragment;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubFragmentPresenter;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModelFactory;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactActivity2;
-import com.example.family_artifact_register.UI.Upload.PostActivity;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 //public class HubFragment extends Fragment implements IFragment {
@@ -249,6 +239,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
      * class tag
      */
     public static final String TAG = HubFragment.class.getSimpleName();
+    private List<ArtifactItemWrapper> artifactItemWrapperList;
 
     // *********************************** recycler view *****************************************
     /**
@@ -326,11 +317,10 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
-        viewModel.getPosts().observe(this, new Observer<List<ArtifactItem>>() {
+        viewModel.getPosts().observe(this, new Observer<List<ArtifactItemWrapper>>() {
             @Override
-            public void onChanged(List<ArtifactItem> artifactItems) {
-                Log.d(TAG, "enter onchange");
-                hubModelAdapter.setData(artifactItems);
+            public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
+                hubModelAdapter.setData(artifactItemWrappers);
             }
         });
     }
@@ -343,7 +333,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
     // ********************************** implement presenter ************************************
     @Override
     public void addData(ArtifactItem artifactItem) {
-        hubModelAdapter.addData(artifactItem);
+        Log.d(TAG, "addData");
     }
 
     @Override
