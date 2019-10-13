@@ -3,7 +3,10 @@ package com.example.family_artifact_register.UI.Util;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -148,6 +151,13 @@ public class MediaViewHelper {
         imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
 
         return imageRecyclerView;
+    }
+
+    public static Bitmap getVideoThumbNail(String video) {
+        Bitmap thumb;
+        //MINI_KIND, size:  512 x 384 thumbnail
+        thumb = ThumbnailUtils.createVideoThumbnail(video, MediaStore.Video.Thumbnails.MICRO_KIND);
+        return thumb;
     }
 
     public static ImageView getVideoThumbnail(Uri video, Context context) {

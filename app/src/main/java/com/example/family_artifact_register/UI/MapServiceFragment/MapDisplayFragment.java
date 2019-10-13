@@ -1,7 +1,9 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,19 +12,27 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
@@ -142,6 +152,52 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
             Log.i(TAG, mapLocation.toString());
         }
         displayLocations();
+    }
+
+    public void setDisplayArtifactItems(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
+        // Only display with marker if map is not null and there are locations stored
+        if (mMap != null && locations != null && locations.size() != 0) {
+            mMap.clear();
+            List<Marker> markers = new ArrayList<>();
+            for (Pair<ArtifactItemWrapper, MapLocation> pair : artifactItems) {
+                ArtifactItemWrapper artifactItemWrapper = pair.getFst();
+                MapLocation storeLocation = pair.getSnd();
+
+                MarkerOptions opt = new MarkerOptions()
+                        .position(new LatLng(storeLocation.getLatitude(),
+                                storeLocation.getLongitude()))
+                        .title(artifactItemWrapper.getUploadDateTime())
+                        .snippet(artifactItemWrapper.getDescription());
+
+                if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
+                    Bitmap mBitmap = null;
+                    try {
+                        mBitmap = MediaStore.Images.Media.getBitmap(
+                                getContext().getContentResolver(),
+                                Uri.parse(artifactItemWrapper.getLocalMediaDataUrls().get(0))
+                        );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    opt.icon(BitmapDescriptorFactory.fromBitmap(mBitmap));
+                } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
+                    opt.icon(BitmapDescriptorFactory.fromBitmap(
+                            getVideoThumbNail(artifactItemWrapper.getLocalMediaDataUrls()
+                                                                    .get(0))
+                        )
+                    );
+                } else {
+                    Log.e(getFragmentTag(), "unknown media Type !!!");
+                }
+
+                markers.add(mMap.addMarker(opt));
+            }
+            CameraUpdate cu = MarkerZoomStrategyFactory
+                    .getMarkerZoomStrategyFactory()
+                    .getMarkerZoomStrategy(markers.size())
+                    .makeCameraUpdate(markers);
+            mMap.animateCamera(cu);
+        }
     }
 
     public List<MapLocation> getLocations() {
