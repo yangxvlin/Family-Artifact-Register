@@ -88,6 +88,16 @@
 
             </RelativeLayout>
 
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/artifact_detail"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="5dp"
+                android:text="More"
+                app:strokeWidth="0dp"/>
+
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
