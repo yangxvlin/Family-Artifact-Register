@@ -2,6 +2,7 @@ package com.example.family_artifact_register.PresentationLayer.ArtifactDetailPre
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +10,18 @@ import java.util.List;
 public class DetailFragmentPresenter {
 
     private IView view;
-    private String Pid;
+    private ArtifactItem artifactItem;
 
-    public DetailFragmentPresenter(IView view, String Pid) {
+    public DetailFragmentPresenter(IView view) {
         this.view = view;
-        this.Pid = Pid;
+        this.artifactItem = initArtifactItem();
+    }
+
+    private ArtifactItem initArtifactItem() {
+        ArtifactTimeline timeline1 = new ArtifactTimeline("timeline 1");
+
+        ArtifactItem res = new ArtifactItem();
+        return res;
     }
 
     public interface IView {
