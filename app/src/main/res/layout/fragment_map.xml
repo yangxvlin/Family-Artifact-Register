@@ -19,6 +19,7 @@
             android:id="@+id/fragment_map_choose_timeline_to_display_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
             />
     </com.google.android.material.card.MaterialCardView>
 

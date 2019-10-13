@@ -43,7 +43,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
     private AppCompatSpinner chooseTimeline;
 
     // TODO get this from DB
-    private List<TimelineMapWrapper> timelineMapWrapperList;
+    private List<TimelineMapWrapper> timelineMapWrapperList = new ArrayList<>();
 
     private List<String> timelineTitles;
 
@@ -82,16 +82,20 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
         });
 
         chooseTimeline = view.findViewById(R.id.fragment_map_choose_timeline_to_display_spinner);
+        chooseTimeline.setPrompt(getString(R.string.choose_timeline_prompt));
         timelineTitles = timelineMapWrapperList.stream()
                 .map(TimelineMapWrapper::getArtifactTimeline)
                 .map(ArtifactTimeline::getTitle)
                 .collect(Collectors.toCollection(ArrayList::new));
         timelineTitles.add(0, ALL_TIMELINE); // add an empty "" for all timeline
+//        timelineTitles.add("123");
+//        timelineTitles.add("456");
+//        timelineTitles.add("789");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                 R.layout.timeline_selection_spinner_item, timelineTitles);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
         chooseTimeline.setAdapter(adapter);
 
