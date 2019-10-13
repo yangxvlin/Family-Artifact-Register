@@ -71,7 +71,7 @@
                 android:id="@+id/comment"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/likes"
                 android:src="@drawable/ic_comment"
                 android:tint="@color/primaryTextColor">
@@ -97,9 +97,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textStyle="bold"
             android:id="@+id/description"
             android:text="description"
+            android:textSize="15sp"
             android:textColor="@color/primaryTextColor">
 
         </TextView>
@@ -107,7 +107,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
             android:orientation="horizontal"
             >
             <TextView
