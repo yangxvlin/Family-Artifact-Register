@@ -250,7 +250,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
     @NonNull
     @Override
     public DetailImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detail_image, parent, false);
+        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_detail, parent, false);
         return new DetailImageViewHolder(view);
     }
 

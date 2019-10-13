@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -37,132 +38,205 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getIm
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 
-
-/**
- * @author Haichao Song 854035,
- * @time 2019-9-19 11:54:23
- * @description activity for artifact detail view.
- */
-public class ArtifactDetailActivity extends AppCompatActivity implements DetailFragmentPresenter.IView, IFragment {
+public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
 
-    private ArtifactItemWrapper artifactItemWrapper;
-
-    private DetailViewModel viewModel;
+    private RecyclerView recyclerView;
 
     private DetailImageAdapter detailImageAdapter;
 
-    private DetailFragmentPresenter dfp;
+    private DetailViewModel viewModel;
 
-    TextView mTitleTv, mDescTv, mUserTv;
-    ImageView mAvatarIv;
-    RecyclerView recyclerView;
+    private ArtifactItem artifactItem;
+
+    private String PostID;
+
+//    private TextView post, desc, user;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_detail);
-
-        // Use intent to send information to artifact detail activity
         Intent intent = getIntent();
-        String artifactItemPostId = intent.getStringExtra("artifactItemPostId");
+        PostID = intent.getStringExtra("artifactItemPostId");
 
-        viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication())).get(DetailViewModel.class);
-
-        // force the system not to display action bar title
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        mTitleTv = findViewById(R.id.publisher);
-        recyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView = (RecyclerView) findViewById(R.id.detail_recycler);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(detailImageAdapter);
-        mDescTv = findViewById(R.id.desc);
-        mUserTv = findViewById(R.id.user);
-        mAvatarIv = findViewById(R.id.avatarIv);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.
-                getContext(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        Log.v(TAG, "recycler view created");
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
-
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-
-        DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
-
+        detailImageAdapter = new DetailImageAdapter(this);
         recyclerView.setAdapter(detailImageAdapter);
 
-        viewModel.getArtifactItem(artifactItemPostId).observe(this, new Observer<ArtifactItemWrapper>() {
+//        post = findViewById(R.id.publisher);
+//        desc = findViewById(R.id.desc);
+//        user = findViewById(R.id.user);
+
+        viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
+                .get(DetailViewModel.class);
+
+        viewModel.getArtifactItem(PostID).observe(this, new Observer<ArtifactItemWrapper>() {
             @Override
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
+                Log.d(TAG, "Some changes happen");
+
+//                // Set artifact information the same as activity hub
+//                post.setText(artifactItemWrapper.getPostId());
+//                desc.setText(artifactItemWrapper.getDescription());
+//                user.setText(artifactItemWrapper.getUid());
+
+                if (layoutManager.getSpanSizeLookup() != null) {
+                    if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
+                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                            @Override
+                            public int getSpanSize(int position) {
+                                return 3;
+                            }
+                        });
+                    } else {
+                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                            @Override
+                            public int getSpanSize(int position) {
+                                return 1;
+                            }
+                        });
+                    }
+                }
                 detailImageAdapter.setData(artifactItemWrapper);
-                Log.i(TAG, "some changes happened");
-
-                // Set artifact information the same as activity hub
-                mTitleTv.setText(artifactItemWrapper.getPostId());
-                mDescTv.setText(artifactItemWrapper.getDescription());
-                mUserTv.setText(artifactItemWrapper.getUid());
-
-//                if (layoutManager.getSpanSizeLookup() != null) {
-//                    if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
-//                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                            @Override
-//                            public int getSpanSize(int position) {
-//                                return 3;
-//                            }
-//                        });
-//                    } else {
-//                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                            @Override
-//                            public int getSpanSize(int position) {
-//                                return 1;
-//                            }
-//                        });
-//                    }
-//                }
+                Log.d(TAG, "Set Data");
             }
         });
-
-
-//        String mTitle = intent.getStringExtra("iTitle");
-//        String mDesc = intent.getStringExtra("iDesc");
-//        String mUser = intent.getStringExtra("iUser");
-//
-//        byte[] mImageBytes = getIntent().getByteArrayExtra("iImage");
-//        byte[] mAvatarBytes = getIntent().getByteArrayExtra("iImage");
-//        Bitmap imageBitmap = BitmapFactory.decodeByteArray(mAvatarBytes, 0, mImageBytes.length);
-//        Bitmap avatarBitmap = BitmapFactory.decodeByteArray(mAvatarBytes, 0, mAvatarBytes.length);
-//
-//        // Set action bar title to be artifact title
-//        getMyActionBar().setTitle(mTitle);
-//
-//        // Set artifact information the same as activity hub
-//        mTitleTv.setText(mTitle);
-//        mDescTv.setText(mDesc);
-//        mUserTv.setText(mUser);
-//        mImageIv.setImageBitmap(imageBitmap);
-//        mAvatarIv.setImageBitmap(avatarBitmap);
     }
 
-//    @Override
-//    protected int getLayoutResource() {
-//        return R.layout.fragment_detail;
-//    }
-    /**
-     * @return created me fragment
-     */
-    public static ArtifactDetailActivity newInstance() { return new ArtifactDetailActivity(); }
 
-    // ********************************** implement presenter ************************************
-    @Override
-    public void addData(ArtifactItem artifactItem) {
-        Log.d(TAG, "addData");
-    }
 
-    @Override
-    public String getFragmentTag() { return TAG; }
 }
+
+///**
+// * @author Haichao Song 854035,
+// * @time 2019-9-19 11:54:23
+// * @description activity for artifact detail view.
+// */
+//public class ArtifactDetailActivity extends AppCompatActivity implements DetailFragmentPresenter.IView, IFragment {
+//
+//    public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
+//
+//    private ArtifactItemWrapper artifactItemWrapper;
+//
+//    private DetailViewModel viewModel;
+//
+//    private DetailImageAdapter detailImageAdapter;
+//
+//    private DetailFragmentPresenter dfp;
+//
+////    TextView mTitleTv, mDescTv, mUserTv;
+////    ImageView mAvatarIv;
+//    RecyclerView recyclerView;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.fragment_detail);
+//
+//        // Use intent to send information to artifact detail activity
+//        Intent intent = getIntent();
+//        String artifactItemPostId = intent.getStringExtra("artifactItemPostId");
+//
+//        viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication())).get(DetailViewModel.class);
+//
+//        // force the system not to display action bar title
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//
+//        recyclerView = findViewById(R.id.recycler_view);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(detailImageAdapter);
+//
+////        mDescTv = findViewById(R.id.desc);
+////        mUserTv = findViewById(R.id.user);
+////        mAvatarIv = findViewById(R.id.avatarIv);
+//
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.
+//                getContext(), layoutManager.getOrientation());
+//        recyclerView.addItemDecoration(dividerItemDecoration);
+//        Log.v(TAG, "recycler view created");
+//
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
+//
+//        LinearLayoutManager manager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(manager);
+//
+//        DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
+//
+//        recyclerView.setAdapter(detailImageAdapter);
+//
+//        viewModel.getArtifactItem(artifactItemPostId).observe(this, new Observer<ArtifactItemWrapper>() {
+//            @Override
+//            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
+//                detailImageAdapter.setData(artifactItemWrapper);
+//                Log.i(TAG, "some changes happened");
+//
+////                // Set artifact information the same as activity hub
+////                mTitleTv.setText(artifactItemWrapper.getPostId());
+////                mDescTv.setText(artifactItemWrapper.getDescription());
+////                mUserTv.setText(artifactItemWrapper.getUid());
+//
+////                if (layoutManager.getSpanSizeLookup() != null) {
+////                    if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
+////                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+////                            @Override
+////                            public int getSpanSize(int position) {
+////                                return 3;
+////                            }
+////                        });
+////                    } else {
+////                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+////                            @Override
+////                            public int getSpanSize(int position) {
+////                                return 1;
+////                            }
+////                        });
+////                    }
+////                }
+//            }
+//        });
+//
+//
+////        String mTitle = intent.getStringExtra("iTitle");
+////        String mDesc = intent.getStringExtra("iDesc");
+////        String mUser = intent.getStringExtra("iUser");
+////
+////        byte[] mImageBytes = getIntent().getByteArrayExtra("iImage");
+////        byte[] mAvatarBytes = getIntent().getByteArrayExtra("iImage");
+////        Bitmap imageBitmap = BitmapFactory.decodeByteArray(mAvatarBytes, 0, mImageBytes.length);
+////        Bitmap avatarBitmap = BitmapFactory.decodeByteArray(mAvatarBytes, 0, mAvatarBytes.length);
+////
+////        // Set action bar title to be artifact title
+////        getMyActionBar().setTitle(mTitle);
+////
+////        // Set artifact information the same as activity hub
+////        mTitleTv.setText(mTitle);
+////        mDescTv.setText(mDesc);
+////        mUserTv.setText(mUser);
+////        mImageIv.setImageBitmap(imageBitmap);
+////        mAvatarIv.setImageBitmap(avatarBitmap);
+//    }
+//
+////    @Override
+////    protected int getLayoutResource() {
+////        return R.layout.fragment_detail;
+////    }
+//    /**
+//     * @return created me fragment
+//     */
+//    public static ArtifactDetailActivity newInstance() { return new ArtifactDetailActivity(); }
+//
+//    // ********************************** implement presenter ************************************
+//    @Override
+//    public void addData(ArtifactItem artifactItem) {
+//        Log.d(TAG, "addData");
+//    }
+//
+//    @Override
+//    public String getFragmentTag() { return TAG; }
+//}
