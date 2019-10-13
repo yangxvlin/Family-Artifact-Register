@@ -2,9 +2,13 @@ package com.example.family_artifact_register.UI.ArtifactDetail;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +34,7 @@ import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostD
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
@@ -54,6 +59,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private TextView post, desc, user;
 
+    private FrameLayout postImage;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,18 +68,18 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         PostID = intent.getStringExtra("artifactItemPostId");
 
-        recyclerView = (RecyclerView) findViewById(R.id.detail_recycler);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
-        recyclerView.setLayoutManager(layoutManager);
+
         detailImageAdapter = new DetailImageAdapter(this);
-        recyclerView.setAdapter(detailImageAdapter);
 
         post = findViewById(R.id.publisher);
         desc = findViewById(R.id.desc);
         user = findViewById(R.id.user);
+        postImage = findViewById(R.id.post_image);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
+
+        ArtifactDetailActivity artifactDetailActivity = this;
 
         viewModel.getArtifactItem(PostID).observe(this, new Observer<ArtifactItemWrapper>() {
             @Override
@@ -84,15 +91,24 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 desc.setText(artifactItemWrapper.getDescription());
                 user.setText(artifactItemWrapper.getUid());
 
-                if (layoutManager.getSpanSizeLookup() != null) {
-                    if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
-                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                            @Override
-                            public int getSpanSize(int position) {
-                                return 3;
-                            }
-                        });
-                    } else {
+                List<Uri> mediaList = new ArrayList<>();
+                for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
+                    Log.d(TAG, "media uri" + mediaUrl);
+                    mediaList.add(Uri.parse(mediaUrl));
+                }
+
+                if (mediaList.size() > 0) {
+                    postImage.removeAllViews();
+                    int width = postImage.getWidth() - 60;
+                    int span = Math.min((int) Math.ceil(
+                            Math.sqrt(
+                                    (double) artifactItemWrapper
+                                            .getLocalMediaDataUrls().size()
+                            )
+                    ), 3);
+                    int imageLength = width / span;
+                    GridLayoutManager layoutManager = new GridLayoutManager(artifactDetailActivity, span);
+                    if (layoutManager.getSpanSizeLookup() != null) {
                         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                             @Override
                             public int getSpanSize(int position) {
@@ -100,8 +116,28 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                             }
                         });
                     }
+
+                    View mediaView;
+                    if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
+
+                        mediaView = getImageRecyclerView(imageLength, imageLength,
+                                mediaList, artifactDetailActivity);
+                        ((RecyclerView) mediaView).setLayoutManager(layoutManager);
+                        postImage.addView(mediaView);
+                    } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
+                        // video view
+                        mediaView = getVideoThumbnail(750, 750,
+                                mediaList.get(0), artifactDetailActivity);
+
+                        ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
+                        postImage.addView(playIcon);
+                        postImage.addView(mediaView);
+                    } else {
+                        Log.e(TAG, "unknown media type !!!");
+                    }
                 }
-                detailImageAdapter.setData(artifactItemWrapper);
+
+
                 Log.d(TAG, "Set Data");
             }
         });

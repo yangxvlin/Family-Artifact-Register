@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -62,25 +63,25 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
             mediaList.add(Uri.parse(mediaUrl));
         }
 
-        holder.clearFrame();
-        // set frame layout param
-        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-        );
-        layoutParam.gravity = Gravity.CENTER;
-        layoutParam.topMargin = 20;
-        layoutParam.bottomMargin = 20;
-        layoutParam.leftMargin = 20;
-        layoutParam.rightMargin = 20;
-
+//        holder.clearFrame();
+//        // set frame layout param
+//        GridLayout.LayoutParams layoutParam = new GridLayout.LayoutParams(
+//                GridLayout.Spec 3,
+//                GridLayout.Spec
+//        );
+//        layoutParam.gravity = Gravity.CENTER;
+//        layoutParam.topMargin = 20;
+//        layoutParam.bottomMargin = 20;
+//        layoutParam.leftMargin = 20;
+//        layoutParam.rightMargin = 20;
+//
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
 
             View imagesRecyclerView = getImageRecyclerView(500, 500, mediaList, context);
 
             holder.postImage.addView(imagesRecyclerView);
-            holder.postImage.setLayoutParams(layoutParam);
+//            holder.postImage.setLayoutParams(layoutParam);
             // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             ImageView iv = getVideoThumbnail(750, 750, mediaList.get(0), context);
@@ -90,7 +91,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
             // set frame's layout and add image view to it programmatically
             holder.postImage.addView(iv);
             holder.postImage.addView(playIcon);
-            holder.postImage.setLayoutParams(layoutParam);
+//            holder.postImage.setLayoutParams(layoutParam);
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
@@ -106,6 +107,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
 
     public void setData(ArtifactItemWrapper newData) {
         artifactItemWrapper = newData;
+        notifyDataSetChanged();
     }
 
 
