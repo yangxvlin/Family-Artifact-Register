@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,7 +59,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
     private List<String> timelineTitles;
 
-    private String slectedTimelineTitle = null;
+    private String selectedTimelineTitle = null;
 
     private List<ArtifactTimeline> timelines;
 
@@ -102,7 +104,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-            android.R.layout.simple_spinner_item, timelineTitles);
+            R.layout.timeline_selection_spinner_item, timelineTitles);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
@@ -117,7 +119,10 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
              */
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                slectedTimelineTitle = timelineTitles.get(pos);
+//                selectedTimelineTitle = timelineTitles.get(pos);
+//                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
+//                ((TextView) parent.getChildAt(0)).setTextSize((int) getResources()
+//                        .getDimension(R.dimen.timeline_selection_spinner_text_size));
                 // Toast.makeText(getContext(), timelineTitles.get(pos), Toast.LENGTH_SHORT).show();
             }
             @Override
