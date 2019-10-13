@@ -2,6 +2,7 @@ package com.example.family_artifact_register.UI.ArtifactDetail;
 
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,14 +100,14 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
                 if (mediaList.size() > 0) {
                     postImage.removeAllViews();
-                    int width = postImage.getWidth() - 20;
+                    int width = postImage.getWidth();
                     int span = Math.min((int) Math.ceil(
                             Math.sqrt(
                                     (double) artifactItemWrapper
                                             .getLocalMediaDataUrls().size()
                             )
                     ), 3);
-                    int imageLength = width / span;
+                    int imageLength = (width / span);
                     GridLayoutManager layoutManager = new GridLayoutManager(artifactDetailActivity, span);
                     if (layoutManager.getSpanSizeLookup() != null) {
                         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -125,6 +126,31 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         mediaView = getImageRecyclerView(imageLength, imageLength,
                                 mediaList, artifactDetailActivity);
                         ((RecyclerView) mediaView).setLayoutManager(layoutManager);
+                        ((RecyclerView) mediaView).addItemDecoration(new RecyclerView.ItemDecoration() {
+                            @Override
+                            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                                int position = parent.getChildAdapterPosition(view); // item position
+                                int spanCount = 2;
+                                int spacing = 10;//spacing between views in grid
+
+                                if (position >= 0) {
+                                    int column = position % spanCount; // item column
+
+                                    outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                                    outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                                    if (position < spanCount) { // top edge
+                                        outRect.top = spacing;
+                                    }
+                                    outRect.bottom = spacing; // item bottom
+                                } else {
+                                    outRect.left = 0;
+                                    outRect.right = 0;
+                                    outRect.top = 0;
+                                    outRect.bottom = 0;
+                                }
+                            }
+                        });
                         postImage.addView(mediaView);
                     } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
                         // video view
