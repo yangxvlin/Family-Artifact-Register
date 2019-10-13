@@ -12,11 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
+import com.google.android.material.button.MaterialButton;
 
 public class HubModelViewHolder extends RecyclerView.ViewHolder {
 
             public TextView username, time, description, likes;
-            public ImageView avatar, like, comment, viewDetail;
+            public ImageView avatar, like, comment;
+            public MaterialButton viewDetail;
 
             public FrameLayout postImage;
 
