@@ -12,7 +12,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
@@ -42,10 +44,13 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVi
 public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
+    private ArtifactItemWrapper artifactItemWrapper;
 
     private DetailViewModel viewModel;
 
     private DetailImageAdapter detailImageAdapter;
+
+    private DetailFragmentPresenter dfp;
 
     TextView mTitleTv, mDescTv, mUserTv;
     ImageView mAvatarIv;
@@ -62,11 +67,17 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mTitleTv = findViewById(R.id.publisher);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        recyclerView.setLayoutManager(layoutManager);
+        detailImageAdapter = new DetailImageAdapter(this);
+        recyclerView.setAdapter(detailImageAdapter);
         mDescTv = findViewById(R.id.desc);
         mUserTv = findViewById(R.id.user);
 //        mImageIv = findViewById(R.id.imageIv);
         mAvatarIv = findViewById(R.id.avatarIv);
-        recyclerView = findViewById(R.id.detail_recycler_view);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        Log.v(TAG, "recycler view created");
 
         // Use intent to send information to artifact detail activity
         Intent intent = getIntent();
@@ -74,14 +85,14 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
-
-        GridLayoutManager manager = new GridLayoutManager(this, 3);
-        recyclerView.setLayoutManager(manager);
-
-        DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
-
-        recyclerView.setAdapter(detailImageAdapter);
-
+//
+//        GridLayoutManager manager = new GridLayoutManager(this, 3);
+//        recyclerView.setLayoutManager(manager);
+//
+//        DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
+//
+//        recyclerView.setAdapter(detailImageAdapter);
+//
         Observer<ArtifactItemWrapper> postObserver = new Observer<ArtifactItemWrapper>() {
             @Override
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
@@ -92,16 +103,16 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 mDescTv.setText(artifactItemWrapper.getDescription());
                 mUserTv.setText(artifactItemWrapper.getUid());
 
-                if (manager.getSpanSizeLookup() != null) {
+                if (layoutManager.getSpanSizeLookup() != null) {
                     if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
-                        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                             @Override
                             public int getSpanSize(int position) {
                                 return 3;
                             }
                         });
                     } else {
-                        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                             @Override
                             public int getSpanSize(int position) {
                                 return 1;
@@ -109,18 +120,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         });
                     }
                 }
-
-//                artifactItem.getMediaDataUrls();
-//                switch ( artifactItem.getMediaType()) {
-//                    case (MediaProcessHelper.TYPE_IMAGE): {
-//                        detailImageAdapter.setData(artifactItem.getMediaDataUrls());
-//                        break;
-//                    }
-//                    case (MediaProcessHelper.TYPE_VIDEO): {
-//                        break;
-//                    }
-//                }
-
             }
         };
 
@@ -130,8 +129,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 detailImageAdapter.setData(artifactItemWrapper);
             }
         });
-
-
 
 
 //        String mTitle = intent.getStringExtra("iTitle");
