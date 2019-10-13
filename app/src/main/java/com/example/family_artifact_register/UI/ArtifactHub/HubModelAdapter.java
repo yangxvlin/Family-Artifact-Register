@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 //import com.example.family_artifact_register.UI.ArtifactDetail.DetailFragment;
 import com.example.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
@@ -31,11 +32,13 @@ import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewHolde
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
@@ -127,6 +130,17 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 context.startActivity(i);
             }
         });
+
+        holder.timeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tid = artifactItemWrapper.getArtifactTimelineId();
+                Intent i = new Intent(view.getContext(), TimelineActivity.class);
+                i.putExtra("timelineID", tid);
+                context.startActivity(i);
+            }
+        });
+
     }
 
     @Override
