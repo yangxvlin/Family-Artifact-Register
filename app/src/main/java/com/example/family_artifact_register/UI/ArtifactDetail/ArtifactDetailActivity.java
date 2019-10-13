@@ -75,17 +75,16 @@ public class ArtifactDetailActivity extends AppCompatActivity implements DetailF
 
         mTitleTv = findViewById(R.id.publisher);
         recyclerView = findViewById(R.id.recycler_view);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(detailImageAdapter);
         mDescTv = findViewById(R.id.desc);
         mUserTv = findViewById(R.id.user);
-//        mImageIv = findViewById(R.id.imageIv);
         mAvatarIv = findViewById(R.id.avatarIv);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.
+                getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         Log.v(TAG, "recycler view created");
-
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
@@ -97,7 +96,7 @@ public class ArtifactDetailActivity extends AppCompatActivity implements DetailF
 
         recyclerView.setAdapter(detailImageAdapter);
 
-        viewModel.getArtifact(artifactItemPostId).observe(this, new Observer<ArtifactItemWrapper>() {
+        viewModel.getArtifactItem(artifactItemPostId).observe(this, new Observer<ArtifactItemWrapper>() {
             @Override
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
                 detailImageAdapter.setData(artifactItemWrapper);
@@ -108,23 +107,23 @@ public class ArtifactDetailActivity extends AppCompatActivity implements DetailF
                 mDescTv.setText(artifactItemWrapper.getDescription());
                 mUserTv.setText(artifactItemWrapper.getUid());
 
-                if (layoutManager.getSpanSizeLookup() != null) {
-                    if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
-                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                            @Override
-                            public int getSpanSize(int position) {
-                                return 3;
-                            }
-                        });
-                    } else {
-                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                            @Override
-                            public int getSpanSize(int position) {
-                                return 1;
-                            }
-                        });
-                    }
-                }
+//                if (layoutManager.getSpanSizeLookup() != null) {
+//                    if (artifactItemWrapper.getLocalMediaDataUrls().size() <= 1) {
+//                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                            @Override
+//                            public int getSpanSize(int position) {
+//                                return 3;
+//                            }
+//                        });
+//                    } else {
+//                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                            @Override
+//                            public int getSpanSize(int position) {
+//                                return 1;
+//                            }
+//                        });
+//                    }
+//                }
             }
         });
 
