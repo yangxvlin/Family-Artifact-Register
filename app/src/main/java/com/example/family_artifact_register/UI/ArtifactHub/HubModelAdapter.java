@@ -23,12 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
-<<<<<<< HEAD
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
-=======
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 //import com.example.family_artifact_register.UI.ArtifactDetail.DetailFragment;
->>>>>>> 0ad253198d45badb52970cfaf64609cb5fbb6802
 import com.example.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
 import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewHolder;
 
