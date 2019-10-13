@@ -12,16 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
+import com.google.android.material.button.MaterialButton;
 
 public class HubModelViewHolder extends RecyclerView.ViewHolder {
 
-<<<<<<< HEAD
-            public TextView username, time, description, timeline;
-            public ImageView avatar, like;
-=======
             public TextView username, time, description, likes;
-            public ImageView avatar, like, comment, viewDetail;
->>>>>>> 0ad253198d45badb52970cfaf64609cb5fbb6802
+            public ImageView avatar, like, comment;
+            public MaterialButton viewDetail, timeline;
 
             public FrameLayout postImage;
 
@@ -32,15 +29,12 @@ public class HubModelViewHolder extends RecyclerView.ViewHolder {
                 this.description = itemView.findViewById(R.id.description);
                 this.avatar = itemView.findViewById(R.id.avatar);
                 this.postImage = itemView.findViewById(R.id.post_image);
-<<<<<<< HEAD
                 this.timeline = itemView.findViewById(R.id.timeline);
                 this.like = itemView.findViewById(R.id.like);
-=======
                 this.likes = itemView.findViewById(R.id.likes);
                 this.like = itemView.findViewById(R.id.like);
                 this.comment = itemView.findViewById(R.id.comment);
                 this.viewDetail = itemView.findViewById(R.id.view_detail);
->>>>>>> 0ad253198d45badb52970cfaf64609cb5fbb6802
             }
 
             public void clearFrame() { postImage.removeAllViews(); }
