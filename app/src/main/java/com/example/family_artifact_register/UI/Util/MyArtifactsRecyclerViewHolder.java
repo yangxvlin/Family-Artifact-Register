@@ -32,7 +32,7 @@ public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
         time = itemView.findViewById(R.id.item_my_artifact_time);
         description = itemView.findViewById(R.id.item_my_artifact_description);
         frame = itemView.findViewById(R.id.item_my_artifact_media);
-        navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
+//        navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
         ultraViewPager = itemView.findViewById(R.id.ultra_viewpager);
     }
 
