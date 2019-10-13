@@ -94,17 +94,19 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         layoutParam.gravity = Gravity.CENTER;
         layoutParam.topMargin = 20;
         layoutParam.bottomMargin = 20;
+        layoutParam.leftMargin = 20;
+        layoutParam.rightMargin = 20;
 
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
 
-            View imagesRecyclerView = getImageRecyclerView(750, 750, mediaList, context);
+            View imagesRecyclerView = getImageRecyclerView(500, 500, mediaList, context);
 
             holder.postImage.addView(imagesRecyclerView);
             holder.postImage.setLayoutParams(layoutParam);
             // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-            ImageView iv = getVideoThumbnail(750, 750, mediaList.get(0), context);
+            ImageView iv = getVideoThumbnail(500, 500, mediaList.get(0), context);
 
             ImageView playIcon = getVideoPlayIcon(context);
 
