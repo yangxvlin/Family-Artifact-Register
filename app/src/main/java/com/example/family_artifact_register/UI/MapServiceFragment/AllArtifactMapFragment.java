@@ -42,6 +42,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
 
     private AppCompatSpinner chooseTimeline;
 
+    // TODO get this from DB
     private List<TimelineMapWrapper> timelineMapWrapperList;
 
     private List<String> timelineTitles;
