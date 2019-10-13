@@ -35,27 +35,11 @@ public class DetailViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<ArtifactItem> getArtifactItem(String itemID) {
+    public LiveData<ArtifactItemWrapper> getArtifactItem(String itemID) {
         item = (MutableLiveData<ArtifactItem>) artifactManager.getArtifactItemByPostId(itemID);
-//        helper.loadByRemoteUri(item.getValue().ge ;
         item.observeForever(new Observer<ArtifactItem>() {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
-//                List<String> mediaDataRemoteUrls = item.getValue().getMediaDataUrls();
-//                helper.loadByRemoteUri(mediaDataRemoteUrls).observeForever(new Observer<List<Uri>>() {
-//                    @Override
-//                    public void onChanged(List<Uri> uris) {
-//                        Log.d(TAG, "local uris: " + uris.toString());
-//                        item.getValue().setMediaDataUrls(
-//                                uris.stream()
-//                                        .map(Objects::toString)
-//                                        .collect(Collectors.toList())
-//                        );
-//                        ((MutableLiveData) item).setValue(item.getValue());
-////                artifactList.setValue(artifactList.getValue());
-//                    }
-//                });
-
                 List<String> mediaDataRemoteUrls = artifactItem.getMediaDataUrls();
                 ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
 
@@ -77,13 +61,6 @@ public class DetailViewModel extends AndroidViewModel {
                 });
             }
         });
-
-        return item;
-    }
-
-    public LiveData<ArtifactItemWrapper> getArtifact() {
         return itemWrapper;
     }
-
-
 }

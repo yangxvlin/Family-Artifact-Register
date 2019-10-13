@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
+import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailFragmentPresenter;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
@@ -41,9 +43,10 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVi
  * @time 2019-9-19 11:54:23
  * @description activity for artifact detail view.
  */
-public class ArtifactDetailActivity extends AppCompatActivity {
+public class ArtifactDetailActivity extends AppCompatActivity implements DetailFragmentPresenter.IView, IFragment {
 
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
+
     private ArtifactItemWrapper artifactItemWrapper;
 
     private DetailViewModel viewModel;
@@ -61,15 +64,19 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_detail);
 
+        // Use intent to send information to artifact detail activity
+        Intent intent = getIntent();
+        String artifactItemPostId = intent.getStringExtra("artifactItemPostId");
+
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication())).get(DetailViewModel.class);
 
         // force the system not to display action bar title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mTitleTv = findViewById(R.id.publisher);
+        recyclerView = findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
-        detailImageAdapter = new DetailImageAdapter(this);
         recyclerView.setAdapter(detailImageAdapter);
         mDescTv = findViewById(R.id.desc);
         mUserTv = findViewById(R.id.user);
@@ -79,23 +86,21 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
         Log.v(TAG, "recycler view created");
 
-        // Use intent to send information to artifact detail activity
-        Intent intent = getIntent();
-        String artifactItemPostId = intent.getStringExtra("artifactItemPostId");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
-//
-//        GridLayoutManager manager = new GridLayoutManager(this, 3);
-//        recyclerView.setLayoutManager(manager);
-//
-//        DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
-//
-//        recyclerView.setAdapter(detailImageAdapter);
-//
-        Observer<ArtifactItemWrapper> postObserver = new Observer<ArtifactItemWrapper>() {
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+
+        DetailImageAdapter detailImageAdapter = new DetailImageAdapter(this);
+
+        recyclerView.setAdapter(detailImageAdapter);
+
+        viewModel.getArtifact(artifactItemPostId).observe(this, new Observer<ArtifactItemWrapper>() {
             @Override
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
+                detailImageAdapter.setData(artifactItemWrapper);
                 Log.i(TAG, "some changes happened");
 
                 // Set artifact information the same as activity hub
@@ -120,13 +125,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         });
                     }
                 }
-            }
-        };
-
-        viewModel.getArtifact().observe(this, new Observer<ArtifactItemWrapper>() {
-            @Override
-            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
-                detailImageAdapter.setData(artifactItemWrapper);
             }
         });
 
@@ -155,4 +153,17 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //    protected int getLayoutResource() {
 //        return R.layout.fragment_detail;
 //    }
+    /**
+     * @return created me fragment
+     */
+    public static ArtifactDetailActivity newInstance() { return new ArtifactDetailActivity(); }
+
+    // ********************************** implement presenter ************************************
+    @Override
+    public void addData(ArtifactItem artifactItem) {
+        Log.d(TAG, "addData");
+    }
+
+    @Override
+    public String getFragmentTag() { return TAG; }
 }

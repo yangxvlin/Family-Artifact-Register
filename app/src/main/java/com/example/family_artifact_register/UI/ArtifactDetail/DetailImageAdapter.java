@@ -42,13 +42,14 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
 
     public DetailImageAdapter(Context context) {
         this.context = context;
+
 //        this.fm = fm;
     }
 
     @NonNull
     @Override
     public DetailImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_detail, parent, false);
+        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detail_image, parent, false);
         return new DetailImageViewHolder(view);
     }
 
@@ -186,6 +187,13 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
 
     public void setData(ArtifactItemWrapper newData) {
         artifactItemWrapper = newData;
+        notifyDataSetChanged();
+    }
+
+    // *************************************** getter & setters ***********************************
+    public void addData(ArtifactItemWrapper artifactItemWrapper) {
+        // 0 to add data at start
+        this.artifactItemWrapper = artifactItemWrapper;
         notifyDataSetChanged();
     }
 

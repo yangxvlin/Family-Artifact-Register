@@ -18,14 +18,12 @@ public class DetailFragmentPresenter {
     }
 
     private ArtifactItem initArtifactItem() {
-        ArtifactTimeline timeline1 = new ArtifactTimeline("timeline 1");
-
         ArtifactItem res = new ArtifactItem();
         return res;
     }
 
     public interface IView {
-        void addData(String Pid);
+        void addData(ArtifactItem artifactItem);
     }
 
 }
