@@ -33,8 +33,21 @@
 
         <FrameLayout
             android:id="@+id/item_my_artifact_media"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+        />
+
+        <com.tmall.ultraviewpager.UltraViewPager
+            android:id="@+id/ultra_viewpager"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/wechat_white"
+            android:layout_gravity="center_horizontal"
         />
 
     </LinearLayout>

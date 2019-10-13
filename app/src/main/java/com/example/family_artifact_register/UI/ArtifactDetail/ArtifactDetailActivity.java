@@ -99,7 +99,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
                 if (mediaList.size() > 0) {
                     postImage.removeAllViews();
-                    int width = postImage.getWidth() - 60;
+                    int width = postImage.getWidth() - 20;
                     int span = Math.min((int) Math.ceil(
                             Math.sqrt(
                                     (double) artifactItemWrapper
@@ -118,6 +118,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     }
 
                     View mediaView;
+
+                    // image view
                     if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
 
                         mediaView = getImageRecyclerView(imageLength, imageLength,

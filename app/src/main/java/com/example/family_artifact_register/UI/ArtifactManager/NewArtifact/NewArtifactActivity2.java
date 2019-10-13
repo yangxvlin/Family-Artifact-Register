@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,7 +33,6 @@ import com.example.family_artifact_register.UI.Util.StartUploadListener;
 import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -209,11 +208,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     public void addData(Uri data, int type) {
         switch (type) {
             case MediaProcessHelper.TYPE_IMAGE:
-                try {
-                    mediaData.add(MediaProcessHelper.compressUriImage(this, data, false));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mediaData.add(MediaProcessHelper.compressUriImage(this, data, false));
                 break;
             case MediaProcessHelper.TYPE_VIDEO:
                 mediaData.add(data);

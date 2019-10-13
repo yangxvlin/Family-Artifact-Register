@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.R;
+import com.tmall.ultraviewpager.UltraViewPager;
 
 public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
@@ -21,6 +22,8 @@ public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     ImageView navigateToArtifactTimeline;
 
+    UltraViewPager ultraViewPager;
+
 //    Fragment mediaFragment;
 
     public MyArtifactsRecyclerViewHolder(@NonNull View itemView) {
@@ -30,6 +33,7 @@ public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
         description = itemView.findViewById(R.id.item_my_artifact_description);
         frame = itemView.findViewById(R.id.item_my_artifact_media);
         navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
+        ultraViewPager = itemView.findViewById(R.id.ultra_viewpager);
     }
 
     public void clearFrame() {

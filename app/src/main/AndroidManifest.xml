@@ -38,6 +38,7 @@
 
         <activity android:name=".HomeActivity"></activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".CollectUserInfoActivity" />
         <activity
             android:name=".test.MapTestActivity"
             android:label="@string/title_activity_fullscreen" />
@@ -66,9 +67,9 @@
             android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".UI.ArtifactManager.NewArtifactActivity"
+            android:name=".UI.ArtifactManager.NewArtifact.NewArtifactActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
-        <activity android:name=".UI.ArtifactManager.NewArtifactActivity2" />
+        <activity android:name=".UI.ArtifactManager.NewArtifact.NewArtifactActivity2" />
         <activity
             android:name=".UI.ArtifactManager.HappenedActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
