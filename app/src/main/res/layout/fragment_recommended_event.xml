@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_recommended_events_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_event"

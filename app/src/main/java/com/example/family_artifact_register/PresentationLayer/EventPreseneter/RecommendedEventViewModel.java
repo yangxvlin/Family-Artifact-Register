@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.PresentationLayer.EventPreseneter;
 
 import com.example.family_artifact_register.FoundationLayer.EventModel.Event;
+import com.example.family_artifact_register.FoundationLayer.EventModel.EventListener;
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 
@@ -13,10 +14,13 @@ public class RecommendedEventViewModel {
 
     private List<String> attendEvent;
 
+    private List<EventListener> fragments;
+
     private static RecommendedEventViewModel recommendedEventViewModel;
 
     private RecommendedEventViewModel() {
         attendEvent = new ArrayList<>();
+        fragments = new ArrayList<>();
     }
 
     public static RecommendedEventViewModel getInstance() {
@@ -42,5 +46,15 @@ public class RecommendedEventViewModel {
 
     public void addAttendEvent(String eventId) {
         attendEvent.add(eventId);
+        fragments.forEach(EventListener::notifyEventsChange);
+    }
+
+    public void cancelAttendEvent(String eventId) {
+        attendEvent.remove(eventId);
+        fragments.forEach(EventListener::notifyEventsChange);
+    }
+
+    public void addObserver(EventListener fragment) {
+        fragments.add(fragment);
     }
 }

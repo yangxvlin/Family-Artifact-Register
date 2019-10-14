@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.EventModel.EventListener;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 
-public class RecommendedEventFragment extends Fragment implements IFragment {
+public class RecommendedEventFragment extends Fragment implements IFragment, EventListener {
     /**
      * class tag
      */
@@ -33,10 +35,18 @@ public class RecommendedEventFragment extends Fragment implements IFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        RecyclerView recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
+        recyclerView.setAdapter();
+
     }
 
     /**
      * @return created me fragment
      */
     public static RecommendedEventFragment newInstance() { return new RecommendedEventFragment(); }
+
+    @Override
+    public void notifyEventsChange() {
+
+    }
 }
