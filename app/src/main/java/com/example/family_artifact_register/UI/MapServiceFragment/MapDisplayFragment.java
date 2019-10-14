@@ -176,7 +176,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                         Uri uri = Uri.parse(artifactItemWrapper.getLocalMediaDataUrls().get(0));
 
                         if (uri.getScheme() == null) {
-                            uri = Uri.parse("file:/" + uri.toString());
+                            uri = Uri.parse("file://" + uri.toString());
                             Log.d(getFragmentTag(), "uri = " + uri);
                         }
 
