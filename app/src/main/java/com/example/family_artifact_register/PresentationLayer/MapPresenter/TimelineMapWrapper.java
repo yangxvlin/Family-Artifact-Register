@@ -17,15 +17,15 @@ public class TimelineMapWrapper {
 
     private List<Pair<ArtifactItemWrapper, MapLocation>> item;
 
-    private List<ArtifactItemWrapper> artifactItemWrapperList;
-    private List<MapLocation> storeLocationList;
+//    private List<ArtifactItemWrapper> artifactItemWrapperList;
+//    private List<MapLocation> storeLocationList;
 
     public TimelineMapWrapper(ArtifactTimeline artifactTimeline,
                               List<ArtifactItemWrapper> artifactItemWrapperList,
                               List<MapLocation> storeLocationList) {
         this.artifactTimeline = artifactTimeline;
-        this.artifactItemWrapperList = artifactItemWrapperList;
-        this.storeLocationList = storeLocationList;
+//        this.artifactItemWrapperList = artifactItemWrapperList;
+//        this.storeLocationList = storeLocationList;
         item = new ArrayList<>();
         for (int i = 0; i < artifactItemWrapperList.size(); i++) {
             item.add(new Pair<>(artifactItemWrapperList.get(i), storeLocationList.get(i)));
@@ -50,13 +50,13 @@ public class TimelineMapWrapper {
         return item.size();
     }
 
-    public List<ArtifactItemWrapper> getArtifactItemWrapperList() {
-        return artifactItemWrapperList;
-    }
-
-    public List<MapLocation> getStoreLocationList() {
-        return storeLocationList;
-    }
+//    public List<ArtifactItemWrapper> getArtifactItemWrapperList() {
+//        return artifactItemWrapperList;
+//    }
+//
+//    public List<MapLocation> getStoreLocationList() {
+//        return storeLocationList;
+//    }
 
     //    public List<ArtifactItemWrapper> getArtifactItemWrapperList() {
 //        return artifactItemWrapperList;
