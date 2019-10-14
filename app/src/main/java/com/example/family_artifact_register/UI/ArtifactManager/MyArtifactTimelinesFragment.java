@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactTimelineWrapper;
@@ -123,6 +122,10 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 }
                 for(String url: item.getLocalMediaDataUrls()) {
                     if(imagesCount == 3) {
+                        break;
+                    }
+                    // no support for video
+                    if(item.getMediaType() == 2) {
                         break;
                     }
                     if(url != null) {
