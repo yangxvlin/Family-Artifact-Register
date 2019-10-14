@@ -97,10 +97,12 @@
     <string name="choose_avatar">选择头像</string>
     <string name="auth_failure">用户身份验证失败</string>
     <string name="nickname_hint">昵称</string>
-    <string name="event_my_title">我的活动</string>
+    <string name="event_my_title">我参加的活动</string>
     <string name="event_friend_title">朋友的活动</string>
     <string name="my_artifact_items_title">我的文物</string>
     <string name="my_artifact_timelines_title">我的时间线</string>
+    <string name="event_recommended_title">推荐的活动</string>
+    <string name="attend">参加</string>
     <string name="choose_timeline_prompt">请选择需要显示的时间线：</string>
 
 </resources>
