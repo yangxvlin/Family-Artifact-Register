@@ -73,54 +73,59 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
 
         viewModel = ViewModelProviders.of(this, new MapViewModelFactory(getActivity().getApplication())).get(MapViewModel.class);
 
-        viewModel.getLocations().observe(this, new Observer<List<MapLocation>>() {
-            @Override
-            public void onChanged(List<MapLocation> mapLocations) {
-                Log.d(TAG, "location data come back, setting to map fragment");
-                mdFragment.setDisplayLocations(mapLocations);
-            }
-        });
+//        viewModel.getLocations().observe(this, new Observer<List<MapLocation>>() {
+//            @Override
+//            public void onChanged(List<MapLocation> mapLocations) {
+//                Log.d(TAG, "location data come back, setting to map fragment");
+//                mdFragment.setDisplayLocations(mapLocations);
+//            }
+//        });
 
-        chooseTimeline = view.findViewById(R.id.fragment_map_choose_timeline_to_display_spinner);
-        chooseTimeline.setPrompt(getString(R.string.choose_timeline_prompt));
-        timelineTitles = timelineMapWrapperList.stream()
-                .map(TimelineMapWrapper::getArtifactTimeline)
-                .map(ArtifactTimeline::getTitle)
-                .collect(Collectors.toCollection(ArrayList::new));
-        timelineTitles.add(0, ALL_TIMELINE); // add an empty "" for all timeline
+        viewModel.getMapWrapper().observe(this, new Observer<List<TimelineMapWrapper>>() {
+            @Override
+            public void onChanged(List<TimelineMapWrapper> timelineMapWrappers) {
+                chooseTimeline = view.findViewById(R.id.fragment_map_choose_timeline_to_display_spinner);
+                chooseTimeline.setPrompt(getString(R.string.choose_timeline_prompt));
+                timelineTitles = timelineMapWrapperList.stream()
+                        .map(TimelineMapWrapper::getArtifactTimeline)
+                        .map(ArtifactTimeline::getTitle)
+                        .collect(Collectors.toCollection(ArrayList::new));
+                timelineTitles.add(0, ALL_TIMELINE); // add an empty "" for all timeline
 //        timelineTitles.add("123");
 //        timelineTitles.add("456");
 //        timelineTitles.add("789");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-                R.layout.timeline_selection_spinner_item, timelineTitles);
-        // Specify the layout to use when the list of choices appears
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
+                        R.layout.timeline_selection_spinner_item, timelineTitles);
+                // Specify the layout to use when the list of choices appears
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
-        chooseTimeline.setAdapter(adapter);
+                chooseTimeline.setAdapter(adapter);
 
-        chooseTimeline.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            /**
-             * @param parent parent view which is the spinner
-             * @param view spinner item's view
-             * @param pos position of the item in the adapter
-             * @param id the line number of the item, normally same as pos
-             */
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (pos == 0) {
-                    List<Pair<ArtifactItemWrapper, MapLocation>> allArtifactItems = new ArrayList<>();
-                    for (TimelineMapWrapper timelineMapWrapper: timelineMapWrapperList) {
-                        allArtifactItems.addAll(timelineMapWrapper.getAllPairs());
+                chooseTimeline.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    /**
+                     * @param parent parent view which is the spinner
+                     * @param view spinner item's view
+                     * @param pos position of the item in the adapter
+                     * @param id the line number of the item, normally same as pos
+                     */
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        if (pos == 0) {
+                            List<Pair<ArtifactItemWrapper, MapLocation>> allArtifactItems = new ArrayList<>();
+                            for (TimelineMapWrapper timelineMapWrapper: timelineMapWrapperList) {
+                                allArtifactItems.addAll(timelineMapWrapper.getAllPairs());
+                            }
+                            mdFragment.setDisplayArtifactItems(allArtifactItems);
+                        } else {
+                            mdFragment.setDisplayArtifactItems(timelineMapWrapperList.get(pos-1).getAllPairs());
+                        }
                     }
-                    mdFragment.setDisplayArtifactItems(allArtifactItems);
-                } else {
-                    mdFragment.setDisplayArtifactItems(timelineMapWrapperList.get(pos-1).getAllPairs());
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Another interface callback
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // Another interface callback
+                    }
+                });
             }
         });
     }
