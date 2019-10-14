@@ -154,9 +154,10 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         postImage.addView(mediaView);
                     } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
                         // video view
-                        ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
                         mediaView = getVideoThumbnail(750, 750,
                                 mediaList.get(0), artifactDetailActivity);
+
+                        ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
                         postImage.addView(mediaView);
                         postImage.addView(playIcon);
                     } else {
