@@ -26,14 +26,14 @@ public class RecommandedEventViewModel extends AndroidViewModel {
     }
 
     public List<Event> getRecommandedEvent() {
-        return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid(), EventManager.CHINESE)
+        return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid())
                 .stream()
                 .filter(x -> !attendEvent.contains(x.getId()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public List<Event> getAttendedEvent() {
-        return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid(), EventManager.CHINESE)
+        return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid())
                 .stream()
                 .filter(x -> attendEvent.contains(x.getId()))
                 .collect(Collectors.toCollection(ArrayList::new));
