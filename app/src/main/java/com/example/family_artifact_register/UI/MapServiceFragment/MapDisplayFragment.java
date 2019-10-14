@@ -156,12 +156,14 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
 
     public void setDisplayArtifactItems(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
         // Only display with marker if map is not null and there are locations stored
-        if (mMap != null && locations != null && locations.size() != 0) {
+        if (mMap != null && artifactItems.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
             for (Pair<ArtifactItemWrapper, MapLocation> pair : artifactItems) {
                 ArtifactItemWrapper artifactItemWrapper = pair.getFst();
                 MapLocation storeLocation = pair.getSnd();
+
+                // Log.d(getFragmentTag(), "store location = " + storeLocation.toString());
 
                 MarkerOptions opt = new MarkerOptions()
                         .position(new LatLng(storeLocation.getLatitude(),
