@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
+import com.google.android.material.button.MaterialButton;
 import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
@@ -120,6 +123,8 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
 
         UltraViewPager ultraViewPager;
 
+        MaterialButton timelineButton;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -128,6 +133,14 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
             frame = itemView.findViewById(R.id.item_my_artifact_media);
 //            navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
             ultraViewPager = itemView.findViewById(R.id.ultra_viewpager);
+            timelineButton = itemView.findViewById(R.id.item_my_artifact_timeline_button);
+            timelineButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "timeline button is clicked");
+                    view.getContext().startActivity(new Intent(view.getContext(), TimelineActivity.class));
+                }
+            });
         }
 
         public void clearFrame() {
