@@ -196,11 +196,11 @@ public class ArtifactManager {
                 .addSnapshotListener(
                         (documentSnapshot, e) -> {
                             if (e == null && documentSnapshot != null) {
-                                ArtifactItem artifactItem = null;
+                                ArtifactItem artifactItem;
                                 if (documentSnapshot.exists()) {
                                     artifactItem = documentSnapshot.toObject(ArtifactItem.class);
+                                    mutableLiveData.setValue(artifactItem);
                                 }
-                                mutableLiveData.setValue(artifactItem);
                             } else {
                                 Log.w(TAG, "DB query result in error: " + e);
                             }
