@@ -1,5 +1,9 @@
 package com.example.family_artifact_register.PresentationLayer.EventPreseneter;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
+
 import com.example.family_artifact_register.FoundationLayer.EventModel.Event;
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventListener;
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventManager;
@@ -9,27 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EventViewModel {
+public class EventViewModel extends AndroidViewModel {
     public static final String TAG = EventViewModel.class.getSimpleName();
 
     private List<String> attendEvent;
 
     private List<EventListener> fragments;
 
-    private static EventViewModel eventViewModel;
+//    private static EventViewModel eventViewModel;
 
-    private EventViewModel() {
+    public EventViewModel(Application application) {
+        super(application);
         attendEvent = new ArrayList<>();
         fragments = new ArrayList<>();
     }
 
-    public static EventViewModel getInstance() {
-        if (eventViewModel == null) {
-            eventViewModel = new EventViewModel();
-            return eventViewModel;
-        }
-        return eventViewModel;
-    }
+//    public static EventViewModel getInstance() {
+//        if (eventViewModel == null) {
+//            eventViewModel = new EventViewModel();
+//            return eventViewModel;
+//        }
+//        return eventViewModel;
+//    }
 
     public List<Event> getRecommendedEvent() {
         return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid())

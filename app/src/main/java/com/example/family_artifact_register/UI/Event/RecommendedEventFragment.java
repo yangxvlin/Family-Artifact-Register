@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventListener;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
+import com.example.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.EventAdapter;
 
@@ -27,6 +29,8 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
     private RecyclerView recyclerView;
 
     private EventAdapter eventAdapter;
+
+    private EventViewModel viewModel;
 
     public RecommendedEventFragment() {
         // Required empty public constructor
@@ -42,12 +46,14 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders
+                .of(this, new EventViewModelFactory(getActivity().getApplication()))
+                .get(EventViewModel.class);
+
         recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
-        eventAdapter = new EventAdapter(EventViewModel.getInstance().getRecommendedEvent(),
-                                        true,
-                                        this
-        );
-        EventViewModel.getInstance().addObserver(this);
+        eventAdapter = new EventAdapter(viewModel.getRecommendedEvent(),true,this);
+        viewModel.addObserver(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(eventAdapter);
 
@@ -60,12 +66,12 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
 
     @Override
     public void notifyEventsChange() {
-        eventAdapter.setEventList(EventViewModel.getInstance().getRecommendedEvent());
+        eventAdapter.setEventList(viewModel.getRecommendedEvent());
     }
 
     @Override
     public void attendEvent(String eventId) {
-        EventViewModel.getInstance().addAttendEvent(eventId);
+        viewModel.addAttendEvent(eventId);
     }
 
     @Override
