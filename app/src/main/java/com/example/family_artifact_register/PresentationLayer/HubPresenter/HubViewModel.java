@@ -34,7 +34,7 @@ public class HubViewModel extends AndroidViewModel {
     private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
     private MutableLiveData<List<ArtifactItem>> artifactList;
-    private MutableLiveData<List<ArtifactItemWrapper>> artifactWrapperList;
+    private MutableLiveData<List<ArtifactItemWrapper>> artifactWrapperList = new MutableLiveData<>();
 
     private List<ArtifactItem> latestArtifactList = new ArrayList<>();
     private MutableLiveData<List<ArtifactItemWrapper>> latestArtifactWrapperList = new MutableLiveData<>();

@@ -154,13 +154,15 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
     public void setData(List<ArtifactItemWrapper> newData) {
         artifactItemWrapperList.clear();
 
-        Collections.sort(newData, new Comparator<ArtifactItemWrapper>() {
-            @Override
-            public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
-                return -1 * artifactItemWrapper.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
-            }
-        });
-        artifactItemWrapperList.addAll(newData);
+        if(newData != null) {
+            Collections.sort(newData, new Comparator<ArtifactItemWrapper>() {
+                @Override
+                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+                    return -1 * artifactItemWrapper.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
+                }
+            });
+            artifactItemWrapperList.addAll(newData);
+        }
         notifyDataSetChanged();
     }
 
