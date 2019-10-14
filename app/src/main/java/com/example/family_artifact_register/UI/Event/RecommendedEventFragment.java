@@ -15,6 +15,7 @@ import com.example.family_artifact_register.FoundationLayer.EventModel.EventList
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.IFragment;
+import com.example.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.EventAdapter;
 
@@ -63,5 +64,15 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
                                                 .getEventByUid(UserInfoManager.getInstance().getCurrentUid())
         );
         eventAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void attendEvent(String eventId) {
+        EventViewModel.getInstance().addAttendEvent(eventId);
+    }
+
+    @Override
+    public void cancelEvent(String eventId) {
+        // empty
     }
 }

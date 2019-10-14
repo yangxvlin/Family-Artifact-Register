@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeWidth="0dp"
-                    android:text="Attend"
+                    android:text="Attend/Cancel"
                     android:layout_alignParentRight="true"
                 />
 

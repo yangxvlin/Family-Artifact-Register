@@ -9,25 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RecommendedEventViewModel {
-    public static final String TAG = RecommendedEventViewModel.class.getSimpleName();
+public class EventViewModel {
+    public static final String TAG = EventViewModel.class.getSimpleName();
 
     private List<String> attendEvent;
 
     private List<EventListener> fragments;
 
-    private static RecommendedEventViewModel recommendedEventViewModel;
+    private static EventViewModel eventViewModel;
 
-    private RecommendedEventViewModel() {
+    private EventViewModel() {
         attendEvent = new ArrayList<>();
         fragments = new ArrayList<>();
     }
 
-    public static RecommendedEventViewModel getInstance() {
-        if (recommendedEventViewModel == null) {
-            return new RecommendedEventViewModel();
+    public static EventViewModel getInstance() {
+        if (eventViewModel == null) {
+            return new EventViewModel();
         }
-        return recommendedEventViewModel;
+        return eventViewModel;
     }
 
     public List<Event> getRecommandedEvent() {
