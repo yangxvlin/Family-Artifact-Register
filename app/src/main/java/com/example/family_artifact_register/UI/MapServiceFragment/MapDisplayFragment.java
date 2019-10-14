@@ -174,14 +174,21 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                 if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
                     Bitmap mBitmap = null;
                     try {
+                        Uri uri = Uri.parse(artifactItemWrapper.getLocalMediaDataUrls().get(0));
+
+                        if (uri.getScheme() == null) {
+                            uri = Uri.parse("file:/" + uri.toString());
+                            Log.d(getFragmentTag(), "uri = " + uri);
+                        }
+
                         mBitmap = MediaStore.Images.Media.getBitmap(
                                 getContext().getContentResolver(),
-                                Uri.parse(artifactItemWrapper.getLocalMediaDataUrls().get(0))
+                                uri
                         );
+                        opt.icon(BitmapDescriptorFactory.fromBitmap(mBitmap));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    opt.icon(BitmapDescriptorFactory.fromBitmap(mBitmap));
                 } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
                     opt.icon(BitmapDescriptorFactory.fromBitmap(
                             getVideoThumbNail(artifactItemWrapper.getLocalMediaDataUrls()
