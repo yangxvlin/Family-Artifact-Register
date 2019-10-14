@@ -13,17 +13,22 @@ public class ArtifactComment extends Artifact {
      */
     private String sender;
 
+    /**
+     * the time send the comment
+     */
+    private String sendTime;
 
     /**
      * Create new artifact comment. This constructor is used by firestore and shouldn't be accessed
      * externally
      * @deprecated Use manager/newInstance method to create new artifact. Don't use constructor
      */
-    public ArtifactComment(String postId, String uid, String uploadDateTime,
+    public ArtifactComment(String postId, String uid, String sendTime, String uploadDateTime,
                             String lastUpdateDateTime, String comment, String sender) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.comment = comment;
         this.sender = sender;
+        this.sendTime = sendTime;
     }
 
     public ArtifactComment() { super(); }
@@ -42,6 +47,14 @@ public class ArtifactComment extends Artifact {
 
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
     }
 
     @Override
