@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.UI.ArtifactComment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -7,15 +8,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
+
+import java.util.ArrayList;
 
 public class ArtifactCommentActivity extends AppCompatActivity {
 
@@ -54,4 +60,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }
