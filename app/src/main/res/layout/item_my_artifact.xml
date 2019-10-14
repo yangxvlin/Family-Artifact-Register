@@ -76,15 +76,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                 >
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/item_my_artifact_more_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    app:strokeWidth="0dp"
-                    android:text="Detail"
-                    android:layout_toLeftOf="@+id/item_my_artifact_timeline_button"
-                />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/item_my_artifact_timeline_button"
@@ -94,7 +85,18 @@
                     app:strokeWidth="0dp"
                     android:text="Timeline"
                     android:layout_alignParentRight="true"
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/item_my_artifact_more_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeWidth="0dp"
+                    android:text="Detail"
+                    android:layout_toLeftOf="@id/item_my_artifact_timeline_button"
                 />
+
                 </RelativeLayout>
 
 
