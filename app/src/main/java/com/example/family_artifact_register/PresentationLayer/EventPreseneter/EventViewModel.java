@@ -30,7 +30,7 @@ public class EventViewModel {
         return eventViewModel;
     }
 
-    public List<Event> getRecommandedEvent() {
+    public List<Event> getRecommendedEvent() {
         return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid())
                 .stream()
                 .filter(x -> !attendEvent.contains(x.getId()))
