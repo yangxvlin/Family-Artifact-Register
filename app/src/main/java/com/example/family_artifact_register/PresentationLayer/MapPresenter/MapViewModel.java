@@ -78,8 +78,8 @@ public class MapViewModel extends AndroidViewModel {
                 for(ArtifactTimeline timeline: artifactTimelines) {
                     List<ArtifactItemWrapper> itemWrappers = new ArrayList<>();
                     List<MapLocation> mapLocations = new ArrayList<>();
-                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
-                    wrappers.add(timelineWrapper);
+//                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
+//                    wrappers.add(timelineWrapper);
 //                    timelineWrappers.postValue(wrappers);
 
                     List<String> itemIDs = timeline.getArtifactItemPostIds();
@@ -90,19 +90,20 @@ public class MapViewModel extends AndroidViewModel {
                             public void onChanged(ArtifactItem artifactItem) {
                                 Log.d(TAG, "retrieved data about artifact item with id: " + artifactItem.getPostId());
 
-                                timelineWrapper.getArtifactItemWrapperList().add(new ArtifactItemWrapper(artifactItem));
+                                itemWrappers.add(new ArtifactItemWrapper(artifactItem));
 //                                timelineWrappers.postValue(wrappers);
                                 mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
                                     @Override
                                     public void onChanged(MapLocation mapLocation) {
-                                        timelineWrapper.getStoreLocationList().add(mapLocation);
+                                        mapLocations.add(mapLocation);
                                         timelineWrappers.postValue(wrappers);
                                     }
                                 });
                             }
                         });
-
                     }
+                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
+                    wrappers.add(timelineWrapper);
                 }
             }
         });

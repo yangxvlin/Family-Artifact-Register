@@ -85,11 +85,11 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
             @Override
             public void onChanged(List<TimelineMapWrapper> timelineMapWrappers) {
                 Log.d(TAG, "size of data from DB: " + timelineMapWrappers.size());
-                for(TimelineMapWrapper wrapper: timelineMapWrappers) {
-                    Log.d(TAG, "size of wrapper list: " +
-                            wrapper.getArtifactItemWrapperList().size() + "\n"
-                            + "stored location list size: " + wrapper.getStoreLocationList().size());
-                }
+//                for(TimelineMapWrapper wrapper: timelineMapWrappers) {
+//                    Log.d(TAG, "size of wrapper list: " +
+//                            wrapper.getArtifactItemWrapperList().size() + "\n"
+//                            + "stored location list size: " + wrapper.getStoreLocationList().size());
+//                }
                 chooseTimeline = view.findViewById(R.id.fragment_map_choose_timeline_to_display_spinner);
                 chooseTimeline.setPrompt(getString(R.string.choose_timeline_prompt));
                 timelineTitles = timelineMapWrappers.stream()
