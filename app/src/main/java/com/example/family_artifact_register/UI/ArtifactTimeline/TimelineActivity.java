@@ -29,6 +29,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.TimeToString;
+import com.example.family_artifact_register.UI.Util.TimelineRecyclerViewHelper;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
+import static com.example.family_artifact_register.UI.Util.TimelineRecyclerViewHelper.getRecyclerView;
 
 // import com.example.family_artifact_register.UI.ArtifactHub.ArtifactDetailActivity;
 
@@ -128,7 +130,7 @@ public class TimelineActivity extends AppCompatActivity {
 //            public RecyclerView imageList;
             public FrameLayout frame;
 
-            public TimelineViewHolder(@NonNull View itemView, int viewType, TimelineItemAdapter adapter) {
+            public TimelineViewHolder(@NonNull View itemView, int viewType) {
                 super(itemView);
 //                this.timelineView = itemView.findViewById(R.id.timeline);
 //                this.time= itemView.findViewById(R.id.timeline_item_upload_time);
@@ -172,7 +174,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
         private Comparator<ArtifactItemWrapper> comparator;
-        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
+//        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
 
         private long maxInterval, minInterval;
 
@@ -184,21 +186,21 @@ public class TimelineActivity extends AppCompatActivity {
             maxInterval = Long.MIN_VALUE;
             minInterval = Long.MIN_VALUE;
             this.context = context;
-            comparator = new Comparator<ArtifactItemWrapper>() {
-                @Override
-                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
-                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
-                }
-            };
+//            comparator = new Comparator<ArtifactItemWrapper>() {
+//                @Override
+//                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+//                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
+//                }
+//            };
         }
 
         @NonNull
         @Override
         public TimelineAdapter.TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(parent.getContext(), R.layout.timeline_item2, null);
-            TimelineItemAdapter adapter = new TimelineItemAdapter();
-            itemAdapters.add(adapter);
-            return new TimelineViewHolder(view, viewType, adapter);
+//            TimelineItemAdapter adapter = new TimelineItemAdapter();
+//            itemAdapters.add(adapter);
+            return new TimelineViewHolder(view, viewType);
         }
 
         @Override
@@ -257,7 +259,8 @@ public class TimelineActivity extends AppCompatActivity {
                 uris.add(Uri.parse(localUri));
             }
 
-            holder.frame.addView(getImageRecyclerView(600,600,uris, context));
+            holder.frame.addView(getRecyclerView(dataSet.get(position).getLocalMediaDataUrls(), context));
+//            holder.frame.addView(getImageRecyclerView(300, 300, uris, context));
 //            holder.frame.setLayoutParams(layoutParam);
         }
 
@@ -276,7 +279,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         public void setData(List<ArtifactItemWrapper> newData) {
             dataSet = newData;
-            dataSet.sort(comparator);
+//            dataSet.sort(comparator);
             maxInterval = Long.MIN_VALUE;
             minInterval = Long.MIN_VALUE;
             long diff;
@@ -305,46 +308,46 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
 
-    public class TimelineItemAdapter extends RecyclerView.Adapter<TimelineItemAdapter.TimelineItemImageViewHolder> {
-
-        public class TimelineItemImageViewHolder extends RecyclerView.ViewHolder {
-
-            public ImageView image;
-
-            public TimelineItemImageViewHolder(@NonNull View itemView) {
-                super(itemView);
-                this.image = itemView.findViewById(R.id.timeline_item_image);
-            }
-        }
-
-        private List<String> dataSet;
-
-        @NonNull
-        @Override
-        public TimelineItemAdapter.TimelineItemImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = View.inflate(parent.getContext(), R.layout.timeline_item_image, null);
-            return new TimelineItemImageViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull TimelineItemAdapter.TimelineItemImageViewHolder holder, int position) {
-            String url = dataSet.get(position);
-            if(url != null) {
-                holder.image.setImageURI(Uri.parse(url));
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            if(dataSet != null) {
-                dataSet.size();
-            }
-            return 0;
-        }
-
-        public void setData(List<String> newData) {
-            dataSet = newData;
-            notifyDataSetChanged();
-        }
-    }
+//    public class TimelineItemAdapter extends RecyclerView.Adapter<TimelineItemAdapter.TimelineItemImageViewHolder> {
+//
+//        public class TimelineItemImageViewHolder extends RecyclerView.ViewHolder {
+//
+//            public ImageView image;
+//
+//            public TimelineItemImageViewHolder(@NonNull View itemView) {
+//                super(itemView);
+//                this.image = itemView.findViewById(R.id.timeline_item_image);
+//            }
+//        }
+//
+//        private List<String> dataSet;
+//
+//        @NonNull
+//        @Override
+//        public TimelineItemAdapter.TimelineItemImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//            View view = View.inflate(parent.getContext(), R.layout.timeline_item_image, null);
+//            return new TimelineItemImageViewHolder(view);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(@NonNull TimelineItemAdapter.TimelineItemImageViewHolder holder, int position) {
+//            String url = dataSet.get(position);
+//            if(url != null) {
+//                holder.image.setImageURI(Uri.parse(url));
+//            }
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            if(dataSet != null) {
+//                dataSet.size();
+//            }
+//            return 0;
+//        }
+//
+//        public void setData(List<String> newData) {
+//            dataSet = newData;
+//            notifyDataSetChanged();
+//        }
+//    }
 }
