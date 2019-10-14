@@ -43,6 +43,9 @@
                 android:layout_gravity="end|bottom"
                 android:src="@drawable/camera_button"
                 android:layout_margin="16dp"
+                app:backgroundTint="@android:color/white"
+                app:tint="@color/primaryColor"
+                app:rippleColor="@color/primaryColor"
                 />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,6 +55,9 @@
                 android:layout_gravity="end|bottom"
                 android:src="@drawable/video_button"
                 android:layout_margin="16dp"
+                app:backgroundTint="@android:color/white"
+                app:tint="@color/primaryColor"
+                app:rippleColor="@color/primaryColor"
                 />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -61,6 +67,9 @@
                 android:layout_gravity="end|bottom"
                 android:src="@drawable/image_button"
                 android:layout_margin="16dp"
+                app:backgroundTint="@android:color/white"
+                app:tint="@color/primaryColor"
+                app:rippleColor="@color/primaryColor"
                 />
         </LinearLayout>
 

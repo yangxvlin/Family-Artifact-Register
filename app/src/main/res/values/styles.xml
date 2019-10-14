@@ -11,8 +11,8 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="colorSecondary">@color/primaryColor</item>
+        <item name="colorSecondaryVariant">@color/primaryDarkColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
     </style>
@@ -66,5 +66,15 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
         <!-- use transparent background -->
+    </style>
+
+    <style name="DialogStyle" parent="KmPopupDialog">
+        <item name="android:windowAnimationStyle">@style/DialogTransition</item>
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="DialogTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 </resources>
