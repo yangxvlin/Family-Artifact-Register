@@ -172,7 +172,6 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                         .snippet(artifactItemWrapper.getDescription());
 
                 if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
-                    Bitmap mBitmap = null;
                     try {
                         Uri uri = Uri.parse(artifactItemWrapper.getLocalMediaDataUrls().get(0));
 
@@ -181,7 +180,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                             Log.d(getFragmentTag(), "uri = " + uri);
                         }
 
-                        mBitmap = MediaStore.Images.Media.getBitmap(
+                        Bitmap mBitmap = MediaStore.Images.Media.getBitmap(
                                 getContext().getContentResolver(),
                                 uri
                         );
