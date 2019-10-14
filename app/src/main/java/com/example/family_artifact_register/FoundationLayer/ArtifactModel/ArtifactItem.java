@@ -2,6 +2,7 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +38,9 @@ public class ArtifactItem extends Artifact {
     // The associated timeline
     private String artifactTimelineId;
 
+    // The associated comments
+    private  List<String> artifactCommentId;
+
     public ArtifactItem() {
         super();
     }
@@ -62,6 +66,7 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
         this.likes = 0;
         this.artifactTimelineId = artifactTimelineId;
+        this.artifactCommentId = new ArrayList<>();
     }
 
     @Override
@@ -158,6 +163,12 @@ public class ArtifactItem extends Artifact {
 
     void setArtifactTimelineId(String artifactTimelineId) {
         this.artifactTimelineId = artifactTimelineId;
+    }
+
+    public List<String> getArtifactCommentId() { return artifactCommentId; }
+
+    void addArtifactCommentId(String artifactComment) {
+        this.artifactCommentId.add(artifactComment);
     }
 
     public static ArtifactItem newInstance(String uploadDateTime,
