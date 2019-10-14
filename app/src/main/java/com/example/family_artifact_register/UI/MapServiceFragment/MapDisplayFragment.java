@@ -32,6 +32,8 @@ import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.cropCenter;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.getResizedBitmap;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
 
 /**
@@ -41,6 +43,9 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVi
  * fragment.
  */
 public class MapDisplayFragment extends BasePlacesFragment implements OnMapReadyCallback {
+    public static final int IMAGE_DEFAULT_WIDTH = 200;
+    public static final int IMAGE_DEFAULT_HEIGHT = 200;
+
     /**
      * class tag
      */
@@ -184,16 +189,16 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                                 getContext().getContentResolver(),
                                 uri
                         );
+                        mBitmap = getResizedBitmap(cropCenter(mBitmap), IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT);
                         opt.icon(BitmapDescriptorFactory.fromBitmap(mBitmap));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-                    opt.icon(BitmapDescriptorFactory.fromBitmap(
-                            getVideoThumbNail(artifactItemWrapper.getLocalMediaDataUrls()
-                                                                    .get(0))
-                        )
-                    );
+                    Bitmap mBitmap = getVideoThumbNail(artifactItemWrapper.getLocalMediaDataUrls()
+                                                                            .get(0));
+                    mBitmap = getResizedBitmap(cropCenter(mBitmap), IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT);
+                    opt.icon(BitmapDescriptorFactory.fromBitmap(mBitmap));
                 } else {
                     Log.e(getFragmentTag(), "unknown media Type !!!");
                 }

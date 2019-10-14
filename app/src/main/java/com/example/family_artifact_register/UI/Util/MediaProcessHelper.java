@@ -1,7 +1,10 @@
 package com.example.family_artifact_register.UI.Util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -34,6 +37,28 @@ public class MediaProcessHelper {
         // store in app cache directory
         File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/") ;
         return Uri.parse(SiliCompressor.with(context).compress(image.getPath(), storageDir, deleteSource));
+    }
+
+    public static Bitmap cropCenter(Bitmap bmp) {
+        int dimension = Math.min(bmp.getWidth(), bmp.getHeight());
+        return ThumbnailUtils.extractThumbnail(bmp, dimension, dimension);
+    }
+
+    public static Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                bm, newWidth, newHeight, true);
+        bm.recycle();
+        return resizedBitmap;
     }
 
     public static Uri compreUriVideo(Context context,Uri video) throws URISyntaxException {
