@@ -12,7 +12,10 @@ public class Event {
 
     private String description;
 
-    private Event(String address, int image, String time, String name, String description) {
+    private String id;
+
+    private Event(String id, String address, int image, String time, String name, String description) {
+        this.id = id;
         this.address = address;
         this.image = image;
         this.time = time;
@@ -20,8 +23,8 @@ public class Event {
         this.description = description;
     }
 
-    public static Event newInstance(String address, int image, String time, String name, String description) {
-        return new Event(address, image, time, name, description);
+    public static Event newInstance(String id, String address, int image, String time, String name, String description) {
+        return new Event(id, address, image, time, name, description);
     }
 
     public String getAddress() {
@@ -42,5 +45,9 @@ public class Event {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getId() {
+        return id;
     }
 }
