@@ -12,14 +12,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventListener;
+import com.example.family_artifact_register.FoundationLayer.EventModel.EventManager;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.Util.EventAdapter;
 
 public class RecommendedEventFragment extends Fragment implements IFragment, EventListener {
     /**
      * class tag
      */
     public static final String TAG = RecommendedEventFragment.class.getSimpleName();
+
+    private RecyclerView recyclerView;
+
+    private EventAdapter eventAdapter;
 
     public RecommendedEventFragment() {
         // Required empty public constructor
@@ -35,8 +42,13 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
-        recyclerView.setAdapter();
+        recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
+        eventAdapter = new EventAdapter(EventManager.getInstance()
+                                                    .getEventByUid(UserInfoManager.getInstance().getCurrentUid()),
+                                        false,
+                                        this
+        );
+        recyclerView.setAdapter(eventAdapter);
 
     }
 
@@ -47,6 +59,9 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
 
     @Override
     public void notifyEventsChange() {
-
+        eventAdapter.setEventList(EventManager.getInstance()
+                                                .getEventByUid(UserInfoManager.getInstance().getCurrentUid())
+        );
+        eventAdapter.notifyDataSetChanged();
     }
 }
