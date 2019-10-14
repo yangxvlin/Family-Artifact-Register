@@ -73,14 +73,14 @@ public class MapViewModel extends AndroidViewModel {
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
                 Log.d(TAG, "retrieved all timeline data for current user");
                 List<TimelineMapWrapper> wrappers = new ArrayList<>();
-                timelineWrappers.postValue(wrappers);
+//                timelineWrappers.postValue(wrappers);
 
                 for(ArtifactTimeline timeline: artifactTimelines) {
                     List<ArtifactItemWrapper> itemWrappers = new ArrayList<>();
                     List<MapLocation> mapLocations = new ArrayList<>();
                     TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
                     wrappers.add(timelineWrapper);
-                    timelineWrappers.postValue(wrappers);
+//                    timelineWrappers.postValue(wrappers);
 
                     List<String> itemIDs = timeline.getArtifactItemPostIds();
                     for(String id: itemIDs) {
@@ -91,7 +91,7 @@ public class MapViewModel extends AndroidViewModel {
                                 Log.d(TAG, "retrieved data about artifact item with id: " + artifactItem.getPostId());
 
                                 timelineWrapper.getArtifactItemWrapperList().add(new ArtifactItemWrapper(artifactItem));
-                                timelineWrappers.postValue(wrappers);
+//                                timelineWrappers.postValue(wrappers);
                                 mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
                                     @Override
                                     public void onChanged(MapLocation mapLocation) {
