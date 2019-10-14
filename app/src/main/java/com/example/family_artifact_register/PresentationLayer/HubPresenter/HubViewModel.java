@@ -59,7 +59,7 @@ public class HubViewModel extends AndroidViewModel {
                 List<LiveData<UserInfo>> friendList = userInfoManager.listenUserInfo(friendUids);
 
                 friends.setValue(new ArrayList<>());
-
+                Log.d(TAG, "size of friend list: " + friendList.size());
                 for(LiveData<UserInfo> friend: friendList) {
                     friends.removeSource(friend);
                     friends.addSource(friend, new Observer<UserInfo>() {
@@ -159,6 +159,10 @@ public class HubViewModel extends AndroidViewModel {
 
     public LiveData<List<ArtifactItemWrapper>> getPosts() {
         return artifactWrapperList;
+    }
+
+    public LiveData<List<UserInfoWrapper>> getFriends() {
+        return friends;
     }
 
 }
