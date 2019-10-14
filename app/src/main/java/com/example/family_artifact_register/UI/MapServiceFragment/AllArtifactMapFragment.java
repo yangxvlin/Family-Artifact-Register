@@ -116,6 +116,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
                             for (TimelineMapWrapper timelineMapWrapper: timelineMapWrapperList) {
                                 allArtifactItems.addAll(timelineMapWrapper.getAllPairs());
                             }
+                            Log.d(getFragmentTag(), "allArtifactItems size = " + allArtifactItems.size());
                             mdFragment.setDisplayArtifactItems(allArtifactItems);
                         } else {
                             mdFragment.setDisplayArtifactItems(timelineMapWrapperList.get(pos-1).getAllPairs());
