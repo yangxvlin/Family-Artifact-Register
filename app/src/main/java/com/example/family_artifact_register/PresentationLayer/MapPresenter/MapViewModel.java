@@ -69,7 +69,7 @@ public class MapViewModel extends AndroidViewModel {
     public LiveData<List<TimelineMapWrapper>> getMapWrapper() {
 
         // TODO choose a good listener identifier
-        artifactManager.listenArtifactTimelineByUid(userInfoManager.getCurrentUid(), ).observeForever(new Observer<List<ArtifactTimeline>>() {
+        artifactManager.listenArtifactTimelineByUid(userInfoManager.getCurrentUid(), "MapViewModel1").observeForever(new Observer<List<ArtifactTimeline>>() {
             @Override
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
                 Log.d(TAG, "retrieved all timeline data for current user");
@@ -87,7 +87,7 @@ public class MapViewModel extends AndroidViewModel {
                     for(String id: itemIDs) {
 
                         // TODO choose a good listener identifier
-                        artifactManager.listenArtifactItemByPostId(id, ).observeForever(new Observer<ArtifactItem>() {
+                        artifactManager.listenArtifactItemByPostId(id, "MapViewModel2").observeForever(new Observer<ArtifactItem>() {
                             @Override
                             public void onChanged(ArtifactItem artifactItem) {
                                 Log.d(TAG, "retrieved data about artifact item with id: " + artifactItem.getPostId());
