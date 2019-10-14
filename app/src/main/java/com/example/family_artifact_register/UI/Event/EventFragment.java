@@ -43,7 +43,7 @@ public class EventFragment extends Fragment implements IFragment {
 //                .add(R.string.title, PageFragment.class)
 //                .add(R.string.title, WithArgumentsPageFragment.class, new Bundler().putString("key", "value").get()),
 //                 .add("title", PageFragment.class)
-                .add(getString(R.string.event_recommanded_title), FriendEventFragment.class)
+                .add(getString(R.string.event_recommended_title), FriendEventFragment.class)
                 .add(getString(R.string.event_my_title), MyEventFragment.class)
                 .create());
 
