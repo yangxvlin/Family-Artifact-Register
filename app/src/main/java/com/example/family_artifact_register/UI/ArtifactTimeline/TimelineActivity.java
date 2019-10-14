@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,16 +28,16 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModelFactory;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactHub.ArtifactDetailActivity;
 import com.example.family_artifact_register.UI.Util.TimeToString;
 import com.github.vipulasri.timelineview.TimelineView;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
+
+// import com.example.family_artifact_register.UI.ArtifactHub.ArtifactDetailActivity;
 
 public class TimelineActivity extends AppCompatActivity {
 

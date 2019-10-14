@@ -23,6 +23,7 @@ import java.util.List;
 import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
 import tellh.com.stickyheaderview_rv.adapter.ViewBinder;
 
+import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
@@ -95,6 +96,16 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
             Log.e(TAG, "unknown media type !!!");
         }
 
+        holder.timelineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "timeline button is clicked");
+                Intent timelineActivity = new Intent(view.getContext(), TimelineActivity.class);
+                timelineActivity.putExtra(TIMELINE_ID_KEY, artifactItemWrapper.getArtifactTimelineId());
+                view.getContext().startActivity(timelineActivity);
+            }
+        });
+
 //        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -134,13 +145,6 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
 //            navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
             ultraViewPager = itemView.findViewById(R.id.ultra_viewpager);
             timelineButton = itemView.findViewById(R.id.item_my_artifact_timeline_button);
-            timelineButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d(TAG, "timeline button is clicked");
-                    view.getContext().startActivity(new Intent(view.getContext(), TimelineActivity.class));
-                }
-            });
         }
 
         public void clearFrame() {
