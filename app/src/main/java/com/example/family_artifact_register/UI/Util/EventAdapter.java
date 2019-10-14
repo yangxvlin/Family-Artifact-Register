@@ -3,6 +3,8 @@ package com.example.family_artifact_register.UI.Util;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.FoundationLayer.EventModel.Event;
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventListener;
 import com.example.family_artifact_register.R;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -50,8 +53,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        ImageView imageView;
+
+        TextView name;
+
+        TextView description;
+
+        TextView address;
+
+        MaterialButton button;
+
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageView = itemView.findViewById(R.id.item_event_image);
+            name = itemView.findViewById(R.id.item_event_name);
+            description = itemView.findViewById(R.id.item_event_description);
+            address = itemView.findViewById(R.id.item_event_address);
+            button = itemView.findViewById(R.id.item_event_button);
         }
     }
 }
