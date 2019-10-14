@@ -44,11 +44,11 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
-        eventAdapter = new EventAdapter(EventManager.getInstance()
-                                                    .getEventByUid(UserInfoManager.getInstance().getCurrentUid()),
+        eventAdapter = new EventAdapter(EventViewModel.getInstance().getAttendedEvent(),
                                         false,
                                         this
         );
+        EventViewModel.getInstance().addObserver(this);
         recyclerView.setAdapter(eventAdapter);
 
     }

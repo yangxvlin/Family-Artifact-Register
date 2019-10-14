@@ -102,5 +102,6 @@
     <string name="my_artifact_items_title">我的文物</string>
     <string name="my_artifact_timelines_title">我的时间线</string>
     <string name="event_recommended_title">推荐的活动</string>
+    <string name="attend">参加</string>
 
 </resources>

@@ -39,6 +39,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Event event = eventList.get(position);
+
+        holder.address.setText(event.getAddress());
+        holder.description.setText(event.getDescription());
+        holder.name.setText(event.getName());
+        holder.imageView.setImageResource(event.getImage());
+        if (isAttend) {
+            holder.button.setText(R.string.attend);
+            holder.button.setOnClickListener(view -> {
+                eventListener.attendEvent(event.getId());
+            });
+        } else {
+            holder.button.setText(R.string.button_cancel);
+            holder.button.setOnClickListener(view -> {
+                eventListener.cancelEvent(event.getId());
+            });
+        }
 
     }
 
