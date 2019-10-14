@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.PresentationLayer.MapPresenter;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,11 +18,14 @@ import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MapViewModel extends AndroidViewModel {
 
@@ -30,6 +34,7 @@ public class MapViewModel extends AndroidViewModel {
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
     private MapLocationManager mapLocationManager = MapLocationManager.getInstance();
+    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private LiveData<List<ArtifactItem>> artifacts;
 
@@ -95,6 +100,17 @@ public class MapViewModel extends AndroidViewModel {
 
                                 ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
                                 timelineWrappers.postValue(wrappers);
+                                helper.loadByRemoteUri(artifactItem.getMediaDataUrls()).observeForever(new Observer<List<Uri>>() {
+                                    @Override
+                                    public void onChanged(List<Uri> uris) {
+                                        wrapper.setLocalMediaDataUrls(
+                                                uris.stream()
+                                                        .map(Objects::toString)
+                                                        .collect(Collectors.toList())
+                                        );
+
+                                    }
+                                });
                                 mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
                                     @Override
                                     public void onChanged(MapLocation mapLocation) {
