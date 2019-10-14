@@ -87,7 +87,6 @@ public class HubViewModel extends AndroidViewModel {
                             }
 
                             // now processing this user's artifact info
-                            // TODO set an appropriate listener identifier
                             artifactManager.listenArtifactItemByUid(userInfo.getUid(), "HubViewModel1").observeForever(new Observer<List<ArtifactItem>>() {
                                 @Override
                                 public void onChanged(List<ArtifactItem> artifactItems) {
