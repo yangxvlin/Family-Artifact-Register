@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventListener;
-import com.example.family_artifact_register.FoundationLayer.EventModel.EventManager;
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
 import com.example.family_artifact_register.R;
@@ -44,11 +43,12 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
-        eventAdapter = new EventAdapter(EventViewModel.getInstance().getAttendedEvent(),
-                                        false,
+        eventAdapter = new EventAdapter(EventViewModel.getInstance().getRecommandedEvent(),
+                                        true,
                                         this
         );
         EventViewModel.getInstance().addObserver(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(eventAdapter);
 
     }
@@ -60,9 +60,7 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
 
     @Override
     public void notifyEventsChange() {
-        eventAdapter.setEventList(EventManager.getInstance()
-                                                .getEventByUid(UserInfoManager.getInstance().getCurrentUid())
-        );
+        eventAdapter.setEventList(EventViewModel.getInstance().getRecommandedEvent());
         eventAdapter.notifyDataSetChanged();
     }
 

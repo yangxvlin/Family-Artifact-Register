@@ -55,8 +55,6 @@
                 android:textColor="@color/black"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="24dp"
-                android:ellipsize="end"
-                android:maxLines="1"
                 />
 
             <RelativeLayout
