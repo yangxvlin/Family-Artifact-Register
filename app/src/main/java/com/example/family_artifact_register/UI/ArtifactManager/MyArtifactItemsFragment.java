@@ -1,6 +1,5 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,11 +19,18 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyArtifactItemsViewModel;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2;
-import com.example.family_artifact_register.UI.Util.MyArtifactsRecyclerViewAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.ArtifactItemHeaderViewBinder;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.ArtifactItemViewBinder;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.StickyArtifactItemHeader;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.StickyArtifactItemItem;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import tellh.com.stickyheaderview_rv.adapter.DataBean;
+import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
 
 public class MyArtifactItemsFragment extends Fragment implements IFragment {
     /**
@@ -37,7 +42,9 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
     /**
      * recycler view adapter
      */
-    private MyArtifactsRecyclerViewAdapter myArtifactsRecyclerViewAdapter;
+    // private MyArtifactsRecyclerViewAdapter myArtifactsRecyclerViewAdapter;
+
+    private StickyHeaderViewAdapter adapter;
 
     RecyclerView mRecyclerView;
 
@@ -66,43 +73,76 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
         mRecyclerView = view.findViewById(R.id.recycler_view_my_artifacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter(getContext());
-        mRecyclerView.setAdapter(myArtifactsRecyclerViewAdapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                mRecyclerView.getContext(),
-                layoutManager.getOrientation()
-        );
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+//        myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter(getContext());
+//        mRecyclerView.setAdapter(myArtifactsRecyclerViewAdapter);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+//                mRecyclerView.getContext(),
+//                layoutManager.getOrientation()
+//        );
+//        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
         Log.v(TAG, "recycler view created");
 
 
         // add new artifact button
-        FloatingActionButton add = view.findViewById(R.id.fragment_me_floating_button_add);
-        add.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
-            startActivity(intent);
-        });
-
-        // recycler view's scroll to hide the floating button
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    add.hide();
-                } else if (dy < 0) {
-                    add.show();
-                }
-            }
-        });
+//        FloatingActionButton add = view.findViewById(R.id.fragment_me_floating_button_add);
+//        add.setOnClickListener(view1 -> {
+//            Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
+//            startActivity(intent);
+//        });
+//
+//        // recycler view's scroll to hide the floating button
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                if (dy > 0) {
+//                    add.hide();
+//                } else if (dy < 0) {
+//                    add.show();
+//                }
+//            }
+//        });
 
         viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItemWrapper>>() {
             @Override
             public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
 //                mRecyclerView.removeAllViews();
-                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
-                myArtifactsRecyclerViewAdapter.setData(artifactItemWrappers);
-                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
+//                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
+//                myArtifactsRecyclerViewAdapter.setData(artifactItemWrappers);
+//                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
+                Collections.sort(artifactItemWrappers, new Comparator<ArtifactItemWrapper>() {
+                    @Override
+                    public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+                        return -1 * artifactItemWrapper.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
+                    }
+                });
 
+                if (artifactItemWrappers.isEmpty()) {
+                    return;
+                }
+
+                List<DataBean> artifactItemList = new ArrayList<>();
+                String currentPrefix = artifactItemWrappers.get(0).getUploadDateTime().substring(0, 7);
+                artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
+
+                for (ArtifactItemWrapper wrapper: artifactItemWrappers) {
+                    Log.d(TAG, "size = " + artifactItemList.size());
+                    String wrapperPrefix = wrapper.getUploadDateTime().substring(0, 7);
+                    if (wrapperPrefix.equals(currentPrefix)) {
+                        //artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
+                        artifactItemList.add(new StickyArtifactItemItem(wrapper, getContext()));
+                    } else {
+                        currentPrefix = wrapperPrefix;
+                        artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
+                        artifactItemList.add(new StickyArtifactItemItem(wrapper, getContext()));
+                    }
+                    Log.d(TAG, "size = " + artifactItemList.size());
+                }
+
+                adapter = new StickyHeaderViewAdapter(artifactItemList)
+                        .RegisterItemType(new ArtifactItemViewBinder())
+                        .RegisterItemType(new ArtifactItemHeaderViewBinder());
+                mRecyclerView.setAdapter(adapter);
             }
         });
     }

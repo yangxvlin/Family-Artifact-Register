@@ -184,6 +184,11 @@ dependencies {
     //Optional: see how to use the utility.
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
 
+    // ******************************************************************************************
+    // sticky recycler view library
+    // https://github.com/TellH/RecyclerStickyHeaderView
+    implementation 'com.github.TellH:RecyclerStickyHeaderView:1.1.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

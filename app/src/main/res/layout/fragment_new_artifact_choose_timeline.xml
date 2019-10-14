@@ -34,8 +34,7 @@
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:theme="@style/SpinnerLargeText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="15dp"
         android:prompt="@string/existing_timeline_spinner_prompt"
     />

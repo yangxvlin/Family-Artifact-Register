@@ -1,62 +1,49 @@
-package com.example.family_artifact_register.UI.Util;
+package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
+import com.google.android.material.button.MaterialButton;
+import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
+import tellh.com.stickyheaderview_rv.adapter.ViewBinder;
+
+import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.setImagesViewPager;
 
-/**
- * @author XuLin Yang 904904,
- * @time 2019-9-21 15:57:25
- * @description
- */
-public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsRecyclerViewHolder> {
-
-    private static final String TAG = MyArtifactsRecyclerViewAdapter.class.getSimpleName();
-    private List<ArtifactItemWrapper> artifactItemWrapperList;
-
-//    private FragmentManager fm;
-
-    private Context context;
+public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, ArtifactItemViewBinder.ViewHolder> {
+    public static final String TAG = ArtifactItemViewBinder.class.getSimpleName();
 
     private List<Uri> mediaList;
 
-    public MyArtifactsRecyclerViewAdapter(Context context) {
-        this.artifactItemWrapperList = new ArrayList<>();
-        this.context = context;
-//        this.fm = fm;
-    }
-
-    @NonNull
     @Override
-    public MyArtifactsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact, parent, false);
-        return new MyArtifactsRecyclerViewHolder(view);
+    public ViewHolder provideViewHolder(View itemView) {
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyArtifactsRecyclerViewHolder holder, int position) {
-        ArtifactItemWrapper artifactItemWrapper = artifactItemWrapperList.get(position);
+    public void bindView(StickyHeaderViewAdapter adapter, ViewHolder holder, int position, StickyArtifactItemItem entity) {
+        ArtifactItemWrapper artifactItemWrapper = entity.getArtifactItemWrapper();
+        Context context = entity.getContext();
 
         holder.time.setText(artifactItemWrapper.getLastUpdateDateTime());
         holder.description.setText(artifactItemWrapper.getDescription());
@@ -94,7 +81,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 //            holder.frame.addView(imagesViewPager);
 
 //            holder.frame.setLayoutParams(layoutParam);
-        // video view
+            // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             ImageView iv = getVideoThumbnail(mediaList.get(0), context);
 
@@ -109,44 +96,59 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             Log.e(TAG, "unknown media type !!!");
         }
 
+        holder.timelineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "timeline button is clicked");
+                Intent timelineActivity = new Intent(view.getContext(), TimelineActivity.class);
+                timelineActivity.putExtra(TIMELINE_ID_KEY, artifactItemWrapper.getArtifactTimelineId());
+                view.getContext().startActivity(timelineActivity);
+            }
+        });
+
 //        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //                Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
 //                Intent activityChangeIntent = new Intent(context, TimelineActivity.class);
-//                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemWrapperList.get(position).getArtifactTimelineId());
+//                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemWrapper.getArtifactTimelineId());
 //                context.startActivity(activityChangeIntent);
 //            }
 //        });
     }
 
     @Override
-    public int getItemCount() {
-        if (artifactItemWrapperList == null) {
-            return 0;
+    public int getItemLayoutId(StickyHeaderViewAdapter adapter) {
+        return R.layout.item_my_artifact;
+    }
+
+    static class ViewHolder extends ViewBinder.ViewHolder {
+
+        TextView time;
+
+        TextView description;
+
+        FrameLayout frame;
+
+//        ImageView navigateToArtifactTimeline;
+
+        UltraViewPager ultraViewPager;
+
+        MaterialButton timelineButton;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            time = itemView.findViewById(R.id.item_my_artifact_time);
+            description = itemView.findViewById(R.id.item_my_artifact_description);
+            frame = itemView.findViewById(R.id.item_my_artifact_media);
+//            navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
+            ultraViewPager = itemView.findViewById(R.id.ultra_viewpager);
+            timelineButton = itemView.findViewById(R.id.item_my_artifact_timeline_button);
         }
-        return artifactItemWrapperList.size();
+
+        public void clearFrame() {
+            frame.removeAllViews();
+        }
     }
-
-    public void setData(List<ArtifactItemWrapper> newData) {
-        artifactItemWrapperList.clear();
-
-        Collections.sort(newData, new Comparator<ArtifactItemWrapper>() {
-            @Override
-            public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
-                return -1 * artifactItemWrapper.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
-            }
-        });
-        artifactItemWrapperList.addAll(newData);
-        notifyDataSetChanged();
-    }
-
-    // *************************************** getter & setters ***********************************
-
-
-//    public void addData(ArtifactItem artifactItem) {
-//        // 0 to add data at start
-//        this.artifactItemWrapperList.add(0, artifactItem);
-//        notifyDataSetChanged();
-//    }
 }

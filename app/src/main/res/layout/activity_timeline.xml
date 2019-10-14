@@ -14,11 +14,18 @@
 <!--        tools:listitem="@layout/timeline_item"-->
 <!--    />-->
 
-    <include layout="@layout/recycler_view"
+    <include
         android:id="@+id/timeline_recycler"
+        layout="@layout/recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-    />
+        android:layout_marginTop="10dp" />
+
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/long_line"
+        android:layout_width="10dp"
+        android:layout_height="match_parent">
+
+    </com.github.vipulasri.timelineview.TimelineView>
 
 </LinearLayout>
