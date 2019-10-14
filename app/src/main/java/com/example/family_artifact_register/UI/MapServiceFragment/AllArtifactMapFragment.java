@@ -43,7 +43,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
     private AppCompatSpinner chooseTimeline;
 
     // TODO get this from DB
-    private List<TimelineMapWrapper> timelineMapWrapperList = new ArrayList<>();
+//    private List<TimelineMapWrapper> timelineMapWrapperList = new ArrayList<>();
 
     private List<String> timelineTitles;
 
@@ -86,7 +86,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
             public void onChanged(List<TimelineMapWrapper> timelineMapWrappers) {
                 chooseTimeline = view.findViewById(R.id.fragment_map_choose_timeline_to_display_spinner);
                 chooseTimeline.setPrompt(getString(R.string.choose_timeline_prompt));
-                timelineTitles = timelineMapWrapperList.stream()
+                timelineTitles = timelineMapWrappers.stream()
                         .map(TimelineMapWrapper::getArtifactTimeline)
                         .map(ArtifactTimeline::getTitle)
                         .collect(Collectors.toCollection(ArrayList::new));
@@ -113,13 +113,14 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                         if (pos == 0) {
                             List<Pair<ArtifactItemWrapper, MapLocation>> allArtifactItems = new ArrayList<>();
-                            for (TimelineMapWrapper timelineMapWrapper: timelineMapWrapperList) {
+                            for (TimelineMapWrapper timelineMapWrapper: timelineMapWrappers) {
                                 allArtifactItems.addAll(timelineMapWrapper.getAllPairs());
                             }
                             Log.d(getFragmentTag(), "allArtifactItems size = " + allArtifactItems.size());
                             mdFragment.setDisplayArtifactItems(allArtifactItems);
                         } else {
-                            mdFragment.setDisplayArtifactItems(timelineMapWrapperList.get(pos-1).getAllPairs());
+                            Log.d(getFragmentTag(), "allArtifactItems size = " + timelineMapWrappers.get(pos-1).getAllPairs().size());
+                            mdFragment.setDisplayArtifactItems(timelineMapWrappers.get(pos-1).getAllPairs());
                         }
                     }
                     @Override
