@@ -1,10 +1,5 @@
 package com.example.family_artifact_register.PresentationLayer.EventPreseneter;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-
 import com.example.family_artifact_register.FoundationLayer.EventModel.Event;
 import com.example.family_artifact_register.FoundationLayer.EventModel.EventManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
@@ -13,16 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RecommandedEventViewModel extends AndroidViewModel {
-    public static final String TAG = RecommandedEventViewModel.class.getSimpleName();
-
-    private List<Event> events ;
+public class RecommendedEventViewModel {
+    public static final String TAG = RecommendedEventViewModel.class.getSimpleName();
 
     private List<String> attendEvent;
 
-    public RecommandedEventViewModel(@NonNull Application application) {
-        super(application);
+    private static RecommendedEventViewModel recommendedEventViewModel;
+
+    private RecommendedEventViewModel() {
         attendEvent = new ArrayList<>();
+    }
+
+    public static RecommendedEventViewModel getInstance() {
+        if (recommendedEventViewModel == null) {
+            return new RecommendedEventViewModel();
+        }
+        return recommendedEventViewModel;
     }
 
     public List<Event> getRecommandedEvent() {
