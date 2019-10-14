@@ -13,21 +13,21 @@ import androidx.fragment.app.Fragment;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 
-public class FriendEventFragment extends Fragment implements IFragment {
+public class RecommendedEventFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
-    public static final String TAG = FriendEventFragment.class.getSimpleName();
+    public static final String TAG = RecommendedEventFragment.class.getSimpleName();
 
-    public FriendEventFragment() {
+    public RecommendedEventFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.v(TAG, "friend event fragment created");
-        return inflater.inflate(R.layout.fragment_friend_event, container, false);
+        Log.v(TAG, "RecommendedEventFragment  created");
+        return inflater.inflate(R.layout.fragment_recommended_event, container, false);
     }
 
     @Override
@@ -38,5 +38,5 @@ public class FriendEventFragment extends Fragment implements IFragment {
     /**
      * @return created me fragment
      */
-    public static FriendEventFragment newInstance() { return new FriendEventFragment(); }
+    public static RecommendedEventFragment newInstance() { return new RecommendedEventFragment(); }
 }
