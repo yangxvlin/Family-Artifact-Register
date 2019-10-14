@@ -18,6 +18,7 @@ import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,14 +74,16 @@ public class MapViewModel extends AndroidViewModel {
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
                 Log.d(TAG, "retrieved all timeline data for current user");
                 List<TimelineMapWrapper> wrappers = new ArrayList<>();
-//                timelineWrappers.postValue(wrappers);
+                timelineWrappers.postValue(wrappers);
 
                 for(ArtifactTimeline timeline: artifactTimelines) {
-                    List<ArtifactItemWrapper> itemWrappers = new ArrayList<>();
-                    List<MapLocation> mapLocations = new ArrayList<>();
+//                    List<ArtifactItemWrapper> itemWrappers = new ArrayList<>();
+//                    List<MapLocation> mapLocations = new ArrayList<>();
 //                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
 //                    wrappers.add(timelineWrapper);
 //                    timelineWrappers.postValue(wrappers);
+                    List<Pair<ArtifactItemWrapper, MapLocation>> pairs = new ArrayList<>();
+                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, pairs);
 
                     List<String> itemIDs = timeline.getArtifactItemPostIds();
                     for(String id: itemIDs) {
@@ -90,20 +93,23 @@ public class MapViewModel extends AndroidViewModel {
                             public void onChanged(ArtifactItem artifactItem) {
                                 Log.d(TAG, "retrieved data about artifact item with id: " + artifactItem.getPostId());
 
-                                itemWrappers.add(new ArtifactItemWrapper(artifactItem));
-//                                timelineWrappers.postValue(wrappers);
+                                ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
+                                timelineWrappers.postValue(wrappers);
                                 mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
                                     @Override
                                     public void onChanged(MapLocation mapLocation) {
-                                        mapLocations.add(mapLocation);
+//                                        mapLocations.add(mapLocation);
+                                        timelineWrapper.getAllPairs().add(new Pair<>(wrapper, mapLocation));
+//                                        wrappers.add(timelineWrapper);
                                         timelineWrappers.postValue(wrappers);
                                     }
                                 });
                             }
                         });
                     }
-                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
+//                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
                     wrappers.add(timelineWrapper);
+                    timelineWrappers.postValue(wrappers);
                 }
             }
         });

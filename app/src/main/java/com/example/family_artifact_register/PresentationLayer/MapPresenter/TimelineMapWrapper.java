@@ -34,6 +34,12 @@ public class TimelineMapWrapper {
 //        this.storeLocationList = storeLocationList;
     }
 
+    public TimelineMapWrapper(ArtifactTimeline artifactTimeline,
+                              List<Pair<ArtifactItemWrapper, MapLocation>> pairs) {
+        this.artifactTimeline = artifactTimeline;
+        this.item = pairs;
+    }
+
     public ArtifactTimeline getArtifactTimeline() {
         return artifactTimeline;
     }
