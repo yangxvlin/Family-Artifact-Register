@@ -170,7 +170,7 @@ dependencies {
     // ******************************************************************************************
     // image slide view library
     // https://github.com/alibaba/UltraViewPager
-    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+    implementation('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
         transitive = true
     }
     // open dialog to page view images
