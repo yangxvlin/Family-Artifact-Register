@@ -41,8 +41,18 @@
             android:id="@+id/comment"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/primaryTextColor"
             android:text="comment">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/dark_gray"
+            android:text="time">
         </TextView>
 
     </LinearLayout>

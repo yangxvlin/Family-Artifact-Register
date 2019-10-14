@@ -9,8 +9,11 @@ import androidx.lifecycle.LiveData;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+
+import java.util.List;
 
 import static com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem.TAG;
 
@@ -19,15 +22,18 @@ public class CommentViewModel extends AndroidViewModel {
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
 
-    private String commentId;
+    private String PostID;
 
-    public CommentViewModel(@NonNull Application application, String commentId) {
+    public CommentViewModel(@NonNull Application application, String PostId) {
         super(application);
-        this.commentId = commentId;
+        this.PostID = PostId;
     }
 
-    public LiveData<ArtifactComment> getArtifactComment(String id) {
-        Log.d(TAG, "return artifactManager.getArtifactComment");
+    public LiveData<List<ArtifactComment>> getComments(String id) {
         return null;
+    }
+
+    public LiveData<ArtifactItem> getArtifactItem(String id) {
+        return artifactManager.getArtifactItemByPostId(id);
     }
 }
