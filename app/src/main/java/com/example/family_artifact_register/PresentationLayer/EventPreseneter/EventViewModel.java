@@ -25,7 +25,8 @@ public class EventViewModel {
 
     public static EventViewModel getInstance() {
         if (eventViewModel == null) {
-            return new EventViewModel();
+            eventViewModel = new EventViewModel();
+            return eventViewModel;
         }
         return eventViewModel;
     }

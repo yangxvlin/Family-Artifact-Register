@@ -61,7 +61,6 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
     @Override
     public void notifyEventsChange() {
         eventAdapter.setEventList(EventViewModel.getInstance().getRecommendedEvent());
-        eventAdapter.notifyDataSetChanged();
     }
 
     @Override
