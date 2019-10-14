@@ -1,6 +1,5 @@
 package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -171,7 +168,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
             // pass selected timeline to activity
             ((NewTimelineListener)getActivity()).setTimeline(EXISTING_ARTIFACT_TIMELINE, selectedTimelineTitle);
             ((NewTimelineListener)getActivity()).setSelectedTimeline(selected);
-            Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
             // call NewArtifactActivity method to start upload
             ((StartUploadListener)getActivity()).uploadNewArtifact();
             // finish the activity
