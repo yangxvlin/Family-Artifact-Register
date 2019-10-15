@@ -9,9 +9,14 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
 
 import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
 
 public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdapter.TimelineImageViewHolder> {
 
@@ -28,10 +33,12 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
     }
 
     private List<String> dataSet;
+    private int mediaType;
 
-    public TimelineImageAdapter(List<String> dataSet) {
+    public TimelineImageAdapter(ArtifactItemWrapper wrapper) {
         Log.d(TAG, "new recyclerview adapter");
-        this.dataSet = dataSet;
+        this.dataSet = wrapper.getLocalMediaDataUrls();
+        mediaType = wrapper.getMediaType();
     }
 
     @NonNull
@@ -46,7 +53,14 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
     public void onBindViewHolder(@NonNull TimelineImageAdapter.TimelineImageViewHolder holder, int position) {
         String url = dataSet.get(position);
         Log.d(TAG, "setting uri to image view, url: " + url);
-        holder.image.setImageURI(Uri.parse(url));
+
+        if (mediaType == TYPE_IMAGE) {
+            holder.image.setImageURI(Uri.parse(url));
+        } else if (mediaType == TYPE_VIDEO) {
+            holder.image.setImageBitmap(getVideoThumbNail(url));
+        } else {
+
+        }
     }
 
     @Override

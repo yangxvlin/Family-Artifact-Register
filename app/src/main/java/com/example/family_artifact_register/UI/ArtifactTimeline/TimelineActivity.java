@@ -168,7 +168,7 @@ public class TimelineActivity extends AppCompatActivity {
             holder.itemId = wrapper.getPostId();
 
             holder.clearFrame();
-            holder.frame.addView(getRecyclerView(dataSet.get(position).getLocalMediaDataUrls(), context));
+            holder.frame.addView(getRecyclerView(dataSet.get(position), context));
         }
 
         @Override
