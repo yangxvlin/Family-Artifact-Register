@@ -30,11 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AllArtifactMapFragment extends Fragment implements IFragment {
+public class AllArtifactHappenedMapFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
-    public static final String TAG = AllArtifactMapFragment.class.getSimpleName();
+    public static final String TAG = AllArtifactHappenedMapFragment.class.getSimpleName();
 
     private MapDisplayFragment mdFragment = MapDisplayFragment.newInstance();
 
@@ -52,7 +52,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
     /**
      * Required empty public constructor
      */
-    public AllArtifactMapFragment() { }
+    public AllArtifactHappenedMapFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,7 +143,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
     /**
      *
      */
-    public static AllArtifactMapFragment newInstance() {
-        return new AllArtifactMapFragment();
+    public static AllArtifactHappenedMapFragment newInstance() {
+        return new AllArtifactHappenedMapFragment();
     }
 }
