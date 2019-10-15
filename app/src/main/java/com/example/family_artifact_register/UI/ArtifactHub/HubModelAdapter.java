@@ -109,7 +109,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             holder.postImage.setLayoutParams(layoutParam);
             // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-            ImageView iv = getVideoThumbnail(750, 750, mediaList.get(0), context);
+            ImageView iv = getVideoThumbnail(500, 500, mediaList.get(0), context);
 
             ImageView playIcon = getVideoPlayIcon(context);
 
