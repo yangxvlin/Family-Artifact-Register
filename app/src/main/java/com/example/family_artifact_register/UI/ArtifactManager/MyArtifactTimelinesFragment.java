@@ -1,5 +1,7 @@
 package com.example.family_artifact_register.UI.ArtifactManager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModelFactory;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.Comparator;
@@ -61,7 +64,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
         recyclerView = view.findViewById(R.id.my_timeline_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        adapter = new MyTimelineAdapter();
+        adapter = new MyTimelineAdapter(view.getContext());
         recyclerView.setAdapter(adapter);
 
         viewModel = ViewModelProviders.of(this, new MyTimelineViewModelFactory(getActivity().getApplication())).get(MyTimelineViewModel.class);
@@ -107,8 +110,10 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
         private List<ArtifactTimelineWrapper> dataSet;
         private Comparator<ArtifactTimelineWrapper> comparator;
+        private Context context;
 
-        public MyTimelineAdapter() {
+        public MyTimelineAdapter(Context context) {
+            this.context = context;
             comparator = new Comparator<ArtifactTimelineWrapper>() {
                 @Override
                 public int compare(ArtifactTimelineWrapper artifactTimelineWrapper, ArtifactTimelineWrapper t1) {
@@ -130,7 +135,9 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 @Override
                 public void onClick(View view) {
                     Log.d(TAG, "timeline item is clicked, jump to timeline detail page");
-                    // TODO timeline is clicked, jump to timeline detail page
+                    Intent intent = new Intent(context, TimelineActivity.class);
+                    intent.putExtra(TimelineActivity.TIMELINE_ID_KEY, holder.itemID);
+                    startActivity(intent);
                 }
             });
             // number of images that has been set
