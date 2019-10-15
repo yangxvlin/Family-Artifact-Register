@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
@@ -39,6 +41,10 @@ public class ArtifactCommentActivity extends AppCompatActivity {
 
     private LifecycleOwner owner;
 
+    private ImageView avatar;
+
+    private TextView comment, post;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,10 @@ public class ArtifactCommentActivity extends AppCompatActivity {
 
         commentAdapter = new CommentAdapter(this);
         recyclerView.setAdapter(commentAdapter);
+
+        avatar = findViewById(R.id.avatar);
+        comment = findViewById(R.id.comment);
+        post = findViewById(R.id.post);
 
         viewModel = ViewModelProviders.of(this, new CommentViewModelFactory(getApplication()
                 , PostID)).get(CommentViewModel.class);
