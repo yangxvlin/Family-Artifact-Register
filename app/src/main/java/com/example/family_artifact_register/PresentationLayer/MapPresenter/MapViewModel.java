@@ -49,6 +49,7 @@ public class MapViewModel extends AndroidViewModel {
         locations.setValue(mapLocations);
     }
 
+    @Deprecated
     public LiveData<List<MapLocation>> getLocations() {
         artifacts.observeForever(new Observer<List<ArtifactItem>>() {
             @Override
