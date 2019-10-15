@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -209,19 +211,25 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                     .getMarkerZoomStrategyFactory()
                     .getMarkerZoomStrategy(markers.size())
                     .makeCameraUpdate(markers);
+            mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
             mMap.animateCamera(cu);
         }
     }
 
     private String getSnippet(Pair<ArtifactItemWrapper, MapLocation> pair) {
-        String snippet = getContext().getString(R.string.description) + pair.getFst().getDescription() + " - "
+        String snippet = getContext().getString(R.string.description) + pair.getFst().getDescription() + "\n"
+                + getContext().getString(R.string.happen_at) + pair.getFst().getHappenedDateTime() + "\n"
                 + getContext().getString(R.string.locate_at);
         if (pair.getSnd().getAddress() != null) {
-            return snippet + pair.getSnd().getAddress();
+            snippet += pair.getSnd().getAddress();
         } else {
-            return snippet + "(" + pair.getSnd().getLatitude() + ", " + pair.getSnd().getLongitude() + ")";
+            snippet += "(" + pair.getSnd().getLatitude() + ", " + pair.getSnd().getLongitude() + ")";
         }
+        snippet += "\n";
+        snippet += pair.getFst().getPostId() + "\n";
+        snippet += pair.getFst().getArtifactTimelineId() + "\n";
 
+        return snippet;
     }
 
     public List<MapLocation> getLocations() {
@@ -290,5 +298,58 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     public interface OnFragmentInteractionListener {
         // TODO update this fragment listen to set locations in MapDisplayActivity
         void onFragmentInteraction(Uri uri);
+    }
+
+    // ********************************************************************************************
+    // MyInfoWindowAdapter to customize the popup window in the google map marker
+    public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        private final View mWindow;
+
+        private MyInfoWindowAdapter() {
+            mWindow = getLayoutInflater().inflate(R.layout.custom_info_map_window, null);
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            render(marker, mWindow);
+            return mWindow;
+        }
+
+        /**
+         * not used
+         * @param marker
+         * @return
+         */
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+
+        private void render(Marker marker, View view) {
+            TextView title = view.findViewById(R.id.title);
+            title.setText(marker.getTitle());
+            String[] lines = marker.getSnippet().split("\n");
+            String snippet = lines[0];
+            String happenedTime = lines[1];
+            String address = lines[2];
+            String artifactItemId = lines[3];
+            String timelineId = lines[4];
+
+            TextView description = view.findViewById(R.id.snippet);
+            description.setText(snippet);
+            TextView addressView = view.findViewById(R.id.address);
+            addressView.setText(address);
+            TextView time = view.findViewById(R.id.create_time);
+            time.setText(happenedTime);
+
+            MaterialButton timeline = view.findViewById(R.id.timeline_button);
+            timeline.setOnClickListener(view1 -> {
+                System.out.println("clicked timeline !!!");
+            });
+            MaterialButton detail = view.findViewById(R.id.detail_button);
+            detail.setOnClickListener(view1 -> {
+                System.out.println("clicked detail !!!");
+            });
+        }
     }
 }

@@ -115,6 +115,9 @@
     <string name="create_at">创建于： </string>
     <string name="description">描述： </string>
     <string name="locate_at">位于： </string>
+    <string name="artifact_item_detail">详情</string>
+    <string name="artifact_timeline">时间线</string>
+    <string name="happen_at">发生于： </string>
 
 
 </resources>
