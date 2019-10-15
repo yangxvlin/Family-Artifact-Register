@@ -27,6 +27,11 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
+import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.cropCenter;
+import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
+
 public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
     /**
      * class tag
@@ -130,25 +135,31 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                     if(imagesCount == 3) {
                         break;
                     }
-                    // no support for video
-                    if(item.getMediaType() == 2) {
-                        break;
-                    }
                     if(url != null) {
                         if(imagesCount == 0) {
-                            holder.image1.setImageURI(Uri.parse(url));
+                            setImage(holder.image1, Uri.parse(url), item.getMediaType());
                             imagesCount++;
                         }
                         else if(imagesCount == 1) {
-                            holder.image2.setImageURI(Uri.parse(url));
+                            setImage(holder.image2, Uri.parse(url), item.getMediaType());
                             imagesCount++;
                         }
                         else if(imagesCount == 2) {
-                            holder.image3.setImageURI(Uri.parse(url));
+                            setImage(holder.image3, Uri.parse(url), item.getMediaType());
                             imagesCount++;
                         }
                     }
                 }
+            }
+        }
+
+        private void setImage(ImageView image, Uri src, int type) {
+            if (type == TYPE_IMAGE) {
+                image.setImageURI(src);
+            } else if (type == TYPE_VIDEO) {
+                image.setImageBitmap(cropCenter(getVideoThumbNail(src.toString())));
+            } else {
+                Log.e(getFragmentTag(), "unknown media type !!!");
             }
         }
 
