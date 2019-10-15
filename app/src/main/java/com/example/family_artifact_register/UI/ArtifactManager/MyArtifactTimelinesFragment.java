@@ -72,7 +72,6 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
         viewModel.getTimelines().observe(this, new Observer<List<ArtifactTimelineWrapper>>() {
             @Override
             public void onChanged(List<ArtifactTimelineWrapper> newData) {
-                // TODO logic when data comes back from DB
                 adapter.setData(newData);
             }
         });
