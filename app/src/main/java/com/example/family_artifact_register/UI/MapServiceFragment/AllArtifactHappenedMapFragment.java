@@ -36,7 +36,7 @@ public class AllArtifactHappenedMapFragment extends Fragment implements IFragmen
      */
     public static final String TAG = AllArtifactHappenedMapFragment.class.getSimpleName();
 
-    private MapDisplayFragment mdFragment = MapDisplayFragment.newInstance();
+    private MapCustomizeWindowFragment mdFragment = MapCustomizeWindowFragment.newInstance();
 
     private MapHappenedViewModel viewModel;
 

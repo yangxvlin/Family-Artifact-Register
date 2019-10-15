@@ -35,7 +35,7 @@ public class AllArtifactStoredMapFragment extends Fragment implements IFragment 
      */
     public static final String TAG = AllArtifactStoredMapFragment.class.getSimpleName();
 
-    private MapDisplayFragment mdFragment = MapDisplayFragment.newInstance();
+    private MapCustomizeWindowFragment mdFragment = MapCustomizeWindowFragment.newInstance();
 
     private MapStoredViewModel viewModel;
 
