@@ -105,4 +105,11 @@
     <string name="attend">参加</string>
     <string name="choose_timeline_prompt">请选择需要显示的时间线：</string>
 
+    <string name="tips">温馨提示：</string>
+    <string name="attend_dialog_content">您确定要参加这个活动吗？</string>
+    <string name="cancel_dialog_content">您确定要取消参加这个活动吗？</string>
+
+    <string name="happened_time_not_choosen_warning">请选择时间继续</string>
+
+
 </resources>
