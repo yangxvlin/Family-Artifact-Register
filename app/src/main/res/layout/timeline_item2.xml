@@ -27,7 +27,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_toEndOf="@id/timeline2"
-        android:layout_marginStart="5dp">
+        android:layout_marginStart="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
 
         <TextView
             android:id="@+id/item_time"

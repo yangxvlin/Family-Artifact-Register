@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModelFactory;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 import com.example.family_artifact_register.UI.Util.TimeToString;
 import com.github.vipulasri.timelineview.TimelineView;
 
@@ -111,14 +113,15 @@ public class TimelineActivity extends AppCompatActivity {
 
             public TimelineView timelineView;
 
+            public LinearLayout timelineHeader;
             public TextView time;
             public TextView description;
             public FrameLayout frame;
-            // TODO handle multiple instance of same type, and different types
             public String itemId;
 
             public TimelineViewHolder(@NonNull View itemView, int viewType) {
                 super(itemView);
+                this.timelineHeader = itemView.findViewById(R.id.header);
                 this.time = itemView.findViewById(R.id.item_time);
                 this.description = itemView.findViewById(R.id.item_description);
                 this.frame = itemView.findViewById(R.id.timeline_frame);
@@ -166,7 +169,14 @@ public class TimelineActivity extends AppCompatActivity {
             holder.time.setText(wrapper.getHappenedDateTime());
             holder.description.setText(wrapper.getDescription());
             holder.itemId = wrapper.getPostId();
-
+            holder.timelineHeader.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ArtifactDetailActivity.class);
+                    intent.putExtra("artifactItemPostId", holder.itemId);
+                    startActivity(intent);
+                }
+            });
             holder.clearFrame();
             holder.frame.addView(getRecyclerView(dataSet.get(position), context));
         }
