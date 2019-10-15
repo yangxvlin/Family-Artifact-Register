@@ -25,6 +25,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.R;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
@@ -98,6 +99,16 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
         }
 
         private List<ArtifactTimelineWrapper> dataSet;
+        private Comparator<ArtifactTimelineWrapper> comparator;
+
+        public MyTimelineAdapter() {
+            comparator = new Comparator<ArtifactTimelineWrapper>() {
+                @Override
+                public int compare(ArtifactTimelineWrapper artifactTimelineWrapper, ArtifactTimelineWrapper t1) {
+                    return artifactTimelineWrapper.getUploadDateTime().compareTo(t1.getUploadDateTime());
+                }
+            };
+        }
 
         @NonNull
         @Override
@@ -162,6 +173,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
         public void setData(List<ArtifactTimelineWrapper> newData) {
             dataSet = newData;
+            dataSet.sort(comparator);
             notifyDataSetChanged();
         }
     }
