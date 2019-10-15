@@ -12,7 +12,7 @@
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline2"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         app:markerSize="25dp"
         app:lineWidth="3dp"
         app:startLineColor="@color/primaryColor"
