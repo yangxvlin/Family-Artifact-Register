@@ -13,7 +13,7 @@
         android:id="@+id/timeline2"
         android:layout_width="wrap_content"
         android:layout_height="230dp"
-        app:markerSize="35dp"
+        app:markerSize="25dp"
         app:lineWidth="3dp"
         app:startLineColor="@color/primaryColor"
         app:endLineColor="@color/primaryColor"
