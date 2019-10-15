@@ -87,6 +87,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             public MaterialCardView cardView;
             public TextView title;
             public TextView uploadtime;
+            public TextView duration;
             public ImageView image1;
             public ImageView image2;
             public ImageView image3;
@@ -97,6 +98,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 cardView = itemView.findViewById(R.id.cardview);
                 title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
                 uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
+                duration = itemView.findViewById(R.id.my_timeline_recyclerview_item_duration);
                 image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
                 image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
                 image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
@@ -136,6 +138,17 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             holder.itemID = dataSet.get(position).getPostID();
             holder.title.setText(dataSet.get(position).getTitle());
             holder.uploadtime.setText(dataSet.get(position).getUploadDateTime());
+            List<ArtifactItemWrapper> items = dataSet.get(position).getArtifacts();
+            String timelineDuration = null;
+            if(items.size() == 1) {
+                timelineDuration = dataSet.get(position).getUploadDateTime().substring(0, 7);
+            } else if(items.size() > 1) {
+                String oldestTime = items.get(0).getHappenedDateTime().substring(0, 7);
+                String newestTime = items.get(items.size() - 1).getHappenedDateTime().substring(0, 7);
+                timelineDuration = oldestTime + " -- " + newestTime;
+            }
+            holder.duration.setText(timelineDuration);
+
             for(ArtifactItemWrapper item: dataSet.get(position).getArtifacts()) {
                 // all views have been set
                 if(imagesCount == 3) {
