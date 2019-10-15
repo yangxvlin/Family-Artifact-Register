@@ -18,24 +18,24 @@ import com.example.family_artifact_register.PresentationLayer.EventPreseneter.Ev
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.Util.EventAdapter;
 
-public class MyEventFragment extends Fragment implements IFragment, EventListener {
+public class RecommendedEventFragment extends Fragment implements IFragment, EventListener {
     /**
      * class tag
      */
-    public static final String TAG = MyEventFragment.class.getSimpleName();
+    public static final String TAG = RecommendedEventFragment.class.getSimpleName();
 
     private RecyclerView recyclerView;
 
     private EventAdapter eventAdapter;
 
-    public MyEventFragment() {
+    public RecommendedEventFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.v(TAG, "my event fragment created");
+        Log.v(TAG, "RecommendedEventFragment  created");
         return inflater.inflate(R.layout.fragment_recommended_event, container, false);
     }
 
@@ -43,33 +43,34 @@ public class MyEventFragment extends Fragment implements IFragment, EventListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
-        eventAdapter = new EventAdapter(EventViewModel.getInstance().getAttendedEvent(),
-                false,
-                this,
-                getContext()
+        eventAdapter = new EventAdapter(EventViewModel.getInstance().getRecommendedEvent(),
+                                        true,
+                                        this,
+                                        getContext()
         );
         EventViewModel.getInstance().addObserver(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(eventAdapter);
+
     }
 
     /**
      * @return created me fragment
      */
-    public static MyEventFragment newInstance() { return new MyEventFragment(); }
+    public static RecommendedEventFragment newInstance() { return new RecommendedEventFragment(); }
 
     @Override
     public void notifyEventsChange() {
-        eventAdapter.setEventList(EventViewModel.getInstance().getAttendedEvent());
+        eventAdapter.setEventList(EventViewModel.getInstance().getRecommendedEvent());
     }
 
     @Override
     public void attendEvent(String eventId) {
-        //
+        EventViewModel.getInstance().addAttendEvent(eventId);
     }
 
     @Override
     public void cancelEvent(String eventId) {
-        EventViewModel.getInstance().cancelAttendEvent(eventId);
+        // empty
     }
 }
