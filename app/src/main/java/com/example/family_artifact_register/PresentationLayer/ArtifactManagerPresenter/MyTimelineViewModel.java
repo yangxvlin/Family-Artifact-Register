@@ -45,30 +45,32 @@ public class MyTimelineViewModel extends AndroidViewModel {
                 for(ArtifactTimeline timeline: artifactTimelines) {
 
                     List<ArtifactItemWrapper> wrappers = new ArrayList<>();
+                    ArtifactTimelineWrapper timelineWrapper = new ArtifactTimelineWrapper(timeline);
                     // not sure if 5000 is a good timeout value
                     artifactManager.getArtifactItemByPostId(timeline.getArtifactItemPostIds(), 5000).observeForever(new Observer<List<ArtifactItem>>() {
                         @Override
                         public void onChanged(List<ArtifactItem> artifactItems) {
                             Log.d(TAG, "get artifacts from DB using ids in timeline object");
                             for(ArtifactItem item: artifactItems) {
+                                Log.d(TAG, "item: " + item.toString());
                                 ArtifactItemWrapper wrapper = new ArtifactItemWrapper(item);
                                 helper.loadByRemoteUri(item.getMediaDataUrls()).observeForever(new Observer<List<Uri>>() {
                                     @Override
                                     public void onChanged(List<Uri> uris) {
-                                        Log.d(TAG, "get urls from firebaes helper");
+                                        Log.d(TAG, "get urls from firebaes helper: " + uris.toString());
                                         wrapper.setLocalMediaDataUrls(
                                                 uris.stream()
                                                         .map(Objects::toString)
                                                         .collect(Collectors.toList())
                                         );
-                                        wrappers.add(wrapper);
-                                        timelines.setValue(timelineList);
+                                        timelineWrapper.getArtifacts().add(wrapper);
+                                        timelines.postValue(timelineList);
                                     }
                                 });
                             }
-                            ArtifactTimelineWrapper timelineWrapper = new ArtifactTimelineWrapper(timeline);
+//                            ArtifactTimelineWrapper timelineWrapper = new ArtifactTimelineWrapper(timeline);
                             timelineList.add(timelineWrapper);
-                            timelines.setValue(timelineList);
+                            timelines.postValue(timelineList);
                         }
                     });
                 }
