@@ -106,20 +106,21 @@ public class MapViewModel extends AndroidViewModel {
                                         wrapper.setLocalMediaDataUrls(
                                                 uris.stream()
                                                         .map(Objects::toString)
-                                                        .collect(Collectors.toList())
+                                                        .collect(Collectors.toCollection(ArrayList::new))
                                         );
 
-                                    }
-                                });
-                                mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
-                                    @Override
-                                    public void onChanged(MapLocation mapLocation) {
+                                        mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
+                                            @Override
+                                            public void onChanged(MapLocation mapLocation) {
 //                                        mapLocations.add(mapLocation);
-                                        timelineWrapper.getAllPairs().add(new Pair<>(wrapper, mapLocation));
+                                                timelineWrapper.getAllPairs().add(new Pair<>(wrapper, mapLocation));
 //                                        wrappers.add(timelineWrapper);
-                                        timelineWrappers.postValue(wrappers);
+                                                timelineWrappers.postValue(wrappers);
+                                            }
+                                        });
                                     }
                                 });
+
                             }
                         });
                     }
