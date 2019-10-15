@@ -173,8 +173,8 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                 MarkerOptions opt = new MarkerOptions()
                         .position(new LatLng(storeLocation.getLatitude(),
                                 storeLocation.getLongitude()))
-                        .title(artifactItemWrapper.getUploadDateTime())
-                        .snippet(artifactItemWrapper.getDescription());
+                        .title(getContext().getString(R.string.create_at) + artifactItemWrapper.getUploadDateTime())
+                        .snippet(getSnippt(pair));
 
                 if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
                     try {
@@ -211,6 +211,17 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                     .makeCameraUpdate(markers);
             mMap.animateCamera(cu);
         }
+    }
+
+    private String getSnippt(Pair<ArtifactItemWrapper, MapLocation> pair) {
+        String snippet = getContext().getString(R.string.description) + pair.getFst().getDescription() + " - "
+                + getContext().getString(R.string.locate_at);
+        if (pair.getSnd().getAddress() != null) {
+            return snippet + pair.getSnd().getAddress();
+        } else {
+            return snippet + "(" + pair.getSnd().getLatitude() + ", " + pair.getSnd().getLongitude() + ")";
+        }
+
     }
 
     public List<MapLocation> getLocations() {

@@ -112,6 +112,9 @@
     <string name="happened_time_not_chosen_warning">请选择时间继续</string>
     <string name="artifact_items_map_happened_title">所有文物发生的地点</string>
     <string name="artifact_items_map_stored_title">所有文物储存的地点</string>
+    <string name="create_at">创建于： </string>
+    <string name="description">描述： </string>
+    <string name="locate_at">位于： </string>
 
 
 </resources>

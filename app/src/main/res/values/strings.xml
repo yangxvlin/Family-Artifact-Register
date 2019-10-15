@@ -123,6 +123,9 @@
     <string name="happened_time_not_chosen_warning">Please choose the time to continue</string>
     <string name="artifact_items_map_happened_title">All Items Happened Location</string>
     <string name="artifact_items_map_stored_title">All Items Stored Location</string>
+    <string name="create_at">Create at: </string>
+    <string name="description">Description: </string>
+    <string name="locate_at">Locate at:</string>
 
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
