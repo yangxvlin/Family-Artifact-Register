@@ -174,7 +174,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                         .position(new LatLng(storeLocation.getLatitude(),
                                 storeLocation.getLongitude()))
                         .title(getContext().getString(R.string.create_at) + artifactItemWrapper.getUploadDateTime())
-                        .snippet(getSnippt(pair));
+                        .snippet(getSnippet(pair));
 
                 if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
                     try {
@@ -213,7 +213,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         }
     }
 
-    private String getSnippt(Pair<ArtifactItemWrapper, MapLocation> pair) {
+    private String getSnippet(Pair<ArtifactItemWrapper, MapLocation> pair) {
         String snippet = getContext().getString(R.string.description) + pair.getFst().getDescription() + " - "
                 + getContext().getString(R.string.locate_at);
         if (pair.getSnd().getAddress() != null) {
