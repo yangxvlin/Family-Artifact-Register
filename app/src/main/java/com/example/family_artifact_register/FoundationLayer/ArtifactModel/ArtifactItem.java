@@ -3,7 +3,9 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description artifact data type for each family artifact
@@ -33,13 +35,13 @@ public class ArtifactItem extends Artifact {
     private String happenedDateTime;
 
     // Number of likes item has
-    private int likes;
+    private Map<String, Boolean> likes;
 
     // The associated timeline
     private String artifactTimelineId;
 
     // The associated comments
-    private  List<String> artifactCommentId;
+    private  List<String> artifactCommentIds;
 
     public ArtifactItem() {
         super();
@@ -55,8 +57,8 @@ public class ArtifactItem extends Artifact {
                         int mediaType, List<String> mediaDataUrls, String description,
                         String locationUploadedId, String locationHappenedId,
                         String locationStoredId, String happenedDateTime,
-                        int likes,
-                        String artifactTimelineId) {
+                        Map<String, Boolean> likes, String artifactTimelineId,
+                        List<String> artifactCommentIds) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.mediaType = mediaType;
         this.mediaDataUrls = mediaDataUrls;
@@ -67,7 +69,7 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
         this.likes = likes;
         this.artifactTimelineId = artifactTimelineId;
-        this.artifactCommentId = new ArrayList<>();
+        this.artifactCommentIds = artifactCommentIds;
     }
 
     @Override
@@ -125,9 +127,17 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
     }
 
-    public int getlikes() {return likes;}
+    public Map<String, Boolean> getlikes() {return likes;}
 
-    public void setlikes(int likes) {this.likes=likes;}
+    void addLike(String uid) {
+        this.likes.putIfAbsent(uid, true);
+    }
+
+    void removeLike(String uid) {
+        if (likes.containsKey(uid)) {
+            this.likes.remove(uid);
+        }
+    }
 
     @Override
     public String getLastUpdateDateTime() {
@@ -166,10 +176,10 @@ public class ArtifactItem extends Artifact {
         this.artifactTimelineId = artifactTimelineId;
     }
 
-    public List<String> getArtifactCommentId() { return artifactCommentId; }
+    public List<String> getArtifactCommentIds() { return artifactCommentIds; }
 
-    void addArtifactCommentId(String artifactComment) {
-        this.artifactCommentId.add(artifactComment);
+    void addArtifactCommentIds(String artifactComment) {
+        this.artifactCommentIds.add(artifactComment);
     }
 
     public static ArtifactItem newInstance(String uploadDateTime,
@@ -194,8 +204,9 @@ public class ArtifactItem extends Artifact {
                 locationHappenedId,
                 locationStoredId,
                 happenedDateTime,
-                0,
-                artifactTimelineId
+                new HashMap<>(),
+                artifactTimelineId,
+                new ArrayList<>()
         );
     }
 }
