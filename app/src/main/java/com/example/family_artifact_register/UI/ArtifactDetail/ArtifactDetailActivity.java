@@ -158,8 +158,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                                 mediaList.get(0), artifactDetailActivity);
 
                         ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
-                        postImage.addView(playIcon);
                         postImage.addView(mediaView);
+                        postImage.addView(playIcon);
                     } else {
                         Log.e(TAG, "unknown media type !!!");
                     }
