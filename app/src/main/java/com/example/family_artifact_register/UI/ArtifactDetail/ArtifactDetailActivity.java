@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,8 +24,10 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPres
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
@@ -50,6 +53,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
     private TextView post, desc, user;
 
     private FrameLayout postImage;
+
+    private FragmentManager fm = getSupportFragmentManager();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -156,6 +161,10 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 Log.d(TAG, "Set Data");
             }
         });
+
+        // TODO map location data from DB
+        MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+        fm.beginTransaction().replace(R.id.map_happened, happened).commit();
     }
 
 
