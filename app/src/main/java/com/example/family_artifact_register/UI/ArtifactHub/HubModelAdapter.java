@@ -141,6 +141,14 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             }
         });
 
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.like.setImageResource(R.drawable.ic_liked);
+                holder.like.setTag("liked");
+            }
+        });
+
     }
 
     @Override
