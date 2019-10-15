@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/wechat_white"
-    android:layout_margin="10dp"
-    >
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/title"
@@ -67,6 +67,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/artifact_item_detail"
             android:layout_toLeftOf="@+id/timeline_button"
+            app:strokeColor="@color/colorPrimary"
         />
 
         <com.google.android.material.button.MaterialButton
@@ -76,6 +77,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/artifact_timeline"
             android:layout_alignParentRight="true"
+            app:strokeColor="@color/colorPrimary"
+            android:layout_marginLeft="5dp"
         />
     </RelativeLayout>
 
