@@ -55,6 +55,7 @@ public class ArtifactItem extends Artifact {
                         int mediaType, List<String> mediaDataUrls, String description,
                         String locationUploadedId, String locationHappenedId,
                         String locationStoredId, String happenedDateTime,
+                        int likes,
                         String artifactTimelineId) {
         super(postId, uid, uploadDateTime, lastUpdateDateTime);
         this.mediaType = mediaType;
@@ -64,7 +65,7 @@ public class ArtifactItem extends Artifact {
         this.locationHappenedId = locationHappenedId;
         this.locationStoredId = locationStoredId;
         this.happenedDateTime = happenedDateTime;
-        this.likes = 0;
+        this.likes = likes;
         this.artifactTimelineId = artifactTimelineId;
         this.artifactCommentId = new ArrayList<>();
     }
@@ -193,6 +194,7 @@ public class ArtifactItem extends Artifact {
                 locationHappenedId,
                 locationStoredId,
                 happenedDateTime,
+                0,
                 artifactTimelineId
         );
     }
