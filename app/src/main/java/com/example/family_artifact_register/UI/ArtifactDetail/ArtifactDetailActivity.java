@@ -61,7 +61,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
         detailImageAdapter = new DetailImageAdapter(this);
 
-        post = findViewById(R.id.publisher);
         desc = findViewById(R.id.desc);
         user = findViewById(R.id.user);
         postImage = findViewById(R.id.post_image);
@@ -77,7 +76,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 Log.d(TAG, "Some changes happen");
 
                 // Set artifact information the same as activity hub
-                post.setText(artifactItemWrapper.getPostId());
                 desc.setText(artifactItemWrapper.getDescription());
                 user.setText(artifactItemWrapper.getUid());
 

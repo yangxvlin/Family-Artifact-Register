@@ -54,18 +54,13 @@
 
 <!--    </ImageView>-->
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/map_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/publisher"
-        android:text="Publisher"
-        android:textSize="22sp"
-        android:textColor="#000"
-        android:textStyle="bold"
-        android:layout_below="@id/post_image"
-        android:layout_marginTop="5dp"
-        >
-    </TextView>
+        android:layout_below="@id/post_image">
+
+    </FrameLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -74,7 +69,7 @@
         android:text="Description"
         android:textSize="18sp"
         android:textColor="#a9a9a9"
-        android:layout_below="@id/publisher"
+        android:layout_below="@id/map_image"
         android:layout_marginTop="5dp"
         >
     </TextView>

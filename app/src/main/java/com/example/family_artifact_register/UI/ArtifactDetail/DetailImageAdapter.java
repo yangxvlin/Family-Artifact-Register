@@ -43,6 +43,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
         return new DetailImageViewHolder(view);
     }
 
+    //TODO: add map images after post images
     @Override
     public void onBindViewHolder(@NonNull DetailImageViewHolder holder, int position) {
 //        ArtifactItemWrapper artifactItemWrapper = artifactItemWrapper.get(position);
