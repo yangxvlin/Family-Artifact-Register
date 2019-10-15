@@ -56,6 +56,7 @@ public class HubViewModel extends AndroidViewModel {
             public void onChanged(UserInfo me) {
                 Log.d(TAG, "retrieved latest data about current user");
                 friendUids = new ArrayList<>(me.getFriendUids().keySet());
+                ArrayList<ArtifactItemWrapper> wrappers = new ArrayList<>();
                 List<LiveData<UserInfo>> friendList = userInfoManager.listenUserInfo(friendUids);
 
                 friends.setValue(new ArrayList<>());
@@ -69,56 +70,88 @@ public class HubViewModel extends AndroidViewModel {
 
                             // processing this user's info
                             UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
-                            friends.getValue().add(wrapper);
-                            friends.setValue(friends.getValue());
+//                            friends.getValue().add(wrapper);
+//                            friends.setValue(friends.getValue());
                             String url = wrapper.getPhotoUrl();
                             if(url == null) {
                                 wrapper.setPhotoUrl(null);
+                                friends.getValue().add(wrapper);
                                 friends.setValue(friends.getValue());
+                                getFriendArtifactItem(userInfo, wrappers);
                             }
                             else {
                                 fSHelper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
                                         wrapper.setPhotoUrl(uri.toString());
-                                        friends.setValue(friends.getValue());
+//                                        friends.setValue(friends.getValue());
+                                        getFriendArtifactItem(userInfo, wrappers);
                                     }
                                 });
                             }
 
-                            // now processing this user's artifact info
-                            artifactManager.listenArtifactItemByUid(userInfo.getUid(), "HubViewModel1").observeForever(new Observer<List<ArtifactItem>>() {
-                                @Override
-                                public void onChanged(List<ArtifactItem> artifactItems) {
-                                    Log.d(TAG, "retrieved artifact item data about user with uid: " + userInfo.getUid());
-                                    ArrayList<ArtifactItemWrapper> wrappers = new ArrayList<>();
-                                    latestArtifactWrapperList.postValue(wrappers);
-                                    for(ArtifactItem artifactItem: artifactItems) {
-                                        ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
-                                        wrappers.add(wrapper);
-                                        latestArtifactWrapperList.postValue(wrappers);
-                                        List<String> urls = artifactItem.getMediaDataUrls();
-                                        if(urls.size() > 0) {
-                                            fSHelper.loadByRemoteUri(urls).observeForever(new Observer<List<Uri>>() {
-                                                @Override
-                                                public void onChanged(List<Uri> uris) {
-                                                    wrapper.setLocalMediaDataUrls(
-                                                            uris.stream()
-                                                                    .map(Objects::toString)
-                                                                    .collect(Collectors.toList()));
-                                                    latestArtifactWrapperList.postValue(wrappers);
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                            });
+//                            // now processing this user's artifact info
+//                            artifactManager.listenArtifactItemByUid(userInfo.getUid(), "HubViewModel1").observeForever(new Observer<List<ArtifactItem>>() {
+//                                @Override
+//                                public void onChanged(List<ArtifactItem> artifactItems) {
+//                                    Log.d(TAG, "retrieved artifact item data about user with uid: " + userInfo.getUid());
+//                                    latestArtifactWrapperList.postValue(wrappers);
+//                                    for(ArtifactItem artifactItem: artifactItems) {
+//                                        ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
+//                                        wrappers.add(wrapper);
+//                                        latestArtifactWrapperList.postValue(wrappers);
+//                                        List<String> urls = artifactItem.getMediaDataUrls();
+//                                        if(urls.size() > 0) {
+//                                            fSHelper.loadByRemoteUri(urls).observeForever(new Observer<List<Uri>>() {
+//                                                @Override
+//                                                public void onChanged(List<Uri> uris) {
+//                                                    wrapper.setLocalMediaDataUrls(
+//                                                            uris.stream()
+//                                                                    .map(Objects::toString)
+//                                                                    .collect(Collectors.toList()));
+//                                                    latestArtifactWrapperList.postValue(wrappers);
+//                                                }
+//                                            });
+//                                        }
+//                                    }
+//                                }
+//                            });
                         }
                     });
                 }
             }
         });
         getPostsChange();
+    }
+
+    private void getFriendArtifactItem(UserInfo userInfo, List<ArtifactItemWrapper> wrappers) {
+        // now processing this user's artifact info
+        artifactManager.listenArtifactItemByUid(userInfo.getUid(), "HubViewModel1").observeForever(new Observer<List<ArtifactItem>>() {
+            @Override
+            public void onChanged(List<ArtifactItem> artifactItems) {
+                Log.d(TAG, "retrieved artifact item data about user with uid: " + userInfo.getUid());
+                latestArtifactWrapperList.setValue(wrappers);
+                for(ArtifactItem artifactItem: artifactItems) {
+                    ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
+//                    wrappers.add(wrapper);
+//                    latestArtifactWrapperList.postValue(wrappers);
+                    List<String> urls = artifactItem.getMediaDataUrls();
+                    if(urls.size() > 0) {
+                        fSHelper.loadByRemoteUri(urls).observeForever(new Observer<List<Uri>>() {
+                            @Override
+                            public void onChanged(List<Uri> uris) {
+                                wrapper.setLocalMediaDataUrls(
+                                        uris.stream()
+                                                .map(Objects::toString)
+                                                .collect(Collectors.toList()));
+                                wrappers.add(wrapper);
+                                latestArtifactWrapperList.setValue(wrappers);
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     public void getPostsChange() {
