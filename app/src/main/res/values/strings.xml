@@ -115,7 +115,13 @@
     <string name="event_recommended_title">Recommended Events</string>
     <string name="attend">Attend</string>
     <string name="choose_timeline_prompt">Choose Timeline to be displayed:</string>
+
+    <string name="tips">Tips:</string>
+    <string name="attend_dialog_content">Are you sure you want to attend this event?</string>
+    <string name="cancel_dialog_content">Are you sure you want to cancel this event?</string>
+
     <string name="happened_time_not_choosen_warning">Please choose the time to continue</string>
+
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
     <!-- Twitter consumer key and secret -->
