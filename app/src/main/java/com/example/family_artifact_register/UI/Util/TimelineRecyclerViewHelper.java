@@ -26,8 +26,8 @@ public class TimelineRecyclerViewHelper {
         LinearLayoutManager manager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
 
-        TimelineImageAdapter adapter = new TimelineImageAdapter();
-        adapter.setData(srcs);
+        TimelineImageAdapter adapter = new TimelineImageAdapter(srcs);
+        // adapter.setData(srcs);
         recyclerView.setAdapter(adapter);
         TimelineImageAdapter settedAdapter = (TimelineImageAdapter ) recyclerView.getAdapter();
         Log.d(TAG, "data in adapter: " + settedAdapter.getDataSet().toString());

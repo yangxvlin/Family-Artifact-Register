@@ -30,8 +30,9 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
 
     private List<String> dataSet;
 
-    public TimelineImageAdapter() {
+    public TimelineImageAdapter(List<String> dataSet) {
         Log.d(TAG, "new recyclerview adapter");
+        this.dataSet = dataSet;
     }
 
     @NonNull
@@ -50,21 +51,23 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
         );
         String url = dataSet.get(position);
         Log.d(TAG, "setting uri to image view, url: " + url);
-        if(url != null) {
+        // if(url != null) {
 //                Uri uri = Uri.parse(url);
 //                Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath());
 //                holder.image.setImageBitmap(bitmap);
-            holder.image.setImageURI(Uri.parse(url));
-            holder.image.setLayoutParams(layoutParams);
-        }
+           // holder.image.setImageURI(Uri.parse(url));
+            // holder.image.setLayoutParams(layoutParams);
+        //}//
+
+        holder.image.setImageURI(Uri.parse(url));
     }
 
     @Override
     public int getItemCount() {
-        if(dataSet != null) {
-            dataSet.size();
-        }
-        return 0;
+//        if(dataSet != null) {
+//            ;
+//        }
+        return dataSet.size();
     }
 
     public void setData(List<String> newData) {
