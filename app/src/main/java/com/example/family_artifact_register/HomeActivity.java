@@ -15,7 +15,7 @@ import com.example.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.example.family_artifact_register.UI.ArtifactManager.MeFragment;
 import com.example.family_artifact_register.UI.Event.EventFragment;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
-import com.example.family_artifact_register.UI.MapServiceFragment.AllArtifactMapFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.AllArtifactHappenedMapFragment;
 import com.example.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     /**
      * Map Artifact page
      */
-    private AllArtifactMapFragment mapFragment = AllArtifactMapFragment.newInstance();
+    private AllArtifactHappenedMapFragment mapFragment = AllArtifactHappenedMapFragment.newInstance();
 
     /**
      * Me page
