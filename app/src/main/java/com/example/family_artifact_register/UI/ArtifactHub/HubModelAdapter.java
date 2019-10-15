@@ -20,9 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 //import com.example.family_artifact_register.UI.ArtifactDetail.DetailFragment;
@@ -137,6 +139,16 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 String tid = artifactItemWrapper.getArtifactTimelineId();
                 Intent i = new Intent(view.getContext(), TimelineActivity.class);
                 i.putExtra("timelineID", tid);
+                context.startActivity(i);
+            }
+        });
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pid = artifactItemWrapper.getPostId();
+                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                i.putExtra("artifactItemPostId", pid);
                 context.startActivity(i);
             }
         });
