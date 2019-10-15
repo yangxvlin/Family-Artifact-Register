@@ -146,12 +146,12 @@ public class TimelineActivity extends AppCompatActivity {
             maxInterval = Long.MIN_VALUE;
             minInterval = Long.MIN_VALUE;
             this.context = context;
-//            comparator = new Comparator<ArtifactItemWrapper>() {
-//                @Override
-//                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
-//                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
-//                }
-//            };
+            comparator = new Comparator<ArtifactItemWrapper>() {
+                @Override
+                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
+                }
+            };
         }
 
         @NonNull
@@ -187,7 +187,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         public void setData(List<ArtifactItemWrapper> newData) {
             dataSet = newData;
-//            dataSet.sort(comparator);
+            dataSet.sort(comparator);
             maxInterval = Long.MIN_VALUE;
             minInterval = Long.MIN_VALUE;
             long diff;
