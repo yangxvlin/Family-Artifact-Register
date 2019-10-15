@@ -1,9 +1,7 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,22 +19,18 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
-import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
-import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.cropCenter;
-import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.getResizedBitmap;
-import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getSnippet;
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.setUpMarker;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
@@ -161,49 +155,39 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         displayLocations();
     }
 
+    public void setDisplayArtifactItems(Pair<ArtifactItemWrapper, MapLocation> pair) {
+        // Only display with marker if map is not null and there are locations stored
+        if (mMap != null && pair != null) {
+            mMap.clear();
+            List<Marker> markers = new ArrayList<>();
+            MarkerOptions opt = setUpMarker(pair,
+                    getContext(),
+                    IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT,
+                    getCreateAt(pair, getContext()),
+                    getSnippet(pair, getContext()));
+
+            markers.add(mMap.addMarker(opt));
+            CameraUpdate cu = MarkerZoomStrategyFactory
+                    .getMarkerZoomStrategyFactory()
+                    .getMarkerZoomStrategy(markers.size())
+                    .makeCameraUpdate(markers);
+            mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+            mMap.animateCamera(cu);
+        }
+    }
+
+    @Deprecated
     public void setDisplayArtifactItems(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
         // Only display with marker if map is not null and there are locations stored
         if (mMap != null && artifactItems.size() != 0) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
             for (Pair<ArtifactItemWrapper, MapLocation> pair : artifactItems) {
-                ArtifactItemWrapper artifactItemWrapper = pair.getFst();
-                MapLocation storeLocation = pair.getSnd();
-
-                // Log.d(getFragmentTag(), "store location = " + storeLocation.toString());
-
-                MarkerOptions opt = new MarkerOptions()
-                        .position(new LatLng(storeLocation.getLatitude(),
-                                storeLocation.getLongitude()))
-                        .title(getContext().getString(R.string.create_at) + artifactItemWrapper.getUploadDateTime())
-                        .snippet(getSnippet(pair));
-
-                if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
-                    try {
-                        Uri uri = Uri.parse(artifactItemWrapper.getLocalMediaDataUrls().get(0));
-
-                        if (uri.getScheme() == null) {
-                            uri = Uri.parse("file://" + uri.toString());
-                            Log.d(getFragmentTag(), "uri = " + uri);
-                        }
-
-                        Bitmap mBitmap = MediaStore.Images.Media.getBitmap(
-                                getContext().getContentResolver(),
-                                uri
-                        );
-                        mBitmap = getResizedBitmap(cropCenter(mBitmap), IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT);
-                        opt.icon(BitmapDescriptorFactory.fromBitmap(mBitmap));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-                    Bitmap mBitmap = getVideoThumbNail(artifactItemWrapper.getLocalMediaDataUrls()
-                                                                            .get(0));
-                    mBitmap = getResizedBitmap(cropCenter(mBitmap), IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT);
-                    opt.icon(BitmapDescriptorFactory.fromBitmap(mBitmap));
-                } else {
-                    Log.e(getFragmentTag(), "unknown media Type !!!");
-                }
+                MarkerOptions opt = setUpMarker(pair,
+                        getContext(),
+                        IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT,
+                        getCreateAt(pair, getContext()),
+                        getSnippet(pair, getContext()));
 
                 markers.add(mMap.addMarker(opt));
             }
@@ -214,22 +198,6 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
             mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
             mMap.animateCamera(cu);
         }
-    }
-
-    String getSnippet(Pair<ArtifactItemWrapper, MapLocation> pair) {
-        String snippet = getContext().getString(R.string.description) + pair.getFst().getDescription() + "\n"
-                + getContext().getString(R.string.happen_at) + pair.getFst().getHappenedDateTime() + "\n"
-                + getContext().getString(R.string.locate_at);
-        if (pair.getSnd().getAddress() != null) {
-            snippet += pair.getSnd().getAddress();
-        } else {
-            snippet += "(" + pair.getSnd().getLatitude() + ", " + pair.getSnd().getLongitude() + ")";
-        }
-        snippet += "\n";
-        snippet += pair.getFst().getPostId() + "\n";
-        snippet += pair.getFst().getArtifactTimelineId() + "\n";
-
-        return snippet;
     }
 
     public List<MapLocation> getLocations() {
