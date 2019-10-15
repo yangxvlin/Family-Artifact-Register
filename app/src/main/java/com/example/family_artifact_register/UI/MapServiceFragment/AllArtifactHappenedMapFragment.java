@@ -20,8 +20,8 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
-import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapViewModel;
-import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapHappenedViewModel;
+import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapHappenedViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.MapPresenter.TimelineMapWrapper;
 import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
@@ -38,7 +38,7 @@ public class AllArtifactHappenedMapFragment extends Fragment implements IFragmen
 
     private MapDisplayFragment mdFragment = MapDisplayFragment.newInstance();
 
-    private MapViewModel viewModel;
+    private MapHappenedViewModel viewModel;
 
     private AppCompatSpinner chooseTimeline;
 
@@ -71,7 +71,7 @@ public class AllArtifactHappenedMapFragment extends Fragment implements IFragmen
                 .commit();
 
 
-        viewModel = ViewModelProviders.of(this, new MapViewModelFactory(getActivity().getApplication())).get(MapViewModel.class);
+        viewModel = ViewModelProviders.of(this, new MapHappenedViewModelFactory(getActivity().getApplication())).get(MapHappenedViewModel.class);
 
         viewModel.getMapWrapper().observe(this, new Observer<List<TimelineMapWrapper>>() {
             @Override

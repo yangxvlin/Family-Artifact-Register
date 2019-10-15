@@ -6,17 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class MapViewModelFactory implements ViewModelProvider.Factory {
+public class MapHappenedViewModelFactory implements ViewModelProvider.Factory {
 
     private Application application;
 
-    public MapViewModelFactory(Application application) {
+    public MapHappenedViewModelFactory(Application application) {
         this.application = application;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new MapViewModel(application);
+        return (T) new MapHappenedViewModel(application);
     }
 }
