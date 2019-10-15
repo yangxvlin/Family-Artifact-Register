@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactManager.MyArtifactTimelinesFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -38,16 +37,12 @@ public class TabbedMapFragment extends Fragment implements IFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-//        getChildFragmentManager().beginTransaction().add(R.id.frame1111, MyArtifactItemsFragment.newInstance()).commit();
+        getActivity().setTitle(R.string.artifact_map);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
-//                .add(R.string.title, PageFragment.class)
-//                .add(R.string.title, WithArgumentsPageFragment.class, new Bundler().putString("key", "value").get()),
-//                 .add("title", PageFragment.class)
                 .add(getString(R.string.artifact_items_map_happened_title), AllArtifactHappenedMapFragment.class)
-                .add(getString(R.string.artifact_items_map_stored_title), MyArtifactTimelinesFragment.class)
+                .add(getString(R.string.artifact_items_map_stored_title), AllArtifactStoredMapFragment.class)
                 // .add(getString(R.string.me_my_title), MyEventFragment.class)
                 .create());
 

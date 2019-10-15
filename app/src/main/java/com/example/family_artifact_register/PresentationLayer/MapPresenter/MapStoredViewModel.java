@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class MapViewModel extends AndroidViewModel {
+public class MapStoredViewModel extends AndroidViewModel {
 
-    public static final String TAG = MapViewModel.class.getSimpleName();
+    public static final String TAG = MapStoredViewModel.class.getSimpleName();
 
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
@@ -43,38 +43,15 @@ public class MapViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<TimelineMapWrapper>> timelineWrappers = new MutableLiveData<>();
 
-    public MapViewModel(@NonNull Application application) {
+    public MapStoredViewModel(@NonNull Application application) {
         super(application);
         artifacts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
         locations.setValue(mapLocations);
     }
 
-    @Deprecated
-    public LiveData<List<MapLocation>> getLocations() {
-        artifacts.observeForever(new Observer<List<ArtifactItem>>() {
-            @Override
-            public void onChanged(List<ArtifactItem> artifactItems) {
-                Log.d(TAG, "items returned from DB: " + artifactItems.toString());
-                for(ArtifactItem item: artifactItems) {
-                    LiveData<MapLocation> loc = mapLocationManager.getMapLocationById(item.getLocationHappenedId());
-                    locations.removeSource(loc);
-                    locations.addSource(loc, new Observer<MapLocation>() {
-                        @Override
-                        public void onChanged(MapLocation mapLocation) {
-                            mapLocations.add(mapLocation);
-                            locations.setValue(mapLocations);
-                            Log.d(TAG, "map location returned from DB: " + mapLocation.toString());
-                        }
-                    });
-                }
-            }
-        });
-        return locations;
-    }
-
     public LiveData<List<TimelineMapWrapper>> getMapWrapper() {
 
-        artifactManager.listenArtifactTimelineByUid(userInfoManager.getCurrentUid(), "MapViewModel1").observeForever(new Observer<List<ArtifactTimeline>>() {
+        artifactManager.listenArtifactTimelineByUid(userInfoManager.getCurrentUid(), "MapStoredViewModel1").observeForever(new Observer<List<ArtifactTimeline>>() {
             @Override
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
                 Log.d(TAG, "retrieved all timeline data for current user");
@@ -93,7 +70,7 @@ public class MapViewModel extends AndroidViewModel {
                     List<String> itemIDs = timeline.getArtifactItemPostIds();
                     for(String id: itemIDs) {
 
-                        artifactManager.listenArtifactItemByPostId(id, "MapViewModel2").observeForever(new Observer<ArtifactItem>() {
+                        artifactManager.listenArtifactItemByPostId(id, "MapStoredViewModel2").observeForever(new Observer<ArtifactItem>() {
                             @Override
                             public void onChanged(ArtifactItem artifactItem) {
                                 Log.d(TAG, "retrieved data about artifact item with id: " + artifactItem.getPostId());
@@ -109,7 +86,7 @@ public class MapViewModel extends AndroidViewModel {
                                                         .collect(Collectors.toCollection(ArrayList::new))
                                         );
 
-                                        mapLocationManager.getMapLocationById(artifactItem.getLocationHappenedId()).observeForever(new Observer<MapLocation>() {
+                                        mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
                                             @Override
                                             public void onChanged(MapLocation mapLocation) {
 //                                        mapLocations.add(mapLocation);
