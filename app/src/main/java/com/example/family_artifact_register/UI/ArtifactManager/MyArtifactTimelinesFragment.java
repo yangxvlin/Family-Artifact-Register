@@ -117,10 +117,12 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             holder.title.setText(dataSet.get(position).getTitle());
             holder.uploadtime.setText(dataSet.get(position).getUploadDateTime());
             for(ArtifactItemWrapper item: dataSet.get(position).getArtifacts()) {
+                // all views have been set
                 if(imagesCount == 3) {
                     break;
                 }
                 for(String url: item.getLocalMediaDataUrls()) {
+                    // all views have been set
                     if(imagesCount == 3) {
                         break;
                     }
