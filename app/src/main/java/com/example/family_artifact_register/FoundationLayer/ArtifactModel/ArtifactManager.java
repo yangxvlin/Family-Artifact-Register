@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,8 @@ public class ArtifactManager {
         mArtifactTimelineCollection = FirebaseFirestore
                 .getInstance()
                 .collection(DBConstant.ARTIFACT_TIMELINE);
+
+        mListenerRegistrationMap = new HashMap<>();
         userInfoManager = UserInfoManager.getInstance();
     }
 
@@ -193,11 +196,11 @@ public class ArtifactManager {
                 .addSnapshotListener(
                         (documentSnapshot, e) -> {
                             if (e == null && documentSnapshot != null) {
-                                ArtifactItem artifactItem = null;
+                                ArtifactItem artifactItem;
                                 if (documentSnapshot.exists()) {
                                     artifactItem = documentSnapshot.toObject(ArtifactItem.class);
+                                    mutableLiveData.setValue(artifactItem);
                                 }
-                                mutableLiveData.setValue(artifactItem);
                             } else {
                                 Log.w(TAG, "DB query result in error: " + e);
                             }
