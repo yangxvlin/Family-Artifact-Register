@@ -100,7 +100,9 @@
             android:id="@+id/description"
             android:text="description"
             android:textSize="15sp"
-            android:textColor="@color/primaryTextColor">
+            android:textColor="@color/primaryTextColor"
+            android:maxLines="1"
+            android:ellipsize="end">
 
         </TextView>
 
