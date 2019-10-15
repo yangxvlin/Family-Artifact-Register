@@ -72,7 +72,7 @@
             android:id="@+id/desc"
             android:text="Description"
             android:textSize="18sp"
-            android:textColor="#a9a9a9"
+            android:textColor="@color/primaryTextColor"
             android:layout_below="@id/map_happened"
             android:layout_marginTop="5dp"
             >
