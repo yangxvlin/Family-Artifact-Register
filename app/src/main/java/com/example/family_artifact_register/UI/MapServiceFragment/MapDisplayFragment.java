@@ -216,7 +216,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         }
     }
 
-    private String getSnippet(Pair<ArtifactItemWrapper, MapLocation> pair) {
+    String getSnippet(Pair<ArtifactItemWrapper, MapLocation> pair) {
         String snippet = getContext().getString(R.string.description) + pair.getFst().getDescription() + "\n"
                 + getContext().getString(R.string.happen_at) + pair.getFst().getHappenedDateTime() + "\n"
                 + getContext().getString(R.string.locate_at);
