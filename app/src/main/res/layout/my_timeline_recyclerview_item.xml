@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         app:cardElevation="3dp"

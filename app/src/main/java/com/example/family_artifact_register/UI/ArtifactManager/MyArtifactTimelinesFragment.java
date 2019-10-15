@@ -23,6 +23,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModelFactory;
 import com.example.family_artifact_register.R;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -75,8 +76,9 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
     public class MyTimelineAdapter extends RecyclerView.Adapter<MyTimelineAdapter.MyTimelineViewHolder> {
 
-        public class MyTimelineViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public class MyTimelineViewHolder extends RecyclerView.ViewHolder {
 
+            public MaterialCardView cardView;
             public TextView title;
             public TextView uploadtime;
             public ImageView image1;
@@ -86,17 +88,12 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
             public MyTimelineViewHolder(@NonNull View itemView) {
                 super(itemView);
+                cardView = itemView.findViewById(R.id.cardview);
                 title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
                 uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
                 image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
                 image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
                 image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
-            }
-
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "timeline item is clicked, jump to timeline detail page");
-                // TODO jump to timeline detial page
             }
         }
 
@@ -111,6 +108,13 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyTimelineViewHolder holder, int position) {
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "timeline item is clicked, jump to timeline detail page");
+                    // TODO timeline is clicked, jump to timeline detail page
+                }
+            });
             // number of images that has been set
             int imagesCount = 0;
             holder.itemID = dataSet.get(position).getPostID();
