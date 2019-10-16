@@ -86,8 +86,6 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
 
-        // TODO what happens when back arrow is clicked (who is the parent)
-
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
