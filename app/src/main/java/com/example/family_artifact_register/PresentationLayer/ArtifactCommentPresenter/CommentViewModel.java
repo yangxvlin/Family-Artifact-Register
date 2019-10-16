@@ -106,7 +106,29 @@ public class CommentViewModel extends AndroidViewModel {
     public LiveData<ArtifactItem> getArtifactItem(String id) {
         return artifactManager.getArtifactItemByPostId(id);
     }
-    public Uri getCurrentUserAvatar() {
-        return Uri.parse(userInfoManager.getCurrentUserInfo().getPhotoUrl());
+
+    public LiveData<UserInfoWrapper> getCurrentUserInfo() {
+        MutableLiveData<UserInfoWrapper> me = new MutableLiveData<>();
+        userInfoManager.listenUserInfo(userInfoManager.getCurrentUid()).observeForever(new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                if(wrapper.getPhotoUrl() == null) {
+                    wrapper.setPhotoUrl(null);
+                    me.postValue(wrapper);
+                }
+                else {
+                    fSHelper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                        @Override
+                        public void onChanged(Uri uri) {
+                            wrapper.setPhotoUrl(uri.toString());
+                            me.postValue(wrapper);
+                        }
+                    });
+                }
+
+            }
+        });
+        return me;
     }
 }

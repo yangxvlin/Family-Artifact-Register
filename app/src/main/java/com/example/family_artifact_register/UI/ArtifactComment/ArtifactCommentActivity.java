@@ -78,7 +78,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
                 Log.d(TAG, "Some changes happen");
-                avatar.setImageURI(viewModel.getCurrentUserAvatar());
+                avatar.setImageURI(Uri.parse(viewModel.getCurrentUserInfo().getValue().getPhotoUrl()));
             }
         });
 
