@@ -58,7 +58,7 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_happened_time_floating_button_confirm);
         confirm.setOnClickListener(view1 -> {
             if (happenedTime == null) {
-                Toasty.error(getContext(), R.string.happened_time_not_choosen_warning).show();
+                Toasty.error(getContext(), R.string.happened_time_not_chosen_warning).show();
                 return;
             }
             ((HappenedTimeListener)getActivity()).setHappenedTime(happenedTime);

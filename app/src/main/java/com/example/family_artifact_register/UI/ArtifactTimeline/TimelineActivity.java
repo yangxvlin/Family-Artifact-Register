@@ -1,12 +1,14 @@
 package com.example.family_artifact_register.UI.ArtifactTimeline;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,14 +21,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
+import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModelFactory;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
+import com.example.family_artifact_register.UI.Util.TimeToString;
 import com.github.vipulasri.timelineview.TimelineView;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import static com.example.family_artifact_register.UI.Util.TimelineRecyclerViewHelper.getRecyclerView;
 
 public class TimelineActivity extends AppCompatActivity {
 
@@ -39,7 +47,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private TimelineViewModel viewModel;
 
-    private List<ArtifactItem> artifacts;
+    private List<ArtifactItemWrapper> artifacts;
 
     private String timelineID;
 
@@ -48,15 +56,17 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        setContentView(R.layout.activity_timeline2);
         owner = this;
         Intent intent = getIntent();
         timelineID = intent.getStringExtra(TIMELINE_ID_KEY);
 
-        recyclerView = (RecyclerView) findViewById(R.id.timeline_recycler);
+        recyclerView = (RecyclerView) findViewById(R.id.timeline_recycler2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TimelineAdapter();
+        adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
+
+//        ((TimelineView) findViewById(R.id.long_line)).initLine(0);
 
         viewModel = ViewModelProviders.of(this, new TimelineViewModelFactory(getApplication(), timelineID)).get(TimelineViewModel.class);
 
@@ -67,9 +77,9 @@ public class TimelineActivity extends AppCompatActivity {
 
                 getSupportActionBar().setTitle(artifactTimeline.getTitle());
 
-                viewModel.getArtifactItems(artifactTimeline.getArtifactItemPostIds()).observe(owner, new Observer<List<ArtifactItem>>() {
+                viewModel.getArtifactItems(artifactTimeline.getArtifactItemPostIds()).observe(owner, new Observer<List<ArtifactItemWrapper>>() {
                     @Override
-                    public void onChanged(List<ArtifactItem> newData) {
+                    public void onChanged(List<ArtifactItemWrapper> newData) {
                         Log.d(TAG, "get artifacts from DB, using postIDs in timeline");
                         adapter.setData(newData);
                     }
@@ -85,7 +95,6 @@ public class TimelineActivity extends AppCompatActivity {
             actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
 
-        // TODO what happens when back arrow is clicked (who is the parent)
     }
 
     @Override
@@ -103,41 +112,73 @@ public class TimelineActivity extends AppCompatActivity {
         public class TimelineViewHolder extends RecyclerView.ViewHolder {
 
             public TimelineView timelineView;
+
+            public LinearLayout timelineHeader;
             public TextView time;
-            public TextView title;
             public TextView description;
-            // to be changed to fragment to handle different types of medias
-            public ImageView media;
+            public FrameLayout frame;
             public String itemId;
 
             public TimelineViewHolder(@NonNull View itemView, int viewType) {
                 super(itemView);
-                this.timelineView = itemView.findViewById(R.id.timeline);
-                this.time= itemView.findViewById(R.id.timeline_item_upload_time);
-                this.title = itemView.findViewById(R.id.timeline_item_title);
-                this.description = itemView.findViewById(R.id.timeline_item_description);
-                this.media = itemView.findViewById(R.id.timeline_item_media);
+                this.timelineHeader = itemView.findViewById(R.id.header);
+                this.time = itemView.findViewById(R.id.item_time);
+                this.description = itemView.findViewById(R.id.item_description);
+                this.frame = itemView.findViewById(R.id.timeline_frame);
+                this.timelineView = itemView.findViewById(R.id.timeline2);
                 timelineView.initLine(viewType);
+            }
+
+            public void clearFrame() {
+                frame.removeAllViews();
             }
         }
 
-        private List<ArtifactItem> dataSet;
+        private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
+        private Comparator<ArtifactItemWrapper> comparator;
+//        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
 
-        public TimelineAdapter() {}
+        private long maxInterval, minInterval;
+
+        private final int maxGap = 1000;
+        private final int minGap = 500;
+        private Context context;
+
+        public TimelineAdapter(Context context) {
+            maxInterval = Long.MIN_VALUE;
+            minInterval = Long.MIN_VALUE;
+            this.context = context;
+            comparator = new Comparator<ArtifactItemWrapper>() {
+                @Override
+                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
+                }
+            };
+        }
 
         @NonNull
         @Override
         public TimelineAdapter.TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = View.inflate(parent.getContext(), R.layout.timeline_item, null);
+            View view = View.inflate(parent.getContext(), R.layout.timeline_item2, null);
             return new TimelineViewHolder(view, viewType);
         }
 
         @Override
         public void onBindViewHolder(@NonNull TimelineViewHolder holder, int position) {
-            holder.time.setText(dataSet.get(position).getUploadDateTime());
-            holder.description.setText(dataSet.get(position).getDescription());
-            holder.itemId = dataSet.get(position).getPostId();
-//            holder.media.setImageResource(dataSet);
+            ArtifactItemWrapper wrapper = dataSet.get(position);
+            holder.time.setText(wrapper.getHappenedDateTime());
+            holder.description.setText(wrapper.getDescription());
+            holder.itemId = wrapper.getPostId();
+            holder.timelineHeader.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ArtifactDetailActivity.class);
+                    intent.putExtra("artifactItemPostId", holder.itemId);
+                    startActivity(intent);
+                }
+            });
+            holder.clearFrame();
+            holder.frame.addView(getRecyclerView(dataSet.get(position), context));
         }
 
         @Override
@@ -153,9 +194,34 @@ public class TimelineActivity extends AppCompatActivity {
             return TimelineView.getTimeLineViewType(position, getItemCount());
         }
 
-        public void setData(List<ArtifactItem> newData) {
+        public void setData(List<ArtifactItemWrapper> newData) {
             dataSet = newData;
+            dataSet.sort(comparator);
+            maxInterval = Long.MIN_VALUE;
+            minInterval = Long.MIN_VALUE;
+            long diff;
+            for (int i = 0; i < dataSet.size() - 1; i++) {
+                diff = getTimeDiff(dataSet.get(i).getHappenedDateTime(),
+                        dataSet.get(i + 1).getHappenedDateTime());
+                if(diff > maxInterval) {
+                    maxInterval = diff;
+                }
+                if(diff < maxInterval) {
+                    maxInterval = diff;
+                }
+            }
             notifyDataSetChanged();
+        }
+
+        private long getTimeDiff(String s1, String s2) {
+            try {
+                long time1 = TimeToString.standardDateFormat.parse(s1).toInstant().toEpochMilli();
+                long time2 = TimeToString.standardDateFormat.parse(s2).toInstant().toEpochMilli();
+                return time2 - time1;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
         }
     }
 }
