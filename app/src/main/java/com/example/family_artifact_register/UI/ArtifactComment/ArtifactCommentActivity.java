@@ -3,6 +3,7 @@ package com.example.family_artifact_register.UI.ArtifactComment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
+import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 
 import java.util.ArrayList;
 
@@ -99,5 +102,13 @@ public class ArtifactCommentActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // https://stackoverflow.com/a/30059647
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
