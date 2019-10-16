@@ -20,9 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 //import com.example.family_artifact_register.UI.ArtifactDetail.DetailFragment;
@@ -111,7 +113,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             holder.postImage.setLayoutParams(layoutParam);
             // video view
         } else if (artifactItemWrapper.getArtifactItemWrapper().getMediaType() == TYPE_VIDEO) {
-            ImageView iv = getVideoThumbnail(750, 750, mediaList.get(0), context);
+            ImageView iv = getVideoThumbnail(500, 500, mediaList.get(0), context);
 
             ImageView playIcon = getVideoPlayIcon(context);
 
@@ -139,6 +141,16 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 String tid = artifactItemWrapper.getArtifactItemWrapper().getArtifactTimelineId();
                 Intent i = new Intent(view.getContext(), TimelineActivity.class);
                 i.putExtra("timelineID", tid);
+                context.startActivity(i);
+            }
+        });
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pid = artifactItemWrapper.getArtifactItemWrapper().getPostId();
+                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                i.putExtra("artifactItemPostId", pid);
                 context.startActivity(i);
             }
         });

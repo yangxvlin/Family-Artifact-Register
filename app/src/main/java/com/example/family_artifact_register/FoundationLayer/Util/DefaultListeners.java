@@ -26,7 +26,11 @@ public class DefaultListeners {
 
         @Override
         public void onSuccess(T t) {
-            Log.d(tag, "Task successful, task result: " + t.toString());
+            String object = null;
+            if (t != null) {
+                object = t.toString();
+            }
+            Log.d(tag, "Task successful, task result: " + object);
         }
     }
 
