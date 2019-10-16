@@ -378,7 +378,7 @@ public class ArtifactManager {
      */
     public void addComment(String artifactId, String senderId, String content) {
         // Create new comment
-        ArtifactComment comment = ArtifactComment.newInstance(senderId, senderId, content);
+        ArtifactComment comment = ArtifactComment.newInstance(artifactId, senderId, content);
 
         // Get the artifact
         mArtifactItemCollection
