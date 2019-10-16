@@ -19,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import es.dmoral.toasty.Toasty;
+
 public class NewArtifactHappenedTimeFragment extends Fragment implements IFragment {
     /**
      * class tag
@@ -55,6 +57,10 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
         // to next fragment
         FloatingActionButton confirm = view.findViewById(R.id.fragment_new_artifact_happened_time_floating_button_confirm);
         confirm.setOnClickListener(view1 -> {
+            if (happenedTime == null) {
+                Toasty.error(getContext(), R.string.happened_time_not_chosen_warning).show();
+                return;
+            }
             ((HappenedTimeListener)getActivity()).setHappenedTime(happenedTime);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.addToBackStack("next");

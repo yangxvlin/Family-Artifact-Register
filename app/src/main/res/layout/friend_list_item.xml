@@ -9,7 +9,7 @@
     android:focusable="true"
     android:background="?attr/selectableItemBackground">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:contentDescription="avatar"
         android:layout_width="50dp"
