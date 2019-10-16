@@ -2,6 +2,7 @@ package com.example.family_artifact_register.UI.ArtifactComment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         CommentWrapper artifactComment = artifactComments.get(position);
+        Log.d(TAG, "onBindViewHolder: check avatar uri:" + artifactComment.getUserInfoWrapper().getPhotoUrl());
         holder.username.setText(artifactComment.getUserInfoWrapper().getDisplayName());
         holder.comment.setText(artifactComment.getArtifactComment().getContent());
         holder.time.setText(artifactComment.getArtifactComment().getLastUpdateDateTime());
