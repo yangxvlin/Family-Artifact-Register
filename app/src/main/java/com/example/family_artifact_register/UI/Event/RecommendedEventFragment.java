@@ -45,7 +45,8 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
         recyclerView = view.findViewById(R.id.fragment_recommended_events_recycler_view);
         eventAdapter = new EventAdapter(EventViewModel.getInstance().getRecommendedEvent(),
                                         true,
-                                        this
+                                        this,
+                                        getContext()
         );
         EventViewModel.getInstance().addObserver(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

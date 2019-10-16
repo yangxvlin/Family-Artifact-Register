@@ -116,9 +116,10 @@ public class UserInfoWrapper {
     }
 
     public static UserInfo toUserInfo(UserInfoWrapper wrapper) {
-        return new UserInfo(wrapper.getUid(), wrapper.getDisplayName(), wrapper.getEmail(),
-                            wrapper.getPhoneNumber(), wrapper.getPhotoUrl(), wrapper.getFriendUids(),
-                            wrapper.getArtifactItemIds(), wrapper.getArtifactTimelineIds());
+//        return new UserInfo(wrapper.getUid(), wrapper.getDisplayName(), wrapper.getEmail(),
+//                            wrapper.getPhoneNumber(), wrapper.getPhotoUrl(), wrapper.getFriendUids(),
+//                            wrapper.getArtifactItemIds(), wrapper.getArtifactTimelineIds());
+        return null;
     }
 
     @Override
