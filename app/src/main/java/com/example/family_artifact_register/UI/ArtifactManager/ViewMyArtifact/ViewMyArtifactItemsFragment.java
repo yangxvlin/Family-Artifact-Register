@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager.ViewMyArtifact;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +19,10 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyArtifactItemsViewModel;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.ArtifactItemHeaderViewBinder;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.ArtifactItemViewBinder;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.StickyArtifactItemHeader;
-import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.StickyArtifactItemItem;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem.ArtifactItemHeaderViewBinder;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem.ArtifactItemViewBinder;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem.StickyArtifactItemHeader;
+import com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem.StickyArtifactItemItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,11 +32,11 @@ import java.util.List;
 import tellh.com.stickyheaderview_rv.adapter.DataBean;
 import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
 
-public class MyArtifactItemsFragment extends Fragment implements IFragment {
+public class ViewMyArtifactItemsFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
-    public static final String TAG = MyArtifactItemsFragment.class.getSimpleName();
+    public static final String TAG = ViewMyArtifactItemsFragment.class.getSimpleName();
 
     // *********************************** recycler view *****************************************
     /**
@@ -50,7 +50,7 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
 
     private MyArtifactItemsViewModel viewModel;
 
-    public MyArtifactItemsFragment() {
+    public ViewMyArtifactItemsFragment() {
         // Required empty public constructor
     }
 
@@ -148,7 +148,7 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
     }
 
     /**
-     * @return created MyArtifactItemsFragment
+     * @return created ViewMyArtifactItemsFragment
      */
-    public static MyArtifactItemsFragment newInstance() { return new MyArtifactItemsFragment(); }
+    public static ViewMyArtifactItemsFragment newInstance() { return new ViewMyArtifactItemsFragment(); }
 }

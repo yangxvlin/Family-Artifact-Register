@@ -13,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactManager.ViewMyArtifact.ViewMyArtifactItemsFragment;
+import com.example.family_artifact_register.UI.ArtifactManager.ViewMyArtifact.ViewMyArtifactTimelinesFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -20,17 +22,18 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 14:15:48
- * @description fragment for user to manage own artifacts
+ * @description fragment for user to manage own artifact items and artifact timelines
  */
-//public class MeFragment extends Fragment implements MeFragmentPresenter.IView, View.OnClickListener {
 public class MeFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = MeFragment.class.getSimpleName();
 
+    /**
+     * Required empty public constructor
+     */
     public MeFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -44,16 +47,10 @@ public class MeFragment extends Fragment implements IFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        getChildFragmentManager().beginTransaction().add(R.id.frame1111, MyArtifactItemsFragment.newInstance()).commit();
-
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
-//                .add(R.string.title, PageFragment.class)
-//                .add(R.string.title, WithArgumentsPageFragment.class, new Bundler().putString("key", "value").get()),
-//                 .add("title", PageFragment.class)
-                .add(getString(R.string.my_artifact_items_title), MyArtifactItemsFragment.class)
-                .add(getString(R.string.my_artifact_timelines_title), MyArtifactTimelinesFragment.class)
-                // .add(getString(R.string.me_my_title), MyEventFragment.class)
+                .add(getString(R.string.my_artifact_items_title), ViewMyArtifactItemsFragment.class)
+                .add(getString(R.string.my_artifact_timelines_title), ViewMyArtifactTimelinesFragment.class)
                 .create());
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_me_view_pager);

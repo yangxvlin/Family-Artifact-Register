@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.family_artifact_register.UI.ArtifactManager.BaseCancelToolBarActivity;
+import com.example.family_artifact_register.UI.Util.BaseActivityUtil.BaseCancelToolBarActivity;
 import com.example.family_artifact_register.UI.ArtifactManager.HappenedActivity;
 import com.example.family_artifact_register.UI.Util.UploadArtifactAdapter;
 import com.example.family_artifact_register.R;
@@ -44,8 +44,8 @@ import java.util.Date;
 import java.util.Objects;
 
 import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
-import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
-import static com.example.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
+import static com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem.UploadingArtifactConstant.ARTIFACT_DESCRIPTION;
+import static com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem.UploadingArtifactConstant.ARTIFACT_IMAGES;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.getCompressImageOption;
 
 /**

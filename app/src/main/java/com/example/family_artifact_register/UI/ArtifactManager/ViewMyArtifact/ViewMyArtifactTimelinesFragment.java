@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager;
+package com.example.family_artifact_register.UI.ArtifactManager.ViewMyArtifact;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +13,13 @@ import androidx.fragment.app.Fragment;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
 
-public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
+public class ViewMyArtifactTimelinesFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
-    public static final String TAG = MyArtifactTimelinesFragment.class.getSimpleName();
+    public static final String TAG = ViewMyArtifactTimelinesFragment.class.getSimpleName();
 
-    public MyArtifactTimelinesFragment() {
+    public ViewMyArtifactTimelinesFragment() {
         // Required empty public constructor
     }
 
@@ -36,7 +36,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
     }
 
     /**
-     * @return created MyArtifactTimelinesFragment
+     * @return created ViewMyArtifactTimelinesFragment
      */
-    public static MyArtifactTimelinesFragment newInstance() { return new MyArtifactTimelinesFragment(); }
+    public static ViewMyArtifactTimelinesFragment newInstance() { return new ViewMyArtifactTimelinesFragment(); }
 }

@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

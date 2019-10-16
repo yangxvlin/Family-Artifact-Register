@@ -1,4 +1,4 @@
-package com.example.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.example.family_artifact_register.UI.ArtifactManager.NewArtifactItem;
 
 import android.view.View;
 import android.widget.TextView;

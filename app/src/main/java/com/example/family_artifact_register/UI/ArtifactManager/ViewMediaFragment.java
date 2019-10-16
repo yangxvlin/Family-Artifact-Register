@@ -33,6 +33,8 @@ import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TY
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
 /**
+ * Deprecated
+ *
  * 1. display two media source: Image and Video both passed in through
  * List<String> by Key: MEDIA_URL_LIST and
  * media type is passed through int by key: MEDIA_TYPE. value detail see {@link MediaProcessHelper}
@@ -40,6 +42,7 @@ import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TY
  *
  * 2. set media layout param by call setSingleMediaHeight() and setSingleMediaWidth()
  */
+@Deprecated
 public class ViewMediaFragment extends Fragment implements IFragment {
     /**
      * class tag
