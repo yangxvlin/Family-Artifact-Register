@@ -378,7 +378,7 @@ public class ArtifactManager {
      */
     public void addComment(String artifactId, String senderId, String content) {
         // Create new comment
-        ArtifactComment comment = ArtifactComment.newInstance(senderId, content);
+        ArtifactComment comment = ArtifactComment.newInstance(senderId, senderId, content);
 
         // Get the artifact
         mArtifactItemCollection
@@ -521,5 +521,32 @@ public class ArtifactManager {
                         DefaultListeners.getInstance().getOnFailureListener(TAG))
                 .addOnCanceledListener(
                         DefaultListeners.getInstance().getOnCanceledListener(TAG));
+    }
+
+
+    public LiveData<List<ArtifactComment>> listenCommentByArtifact(String artifactItemId, String listenerIdentifier) {
+        MutableLiveData<List<ArtifactComment>> mutableLiveData = new MutableLiveData<>();
+        ListenerRegistration listenerRegistration = mArtifactCommentCollection
+                .whereEqualTo("artifactItemId", artifactItemId)
+                .addSnapshotListener(
+                        (queryDocumentSnapshots, e) -> {
+                            if (e == null && queryDocumentSnapshots != null) {
+                                List<ArtifactComment> commentList = new ArrayList<>();
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    // Query is not empty, update value
+                                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                                        if (documentSnapshot.exists()) {
+                                            commentList.add(documentSnapshot.toObject(ArtifactComment.class));
+                                        }
+                                    }
+                                }
+                                mutableLiveData.setValue(commentList);
+                            } else {
+                                Log.w(TAG, "DB query result in error: " + e);
+                            }
+                        }
+                );
+        mListenerRegistrationMap.put(listenerIdentifier, listenerRegistration);
+        return mutableLiveData;
     }
 }
