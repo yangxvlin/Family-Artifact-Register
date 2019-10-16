@@ -126,4 +126,16 @@
     <string name="unimelb_name">墨尔本大学</string>
     <string name="unimelb_description">成立于 1853 年的公共教学和研究机构，设有多个校区和研究生院。</string>
 
+    <string name="happened_time_not_chosen_warning">请选择时间继续</string>
+    <string name="artifact_items_map_happened_title">所有文物发生的地点</string>
+    <string name="artifact_items_map_stored_title">所有文物储存的地点</string>
+    <string name="create_at">创建于： </string>
+    <string name="description">描述： </string>
+    <string name="locate_at">位于： </string>
+    <string name="artifact_item_detail">详情</string>
+    <string name="artifact_timeline">时间线</string>
+    <string name="happen_at">发生于： </string>
+
+
+
 </resources>

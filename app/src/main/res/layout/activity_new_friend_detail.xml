@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="170dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar_new"
             android:contentDescription="avatar"
             android:layout_width="110dp"

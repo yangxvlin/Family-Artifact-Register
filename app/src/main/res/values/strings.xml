@@ -120,6 +120,7 @@
     <string name="attend_dialog_content">Are you sure you want to attend this event?</string>
     <string name="cancel_dialog_content">Are you sure you want to cancel this event?</string>
 
+
     <string name="happened_time_not_choosen_warning">Please choose the time to continue</string>
     <string name="melbourne_museum_address">11 Nicholson St, Carlton VIC 3053</string>
     <string name="melbourne_museum">Melbourne Museum</string>
@@ -136,6 +137,17 @@
     <string name="unimelb_address">Parkville VIC 3010</string>
     <string name="unimelb_name">University of Melbourne</string>
     <string name="unimelb_description">Founded in 1853, it has many campuses and graduate schools.</string>
+
+    <string name="happened_time_not_chosen_warning">Please choose the time to continue</string>
+    <string name="artifact_items_map_happened_title">All Items Happened Location</string>
+    <string name="artifact_items_map_stored_title">All Items Stored Location</string>
+    <string name="create_at">Create at: </string>
+    <string name="description">Description: </string>
+    <string name="locate_at">Locate at:</string>
+    <string name="artifact_item_detail">Detail</string>
+    <string name="artifact_timeline">Timeline</string>
+    <string name="happen_at">Happened At: </string>
+
 
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
