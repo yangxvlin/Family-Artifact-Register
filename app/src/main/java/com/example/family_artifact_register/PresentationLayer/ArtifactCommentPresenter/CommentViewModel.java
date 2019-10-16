@@ -13,6 +13,7 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class CommentViewModel extends AndroidViewModel {
 
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
+    private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private String PostID;
 
