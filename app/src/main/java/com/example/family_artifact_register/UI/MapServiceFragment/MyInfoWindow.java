@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.UI.MapServiceFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.button.MaterialButton;
+
+import static com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity.ARTIFACT_ITEM_ID_KEY;
+import static com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 
 public class MyInfoWindow extends Fragment implements IFragment {
 
@@ -65,10 +71,16 @@ public class MyInfoWindow extends Fragment implements IFragment {
         MaterialButton timeline = view.findViewById(R.id.timeline_button);
         timeline.setOnClickListener(view1 -> {
             System.out.println("clicked timeline !!!" + timelineId);
+            Intent intent = new Intent(getContext(), TimelineActivity.class);
+            intent.putExtra(TIMELINE_ID_KEY, timelineId);
+            startActivity(intent);
         });
         MaterialButton detail = view.findViewById(R.id.detail_button);
         detail.setOnClickListener(view1 -> {
             System.out.println("clicked detail !!!" + artifactItemId);
+            Intent intent = new Intent(getContext(), ArtifactDetailActivity.class);
+            intent.putExtra(ARTIFACT_ITEM_ID_KEY, artifactItemId);
+            startActivity(intent);
         });
     }
 }
