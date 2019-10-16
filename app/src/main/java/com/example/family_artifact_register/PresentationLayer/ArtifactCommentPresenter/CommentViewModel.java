@@ -67,9 +67,25 @@ public class CommentViewModel extends AndroidViewModel {
                         public void onChanged(UserInfo userInfo) {
                             Log.d(TAG, "retrieved comment data about user with uid " + userInfo.getUid());
                             UserInfoWrapper senderInfo = new UserInfoWrapper(userInfo);
-                            CommentWrapper wrapper = new CommentWrapper(artifactComment, senderInfo);
-                            wrappers.add(wrapper);
-                            comments.postValue(wrappers);
+                            String url = senderInfo.getPhotoUrl();
+                            if(url == null) {
+                                senderInfo.setPhotoUrl(null);
+                                CommentWrapper wrapper = new CommentWrapper(artifactComment, senderInfo);
+                                wrappers.add(wrapper);
+                                comments.postValue(wrappers);
+                            }
+                            else {
+                                fSHelper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
+                                    @Override
+                                    public void onChanged(Uri uri) {
+                                        Log.d(TAG, "photo uri come back from DB: " + uri.toString());
+                                        senderInfo.setPhotoUrl(uri.toString());
+                                        CommentWrapper wrapper = new CommentWrapper(artifactComment, senderInfo);
+                                        wrappers.add(wrapper);
+                                        comments.postValue(wrappers);
+                                    }
+                                });
+                            }
                         }
                     });
 
