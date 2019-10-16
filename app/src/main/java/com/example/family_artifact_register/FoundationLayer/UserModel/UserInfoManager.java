@@ -344,6 +344,24 @@ public class UserInfoManager {
     }
 
     /**
+     * Send an invitation from Current User to the other User
+     *
+     * @param otherUid The other userId to send invitation to
+     *
+     */
+    public void sendFriendInvitation(String otherUid) {
+    }
+
+    /**
+     * Accept an invitation from Current User to the other User
+     *
+     * @param otherUid The other userId to send invitation to
+     *
+     */
+    public void acceptFriendInvitation(String otherUid) {
+    }
+
+    /**
      * Search user by a specific query word.
      * @param query displayName / email / phone number / uid to search for
      * @return List of LiveData of UserInfo that matched the query
