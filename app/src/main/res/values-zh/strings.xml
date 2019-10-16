@@ -109,7 +109,15 @@
     <string name="attend_dialog_content">您确定要参加这个活动吗？</string>
     <string name="cancel_dialog_content">您确定要取消参加这个活动吗？</string>
 
-    <string name="happened_time_not_choosen_warning">请选择时间继续</string>
+    <string name="happened_time_not_chosen_warning">请选择时间继续</string>
+    <string name="artifact_items_map_happened_title">所有文物发生的地点</string>
+    <string name="artifact_items_map_stored_title">所有文物储存的地点</string>
+    <string name="create_at">创建于： </string>
+    <string name="description">描述： </string>
+    <string name="locate_at">位于： </string>
+    <string name="artifact_item_detail">详情</string>
+    <string name="artifact_timeline">时间线</string>
+    <string name="happen_at">发生于： </string>
 
 
 </resources>

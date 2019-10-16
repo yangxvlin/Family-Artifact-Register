@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeWidth="0dp"
-                    android:text="Detail"
+                    android:text="@string/artifact_item_detail"
                     android:layout_toLeftOf="@+id/item_my_artifact_more_button"
                 />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeWidth="0dp"
-                    android:text="Timeline"
+                    android:text="@string/artifact_timeline"
                     android:layout_alignParentRight="true"
                 />
                 </RelativeLayout>
