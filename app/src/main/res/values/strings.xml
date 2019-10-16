@@ -121,6 +121,21 @@
     <string name="cancel_dialog_content">Are you sure you want to cancel this event?</string>
 
     <string name="happened_time_not_choosen_warning">Please choose the time to continue</string>
+    <string name="melbourne_museum_address">11 Nicholson St, Carlton VIC 3053</string>
+    <string name="melbourne_museum">Melbourne Museum</string>
+    <string name="melbourne_museum_description">A modern building founded in 1854 by public institutions, exhibiting dinosaurs and regional historical artifacts.</string>
+    <string name="seven_seeds_address">114 Berkeley St, Carlton VIC 3053</string>
+    <string name="seven_seeds_name">Seven Seeds Coffee Roasters</string>
+    <string name="seven_seeds_description">The airy, industrial-style elegant cafe is also a mini-coffee bakery that serves brunch, salads and specialty teas throughout the day.</string>
+    <string name="uyuni_address">Near the town of Uyuni, southwest of Bolivia</string>
+    <string name="uyuni_name">Uyuni Salt Flats</string>
+    <string name="uyuni_description">This is the largest salt marsh in the world. After the rain, the lake will become like a mirror, reflecting the seemingly suffocating sky of the earth, which many people call it the \'land of the sky\'.</string>
+    <string name="oko_oko_address">644A Swanston St, Carlton VIC 3053</string>
+    <string name="oko_oko_name">Oko Oko</string>
+    <string name="oko_oko_description">Established in 2013, Oko Oko has been known by locals to make delicious and healthy Japanese style Oko pancakes, donburi rice dishes and seasonal ramen and udon noodles.</string>
+    <string name="unimelb_address">Parkville VIC 3010</string>
+    <string name="unimelb_name">University of Melbourne</string>
+    <string name="unimelb_description">Founded in 1853, it has many campuses and graduate schools.</string>
 
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
