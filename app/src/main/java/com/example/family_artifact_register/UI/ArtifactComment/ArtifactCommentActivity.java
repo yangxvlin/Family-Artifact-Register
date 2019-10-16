@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentWrapper;
@@ -77,6 +78,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
                 Log.d(TAG, "Some changes happen");
+                avatar.setImageURI(viewModel.getCurrentUserAvatar());
             }
         });
 

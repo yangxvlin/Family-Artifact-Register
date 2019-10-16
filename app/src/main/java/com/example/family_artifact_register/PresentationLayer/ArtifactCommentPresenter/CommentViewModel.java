@@ -90,4 +90,7 @@ public class CommentViewModel extends AndroidViewModel {
     public LiveData<ArtifactItem> getArtifactItem(String id) {
         return artifactManager.getArtifactItemByPostId(id);
     }
+    public Uri getCurrentUserAvatar() {
+        return Uri.parse(userInfoManager.getCurrentUserInfo().getPhotoUrl());
+    }
 }
