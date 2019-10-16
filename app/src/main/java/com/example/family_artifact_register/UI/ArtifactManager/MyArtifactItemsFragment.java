@@ -142,6 +142,7 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
                 adapter = new StickyHeaderViewAdapter(artifactItemList)
                         .RegisterItemType(new ArtifactItemViewBinder())
                         .RegisterItemType(new ArtifactItemHeaderViewBinder());
+                mRecyclerView.removeAllViews();
                 mRecyclerView.setAdapter(adapter);
             }
         });
