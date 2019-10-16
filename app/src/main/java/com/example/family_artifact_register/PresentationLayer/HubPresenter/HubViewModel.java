@@ -19,6 +19,7 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.example.family_artifact_register.UI.ArtifactHub.ArtifactPostWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,10 @@ public class HubViewModel extends AndroidViewModel {
     private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
     private MutableLiveData<List<ArtifactItem>> artifactList;
-    private MutableLiveData<List<ArtifactItemWrapper>> artifactWrapperList = new MutableLiveData<>();
+    private MutableLiveData<List<ArtifactPostWrapper>> artifactWrapperList = new MutableLiveData<>();
 
     private List<ArtifactItem> latestArtifactList = new ArrayList<>();
-    private MutableLiveData<List<ArtifactItemWrapper>> latestArtifactWrapperList = new MutableLiveData<>();
+    private MutableLiveData<List<ArtifactPostWrapper>> latestArtifactWrapperList = new MutableLiveData<>();
 
     private List<String> latestPostList = new ArrayList<>();
 
@@ -56,7 +57,7 @@ public class HubViewModel extends AndroidViewModel {
             public void onChanged(UserInfo me) {
                 Log.d(TAG, "retrieved latest data about current user");
                 friendUids = new ArrayList<>(me.getFriendUids().keySet());
-                ArrayList<ArtifactItemWrapper> wrappers = new ArrayList<>();
+                ArrayList<ArtifactPostWrapper> postWrappers = new ArrayList<>();
                 List<LiveData<UserInfo>> friendList = userInfoManager.listenUserInfo(friendUids);
 
                 friends.setValue(new ArrayList<>());
@@ -69,23 +70,23 @@ public class HubViewModel extends AndroidViewModel {
                             Log.d(TAG, "retrieved data about user with uid: " + userInfo.getUid());
 
                             // processing this user's info
-                            UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                            UserInfoWrapper userWrapper = new UserInfoWrapper(userInfo);
 //                            friends.getValue().add(wrapper);
 //                            friends.setValue(friends.getValue());
-                            String url = wrapper.getPhotoUrl();
+                            String url = userWrapper.getPhotoUrl();
                             if(url == null) {
-                                wrapper.setPhotoUrl(null);
-                                friends.getValue().add(wrapper);
+                                userWrapper.setPhotoUrl(null);
+                                friends.getValue().add(userWrapper);
                                 friends.setValue(friends.getValue());
-                                getFriendArtifactItem(userInfo, wrappers);
+                                getFriendArtifactItem(userWrapper, postWrappers);
                             }
                             else {
                                 fSHelper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
-                                        wrapper.setPhotoUrl(uri.toString());
+                                        userWrapper.setPhotoUrl(uri.toString());
 //                                        friends.setValue(friends.getValue());
-                                        getFriendArtifactItem(userInfo, wrappers);
+                                        getFriendArtifactItem(userWrapper, postWrappers);
                                     }
                                 });
                             }
@@ -124,7 +125,7 @@ public class HubViewModel extends AndroidViewModel {
         getPostsChange();
     }
 
-    private void getFriendArtifactItem(UserInfo userInfo, List<ArtifactItemWrapper> wrappers) {
+    private void getFriendArtifactItem(UserInfoWrapper userInfo, List<ArtifactPostWrapper> wrappers) {
         // now processing this user's artifact info
         artifactManager.listenArtifactItemByUid(userInfo.getUid(), "HubViewModel1").observeForever(new Observer<List<ArtifactItem>>() {
             @Override
@@ -132,7 +133,7 @@ public class HubViewModel extends AndroidViewModel {
                 Log.d(TAG, "retrieved artifact item data about user with uid: " + userInfo.getUid());
                 latestArtifactWrapperList.setValue(wrappers);
                 for(ArtifactItem artifactItem: artifactItems) {
-                    ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
+                    ArtifactPostWrapper wrapper = new ArtifactPostWrapper(new ArtifactItemWrapper(artifactItem), userInfo);
 //                    wrappers.add(wrapper);
 //                    latestArtifactWrapperList.postValue(wrappers);
                     List<String> urls = artifactItem.getMediaDataUrls();
@@ -140,7 +141,7 @@ public class HubViewModel extends AndroidViewModel {
                         fSHelper.loadByRemoteUri(urls).observeForever(new Observer<List<Uri>>() {
                             @Override
                             public void onChanged(List<Uri> uris) {
-                                wrapper.setLocalMediaDataUrls(
+                                wrapper.getArtifactItemWrapper().setLocalMediaDataUrls(
                                         uris.stream()
                                                 .map(Objects::toString)
                                                 .collect(Collectors.toList()));
@@ -190,7 +191,7 @@ public class HubViewModel extends AndroidViewModel {
 //        });
     }
 
-    public LiveData<List<ArtifactItemWrapper>> getPosts() {
+    public LiveData<List<ArtifactPostWrapper>> getPosts() {
         return artifactWrapperList;
     }
 
