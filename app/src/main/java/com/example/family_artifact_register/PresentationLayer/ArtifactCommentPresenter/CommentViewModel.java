@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.bumptech.glide.load.model.UrlUriLoader;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
@@ -14,6 +15,7 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem.TAG;
 
@@ -30,7 +32,7 @@ public class CommentViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<ArtifactComment>> getComments(String id) {
-        return null;
+        return artifactManager.listenCommentByArtifact(id, UUID.randomUUID().toString());
     }
 
     public LiveData<ArtifactItem> getArtifactItem(String id) {

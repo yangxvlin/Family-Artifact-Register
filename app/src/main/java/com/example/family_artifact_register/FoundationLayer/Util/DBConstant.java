@@ -7,6 +7,7 @@ public class DBConstant {
     public final static String ARTIFACT = "artifact";
     public final static String ARTIFACT_ITEM = ARTIFACT+"_item";
     public final static String ARTIFACT_TIMELINE = ARTIFACT+"_timeline";
+    public final static String ARTIFACT_COMMENT = ARTIFACT+"_comment";
 
     // Firebase Storage
     public final static String USER_INFO_PHOTO_URL = USER_INFO+"/photo_url";

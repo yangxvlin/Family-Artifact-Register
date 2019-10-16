@@ -3,24 +3,21 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.DefaultListeners;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
@@ -57,6 +54,11 @@ public class ArtifactManager {
     private CollectionReference mArtifactTimelineCollection;
 
     /**
+     * The database reference used for artifact comments.
+     */
+    private CollectionReference mArtifactCommentCollection;
+
+    /**
      * Active listeners used (this should be cleared if not used)
      */
     private Map<String, ListenerRegistration> mListenerRegistrationMap;
@@ -71,6 +73,10 @@ public class ArtifactManager {
         mArtifactTimelineCollection = FirebaseFirestore
                 .getInstance()
                 .collection(DBConstant.ARTIFACT_TIMELINE);
+
+        mArtifactCommentCollection = FirebaseFirestore
+                .getInstance()
+                .collection(DBConstant.ARTIFACT_COMMENT);
 
         mListenerRegistrationMap = new HashMap<>();
         userInfoManager = UserInfoManager.getInstance();
@@ -361,5 +367,186 @@ public class ArtifactManager {
         item.setArtifactTimelineId(timeline.getPostId());
         storeArtifact(timeline);
         storeArtifact(item);
+    }
+
+    /**
+     * Create and store a comment of user to a given artifact
+     *
+     * @param artifactId the artifact to add to
+     * @param senderId   the sender who sent it
+     * @param content    the content of the comment
+     */
+    public void addComment(String artifactId, String senderId, String content) {
+        // Create new comment
+        ArtifactComment comment = ArtifactComment.newInstance(senderId, senderId, content);
+
+        // Get the artifact
+        mArtifactItemCollection
+                .document(artifactId)
+                .get().addOnSuccessListener(DefaultListeners.getInstance()
+                .getOnSuccessListener(TAG))
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+                            if (documentSnapshot.exists() && documentSnapshot
+                                    .toObject(ArtifactItem.class) != null) {
+                                ArtifactItem artifactItem = documentSnapshot
+                                        .toObject(ArtifactItem.class);
+                                String commentId = comment.getPostId();
+                                artifactItem.addArtifactCommentIds(commentId);
+                                // Store comment, if successful, save to artifact
+                                mArtifactCommentCollection.document(commentId)
+                                        .set(comment)
+                                        .addOnSuccessListener(
+                                                aVoid -> {
+                                                    mArtifactItemCollection.document(
+                                                            artifactId
+                                                    ).update("artifactCommentIds",
+                                                            artifactItem.getArtifactCommentIds())
+                                                            .addOnSuccessListener(DefaultListeners
+                                                                    .getInstance()
+                                                                    .getOnSuccessListener(TAG))
+                                                            .addOnCanceledListener(
+                                                                    DefaultListeners.getInstance()
+                                                                            .getOnCanceledListener(TAG)
+                                                            ).addOnFailureListener(
+                                                            DefaultListeners.getInstance()
+                                                                    .getOnFailureListener(TAG)
+                                                    );
+                                                    ;
+                                                }
+                                        ).addOnCanceledListener(
+                                        DefaultListeners.getInstance()
+                                                .getOnCanceledListener(TAG)
+                                ).addOnFailureListener(
+                                        DefaultListeners.getInstance()
+                                                .getOnFailureListener(TAG)
+                                );
+
+                            } else {
+                                Log.w(TAG, "Adding comment failed to get artifact " +
+                                        "with id: " + artifactId);
+                            }
+                        })
+                .addOnFailureListener(
+                        DefaultListeners.getInstance().getOnFailureListener(TAG))
+                .addOnCanceledListener(
+                        DefaultListeners.getInstance().getOnCanceledListener(TAG));
+    }
+
+    /**
+     * Create add a new like to existing artifact
+     *
+     * @param artifactId the artifact to add to
+     * @param uid        the user who sent liked
+     */
+    public void addLike(String artifactId, String uid) {
+        // Get the artifact
+        mArtifactItemCollection
+                .document(artifactId)
+                .get().addOnSuccessListener(DefaultListeners.getInstance()
+                .getOnSuccessListener(TAG))
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+                            if (documentSnapshot.exists() && documentSnapshot
+                                    .toObject(ArtifactItem.class) != null) {
+                                ArtifactItem artifactItem = documentSnapshot
+                                        .toObject(ArtifactItem.class);
+                                artifactItem.addLike(uid);
+                                // Store likes, if successful, save to artifact
+                                mArtifactItemCollection.document(
+                                        artifactId
+                                ).update("likes",
+                                        artifactItem.getlikes())
+                                        .addOnSuccessListener(DefaultListeners
+                                                .getInstance()
+                                                .getOnSuccessListener(TAG))
+                                        .addOnCanceledListener(
+                                                DefaultListeners.getInstance()
+                                                        .getOnCanceledListener(TAG)
+                                        ).addOnFailureListener(
+                                        DefaultListeners.getInstance()
+                                                .getOnFailureListener(TAG)
+                                );
+                            } else {
+                                Log.w(TAG, "Adding likes failed to get artifact " +
+                                        "with artifact id: " + artifactId + ", uid: " + uid);
+                            }
+                        })
+                .addOnFailureListener(
+                        DefaultListeners.getInstance().getOnFailureListener(TAG))
+                .addOnCanceledListener(
+                        DefaultListeners.getInstance().getOnCanceledListener(TAG));
+    }
+
+    /**
+     * Create remove a new like to existing artifact
+     *
+     * @param artifactId the artifact to remove to
+     * @param uid        the user who sent liked
+     */
+    public void removeLike(String artifactId, String uid) {
+        // Get the artifact
+        mArtifactItemCollection
+                .document(artifactId)
+                .get().addOnSuccessListener(DefaultListeners.getInstance()
+                .getOnSuccessListener(TAG))
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+                            if (documentSnapshot.exists() && documentSnapshot
+                                    .toObject(ArtifactItem.class) != null) {
+                                ArtifactItem artifactItem = documentSnapshot
+                                        .toObject(ArtifactItem.class);
+                                artifactItem.removeLike(uid);
+                                // Store likes, if successful, save to artifact
+                                mArtifactItemCollection.document(
+                                        artifactId
+                                ).update("likes",
+                                        artifactItem.getlikes())
+                                        .addOnSuccessListener(DefaultListeners
+                                                .getInstance()
+                                                .getOnSuccessListener(TAG))
+                                        .addOnCanceledListener(
+                                                DefaultListeners.getInstance()
+                                                        .getOnCanceledListener(TAG)
+                                        ).addOnFailureListener(
+                                        DefaultListeners.getInstance()
+                                                .getOnFailureListener(TAG)
+                                );
+                            } else {
+                                Log.w(TAG, "Removing likes failed to get artifact " +
+                                        "with artifact id: " + artifactId + ", uid: " + uid);
+                            }
+                        })
+                .addOnFailureListener(
+                        DefaultListeners.getInstance().getOnFailureListener(TAG))
+                .addOnCanceledListener(
+                        DefaultListeners.getInstance().getOnCanceledListener(TAG));
+    }
+
+
+    public LiveData<List<ArtifactComment>> listenCommentByArtifact(String artifactItemId, String listenerIdentifier) {
+        MutableLiveData<List<ArtifactComment>> mutableLiveData = new MutableLiveData<>();
+        ListenerRegistration listenerRegistration = mArtifactCommentCollection
+                .whereEqualTo("artifactItemId", artifactItemId)
+                .addSnapshotListener(
+                        (queryDocumentSnapshots, e) -> {
+                            if (e == null && queryDocumentSnapshots != null) {
+                                List<ArtifactComment> commentList = new ArrayList<>();
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    // Query is not empty, update value
+                                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                                        if (documentSnapshot.exists()) {
+                                            commentList.add(documentSnapshot.toObject(ArtifactComment.class));
+                                        }
+                                    }
+                                }
+                                mutableLiveData.setValue(commentList);
+                            } else {
+                                Log.w(TAG, "DB query result in error: " + e);
+                            }
+                        }
+                );
+        mListenerRegistrationMap.put(listenerIdentifier, listenerRegistration);
+        return mutableLiveData;
     }
 }
