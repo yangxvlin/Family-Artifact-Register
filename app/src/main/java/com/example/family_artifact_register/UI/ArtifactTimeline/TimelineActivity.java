@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -126,7 +127,12 @@ public class TimelineActivity extends AppCompatActivity {
                 this.description = itemView.findViewById(R.id.item_description);
                 this.frame = itemView.findViewById(R.id.timeline_frame);
                 this.timelineView = itemView.findViewById(R.id.timeline2);
-                timelineView.initLine(viewType);
+                if(viewType == 2) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineView.getLayoutParams();
+                    params.height = 1290;
+                    timelineView.setLayoutParams(params);
+                }
+                timelineView.initLine(0);
             }
 
             public void clearFrame() {
@@ -140,7 +146,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         private long maxInterval, minInterval;
 
-        private final int maxGap = 1000;
+        private final int maxGap = 1500;
         private final int minGap = 500;
         private Context context;
 
