@@ -76,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                 >
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/item_my_artifact_timeline_button"
                     android:layout_width="wrap_content"
@@ -85,7 +86,6 @@
                     android:text="@string/artifact_item_detail"
                     android:layout_toLeftOf="@+id/item_my_artifact_more_button"
                 />
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/item_my_artifact_more_button"
                     android:layout_width="wrap_content"
@@ -95,6 +95,7 @@
                     android:text="@string/artifact_timeline"
                     android:layout_alignParentRight="true"
                 />
+
                 </RelativeLayout>
 
 

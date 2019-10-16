@@ -71,7 +71,7 @@ public class LiveDataListDispatchHelper<T> {
     private void dispatch() {
         Log.d(TAG, "dispatched " + dispatched + ", dispatching ");
         if (!dispatched) {
-            mutableLiveData.setValue(searchResults);
+            mutableLiveData.postValue(searchResults);
             dispatched = true;
         }
     }
