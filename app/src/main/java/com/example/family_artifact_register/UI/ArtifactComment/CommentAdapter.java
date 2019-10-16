@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.R;
 import com.github.vipulasri.timelineview.TimelineView;
@@ -36,6 +37,9 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         ArtifactComment artifactComment = artifactComments.get(position);
+        holder.username.setText(artifactComment.getUid());
+        holder.comment.setText(artifactComment.getContent());
+        holder.time.setText(artifactComment.getLastUpdateDateTime());
     }
 
     @Override
