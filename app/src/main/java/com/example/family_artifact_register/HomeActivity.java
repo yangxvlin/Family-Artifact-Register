@@ -73,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
      */
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
 
+    private float defaultActionBarElevation;
+
     /**
      * bottom navigation item click listener to switch between fragments
      */
@@ -81,26 +83,31 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.item_hub:
                         setTitle(R.string.artifact_hub);
+                        getSupportActionBar().setElevation(defaultActionBarElevation);
                         fm.beginTransaction().hide(active).show(hubFragment).commit();
                         active = hubFragment;
                         return true;
                     case R.id.item_contacts:
                         setTitle(R.string.bottom_bar_contacts);
+                        getSupportActionBar().setElevation(defaultActionBarElevation);
                         fm.beginTransaction().hide(active).show(contactFragment).commit();
                         active = contactFragment;
                         return true;
                     case R.id.item_map:
                         setTitle(R.string.artifact_map);
+                        getSupportActionBar().setElevation(0);
                         fm.beginTransaction().hide(active).show(mapFragment).commit();
                         active = mapFragment;
                         return true;
                     case R.id.item_me:
                         setTitle(R.string.bottom_bar_profile);
+                        getSupportActionBar().setElevation(0);
                         fm.beginTransaction().hide(active).show(meFragment).commit();
                         active = meFragment;
                         return true;
                     case R.id.item_event:
                         setTitle(R.string.artifact_event);
+                        getSupportActionBar().setElevation(0);
                         fm.beginTransaction().hide(active).show(eventFragment).commit();
                         active = eventFragment;
                         return true;
@@ -115,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         getSupportActionBar().setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
+        defaultActionBarElevation = getSupportActionBar().getElevation();
 
         // setup bottom navigation bar
         navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
