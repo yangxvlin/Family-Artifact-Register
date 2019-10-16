@@ -99,8 +99,10 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 super(itemView);
                 cardView = itemView.findViewById(R.id.cardview);
                 title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
+                title.setSelected(true);
                 uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
                 duration = itemView.findViewById(R.id.my_timeline_recyclerview_item_duration);
+                duration.setSelected(true);
                 image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
                 image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
                 image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
@@ -142,6 +144,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             // number of images that has been set
             int imagesCount = 0;
             holder.itemID = dataSet.get(position).getPostID();
+            holder.title.setSelected(true);
             holder.title.setText(dataSet.get(position).getTitle());
             holder.uploadtime.setText(dataSet.get(position).getUploadDateTime());
             List<ArtifactItemWrapper> items = dataSet.get(position).getArtifacts();
@@ -153,8 +156,8 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 String newestTime = items.get(items.size() - 1).getHappenedDateTime().substring(0, 7);
                 timelineDuration = oldestTime + " -- " + newestTime;
             }
+            holder.duration.setSelected(true);
             holder.duration.setText(timelineDuration);
-
             for(ArtifactItemWrapper item: dataSet.get(position).getArtifacts()) {
                 // all views have been set
                 if(imagesCount == 3) {
