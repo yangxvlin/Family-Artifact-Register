@@ -6,34 +6,23 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
-import com.example.family_artifact_register.IFragment;
-import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailFragmentPresenter;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
-import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModel;
-import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModelFactory;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +51,14 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private FrameLayout postImage;
 
+    public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_detail);
         Intent intent = getIntent();
-        PostID = intent.getStringExtra("artifactItemPostId");
+        PostID = intent.getStringExtra(ARTIFACT_ITEM_ID_KEY);
 
 
         detailImageAdapter = new DetailImageAdapter(this);
