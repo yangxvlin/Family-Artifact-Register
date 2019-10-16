@@ -81,7 +81,7 @@ public class CommentViewModel extends AndroidViewModel {
                                 userWrapper.setPhotoUrl(null);
                                 friends.getValue().add(userWrapper);
                                 friends.setValue(friends.getValue());
-                                getComments(userWrapper, commentWrappers);
+                                getComment(userWrapper, commentWrappers);
                             }
                             else {
                                 fSHelper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
@@ -89,7 +89,7 @@ public class CommentViewModel extends AndroidViewModel {
                                     public void onChanged(Uri uri) {
                                         userWrapper.setPhotoUrl(uri.toString());
 //                                        friends.setValue(friends.getValue());
-                                        getComments(userWrapper, commentWrappers);
+                                        getComment(userWrapper, commentWrappers);
                                     }
                                 });
                             }
@@ -100,7 +100,7 @@ public class CommentViewModel extends AndroidViewModel {
         });
     }
 
-    public void getComments(UserInfoWrapper userInfo, List<CommentWrapper> wrappers) {
+    public void getComment(UserInfoWrapper userInfo, List<CommentWrapper> wrappers) {
         // now processing this user's artifact info
         artifactManager.listenCommentByArtifact(PostID, "CommentViewModel1").observeForever(new Observer<List<ArtifactComment>>() {
             @Override
@@ -114,6 +114,10 @@ public class CommentViewModel extends AndroidViewModel {
                 }
             }
         });
+    }
+
+    public LiveData<List<CommentWrapper>> getComments() {
+        return comments;
     }
 
 
