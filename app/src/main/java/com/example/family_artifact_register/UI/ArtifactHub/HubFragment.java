@@ -318,10 +318,10 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
-        viewModel.getPosts().observe(this, new Observer<List<ArtifactItemWrapper>>() {
+        viewModel.getPosts().observe(this, new Observer<List<ArtifactPostWrapper>>() {
             @Override
-            public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
-                hubModelAdapter.setData(artifactItemWrappers);
+            public void onChanged(List<ArtifactPostWrapper> artifactPostWrappers) {
+                hubModelAdapter.setData(artifactPostWrappers);
             }
         });
 
