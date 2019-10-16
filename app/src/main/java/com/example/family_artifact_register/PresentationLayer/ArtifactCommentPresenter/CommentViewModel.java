@@ -35,6 +35,10 @@ public class CommentViewModel extends AndroidViewModel {
         return artifactManager.listenCommentByArtifact(id, UUID.randomUUID().toString());
     }
 
+    public void addComment(String comment) {
+        artifactManager.addComment(PostID, userInfoManager.getCurrentUid(), comment);
+    }
+
     public LiveData<ArtifactItem> getArtifactItem(String id) {
         return artifactManager.getArtifactItemByPostId(id);
     }

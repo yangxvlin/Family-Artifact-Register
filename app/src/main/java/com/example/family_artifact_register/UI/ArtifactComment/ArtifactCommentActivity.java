@@ -13,8 +13,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
@@ -80,6 +82,20 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
+
+        // TODO what happens when back arrow is clicked (who is the parent)
+
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (comment.getText().toString().equals("")) {
+                    Toast.makeText(ArtifactCommentActivity.this,
+                            "Don't send empty comments", Toast.LENGTH_SHORT).show();
+                } else {
+                    viewModel.addComment(comment.getText().toString());
+                }
+            }
+        });
     }
 
 
