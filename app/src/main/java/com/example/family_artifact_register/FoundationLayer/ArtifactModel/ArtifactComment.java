@@ -42,11 +42,7 @@ public class ArtifactComment extends Artifact {
     }
 
     public String getArtifactItemId() {
-        return content;
-    }
-
-    public void setArtifactItemId(String content) {
-        this.content = content;
+        return artifactItemId;
     }
 
     /**
