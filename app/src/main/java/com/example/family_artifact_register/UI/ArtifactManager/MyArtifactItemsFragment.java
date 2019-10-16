@@ -121,6 +121,7 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
                     return;
                 }
 
+                mRecyclerView.removeAllViews();
                 List<DataBean> artifactItemList = new ArrayList<>();
                 String currentPrefix = artifactItemWrappers.get(0).getUploadDateTime().substring(0, 7);
                 artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
@@ -142,7 +143,6 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
                 adapter = new StickyHeaderViewAdapter(artifactItemList)
                         .RegisterItemType(new ArtifactItemViewBinder())
                         .RegisterItemType(new ArtifactItemHeaderViewBinder());
-                mRecyclerView.removeAllViews();
                 mRecyclerView.setAdapter(adapter);
             }
         });
