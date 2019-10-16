@@ -148,7 +148,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String pid = artifactItemWrapper.getPostId();
+                String pid = artifactItemWrapper.getArtifactItemWrapper().getPostId();
                 Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
                 i.putExtra("artifactItemPostId", pid);
                 context.startActivity(i);
