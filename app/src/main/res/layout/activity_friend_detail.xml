@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    >
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -29,48 +28,40 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/gradient_background"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.8"
-                />
+                app:layout_collapseParallaxMultiplier="0.8"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="bottom|start"
-                android:layout_margin="25dp"
+                android:layout_margin="22dp"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.15">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/avatar"
                     android:contentDescription="avatar"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:src="@drawable/default_avatar_detail"
                     android:layout_alignParentStart="true"/>
 
-
-            </RelativeLayout>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/user_detail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin">
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:text=""
+                    android:text="username"
                     android:textSize="25sp"
                     android:textStyle="bold"
                     android:layout_toEndOf="@id/avatar"
                     android:gravity="center_vertical"
                     android:layout_marginStart="15dp"
-                    android:textColor="@color/white"
-                    />
-            </androidx.appcompat.widget.Toolbar>
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -79,10 +70,119 @@
         android:padding="30dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/item_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:layout_marginBottom="2dp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"/>
+
+                    <TextView
+                        android:id="@+id/user_item_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Artifact Items"
+                        android:layout_below="@id/item_number"
+                        android:gravity="center"/>
+
+                </RelativeLayout>
+
+                <include layout="@layout/vertical_divider_short"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="11dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/timeline_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:layout_marginBottom="2dp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"/>
+
+                    <TextView
+                        android:id="@+id/user_timelineline_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Timelines"
+                        android:layout_below="@id/timeline_number"
+                        android:gravity="center"/>
+
+                </RelativeLayout>
+
+                <include layout="@layout/vertical_divider_short"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="11dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/friend_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:layout_marginBottom="2dp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"/>
+
+                    <TextView
+                        android:id="@+id/user_friend_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Friends"
+                        android:layout_below="@id/friend_number"
+                        android:gravity="center"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/line_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="25dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
