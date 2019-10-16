@@ -8,9 +8,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.DefaultListeners;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.example.family_artifact_register.UI.Util.TimeToString;
 import com.example.family_artifact_register.Util.Callback;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -308,17 +311,15 @@ public class UserInfoManager {
      * @param userInfo1 The first user to connect
      * @param userInfo2 The second user to connect
      *
-     * @deprecated Temporary solution for this, will be modified in the future (this api will then be private)
      */
-    @Deprecated()
-    public void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
+    private void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
         // Make them friend
         if (userInfo1.addFriendUid(userInfo2.getUid())) {
             // Save User info to server
             mUserCollection
                     .document(userInfo1.getUid())
                     .update(UserInfo.FRIEND_UIDS,
-                    userInfo1.getFriendUids()).addOnSuccessListener(aVoid ->
+                            userInfo1.getFriendUids()).addOnSuccessListener(aVoid ->
                     Log.d(TAG, "User friend list"
                             + userInfo1.toString()
                             + "successfully written!"))
@@ -350,6 +351,19 @@ public class UserInfoManager {
      *
      */
     public void sendFriendInvitation(String otherUid) {
+        UserInfo currentUserInfo = getCurrentUserInfo();
+        if (currentUserInfo != null) {
+            if (!currentUserInfo.getFriendInvitations().containsKey(otherUid)) {
+                currentUserInfo.getFriendInvitations().put(
+                        otherUid, TimeToString.getCurrentTimeFormattedString()
+                );
+                mUserCollection.document(getCurrentUid())
+                        .update(UserInfo.FRIEND_INVITATIONS, currentUserInfo.getFriendInvitations())
+                        .addOnSuccessListener(DefaultListeners.getInstance().getOnSuccessListener(TAG))
+                        .addOnFailureListener(DefaultListeners.getInstance().getOnFailureListener(TAG))
+                        .addOnCanceledListener(DefaultListeners.getInstance().getOnCanceledListener(TAG));
+            }
+        }
     }
 
     /**
@@ -359,6 +373,41 @@ public class UserInfoManager {
      *
      */
     public void acceptFriendInvitation(String otherUid) {
+        UserInfo currentUserInfo = getCurrentUserInfo();
+        if (currentUserInfo != null) {
+            if (currentUserInfo.getFriendInvitations().containsKey(otherUid)) {
+                // Get other User Info
+                mUserCollection.document(otherUid).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot != null && documentSnapshot.exists() &&
+                                documentSnapshot.toObject(UserInfo.class) != null) {
+                            // Successfully fetched data
+                            UserInfo otherUserInfo = documentSnapshot.toObject(UserInfo.class);
+
+                            // Add friend
+                            addFriend(getCurrentUserInfo(), otherUserInfo);
+
+                            // Remove invitation from the invitation map
+                            currentUserInfo.getFriendInvitations().remove(otherUid);
+                            mUserCollection.document(getCurrentUid())
+                                    .update(UserInfo.FRIEND_INVITATIONS,
+                                            currentUserInfo.getFriendInvitations())
+                                    .addOnSuccessListener(DefaultListeners.getInstance()
+                                            .getOnSuccessListener(TAG))
+                                    .addOnFailureListener(DefaultListeners.getInstance()
+                                            .getOnFailureListener(TAG))
+                                    .addOnCanceledListener(DefaultListeners.getInstance()
+                                            .getOnCanceledListener(TAG));
+                        } else {
+                            Log.d(TAG,"get failed: user not exists " + otherUid);
+                        }
+                    } else {
+                        Log.d(TAG, task.getException() + " get failed with ");
+                    }
+                });
+            }
+        }
     }
 
     /**
