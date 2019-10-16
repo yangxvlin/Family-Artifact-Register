@@ -53,6 +53,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UI.Social.ContactDetailActivity"
+            android:theme="@style/NoActionbarTheme"
             android:parentActivityName=".UI.Social.FriendActivity" />
         <activity
             android:name=".UI.Social.NewContactDetailActivity"

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -34,9 +35,10 @@ public class ContactDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_detail);
 
         // force the system not to display action bar title
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
+//        getSupportActionBar().hide();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.user_detail_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar);
         TextView username = (TextView) findViewById(R.id.username);
@@ -59,6 +61,7 @@ public class ContactDetailActivity extends AppCompatActivity {
                 Log.i(TAG, "some changes happened");
                 Log.d(TAG, "user info: " + newData.toString());
                 username.setText(newData.getDisplayName());
+//                getSupportActionBar().setTitle(newData.getDisplayName());
 //                phoneNumber.setText(newData.getPhoneNumber());
                 email.setText(newData.getEmail());
                 String url = newData.getPhotoUrl();
