@@ -16,7 +16,6 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
@@ -27,9 +26,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class MapViewModel extends AndroidViewModel {
+public class MapHappenedViewModel extends AndroidViewModel {
 
-    public static final String TAG = MapViewModel.class.getSimpleName();
+    public static final String TAG = MapHappenedViewModel.class.getSimpleName();
 
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
@@ -44,12 +43,13 @@ public class MapViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<TimelineMapWrapper>> timelineWrappers = new MutableLiveData<>();
 
-    public MapViewModel(@NonNull Application application) {
+    public MapHappenedViewModel(@NonNull Application application) {
         super(application);
         artifacts = artifactManager.getArtifactItemByUid(userInfoManager.getCurrentUid());
         locations.setValue(mapLocations);
     }
 
+    @Deprecated
     public LiveData<List<MapLocation>> getLocations() {
         artifacts.observeForever(new Observer<List<ArtifactItem>>() {
             @Override
@@ -109,7 +109,7 @@ public class MapViewModel extends AndroidViewModel {
                                                         .collect(Collectors.toCollection(ArrayList::new))
                                         );
 
-                                        mapLocationManager.getMapLocationById(artifactItem.getLocationStoredId()).observeForever(new Observer<MapLocation>() {
+                                        mapLocationManager.getMapLocationById(artifactItem.getLocationHappenedId()).observeForever(new Observer<MapLocation>() {
                                             @Override
                                             public void onChanged(MapLocation mapLocation) {
 //                                        mapLocations.add(mapLocation);
