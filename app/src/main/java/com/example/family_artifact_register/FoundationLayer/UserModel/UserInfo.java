@@ -28,6 +28,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     private String photoUrl;
 
     // Hacky solution to keep both list unique
+    private Map<String, String> friendInvitations = new HashMap<>();
     private Map<String, Boolean> friendUids = new HashMap<>();
     private Map<String, Boolean> artifactItemIds = new HashMap<>();
     private Map<String, Boolean> artifactTimelineIds = new HashMap<>();
@@ -46,7 +47,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
      * @param photoUrl    The photoUrl of user
      */
     public UserInfo(String uid, String displayName, String email, String phoneNumber,
-                    String photoUrl, Map<String, Boolean> friendUids,
+                    String photoUrl, Map<String, Boolean> friendUids, Map<String, String> friendInvitations,
                     Map<String, Boolean> artifactItemIds, Map<String, Boolean> artifactTimelineIds) {
         if (uid == null) {
             uid = System.currentTimeMillis() + UUID.randomUUID().toString();
@@ -62,6 +63,11 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         }
         this.friendUids = friendUids;
 
+        if (friendInvitations == null) {
+            friendInvitations = new HashMap<>();
+        }
+        this.friendInvitations = friendInvitations;
+
         if (artifactItemIds == null) {
             artifactItemIds = new HashMap<>();
         }
@@ -74,18 +80,18 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     }
 
     public static UserInfo newInstance(String uid, String displayName) {
-        return new UserInfo(uid, displayName, null, null, null,
+        return new UserInfo(uid, displayName, null, null, null, new HashMap<>(),
                 new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
     public static UserInfo newInstance(String uid, String displayName, String photoUrl) {
-        return new UserInfo(uid, displayName, null, null, photoUrl,
+        return new UserInfo(uid, displayName, null, null, photoUrl, new HashMap<>(),
                 new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
     public static UserInfo newInstance(String uid, String displayName,
                                        String email, String phoneNumber) {
-        return new UserInfo(uid, displayName, email, phoneNumber, null,
+        return new UserInfo(uid, displayName, email, phoneNumber, null, new HashMap<>(),
                 new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
@@ -190,6 +196,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         out.writeString(phoneNumber);
         out.writeString(photoUrl);
         out.writeMap(friendUids);
+        out.writeMap(friendInvitations);
         out.writeMap(artifactItemIds);
         out.writeMap(artifactTimelineIds);
     }
@@ -219,6 +226,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
                 in.readString(),
                 in.readHashMap(HashMap.class.getClassLoader()),
                 in.readHashMap(HashMap.class.getClassLoader()),
+                in.readHashMap(HashMap.class.getClassLoader()),
                 in.readHashMap(HashMap.class.getClassLoader())
         );
         // Set friend list and artifact list
@@ -229,9 +237,10 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     public String toString() {
         return String.format(
                 "uid: %s, displayName: %s, email: %s, phoneNumber: %s, " +
-                        "photoUrl: %s, friendUids: %s, artifactItemIds: %s, artifactTimelineIds: %s",
-                uid, displayName, email, phoneNumber, photoUrl, friendUids, artifactItemIds,
-                artifactTimelineIds
+                        "photoUrl: %s, friendUids: %s, friendUids: %s, " +
+                        "artifactItemIds: %s, artifactTimelineIds: %s",
+                uid, displayName, email, phoneNumber, photoUrl, friendUids, friendInvitations,
+                artifactItemIds, artifactTimelineIds
         );
     }
 
