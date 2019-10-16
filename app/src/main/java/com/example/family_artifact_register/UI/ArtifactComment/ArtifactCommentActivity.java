@@ -1,10 +1,12 @@
 package com.example.family_artifact_register.UI.ArtifactComment;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -53,12 +55,13 @@ public class ArtifactCommentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         PostID = intent.getStringExtra("artifactItemPostId");
 
-        commentAdapter = new CommentAdapter(this);
-        recyclerView.setAdapter(commentAdapter);
-
         avatar = findViewById(R.id.avatar);
         comment = findViewById(R.id.comment);
         post = findViewById(R.id.post);
+        recyclerView = findViewById(R.id.comment_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        commentAdapter = new CommentAdapter(this);
+        recyclerView.setAdapter(commentAdapter);
 
         viewModel = ViewModelProviders.of(this, new CommentViewModelFactory(getApplication()
                 , PostID)).get(CommentViewModel.class);
@@ -69,6 +72,14 @@ public class ArtifactCommentActivity extends AppCompatActivity {
                 Log.d(TAG, "Some changes happen");
             }
         });
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
+        }
     }
 
 
