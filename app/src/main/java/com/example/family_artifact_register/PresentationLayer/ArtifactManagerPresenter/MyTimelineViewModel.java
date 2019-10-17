@@ -17,8 +17,11 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class MyTimelineViewModel extends AndroidViewModel {
@@ -29,16 +32,21 @@ public class MyTimelineViewModel extends AndroidViewModel {
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
     private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
-    private MutableLiveData<List<ArtifactTimelineWrapper>> timelines = new MutableLiveData<>();
+    private MutableLiveData<Set<ArtifactTimelineWrapper>> timelines = new MutableLiveData<>();
 
-    private List<ArtifactTimelineWrapper> timelineList;
+    private Set<ArtifactTimelineWrapper> timelineList;
 
     public MyTimelineViewModel(@NonNull Application application) {
         super(application);
 
-        timelineList = new ArrayList<>();
+        timelineList = new TreeSet<>(new Comparator<ArtifactTimelineWrapper>() {
+            @Override
+            public int compare(ArtifactTimelineWrapper artifactTimelineWrapper, ArtifactTimelineWrapper t1) {
+                return artifactTimelineWrapper.getUploadDateTime().compareTo(t1.getUploadDateTime());
+            }
+        });
         timelines.postValue(timelineList);
-        artifactManager.getArtifactTimelineByUid(userInfoManager.getCurrentUid()).observeForever(new Observer<List<ArtifactTimeline>>() {
+        artifactManager.listenArtifactTimelineByUid(userInfoManager.getCurrentUid(), "MyTimelineViewModel1").observeForever(new Observer<List<ArtifactTimeline>>() {
             @Override
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
                 Log.d(TAG, "get timelines from DB");
@@ -78,7 +86,7 @@ public class MyTimelineViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<ArtifactTimelineWrapper>> getTimelines() {
+    public LiveData<Set<ArtifactTimelineWrapper>> getTimelines() {
         return timelines;
     }
 }
