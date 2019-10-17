@@ -146,7 +146,7 @@ public class ContactRequestActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             Log.d(TAG, "accept button has been clicked");
-//                            viewModel.accept(request.getUser().getUid());
+                            viewModel.accept(holder.itemID);
                             holder.accept.setEnabled(false);
                             holder.accept.setBackgroundColor(getResources().getColor(R.color.wechat_grey));
                         }

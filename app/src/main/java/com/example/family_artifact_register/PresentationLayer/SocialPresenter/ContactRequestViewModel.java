@@ -33,7 +33,10 @@ public class ContactRequestViewModel extends AndroidViewModel {
         Set<Request> requestList = new TreeSet<>(new Comparator<Request>() {
             @Override
             public int compare(Request request, Request t1) {
-                return -request.getTime().compareTo(t1.getTime());
+                if(request.getTime() != null && t1.getTime() != null) {
+                    return -request.getTime().compareTo(t1.getTime());
+                }
+                return 0;
             }
         });
         requests.postValue(requestList);
