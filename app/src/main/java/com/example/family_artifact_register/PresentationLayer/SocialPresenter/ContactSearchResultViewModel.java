@@ -31,8 +31,21 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
     private MutableLiveData<List<UserInfoWrapper>> result = new MutableLiveData<>();
     private UserInfo currentUser;
 
+    private String displayMode;
+
     public ContactSearchResultViewModel(Application application, String query) {
         super(application);
+
+        // set the display mode for list item
+        if(query.indexOf('@') >= 0) {
+            displayMode = "email";
+        }
+        else {
+            displayMode = "displayname";
+        }
+        Log.d(TAG, "query entered: " + query);
+        Log.d(TAG, "mode: " + displayMode);
+
         manager.searchUserInfo(query).observeForever(new Observer<List<UserInfo>>() {
             @Override
             public void onChanged(List<UserInfo> userInfos) {
@@ -68,6 +81,9 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
 
     public LiveData<List<UserInfoWrapper>> getUsers() { return result; }
 
-
     public UserInfo getCurrentUser() { return currentUser; }
+
+    public String getDisplayMode() {
+        return displayMode;
+    }
 }
