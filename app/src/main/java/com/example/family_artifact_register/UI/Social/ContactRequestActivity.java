@@ -1,5 +1,6 @@
 package com.example.family_artifact_register.UI.Social;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,6 +90,7 @@ public class ContactRequestActivity extends AppCompatActivity {
             public ImageView avatar;
             public TextView username;
             public MaterialButton accept;
+            public String itemID;
 
             public RequestViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -115,6 +117,15 @@ public class ContactRequestActivity extends AppCompatActivity {
                 Request request;
                 if(dataSetIterator.hasNext()) {
                     request = dataSetIterator.next();
+                    holder.itemID = request.getUser().getUid();
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(view.getContext(), NewContactDetailActivity.class);
+                            intent.putExtra("selectedUid", holder.itemID);
+                            startActivity(intent);
+                        }
+                    });
                     String s = request.getUser().getDisplayName();
                     if(s != null && s.length() > 0) {
                         holder.username.setText(s);
