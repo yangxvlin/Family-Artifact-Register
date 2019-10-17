@@ -27,7 +27,7 @@
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@id/request_avatar"
         android:layout_marginStart="20dp"
-        android:text="Tim"
+        android:text="Username"
         android:gravity="center_vertical"/>
 
     <com.google.android.material.button.MaterialButton
