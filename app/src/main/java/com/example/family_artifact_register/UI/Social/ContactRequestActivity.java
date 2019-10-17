@@ -116,7 +116,7 @@ public class ContactRequestActivity extends AppCompatActivity {
                 if(dataSetIterator.hasNext()) {
                     request = dataSetIterator.next();
                     String s = request.getUser().getDisplayName();
-                    if(s != null) {
+                    if(s != null && s.length() > 0) {
                         holder.username.setText(s);
                     }
                     s = request.getUser().getPhotoUrl();
