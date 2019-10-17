@@ -127,11 +127,16 @@ public class TimelineActivity extends AppCompatActivity {
                 this.description = itemView.findViewById(R.id.item_description);
                 this.frame = itemView.findViewById(R.id.timeline_frame);
                 this.timelineView = itemView.findViewById(R.id.timeline2);
+                // END = 2
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineView.getLayoutParams();
                 if(viewType == 2) {
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineView.getLayoutParams();
                     params.height = 1290;
-                    timelineView.setLayoutParams(params);
                 }
+                // ONLYONE = 3
+                else if(viewType == 3) {
+                    params.height = 2095;
+                }
+                timelineView.setLayoutParams(params);
                 timelineView.initLine(0);
             }
 
@@ -147,12 +152,10 @@ public class TimelineActivity extends AppCompatActivity {
         private long maxInterval, minInterval;
 
         private final int maxGap = 1500;
-        private final int minGap = 500;
+        private final int minGap = 800;
         private Context context;
 
         public TimelineAdapter(Context context) {
-            maxInterval = Long.MIN_VALUE;
-            minInterval = Long.MIN_VALUE;
             this.context = context;
             comparator = new Comparator<ArtifactItemWrapper>() {
                 @Override
@@ -183,6 +186,20 @@ public class TimelineActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
+                    holder.timelineView.getLayoutParams();
+            if(dataSet.size() > 2 && position != dataSet.size() - 1) {
+                long diff = getTimeDiff(dataSet.get(position).getHappenedDateTime(),
+                        dataSet.get(position + 1).getHappenedDateTime());
+//                float ratio = (maxInterval - diff) / (maxInterval - minInterval);
+                double ratio = (double) (diff - minInterval) / (double) (maxInterval - minInterval);
+                Log.d(TAG, "pos: " + position + ", maxgap: " + maxInterval + ", mingap: " + minInterval);
+                Log.d(TAG, "pos: " + position + ", diff: " + diff + ", ratio:" + ratio);
+                int setHeight = minGap + (int) (ratio * (maxGap - minGap));
+                Log.d(TAG, "height value set for layout param: " + setHeight);
+                params.height = setHeight;
+                holder.timelineView.setLayoutParams(params);
+            }
             holder.clearFrame();
             holder.frame.addView(getRecyclerView(dataSet.get(position), context));
         }
@@ -204,16 +221,16 @@ public class TimelineActivity extends AppCompatActivity {
             dataSet = newData;
             dataSet.sort(comparator);
             maxInterval = Long.MIN_VALUE;
-            minInterval = Long.MIN_VALUE;
+            minInterval = Long.MAX_VALUE;
             long diff;
             for (int i = 0; i < dataSet.size() - 1; i++) {
                 diff = getTimeDiff(dataSet.get(i).getHappenedDateTime(),
                         dataSet.get(i + 1).getHappenedDateTime());
-                if(diff > maxInterval) {
+                if(maxInterval < diff) {
                     maxInterval = diff;
                 }
-                if(diff < maxInterval) {
-                    maxInterval = diff;
+                if(minInterval > diff) {
+                    minInterval = diff;
                 }
             }
             notifyDataSetChanged();
