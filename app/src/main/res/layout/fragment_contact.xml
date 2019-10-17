@@ -18,20 +18,25 @@
         android:focusable="true"
         android:background="?attr/selectableItemBackground"/>
 
+    <include layout="@layout/line_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="55dp"/>
+
     <include layout="@layout/small_divider"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_marginTop="55dp"/>
+        android:layout_marginTop="56dp"/>
 
     <include layout="@layout/line_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="65dp"/>
+        android:layout_marginTop="66dp"/>
 
     <include layout="@layout/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"/>
+        android:layout_marginTop="67dp"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
