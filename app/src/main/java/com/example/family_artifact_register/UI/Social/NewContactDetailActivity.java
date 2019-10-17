@@ -53,8 +53,10 @@ public class NewContactDetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(UserInfoWrapper newData) {
                 Log.d(TAG, "user data come back from DB: " + newData.toString());
-                username.setText(newData.getDisplayName());
-                area.setText("area");
+                String s = newData.getDisplayName();
+                if(s != null) {
+                    username.setText(s);
+                }
                 String url = newData.getPhotoUrl();
                 if(url != null) {
                     Log.d(TAG, "URL is " + url);
