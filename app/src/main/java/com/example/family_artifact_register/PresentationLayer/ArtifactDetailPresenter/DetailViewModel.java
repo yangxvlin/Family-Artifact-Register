@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 
@@ -63,4 +64,17 @@ public class DetailViewModel extends AndroidViewModel {
         });
         return itemWrapper;
     }
+
+    public String getLocationHappenedId(String PostId) {
+        return artifactManager.getArtifactItemByPostId(PostId).getValue().getLocationHappenedId();
+    }
+
+    public String getLocationStoredId(String PostId) {
+        return artifactManager.getArtifactItemByPostId(PostId).getValue().getLocationStoredId();
+    }
+
+    public String getLocationUploadId(String PostId) {
+        return artifactManager.getArtifactItemByPostId(PostId).getValue().getLocationUploadedId();
+    }
+
 }
