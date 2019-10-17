@@ -30,6 +30,8 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
@@ -99,10 +101,8 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 super(itemView);
                 cardView = itemView.findViewById(R.id.cardview);
                 title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
-                title.setSelected(true);
                 uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
                 duration = itemView.findViewById(R.id.my_timeline_recyclerview_item_duration);
-                duration.setSelected(true);
                 image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
                 image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
                 image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
@@ -112,6 +112,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
         private List<ArtifactTimelineWrapper> dataSet;
         private Comparator<ArtifactTimelineWrapper> comparator;
         private Context context;
+        private Timer timer = new Timer();
 
         public MyTimelineAdapter(Context context) {
             this.context = context;
@@ -158,6 +159,14 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             }
             holder.duration.setSelected(true);
             holder.duration.setText(timelineDuration);
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    holder.title.setSelected(true);
+                    holder.duration.setSelected(true);
+                }
+            };
+            timer.scheduleAtFixedRate(task, 1, 200);
             for(ArtifactItemWrapper item: dataSet.get(position).getArtifacts()) {
                 // all views have been set
                 if(imagesCount == 3) {
