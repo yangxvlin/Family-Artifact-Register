@@ -49,9 +49,9 @@ public class UserRepository {
 //    public void insert (User user) { new insertAsyncTask(userDAO).execute(user); }
 //    public void insertFriend(Friend friend) { new insertFriendAsyncTask(userDAO).execute(friend); }
     public void insert (User user) {}
-    public void insertFriend(UserInfo user1, UserInfo user2) {
-        manager.addFriend(user1, user2);
-    }
+//    public void insertFriend(UserInfo user1, UserInfo user2) {
+//        manager.addFriend(user1, user2);
+//    }
 
     /***********************************/
 
