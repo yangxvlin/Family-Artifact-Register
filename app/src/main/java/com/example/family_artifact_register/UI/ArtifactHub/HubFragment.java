@@ -325,12 +325,12 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
-//        viewModel.getFriends().observe(this, new Observer<List<UserInfoWrapper>>() {
-//            @Override
-//            public void onChanged(List<UserInfoWrapper> userInfoWrappers) {
-//                // TODO
-//            }
-//        });
+        viewModel.getFriends().observe(this, new Observer<List<UserInfoWrapper>>() {
+            @Override
+            public void onChanged(List<UserInfoWrapper> userInfoWrappers) {
+                Log.d(TAG, "onChanged: get friends post change");
+            }
+        });
     }
 
     /**
