@@ -28,6 +28,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentWrapper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
@@ -74,11 +75,20 @@ public class ArtifactCommentActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new CommentViewModelFactory(getApplication()
                 , PostID)).get(CommentViewModel.class);
 
-        viewModel.getArtifactItem(PostID).observe(owner, new Observer<ArtifactItem>() {
+//        viewModel.getArtifactItem(PostID).observe(owner, new Observer<ArtifactItem>() {
+//            @Override
+//            public void onChanged(ArtifactItem artifactItem) {
+//                Log.d(TAG, "Some changes happen");
+//            }
+//        });
+
+        viewModel.getCurrentUserInfo().observe(this, new Observer<UserInfoWrapper>() {
             @Override
-            public void onChanged(ArtifactItem artifactItem) {
-                Log.d(TAG, "Some changes happen");
-                avatar.setImageURI(Uri.parse(viewModel.getCurrentUserInfo().getValue().getPhotoUrl()));
+            public void onChanged(UserInfoWrapper wrapper) {
+                String url = wrapper.getPhotoUrl();
+                if(url != null) {
+                    avatar.setImageURI(Uri.parse(url));
+                }
             }
         });
 

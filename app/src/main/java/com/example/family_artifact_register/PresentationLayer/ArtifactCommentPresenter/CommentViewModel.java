@@ -103,6 +103,7 @@ public class CommentViewModel extends AndroidViewModel {
         artifactManager.addComment(PostID, userInfoManager.getCurrentUid(), comment);
     }
 
+    @Deprecated
     public LiveData<ArtifactItem> getArtifactItem(String id) {
         return artifactManager.getArtifactItemByPostId(id);
     }
