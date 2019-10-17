@@ -17,6 +17,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -28,17 +29,10 @@ public class FirebaseStorageHelper {
     private static final String TAG = FirebaseStorageHelper.class.getSimpleName();
 
     private static final FirebaseStorageHelper ourInstance = new FirebaseStorageHelper();
-
-    public static FirebaseStorageHelper getInstance() {
-        return ourInstance;
-    }
-
     // Map Remote storage location and local storage location together
     private BiMap<String, Uri> remoteLocalBiMap = HashBiMap.create();
-
     // Finds the correct cache directory
     private CacheDirectoryHelper mCacheDirectoryHelper = CacheDirectoryHelper.getInstance();
-
     // Firebase storage location
     private StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
@@ -47,6 +41,10 @@ public class FirebaseStorageHelper {
             Log.w(TAG, "Failed to find Cache directory from cache helper! (null)");
             // TODO ... check null
         }
+    }
+
+    public static FirebaseStorageHelper getInstance() {
+        return ourInstance;
     }
 
     private static Uri checkAddUriScheme(Uri uri) {
@@ -95,7 +93,7 @@ public class FirebaseStorageHelper {
                                 remoteLocalBiMap.put(remotePath, uri);
                                 Log.d(TAG, "Successfully uploaded, Adding to BiMap " +
                                         "remotePath: " + remotePath + ", finalUri" + finalUri + "\n"
-                                + remoteLocalBiMap.toString());
+                                        + remoteLocalBiMap.toString());
                             }
                     );
         }
@@ -103,6 +101,7 @@ public class FirebaseStorageHelper {
 
     /**
      * Load the remote url resource to local storage and set the Uri to it in the livedata
+     *
      * @param remoteUrl The remote Url to download resource with
      * @return LiveData of the destination Uri
      */
@@ -133,19 +132,44 @@ public class FirebaseStorageHelper {
                     .mkdirs(localFile.getParentFile())) {
                 // Query database
                 StorageReference mFileStorageReference = mStorageReference.child(remoteUrl);
-                mFileStorageReference.getFile(localUri).addOnSuccessListener(
-                        new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                Log.w(TAG, "Successfully getting remote Url: " + remoteUrl +
-                                        "\nLocal Uri: " + localUri.toString());
-                                // set value in map (cache)
-                                remoteLocalBiMap.putIfAbsent(remoteUrl, localUri);
-                                // Notify observer
-                                mutableLiveData.setValue(localUri);
-                            }
-                        }
-                ).addOnFailureListener(
+                mFileStorageReference.getFile(localUri)
+                        .addOnProgressListener(
+                                new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        // Task snapshot is not null and all data has been transferred
+                                        if (taskSnapshot != null &&
+                                                taskSnapshot.getBytesTransferred() ==
+                                                        taskSnapshot.getTotalByteCount()) {
+                                            Log.w(TAG, "Successfully getting remote Url: " + remoteUrl +
+                                                    "\nLocal Uri: " + localUri.toString());
+                                            // set value in map (cache)
+                                            remoteLocalBiMap.putIfAbsent(remoteUrl, localUri);
+                                            // Notify observer
+                                            mutableLiveData.setValue(localUri);
+                                        } else {
+                                            // Handle here (I don't think it's going to reach here)
+                                        }
+                                    }
+                                }
+                        )
+                        .addOnSuccessListener(
+                                new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        if (taskSnapshot != null) {
+                                            Log.w(TAG, "Successfully getting remote Url: " + remoteUrl +
+                                                    "\nLocal Uri: " + localUri.toString());
+                                            Log.w(TAG, "bytes transferred: " + taskSnapshot.getBytesTransferred() +
+                                                    "\ntotal bytes: " + taskSnapshot.getTotalByteCount());
+                                            // set value in map (cache)
+//                                    remoteLocalBiMap.putIfAbsent(remoteUrl, localUri);
+                                            // Notify observer
+//                                    mutableLiveData.setValue(localUri);
+                                        }
+                                    }
+                                }
+                        ).addOnFailureListener(
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -163,6 +187,7 @@ public class FirebaseStorageHelper {
 
     /**
      * Load the remote url resource to local storage and set the Uri to it in the livedata
+     *
      * @param remoteUrls The remote Url to download resource with
      * @return LiveData of the destination Uri
      */
