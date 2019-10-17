@@ -6,7 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/recycler_view"/>
+    <TextView
+        android:id="@+id/friend_request"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="Friend Requests"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"/>
+
+    <include layout="@layout/small_divider"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="55dp"/>
+
+    <include layout="@layout/line_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="65dp"/>
+
+    <include layout="@layout/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
