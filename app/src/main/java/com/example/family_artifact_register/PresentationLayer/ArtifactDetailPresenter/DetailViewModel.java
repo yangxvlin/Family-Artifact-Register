@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
@@ -25,6 +26,8 @@ public class DetailViewModel extends AndroidViewModel {
     public static final String TAG = DetailViewModel.class.getSimpleName();
 
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
+
+    private UserInfoManager userInfoManager = UserInfoManager.getInstance();
 
     private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
