@@ -153,12 +153,16 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int likes_before = Integer.valueOf(holder.likes.getText().toString());
+                Log.d(TAG, "number of likes before:" + likes_before);
                 if (holder.like.getTag() == "liked") {
                     holder.like.setImageResource(R.drawable.ic_like);
                     holder.like.setTag("unlike");
+                    holder.likes.setText(String.valueOf(likes_before-1));
                 } else {
                     holder.like.setImageResource(R.drawable.ic_liked);
                     holder.like.setTag("liked");
+                    holder.likes.setText(String.valueOf(likes_before+1));
                 }
                 viewModel.getLikeChange(holder.like.getTag().toString(), artifactItemWrapper.getArtifactItemWrapper().getPostId());
             }
