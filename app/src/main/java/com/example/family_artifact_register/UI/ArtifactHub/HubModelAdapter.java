@@ -95,6 +95,9 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 (artifactItemWrapper.getArtifactItemWrapper().getLikes().get(viewModel.getCurrentUid()) == true)) {
             holder.like.setImageResource(R.drawable.ic_liked);
             holder.like.setTag("liked");
+        } else {
+            holder.like.setImageResource(R.drawable.ic_like);
+            holder.like.setTag("unliked");
         }
 
         mediaList = new ArrayList<>();

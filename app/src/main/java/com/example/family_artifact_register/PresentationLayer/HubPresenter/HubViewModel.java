@@ -134,6 +134,7 @@ public class HubViewModel extends AndroidViewModel {
                 latestArtifactWrapperList.setValue(wrappers);
                 for(ArtifactItem artifactItem: artifactItems) {
                     ArtifactPostWrapper wrapper = new ArtifactPostWrapper(new ArtifactItemWrapper(artifactItem), userInfo);
+                    Log.d(TAG, wrapper.getArtifactItemWrapper().getDescription() + "get likes size: " + wrapper.getArtifactItemWrapper().getLikes().size());
 //                    wrappers.add(wrapper);
 //                    latestArtifactWrapperList.postValue(wrappers);
                     List<String> urls = artifactItem.getMediaDataUrls();
