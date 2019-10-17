@@ -207,4 +207,8 @@ public class HubViewModel extends AndroidViewModel {
         }
     }
 
+    public String getCurrentUid() {
+        return userInfoManager.getCurrentUid();
+    }
+
 }

@@ -90,6 +90,12 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getDisplayName());
         holder.avatar.setImageURI(Uri.parse(artifactItemWrapper.getUserInfoWrapper().getPhotoUrl()));
         holder.likes.setText(Integer.toString(artifactItemWrapper.getArtifactItemWrapper().getLikes().size()));
+        Log.d(TAG, "likes: " + artifactItemWrapper.getArtifactItemWrapper().getLikes());
+        if ((artifactItemWrapper.getArtifactItemWrapper().getLikes().size() != 0) &&
+                (artifactItemWrapper.getArtifactItemWrapper().getLikes().get(viewModel.getCurrentUid()) == true)) {
+            holder.like.setImageResource(R.drawable.ic_liked);
+            holder.like.setTag("liked");
+        }
 
         mediaList = new ArrayList<>();
         for (String mediaUrl: artifactItemWrapper.getArtifactItemWrapper().getLocalMediaDataUrls()) {
