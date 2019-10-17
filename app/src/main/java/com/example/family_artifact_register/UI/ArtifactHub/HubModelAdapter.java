@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
@@ -63,9 +64,12 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
     private List<Uri> mediaList;
 
-    public HubModelAdapter(Context context) {
+    private HubViewModel viewModel;
+
+    public HubModelAdapter(Context context, HubViewModel hubViewModel) {
         this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
+        this.viewModel = hubViewModel;
 //        this.fm = fm;
     }
 
@@ -86,6 +90,15 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getDisplayName());
         holder.avatar.setImageURI(Uri.parse(artifactItemWrapper.getUserInfoWrapper().getPhotoUrl()));
         holder.likes.setText(Integer.toString(artifactItemWrapper.getArtifactItemWrapper().getLikes().size()));
+        Log.d(TAG, "likes: " + artifactItemWrapper.getArtifactItemWrapper().getLikes());
+        if ((artifactItemWrapper.getArtifactItemWrapper().getLikes().size() != 0) &&
+                (artifactItemWrapper.getArtifactItemWrapper().getLikes().get(viewModel.getCurrentUid()) == true)) {
+            holder.like.setImageResource(R.drawable.ic_liked);
+            holder.like.setTag("liked");
+        } else {
+            holder.like.setImageResource(R.drawable.ic_like);
+            holder.like.setTag("unliked");
+        }
 
         mediaList = new ArrayList<>();
         for (String mediaUrl: artifactItemWrapper.getArtifactItemWrapper().getLocalMediaDataUrls()) {
@@ -149,8 +162,18 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.like.setImageResource(R.drawable.ic_liked);
-                holder.like.setTag("liked");
+                int likes_before = Integer.valueOf(holder.likes.getText().toString());
+                Log.d(TAG, "number of likes before:" + likes_before);
+                if (holder.like.getTag() == "liked") {
+                    holder.like.setImageResource(R.drawable.ic_like);
+                    holder.like.setTag("unlike");
+                    holder.likes.setText(String.valueOf(likes_before-1));
+                } else {
+                    holder.like.setImageResource(R.drawable.ic_liked);
+                    holder.like.setTag("liked");
+                    holder.likes.setText(String.valueOf(likes_before+1));
+                }
+                viewModel.getLikeChange(holder.like.getTag().toString(), artifactItemWrapper.getArtifactItemWrapper().getPostId());
             }
         });
 
