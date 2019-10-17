@@ -51,8 +51,7 @@
                 android:id="@+id/like"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_like"
-                android:tint="@color/primaryTextColor">
+                android:src="@drawable/ic_like">
             </ImageView>
 
             <TextView
@@ -63,7 +62,7 @@
                 android:id="@+id/likes"
                 android:layout_toEndOf="@id/like"
                 android:text="10"
-                android:textColor="@color/dark_gray">
+                android:textColor="@color/primaryTextColor">
 
             </TextView>
 

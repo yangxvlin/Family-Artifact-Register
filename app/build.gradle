@@ -170,7 +170,7 @@ dependencies {
     // ******************************************************************************************
     // image slide view library
     // https://github.com/alibaba/UltraViewPager
-    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+    implementation('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
         transitive = true
     }
     // open dialog to page view images
@@ -193,6 +193,11 @@ dependencies {
     // FlycoDialog library
     // https://github.com/H07000223/FlycoDialog_Master
     implementation 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'
+
+    // ******************************************************************************************
+    // Interactive Info Window Android library
+    // https://github.com/Appolica/InteractiveInfoWindowAndroid
+    implementation 'com.appolica:interactive-info-window:v1.0.6'
 
 }
 

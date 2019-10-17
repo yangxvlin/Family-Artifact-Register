@@ -8,15 +8,17 @@ import java.util.Calendar;
  */
 public class TimeToString {
 
+    public static final SimpleDateFormat standardDateFormat =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
     public static String calendarToFormattedString(Calendar calendar) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat format = standardDateFormat;
         String time = format.format(calendar.getTime());
         return time;
     }
 
     public static String getCurrentTimeFormattedString() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String time = format.format(Calendar.getInstance().getTime());
+        String time = standardDateFormat.format(Calendar.getInstance().getTime());
         return time;
     }
 

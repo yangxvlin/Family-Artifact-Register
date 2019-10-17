@@ -56,12 +56,14 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private FragmentManager fm = getSupportFragmentManager();
 
+    public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact_detail);
         Intent intent = getIntent();
-        PostID = intent.getStringExtra("artifactItemPostId");
+        PostID = intent.getStringExtra(ARTIFACT_ITEM_ID_KEY);
 
 
         detailImageAdapter = new DetailImageAdapter(this);

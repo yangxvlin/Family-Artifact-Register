@@ -20,9 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 //import com.example.family_artifact_register.UI.ArtifactDetail.DetailFragment;
@@ -53,7 +56,7 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVi
 public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
     private static final String TAG = HubModelAdapter.class.getSimpleName();
-    private List<ArtifactItemWrapper> artifactItemWrapperList;
+    private List<ArtifactPostWrapper> artifactItemWrapperList;
 
 //    private FragmentManager fm;
 
@@ -61,9 +64,12 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
     private List<Uri> mediaList;
 
-    public HubModelAdapter(Context context) {
+    private HubViewModel viewModel;
+
+    public HubModelAdapter(Context context, HubViewModel hubViewModel) {
         this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
+        this.viewModel = hubViewModel;
 //        this.fm = fm;
     }
 
@@ -76,14 +82,26 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull HubModelViewHolder holder, int position) {
-        ArtifactItemWrapper artifactItemWrapper = artifactItemWrapperList.get(position);
+        ArtifactPostWrapper artifactItemWrapper = artifactItemWrapperList.get(position);
 
-        holder.username.setText(artifactItemWrapper.getUid());
-        holder.time.setText(artifactItemWrapper.getLastUpdateDateTime());
-        holder.description.setText(artifactItemWrapper.getDescription());
+        holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getUid());
+        holder.time.setText(artifactItemWrapper.getArtifactItemWrapper().getLastUpdateDateTime());
+        holder.description.setText(artifactItemWrapper.getArtifactItemWrapper().getDescription());
+        holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getDisplayName());
+        holder.avatar.setImageURI(Uri.parse(artifactItemWrapper.getUserInfoWrapper().getPhotoUrl()));
+        holder.likes.setText(Integer.toString(artifactItemWrapper.getArtifactItemWrapper().getLikes().size()));
+        Log.d(TAG, "likes: " + artifactItemWrapper.getArtifactItemWrapper().getLikes());
+        if ((artifactItemWrapper.getArtifactItemWrapper().getLikes().size() != 0) &&
+                (artifactItemWrapper.getArtifactItemWrapper().getLikes().get(viewModel.getCurrentUid()) == true)) {
+            holder.like.setImageResource(R.drawable.ic_liked);
+            holder.like.setTag("liked");
+        } else {
+            holder.like.setImageResource(R.drawable.ic_like);
+            holder.like.setTag("unliked");
+        }
 
         mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
+        for (String mediaUrl: artifactItemWrapper.getArtifactItemWrapper().getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri" + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }
@@ -101,15 +119,15 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         layoutParam.rightMargin = 20;
 
         // image view
-        if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
+        if (artifactItemWrapper.getArtifactItemWrapper().getMediaType() == TYPE_IMAGE) {
 
             View imagesRecyclerView = getImageRecyclerView(500, 500, mediaList, context);
 
             holder.postImage.addView(imagesRecyclerView);
             holder.postImage.setLayoutParams(layoutParam);
             // video view
-        } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-            ImageView iv = getVideoThumbnail(750, 750, mediaList.get(0), context);
+        } else if (artifactItemWrapper.getArtifactItemWrapper().getMediaType() == TYPE_VIDEO) {
+            ImageView iv = getVideoThumbnail(500, 500, mediaList.get(0), context);
 
             ImageView playIcon = getVideoPlayIcon(context);
 
@@ -124,7 +142,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.viewDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String pid = artifactItemWrapper.getPostId();
+                String pid = artifactItemWrapper.getArtifactItemWrapper().getPostId();
                 Intent i = new Intent(view.getContext(), ArtifactDetailActivity.class);
                 i.putExtra("artifactItemPostId", pid);
                 context.startActivity(i);
@@ -134,9 +152,37 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.timeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tid = artifactItemWrapper.getArtifactTimelineId();
+                String tid = artifactItemWrapper.getArtifactItemWrapper().getArtifactTimelineId();
                 Intent i = new Intent(view.getContext(), TimelineActivity.class);
                 i.putExtra("timelineID", tid);
+                context.startActivity(i);
+            }
+        });
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int likes_before = Integer.valueOf(holder.likes.getText().toString());
+                Log.d(TAG, "number of likes before:" + likes_before);
+                if (holder.like.getTag() == "liked") {
+                    holder.like.setImageResource(R.drawable.ic_like);
+                    holder.like.setTag("unlike");
+                    holder.likes.setText(String.valueOf(likes_before-1));
+                } else {
+                    holder.like.setImageResource(R.drawable.ic_liked);
+                    holder.like.setTag("liked");
+                    holder.likes.setText(String.valueOf(likes_before+1));
+                }
+                viewModel.getLikeChange(holder.like.getTag().toString(), artifactItemWrapper.getArtifactItemWrapper().getPostId());
+            }
+        });
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pid = artifactItemWrapper.getArtifactItemWrapper().getPostId();
+                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                i.putExtra("artifactItemPostId", pid);
                 context.startActivity(i);
             }
         });
@@ -151,22 +197,24 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         return artifactItemWrapperList.size();
     }
 
-    public void setData(List<ArtifactItemWrapper> newData) {
+    public void setData(List<ArtifactPostWrapper> newData) {
         artifactItemWrapperList.clear();
 
-        Collections.sort(newData, new Comparator<ArtifactItemWrapper>() {
-            @Override
-            public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
-                return -1 * artifactItemWrapper.getLastUpdateDateTime().compareTo(t1.getLastUpdateDateTime());
-            }
-        });
-        artifactItemWrapperList.addAll(newData);
+        if(newData != null) {
+            Collections.sort(newData, new Comparator<ArtifactPostWrapper>() {
+                @Override
+                public int compare(ArtifactPostWrapper artifactItemWrapper, ArtifactPostWrapper t1) {
+                    return -1 * artifactItemWrapper.getArtifactItemWrapper().getLastUpdateDateTime().compareTo(t1.getArtifactItemWrapper().getLastUpdateDateTime());
+                }
+            });
+            artifactItemWrapperList.addAll(newData);
+        }
         notifyDataSetChanged();
     }
 
 
     // *************************************** getter & setters ***********************************
-    public void addData(ArtifactItemWrapper artifactItemWrapper) {
+    public void addData(ArtifactPostWrapper artifactItemWrapper) {
         // 0 to add data at start
         this.artifactItemWrapperList.add(0, artifactItemWrapper);
         notifyDataSetChanged();

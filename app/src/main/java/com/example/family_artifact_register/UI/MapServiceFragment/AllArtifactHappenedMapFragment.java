@@ -20,8 +20,8 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.IFragment;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
-import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapViewModel;
-import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapHappenedViewModel;
+import com.example.family_artifact_register.PresentationLayer.MapPresenter.MapHappenedViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.MapPresenter.TimelineMapWrapper;
 import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
@@ -30,15 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AllArtifactMapFragment extends Fragment implements IFragment {
+public class AllArtifactHappenedMapFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
-    public static final String TAG = AllArtifactMapFragment.class.getSimpleName();
+    public static final String TAG = AllArtifactHappenedMapFragment.class.getSimpleName();
 
-    private MapDisplayFragment mdFragment = MapDisplayFragment.newInstance();
+    private MapCustomizeWindowFragment mdFragment = MapCustomizeWindowFragment.newInstance();
 
-    private MapViewModel viewModel;
+    private MapHappenedViewModel viewModel;
 
     private AppCompatSpinner chooseTimeline;
 
@@ -52,44 +52,31 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
     /**
      * Required empty public constructor
      */
-    public AllArtifactMapFragment() { }
+    public AllArtifactHappenedMapFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        return inflater.inflate(R.layout.fragment_happened_map, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(R.string.artifact_map);
         Log.d(TAG, "view has been created");
-        FrameLayout mainView = view.findViewById(R.id.fragment_me_main_view);
+        FrameLayout mainView = view.findViewById(R.id.fragment_map_main_view);
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_me_main_view, mdFragment, "MapDisplayFragment")
+                .replace(R.id.fragment_map_main_view, mdFragment, "MapDisplayFragment")
                 .addToBackStack(null)
                 .commit();
 
-        viewModel = ViewModelProviders.of(this, new MapViewModelFactory(getActivity().getApplication())).get(MapViewModel.class);
 
-//        viewModel.getLocations().observe(this, new Observer<List<MapLocation>>() {
-//            @Override
-//            public void onChanged(List<MapLocation> mapLocations) {
-//                Log.d(TAG, "location data come back, setting to map fragment");
-//                mdFragment.setDisplayLocations(mapLocations);
-//            }
-//        });
+        viewModel = ViewModelProviders.of(this, new MapHappenedViewModelFactory(getActivity().getApplication())).get(MapHappenedViewModel.class);
 
         viewModel.getMapWrapper().observe(this, new Observer<List<TimelineMapWrapper>>() {
             @Override
             public void onChanged(List<TimelineMapWrapper> timelineMapWrappers) {
                 Log.d(TAG, "size of data from DB: " + timelineMapWrappers.size());
-//                for(TimelineMapWrapper wrapper: timelineMapWrappers) {
-//                    Log.d(TAG, "size of wrapper list: " +
-//                            wrapper.getArtifactItemWrapperList().size() + "\n"
-//                            + "stored location list size: " + wrapper.getStoreLocationList().size());
-//                }
                 chooseTimeline = view.findViewById(R.id.fragment_map_choose_timeline_to_display_spinner);
                 chooseTimeline.setPrompt(getString(R.string.choose_timeline_prompt));
                 timelineTitles = timelineMapWrappers.stream()
@@ -97,14 +84,9 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
                         .map(ArtifactTimeline::getTitle)
                         .collect(Collectors.toCollection(ArrayList::new));
                 timelineTitles.add(0, ALL_TIMELINE); // add an empty "" for all timeline
-//        timelineTitles.add("123");
-//        timelineTitles.add("456");
-//        timelineTitles.add("789");
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                         R.layout.timeline_selection_spinner_item, timelineTitles);
-                // Specify the layout to use when the list of choices appears
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
                 chooseTimeline.setAdapter(adapter);
 
@@ -143,7 +125,7 @@ public class AllArtifactMapFragment extends Fragment implements IFragment {
     /**
      *
      */
-    public static AllArtifactMapFragment newInstance() {
-        return new AllArtifactMapFragment();
+    public static AllArtifactHappenedMapFragment newInstance() {
+        return new AllArtifactHappenedMapFragment();
     }
 }
