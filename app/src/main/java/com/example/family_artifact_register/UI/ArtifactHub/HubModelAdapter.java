@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
@@ -63,9 +64,12 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
     private List<Uri> mediaList;
 
-    public HubModelAdapter(Context context) {
+    private HubViewModel viewModel;
+
+    public HubModelAdapter(Context context, HubViewModel hubViewModel) {
         this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
+        this.viewModel = hubViewModel;
 //        this.fm = fm;
     }
 
@@ -149,8 +153,14 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.like.setImageResource(R.drawable.ic_liked);
-                holder.like.setTag("liked");
+                if (holder.like.getTag() == "liked") {
+                    holder.like.setImageResource(R.drawable.ic_like);
+                    holder.like.setTag("unlike");
+                } else {
+                    holder.like.setImageResource(R.drawable.ic_liked);
+                    holder.like.setTag("liked");
+                }
+                viewModel.getLikeChange(holder.like.getTag().toString(), artifactItemWrapper.getArtifactItemWrapper().getPostId());
             }
         });
 
