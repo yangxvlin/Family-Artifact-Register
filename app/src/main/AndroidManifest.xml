@@ -64,7 +64,8 @@
         <activity
             android:name=".UI.Social.ContactSearchResultActivity"
             android:parentActivityName=".UI.Social.ContactSearchActivity" />
-        <activity android:name=".UI.Social.ContactRequestActivity" />
+        <activity android:name=".UI.Social.ContactRequestActivity"
+            android:parentActivityName=".UI.Social.ContactSearchActivity"/>
         <activity
             android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity" />
