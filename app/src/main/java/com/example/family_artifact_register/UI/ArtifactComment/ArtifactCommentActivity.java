@@ -23,14 +23,18 @@ import android.widget.Toast;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentWrapper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 import com.example.family_artifact_register.UI.Util.OnBackPressedListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArtifactCommentActivity extends AppCompatActivity {
 
@@ -71,10 +75,20 @@ public class ArtifactCommentActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new CommentViewModelFactory(getApplication()
                 , PostID)).get(CommentViewModel.class);
 
-        viewModel.getArtifactItem(PostID).observe(owner, new Observer<ArtifactItem>() {
+//        viewModel.getArtifactItem(PostID).observe(owner, new Observer<ArtifactItem>() {
+//            @Override
+//            public void onChanged(ArtifactItem artifactItem) {
+//                Log.d(TAG, "Some changes happen");
+//            }
+//        });
+
+        viewModel.getCurrentUserInfo().observe(this, new Observer<UserInfoWrapper>() {
             @Override
-            public void onChanged(ArtifactItem artifactItem) {
-                Log.d(TAG, "Some changes happen");
+            public void onChanged(UserInfoWrapper wrapper) {
+                String url = wrapper.getPhotoUrl();
+                if(url != null) {
+                    avatar.setImageURI(Uri.parse(url));
+                }
             }
         });
 
@@ -86,6 +100,13 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
 
+        viewModel.getComments().observe(this, new Observer<List<CommentWrapper>>() {
+            @Override
+            public void onChanged(List<CommentWrapper> commentWrappers) {
+                commentAdapter.setData(commentWrappers);
+            }
+        });
+
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +115,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
                             "Don't send empty comments", Toast.LENGTH_SHORT).show();
                 } else {
                     viewModel.addComment(comment.getText().toString());
+                    comment.setText("");
                 }
             }
         });
