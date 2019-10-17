@@ -53,11 +53,6 @@ public class NewContactDetailViewModel extends AndroidViewModel {
 
     public LiveData<UserInfoWrapper> getUser() { return friend; }
 
-    public void insert() {
-        UserInfo currentUser = manager.getCurrentUserInfo();
-        manager.addFriend(currentUser, UserInfoWrapper.toUserInfo(friend.getValue()));
-    }
-
     public void addFriend(String uid) {
         manager.sendFriendInvitation(uid);
     }

@@ -148,8 +148,6 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return artifactTimelineIds;
     }
 
-    public Map<String, String> getFriendInvitations() { return friendInvitations; }
-
     public boolean addFriendUid(String friendUid) {
         if (friendUids.containsKey(friendUid)) {
             return false;
