@@ -16,6 +16,7 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -66,6 +67,31 @@ public class DetailViewModel extends AndroidViewModel {
             }
         });
         return itemWrapper;
+    }
+
+    public LiveData<UserInfoWrapper> getPosterInfo(String posterId) {
+        MutableLiveData<UserInfoWrapper> poster = new MutableLiveData<>();
+        userInfoManager.listenUserInfo(posterId).observeForever(new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                if(wrapper.getPhotoUrl() == null) {
+                    wrapper.setPhotoUrl(null);
+                    poster.postValue(wrapper);
+                }
+                else {
+                    fSHelper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                        @Override
+                        public void onChanged(Uri uri) {
+                            wrapper.setPhotoUrl(uri.toString());
+                            poster.postValue(wrapper);
+                        }
+                    });
+                }
+
+            }
+        });
+        return poster;
     }
 
     public String getLocationHappenedId(String PostId) {

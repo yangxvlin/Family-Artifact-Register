@@ -23,6 +23,7 @@ import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 
@@ -50,7 +51,9 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private String PostID;
 
-    private TextView post, desc, user;
+    private TextView desc, user;
+
+    private ImageView avatar;
 
     private FrameLayout postImage;
 
@@ -71,6 +74,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         desc = findViewById(R.id.desc);
         user = findViewById(R.id.user);
         postImage = findViewById(R.id.post_image);
+        avatar = findViewById(R.id.avatarIv);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -82,9 +86,19 @@ public class ArtifactDetailActivity extends AppCompatActivity {
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
                 Log.d(TAG, "Some changes happen");
 
+                viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(artifactDetailActivity, new Observer<UserInfoWrapper>() {
+                    @Override
+                    public void onChanged(UserInfoWrapper userInfoWrapper) {
+                        String url = userInfoWrapper.getPhotoUrl();
+                        user.setText(userInfoWrapper.getDisplayName());
+                        if(url != null) {
+                            avatar.setImageURI(Uri.parse(url));
+                        }
+                    }
+                });
+
                 // Set artifact information the same as activity hub
                 desc.setText(artifactItemWrapper.getDescription());
-                user.setText(artifactItemWrapper.getUid());
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
