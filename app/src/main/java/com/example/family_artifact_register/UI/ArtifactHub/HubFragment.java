@@ -22,6 +22,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubFragmentPresenter;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -277,7 +278,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             mRecyclerView = getView().findViewById(R.id.recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            hubModelAdapter = new HubModelAdapter(getContext());
+            hubModelAdapter = new HubModelAdapter(getContext(), viewModel);
             mRecyclerView.setAdapter(hubModelAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
             mRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -317,10 +318,17 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
-        viewModel.getPosts().observe(this, new Observer<List<ArtifactItemWrapper>>() {
+        viewModel.getPosts().observe(this, new Observer<List<ArtifactPostWrapper>>() {
             @Override
-            public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
-                hubModelAdapter.setData(artifactItemWrappers);
+            public void onChanged(List<ArtifactPostWrapper> artifactPostWrappers) {
+                hubModelAdapter.setData(artifactPostWrappers);
+            }
+        });
+
+        viewModel.getFriends().observe(this, new Observer<List<UserInfoWrapper>>() {
+            @Override
+            public void onChanged(List<UserInfoWrapper> userInfoWrappers) {
+                Log.d(TAG, "onChanged: get friends post change");
             }
         });
     }

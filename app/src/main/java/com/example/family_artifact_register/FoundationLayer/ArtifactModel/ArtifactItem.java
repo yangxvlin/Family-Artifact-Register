@@ -69,6 +69,9 @@ public class ArtifactItem extends Artifact {
         this.happenedDateTime = happenedDateTime;
         this.likes = likes;
         this.artifactTimelineId = artifactTimelineId;
+        if (artifactCommentIds == null) {
+            artifactCommentIds = new ArrayList<>();
+        }
         this.artifactCommentIds = artifactCommentIds;
     }
 
@@ -179,6 +182,9 @@ public class ArtifactItem extends Artifact {
     public List<String> getArtifactCommentIds() { return artifactCommentIds; }
 
     void addArtifactCommentIds(String artifactComment) {
+        if (artifactCommentIds == null) {
+            artifactCommentIds = new ArrayList<>();
+        }
         this.artifactCommentIds.add(artifactComment);
     }
 
