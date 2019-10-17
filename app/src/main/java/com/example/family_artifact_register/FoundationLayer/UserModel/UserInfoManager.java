@@ -398,35 +398,29 @@ public class UserInfoManager {
         if (currentUserInfo != null) {
             if (currentUserInfo.getFriendInvitations().containsKey(otherUid)) {
                 // Get other User Info
-                mUserCollection.document(otherUid).get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot != null && documentSnapshot.exists() &&
-                                documentSnapshot.toObject(UserInfo.class) != null) {
-                            // Successfully fetched data
-                            UserInfo otherUserInfo = documentSnapshot.toObject(UserInfo.class);
+                LiveData<UserInfo> otherUserInfoLiveData = getUserInfo(otherUid);
+                otherUserInfoLiveData.observeForever(
+                        new Observer<UserInfo>() {
+                            @Override
+                            public void onChanged(UserInfo otherUserInfo) {
+                                // Add friend
+                                addFriend(getCurrentUserInfo(), otherUserInfo);
 
-                            // Add friend
-                            addFriend(getCurrentUserInfo(), otherUserInfo);
-
-                            // Remove invitation from the invitation map
-                            currentUserInfo.getFriendInvitations().remove(otherUid);
-                            mUserCollection.document(getCurrentUid())
-                                    .update(UserInfo.FRIEND_INVITATIONS,
-                                            currentUserInfo.getFriendInvitations())
-                                    .addOnSuccessListener(DefaultListeners.getInstance()
-                                            .getOnSuccessListener(TAG))
-                                    .addOnFailureListener(DefaultListeners.getInstance()
-                                            .getOnFailureListener(TAG))
-                                    .addOnCanceledListener(DefaultListeners.getInstance()
-                                            .getOnCanceledListener(TAG));
-                        } else {
-                            Log.d(TAG,"get failed: user not exists " + otherUid);
+                                // Remove invitation from the invitation map
+                                currentUserInfo.getFriendInvitations().remove(otherUid);
+                                mUserCollection.document(getCurrentUid())
+                                        .update(UserInfo.FRIEND_INVITATIONS,
+                                                currentUserInfo.getFriendInvitations())
+                                        .addOnSuccessListener(DefaultListeners.getInstance()
+                                                .getOnSuccessListener(TAG))
+                                        .addOnFailureListener(DefaultListeners.getInstance()
+                                                .getOnFailureListener(TAG))
+                                        .addOnCanceledListener(DefaultListeners.getInstance()
+                                                .getOnCanceledListener(TAG));
+                                otherUserInfoLiveData.removeObserver(this);
+                            }
                         }
-                    } else {
-                        Log.d(TAG, task.getException() + " get failed with ");
-                    }
-                });
+                );
             }
         }
     }
