@@ -78,4 +78,8 @@ public class ContactRequestViewModel extends AndroidViewModel {
     public void accept(String uid) {
         userInfoManager.acceptFriendInvitation(uid);
     }
+
+    public String getCurrentUid() { return userInfoManager.getCurrentUid(); }
+
+    public UserInfo getCurrentUser() { return userInfoManager.getCurrentUserInfo(); }
 }

@@ -121,7 +121,14 @@ public class ContactRequestActivity extends AppCompatActivity {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(view.getContext(), NewContactDetailActivity.class);
+                            Intent intent;
+                            if(holder.itemID.equals(viewModel.getCurrentUid()) ||
+                                    viewModel.getCurrentUser().getFriendUids().containsKey(holder.itemID)) {
+                                intent = new Intent(view.getContext(), ContactDetailActivity.class);
+                            }
+                            else {
+                                intent = new Intent(view.getContext(), NewContactDetailActivity.class);
+                            }
                             intent.putExtra("selectedUid", holder.itemID);
                             startActivity(intent);
                         }
