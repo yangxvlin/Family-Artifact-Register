@@ -137,12 +137,18 @@ public class FirebaseStorageHelper {
                                 new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
                                     @Override
                                     public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        if (taskSnapshot != null) {
+                                            Log.w(TAG, "bytes transferred: " + taskSnapshot.getBytesTransferred() +
+                                                    "\ntotal bytes: " + taskSnapshot.getTotalByteCount());
+                                        }
                                         // Task snapshot is not null and all data has been transferred
                                         if (taskSnapshot != null &&
                                                 taskSnapshot.getBytesTransferred() ==
                                                         taskSnapshot.getTotalByteCount()) {
-                                            Log.w(TAG, "Successfully getting remote Url: " + remoteUrl +
+                                            Log.w(TAG, "1Successfully getting remote Url: " + remoteUrl +
                                                     "\nLocal Uri: " + localUri.toString());
+                                            Log.w(TAG, "1bytes transferred: " + taskSnapshot.getBytesTransferred() +
+                                                    "\ntotal bytes: " + taskSnapshot.getTotalByteCount());
                                             // set value in map (cache)
                                             remoteLocalBiMap.putIfAbsent(remoteUrl, localUri);
                                             // Notify observer
@@ -158,9 +164,9 @@ public class FirebaseStorageHelper {
                                     @Override
                                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                         if (taskSnapshot != null) {
-                                            Log.w(TAG, "Successfully getting remote Url: " + remoteUrl +
+                                            Log.w(TAG, "2Successfully getting remote Url: " + remoteUrl +
                                                     "\nLocal Uri: " + localUri.toString());
-                                            Log.w(TAG, "bytes transferred: " + taskSnapshot.getBytesTransferred() +
+                                            Log.w(TAG, "2bytes transferred: " + taskSnapshot.getBytesTransferred() +
                                                     "\ntotal bytes: " + taskSnapshot.getTotalByteCount());
                                             // set value in map (cache)
 //                                    remoteLocalBiMap.putIfAbsent(remoteUrl, localUri);
