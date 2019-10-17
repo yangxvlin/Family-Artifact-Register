@@ -18,6 +18,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String PHOTO_URL = "photoUrl";
     public static final String FRIEND_UIDS = "friendUids";
+    public static final String FRIEND_INVITATIONS = "friendInvitations";
     public static final String ARTIFACT_ITEM_IDS = "artifactItemIds";
     public static final String ARTIFACT_TIMELINE_IDS = "artifactTimelineIds";
 
@@ -129,6 +130,10 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
 
     void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Map<String, String> getFriendInvitations() {
+        return friendInvitations;
     }
 
     public Map<String, Boolean> getFriendUids() {
