@@ -6,14 +6,13 @@ import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
 import com.example.family_artifact_register.FoundationLayer.Util.DefaultListeners;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
-import com.example.family_artifact_register.UI.Util.TimeToString;
 import com.example.family_artifact_register.Util.Callback;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -146,12 +145,20 @@ public class UserInfoManager {
     }
 
     public LiveData<UserInfo> getUserInfo(String uid) {
-        // TODO
-        return null;
+        LiveData<UserInfo> userInfoLiveData = listenUserInfo(uid);
+        userInfoLiveData.observeForever(
+                new Observer<UserInfo>() {
+                    @Override
+                    public void onChanged(UserInfo userInfo) {
+                        removeListener(uid);
+                        userInfoLiveData.removeObserver(this);
+                    }
+                }
+        );
+        return userInfoLiveData;
     }
 
     public LiveData<UserInfo> getUserInfo(List<String> uid) {
-        // TODO
         return null;
     }
 
@@ -351,19 +358,33 @@ public class UserInfoManager {
      *
      */
     public void sendFriendInvitation(String otherUid) {
-        UserInfo currentUserInfo = getCurrentUserInfo();
-        if (currentUserInfo != null) {
-            if (!currentUserInfo.getFriendInvitations().containsKey(otherUid)) {
-                currentUserInfo.getFriendInvitations().put(
-                        otherUid, TimeToString.getCurrentTimeFormattedString()
-                );
-                mUserCollection.document(getCurrentUid())
-                        .update(UserInfo.FRIEND_INVITATIONS, currentUserInfo.getFriendInvitations())
-                        .addOnSuccessListener(DefaultListeners.getInstance().getOnSuccessListener(TAG))
-                        .addOnFailureListener(DefaultListeners.getInstance().getOnFailureListener(TAG))
-                        .addOnCanceledListener(DefaultListeners.getInstance().getOnCanceledListener(TAG));
-            }
+        String currentUid = getCurrentUid();
+        if (currentUid == null) {
+            Log.w(TAG, "There is no currentUid yet!");
+            return;
         }
+        LiveData<UserInfo> userInfoLiveData = getUserInfo(otherUid);
+        userInfoLiveData.observeForever(
+                new Observer<UserInfo>() {
+                    @Override
+                    public void onChanged(UserInfo userInfo) {
+                        // Not already added
+                        if (userInfo.addFriendInvitation(currentUid)) {
+                            mUserCollection
+                                    .document(otherUid)
+                                    .update(UserInfo.FRIEND_INVITATIONS,
+                                            userInfo.getFriendInvitations())
+                                    .addOnSuccessListener(DefaultListeners.getInstance()
+                                            .getOnSuccessListener(TAG))
+                                    .addOnFailureListener(DefaultListeners.getInstance()
+                                            .getOnFailureListener(TAG))
+                                    .addOnCanceledListener(DefaultListeners.getInstance()
+                                            .getOnCanceledListener(TAG));
+                        }
+                        userInfoLiveData.removeObserver(this);
+                    }
+                }
+        );
     }
 
     /**

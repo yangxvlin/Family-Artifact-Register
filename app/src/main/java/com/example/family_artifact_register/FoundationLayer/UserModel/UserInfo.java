@@ -3,6 +3,8 @@ package com.example.family_artifact_register.FoundationLayer.UserModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.family_artifact_register.UI.Util.TimeToString;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -134,6 +136,22 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
 
     public Map<String, String> getFriendInvitations() {
         return friendInvitations;
+    }
+
+    public boolean addFriendInvitation(String uid) {
+        if (!friendInvitations.containsKey(uid)) {
+            friendInvitations.put(uid, TimeToString.getCurrentTimeFormattedString());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFriendInvitation(String uid) {
+        if (friendInvitations.containsKey(uid)) {
+            friendInvitations.remove(uid);
+            return true;
+        }
+        return false;
     }
 
     public Map<String, Boolean> getFriendUids() {
