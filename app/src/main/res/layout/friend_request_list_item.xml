@@ -10,7 +10,7 @@
     android:background="?attr/selectableItemBackground">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/avatar"
+        android:id="@+id/request_avatar"
         android:contentDescription="avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -20,18 +20,18 @@
         android:layout_marginTop="3dp"/>
 
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/request_username"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textSize="20sp"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/avatar"
+        android:layout_toEndOf="@id/request_avatar"
         android:layout_marginStart="20dp"
         android:text="Tim"
         android:gravity="center_vertical"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/accept_button"
+        android:id="@+id/request_accept_button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
