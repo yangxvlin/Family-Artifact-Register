@@ -85,6 +85,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.description.setText(artifactItemWrapper.getArtifactItemWrapper().getDescription());
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getDisplayName());
         holder.avatar.setImageURI(Uri.parse(artifactItemWrapper.getUserInfoWrapper().getPhotoUrl()));
+        holder.likes.setText(Integer.toString(artifactItemWrapper.getArtifactItemWrapper().getLikes().size()));
 
         mediaList = new ArrayList<>();
         for (String mediaUrl: artifactItemWrapper.getArtifactItemWrapper().getLocalMediaDataUrls()) {
@@ -142,6 +143,14 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 Intent i = new Intent(view.getContext(), TimelineActivity.class);
                 i.putExtra("timelineID", tid);
                 context.startActivity(i);
+            }
+        });
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.like.setImageResource(R.drawable.ic_liked);
+                holder.like.setTag("liked");
             }
         });
 
