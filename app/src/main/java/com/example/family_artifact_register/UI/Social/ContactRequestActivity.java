@@ -2,6 +2,7 @@ package com.example.family_artifact_register.UI.Social;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class ContactRequestActivity extends AppCompatActivity {
         viewModel.getRequests().observe(this, new Observer<Set<Request>>() {
             @Override
             public void onChanged(Set<Request> requests) {
+                Log.d(TAG, "get data from DB");
                 adapter.setData(requests);
             }
         });
@@ -113,15 +115,19 @@ public class ContactRequestActivity extends AppCompatActivity {
                 Request request;
                 if(dataSetIterator.hasNext()) {
                     request = dataSetIterator.next();
-                    if(request.getUser().getDisplayName() != null) {
-                        holder.username.setText(request.getUser().getDisplayName());
+                    String s = request.getUser().getDisplayName();
+                    if(s != null) {
+                        holder.username.setText(s);
                     }
-                    if(request.getUser().getPhotoUrl() != null) {
-                        holder.avatar.setImageURI(Uri.parse(request.getUser().getPhotoUrl()));
+                    s = request.getUser().getPhotoUrl();
+                    if(s != null) {
+                        Log.d(TAG, "url set to image view: " + s);
+                        holder.avatar.setImageURI(Uri.parse(s));
                     }
                     holder.accept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            Log.d(TAG, "accept button has been clicked");
 //                            viewModel.accept(request.getUser().getUid());
                             holder.accept.setEnabled(false);
                             holder.accept.setBackgroundColor(getResources().getColor(R.color.wechat_grey));
