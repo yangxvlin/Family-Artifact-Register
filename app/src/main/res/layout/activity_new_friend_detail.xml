@@ -15,7 +15,7 @@
             android:contentDescription="avatar"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:src="@drawable/default_avatar_detail"
+            android:src="@drawable/default_avatar_list"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_alignParentStart="true"/>
@@ -34,13 +34,14 @@
                 android:layout_height="wrap_content"
                 android:text="Username"
                 android:textSize="35sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
             <TextView
-                android:id="@+id/area_new"
+                android:id="@+id/email_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="area"
+                android:text="email"
                 android:textSize="25sp"/>
 
         </LinearLayout>

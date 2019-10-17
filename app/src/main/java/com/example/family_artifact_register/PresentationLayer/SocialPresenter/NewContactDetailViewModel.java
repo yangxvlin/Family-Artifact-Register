@@ -57,4 +57,12 @@ public class NewContactDetailViewModel extends AndroidViewModel {
         UserInfo currentUser = manager.getCurrentUserInfo();
         manager.addFriend(currentUser, UserInfoWrapper.toUserInfo(friend.getValue()));
     }
+
+    public void addFriend(String uid) {
+        manager.sendFriendInvitation(uid);
+    }
+
+    public String getUserUid() {
+        return manager.getCurrentUid();
+    }
 }
