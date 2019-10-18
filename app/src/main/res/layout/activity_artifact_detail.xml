@@ -61,14 +61,14 @@
 
     <!--    </ImageView>-->
 
-            <FrameLayout
-                android:id="@+id/map_happened"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@+id/post_image"
-                android:layout_marginHorizontal="10px"
-                android:layout_marginBottom="20dp"
-            />
+        <FrameLayout
+            android:id="@+id/map_happened"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/post_image"
+            android:layout_marginHorizontal="10px"
+            android:layout_marginBottom="20dp"
+        />
 
         <TextView
             android:layout_width="match_parent"
