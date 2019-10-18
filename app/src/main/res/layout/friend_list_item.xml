@@ -27,7 +27,7 @@
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@id/avatar"
         android:layout_marginStart="20dp"
-        android:text="Username"
+        android:text="@string/friend_list_item_username"
         android:gravity="center_vertical"/>
 
 </RelativeLayout>

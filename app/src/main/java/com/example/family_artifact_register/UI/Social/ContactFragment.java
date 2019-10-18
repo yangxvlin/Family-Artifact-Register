@@ -200,7 +200,6 @@ public class ContactFragment extends Fragment implements IFragment {
             }
             // data is not ready yet
             else {
-                // TODO what to display when data is not ready
                 holder.textView.setText("");
             }
         }
