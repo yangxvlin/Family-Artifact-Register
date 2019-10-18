@@ -83,5 +83,60 @@
             >
         </TextView>
 
+        <TextView
+            android:id="@+id/store_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Stored location"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical"
+            android:layout_below="@id/map_happened"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/store_location"
+            >
+            <TextView
+                android:id="@+id/publisher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="create time"
+                android:textSize="15sp"
+                android:layout_gravity="center_vertical"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeWidth="0dp"
+                    android:text="Comment"
+                    android:layout_toLeftOf="@+id/view_timeline"
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_timeline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeWidth="0dp"
+                    android:text="Timeline"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>
