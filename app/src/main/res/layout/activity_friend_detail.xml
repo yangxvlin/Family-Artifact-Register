@@ -50,7 +50,7 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:text="username"
+                    android:text="@string/activity_friend_detail_username"
                     android:textSize="25sp"
                     android:textStyle="bold"
                     android:layout_toEndOf="@id/avatar"
@@ -104,7 +104,7 @@
                         android:id="@+id/user_item_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Items"
+                        android:text="@string/activity_friend_detail_user_item_number"
                         android:layout_below="@id/item_number"
                         android:gravity="center"/>
 
@@ -139,7 +139,7 @@
                         android:id="@+id/user_timelineline_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Timelines"
+                        android:text="@string/activity_friend_detail_user_timeline_number"
                         android:layout_below="@id/timeline_number"
                         android:gravity="center"/>
 
@@ -174,7 +174,7 @@
                         android:id="@+id/user_friend_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Friends"
+                        android:text="@string/activity_friend_detail_user_friend_number"
                         android:layout_below="@id/friend_number"
                         android:gravity="center"/>
 
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/phone_icon"
                     android:layout_below="@id/phone_number"
-                    android:text="personal"
+                    android:text="@string/activity_friend_detail_phone_number"
                     android:textSize="17sp"
                     android:layout_marginStart="20dp"/>
 
@@ -244,7 +244,7 @@
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="\@student.unimelb.edu.au"
+                    android:text="me\@student.unimelb.edu.au"
                     android:textSize="25sp"
                     android:layout_toEndOf="@id/email_icon"
                     android:layout_marginStart="20dp"
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/email_icon"
                     android:layout_below="@id/email"
-                    android:text="personal"
+                    android:text="@string/activity_friend_detail_email_address"
                     android:textSize="17sp"
                     android:layout_marginStart="20dp"/>
 
