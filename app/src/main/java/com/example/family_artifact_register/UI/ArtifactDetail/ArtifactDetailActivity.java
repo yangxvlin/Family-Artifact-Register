@@ -25,6 +25,7 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPres
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 
@@ -82,9 +83,12 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
         ArtifactDetailActivity artifactDetailActivity = this;
 
-        viewModel.getArtifactItem(PostID).observe(this, new Observer<ArtifactItemWrapper>() {
+        viewModel.getArtifactItem(PostID).observe(this, new Observer<Pair<ArtifactItemWrapper, MapLocation>>() {
             @Override
-            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
+            public void onChanged(Pair<ArtifactItemWrapper, MapLocation> artifactItemWrapperMapLocationPair) {
+                ArtifactItemWrapper artifactItemWrapper = artifactItemWrapperMapLocationPair.getFst();
+                MapLocation mapLocation = artifactItemWrapperMapLocationPair.getSnd();
+
                 Log.d(TAG, "Some changes happen");
 
                 viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(artifactDetailActivity, new Observer<UserInfoWrapper>() {
@@ -173,8 +177,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         Log.e(TAG, "unknown media type !!!");
                     }
                 }
-
-
                 Log.d(TAG, "Set Data");
             }
         });
