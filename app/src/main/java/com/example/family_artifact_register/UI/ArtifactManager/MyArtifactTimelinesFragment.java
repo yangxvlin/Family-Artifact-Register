@@ -159,14 +159,21 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             }
             holder.duration.setSelected(true);
             holder.duration.setText(timelineDuration);
-            TimerTask task = new TimerTask() {
+            new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     holder.title.setSelected(true);
                     holder.duration.setSelected(true);
                 }
-            };
-            timer.scheduleAtFixedRate(task, 1, 200);
+            }, 500, 1000);
+//            TimerTask task = new TimerTask() {
+//                @Override
+//                public void run() {
+//                    holder.title.setSelected(true);
+//                    holder.duration.setSelected(true);
+//                }
+//            };
+//            timer.scheduleAtFixedRate(task, 1, 200);
             for(ArtifactItemWrapper item: dataSet.get(position).getArtifacts()) {
                 // all views have been set
                 if(imagesCount == 3) {
