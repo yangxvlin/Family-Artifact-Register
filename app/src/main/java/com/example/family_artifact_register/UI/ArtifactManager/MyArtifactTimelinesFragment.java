@@ -168,6 +168,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                     if(items.size() == 1) {
                         timelineDuration = currentItem.getUploadDateTime().substring(0, 7);
                     } else if(items.size() > 1) {
+                        items.sort(currentItem.getWrapperComparator());
                         String oldestTime = items.get(0).getHappenedDateTime().substring(0, 7);
                         String newestTime = items.get(items.size() - 1).getHappenedDateTime().substring(0, 7);
                         timelineDuration = oldestTime + " -- " + newestTime;
