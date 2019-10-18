@@ -80,7 +80,7 @@
     <string name="new_artifact_new_timeline_empty_title_warning">新的时间线的标题不能为空！</string>
     <string name="existing_timeline_spinner_prompt">添加到已有的时间线：</string>
     <string name="new_artifact_timeline_exists_warning">时间线已有！</string>
-  
+
     <!-- 地点相关服务字符串 -->
     <string name="option_get_place">使用当前位置</string>
     <string name="title_activity_maps">地图</string>
