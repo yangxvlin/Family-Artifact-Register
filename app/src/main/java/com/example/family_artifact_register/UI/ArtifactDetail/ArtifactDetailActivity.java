@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
@@ -30,6 +31,7 @@ import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFrag
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
@@ -85,6 +87,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
                 Log.d(TAG, "Some changes happen");
+                MapLocation happenedMapLocation = viewModel.getLocationHappened(artifactItemWrapper.getPostId());
 
                 viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(artifactDetailActivity, new Observer<UserInfoWrapper>() {
                     @Override
