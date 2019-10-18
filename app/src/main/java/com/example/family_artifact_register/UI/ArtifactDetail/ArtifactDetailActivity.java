@@ -76,7 +76,9 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
 
-    private MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+    private MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+
+    private MapDisplayFragment storedMap = MapDisplayFragment.newInstance(Collections.emptyList());
 
     private ImageView commentButton;
 
@@ -171,8 +173,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     // TODO give me upload MapLocation
                 }
 
-                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
-                happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
+                fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
+                happenedMap.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
@@ -296,9 +298,9 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //            public void onChanged(MapLocation mapLocation) {
 //                // TODO map location data from DB
 //                Log.d(TAG, "Happened Map Location: " + mapLocation.toString());
-//                MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
-//                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
-//                happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
+//                MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+//                fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
+//                happenedMap.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
 //            }
 //        });
 
@@ -369,7 +371,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //            @Override
 //            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
 //                detailImageAdapter.setData(artifactItemWrapper);
-//                Log.i(TAG, "some changes happened");
+//                Log.i(TAG, "some changes happenedMap");
 //
 ////                // Set artifact information the same as activity hub
 ////                mTitleTv.setText(artifactItemWrapper.getPostId());
