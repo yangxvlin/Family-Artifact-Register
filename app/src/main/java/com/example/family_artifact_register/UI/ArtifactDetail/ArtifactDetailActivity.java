@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
@@ -44,6 +46,7 @@ import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TY
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
+import static com.example.family_artifact_register.Util.ScreenUnitHelper.convertDpToPixel;
 
 public class ArtifactDetailActivity extends AppCompatActivity {
 
@@ -83,6 +86,10 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private TextView createLocationText;
 
+    private TextView storeLocationHint;
+
+    private FrameLayout storedLocationMap;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +113,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         likesNumber = findViewById(R.id.activity_artifact_detail_likes_text);
         commentButton = findViewById(R.id.activity_artifact_detail_comment);
         createLocationText = findViewById(R.id.activity_artifact_detail_create_location);
+        storeLocationHint = findViewById(R.id.activity_artifact_detail_stored_location_map_title);
+        storedLocationMap = findViewById(R.id.activity_artifact_detail_stored_location_map);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -148,6 +157,22 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 // Set artifact information the same as activity hub
                 desc.setText(artifactItemWrapper.getDescription());
                 time.setText(getCreateAt(new Pair<>(artifactItemWrapper, null), getApplicationContext()));
+
+                // current user is the owner
+                if (UserInfoManager.getInstance().getCurrentUid().equals(artifactItemWrapperMapLocationPair.getFst().getUid())) {
+                    RelativeLayout.LayoutParams frameParam = new RelativeLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            (int)convertDpToPixel(200, getApplicationContext()));
+                    frameParam.addRule(RelativeLayout.BELOW, R.id.activity_artifact_detail_stored_location_map_title);
+                    storedLocationMap.setLayoutParams(frameParam);
+                    storedLocationMap.setVisibility(View.VISIBLE);
+                    storeLocationHint.setVisibility(View.VISIBLE);
+
+                    // TODO give me upload MapLocation
+                }
+
+                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
+                happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
@@ -223,10 +248,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 }
                 Log.d(TAG, "Set Data");
 
-                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
-                //while (!happened.isMapReady()) {
-                happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
-                //}
 
                 Log.d(TAG, "Ready to run get store pair");
                 viewModel.getUploadLocation(PostID).observeForever(new Observer<MapLocation>() {

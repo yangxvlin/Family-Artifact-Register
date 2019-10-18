@@ -84,6 +84,30 @@
         />
 
         <TextView
+            android:id="@+id/activity_artifact_detail_stored_location_map_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stored_at"
+            android:layout_below="@+id/map_happened"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="10px"
+            android:layout_marginTop="10dp"
+            android:textSize="17sp"
+            android:visibility="gone"
+            />
+
+        <FrameLayout
+            android:id="@+id/activity_artifact_detail_stored_location_map"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/activity_artifact_detail_stored_location_map_title"
+            android:layout_marginHorizontal="10px"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/icon_loading"
+            android:visibility="gone"
+            />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/desc"
@@ -108,7 +132,7 @@
             android:id="@+id/activity_artifact_detail_likes_and_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/map_happened"
+            android:layout_below="@+id/activity_artifact_detail_stored_location_map"
             android:padding="8dp">
 
             <ImageView
