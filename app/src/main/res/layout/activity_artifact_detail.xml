@@ -69,6 +69,7 @@
                 android:layout_height="200dp"
                 android:layout_below="@+id/post_image"
                 android:layout_marginHorizontal="10px"
+                android:layout_marginBottom="20dp"
             />
 
         <TextView
@@ -88,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Stored location"
+            android:text="stored location"
             android:textSize="15sp"
             android:layout_gravity="center_vertical"
             android:layout_below="@id/map_happened"
