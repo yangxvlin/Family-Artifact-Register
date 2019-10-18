@@ -200,10 +200,10 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 //}
 
                 Log.d(TAG, "Ready to run get store pair");
-                viewModel.getStorePair(PostID).observeForever(new Observer<MapLocation>() {
+                viewModel.getUploadLocation(PostID).observeForever(new Observer<MapLocation>() {
                     @Override
                     public void onChanged(MapLocation mapLocation) {
-                        Log.d(TAG, "store location: " + mapLocation.toString());
+                        Log.d(TAG, "upload location: " + mapLocation.toString());
                         Pair<ArtifactItemWrapper, MapLocation> pair = new Pair<>(artifactItemWrapper, mapLocation);
                         mHelper.getAddress(pair, artifactDetailActivity);
                     }
