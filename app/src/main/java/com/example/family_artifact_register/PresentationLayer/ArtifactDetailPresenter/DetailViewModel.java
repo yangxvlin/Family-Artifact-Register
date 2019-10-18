@@ -126,24 +126,23 @@ public class DetailViewModel extends AndroidViewModel {
         return location;
     }
 
-    public LiveData<Pair<ArtifactItemWrapper, MapLocation>> getStorePair(String itemID) {
-        MutableLiveData<Pair<ArtifactItemWrapper, MapLocation>> storePair = new MutableLiveData<>();
+    public LiveData<MapLocation> getStorePair(String itemID) {
+        MutableLiveData<MapLocation> storeLocation = new MutableLiveData<>();
         artifactManager.getArtifactItemByPostId(itemID).observeForever(new Observer<ArtifactItem>() {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
-                List<String> mediaDataRemoteUrls = artifactItem.getMediaDataUrls();
-                ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
-
+                Log.d(TAG, "Get stored artifact change");
                 String locationStoredId = artifactItem.getLocationStoredId();
                 mapLocationManager.getMapLocationById(locationStoredId).observeForever(new Observer<MapLocation>() {
                     @Override
                     public void onChanged(MapLocation mapLocation) {
-                        storePair.setValue(new Pair<ArtifactItemWrapper, MapLocation>(wrapper, mapLocation));
+                        storeLocation.setValue(mapLocation);
+                        Log.d(TAG, "return store location: " + storeLocation.getValue().toString());
                     }
                 });
 
             }
         });
-        return storePair;
+        return storeLocation;
     }
 }

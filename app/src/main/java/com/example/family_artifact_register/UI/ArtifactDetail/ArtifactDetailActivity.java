@@ -30,6 +30,7 @@ import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
     private DetailImageAdapter detailImageAdapter;
 
     private DetailViewModel viewModel;
+
+    private MarkerHelper mHelper;
 
     private ArtifactItem artifactItem;
 
@@ -196,6 +199,16 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
                 //}
 
+                Log.d(TAG, "Ready to run get store pair");
+                viewModel.getStorePair(PostID).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        Log.d(TAG, "store location: " + mapLocation.toString());
+                        Pair<ArtifactItemWrapper, MapLocation> pair = new Pair<>(artifactItemWrapper, mapLocation);
+                        mHelper.getAddress(pair, artifactDetailActivity);
+                    }
+                });
+
                 timeline.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -208,6 +221,15 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
             }
         });
+
+//        Log.d(TAG, "Ready to run get store pair");
+//        viewModel.getStorePair(PostID).observeForever(new Observer<Pair<ArtifactItemWrapper, MapLocation>>() {
+//            @Override
+//            public void onChanged(Pair<ArtifactItemWrapper, MapLocation> artifactItemWrapperMapLocationPair) {
+//                Log.d(TAG, "store location: " + artifactItemWrapperMapLocationPair.getSnd().toString());
+//                mHelper.getAddress(artifactItemWrapperMapLocationPair, artifactDetailActivity);
+//            }
+//        });
 
         viewComment.setOnClickListener(new View.OnClickListener() {
             @Override
