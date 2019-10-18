@@ -170,7 +170,16 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     storedLocationMap.setVisibility(View.VISIBLE);
                     storeLocationHint.setVisibility(View.VISIBLE);
 
-                    // TODO give me upload MapLocation
+                    viewModel.getStoredLocation(PostID).observe(artifactDetailActivity, new Observer<MapLocation>() {
+                        /**
+                         * @param mapLocation stored location of artifact item
+                         */
+                        @Override
+                        public void onChanged(MapLocation mapLocation) {
+                            fm.beginTransaction().replace(R.id.activity_artifact_detail_stored_location_map, storedMap).commit();
+                            storedMap.addDisplayArtifactItems(new Pair<>(artifactItemWrapper, mapLocation));
+                        }
+                    });
                 }
 
                 fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();

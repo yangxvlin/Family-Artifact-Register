@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
@@ -20,7 +19,6 @@ import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorage
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.PresentationLayer.Util.Pair;
-import com.example.family_artifact_register.UI.ArtifactHub.ArtifactPostWrapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -146,5 +144,26 @@ public class DetailViewModel extends AndroidViewModel {
             }
         });
         return uploadLocation;
+    }
+
+    public LiveData<MapLocation> getStoredLocation(String itemID) {
+        MutableLiveData<MapLocation> storedLocation = new MutableLiveData<>();
+        artifactManager.getArtifactItemByPostId(itemID).observeForever(new Observer<ArtifactItem>() {
+            @Override
+            public void onChanged(ArtifactItem artifactItem) {
+                String storedLocationId = artifactItem.getLocationStoredId();
+                Log.d(TAG, "Get stored location id: " + storedLocationId);
+                mapLocationManager.getMapLocationById(storedLocationId).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        Log.d(TAG, "get map location");
+                        storedLocation.setValue(mapLocation);
+                        Log.d(TAG, "return upload location: " + storedLocation.getValue().toString());
+                    }
+                });
+
+            }
+        });
+        return storedLocation;
     }
 }
