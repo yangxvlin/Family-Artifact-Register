@@ -27,7 +27,10 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +60,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private ImageView avatar;
 
+    public MaterialButton viewComment, timeline;
+
     private FrameLayout postImage;
 
     private FragmentManager fm = getSupportFragmentManager();
@@ -79,8 +84,10 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         user = findViewById(R.id.user);
         postImage = findViewById(R.id.post_image);
         avatar = findViewById(R.id.avatarIv);
-        time = findViewById(R.id.create_time);
+        time = findViewById(R.id.publisher);
         storeLocation = findViewById(R.id.store_location);
+        viewComment = findViewById(R.id.view_comment);
+        timeline = findViewById(R.id.view_timeline);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -188,9 +195,28 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 //while (!happened.isMapReady()) {
                 happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
                 //}
+
+                timeline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String tid = artifactItemWrapper.getArtifactTimelineId();
+                        Intent i = new Intent(view.getContext(), TimelineActivity.class);
+                        i.putExtra("timelineID", tid);
+                        startActivity(i);
+                    }
+                });
+
             }
         });
 
+        viewComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                i.putExtra("artifactItemPostId", PostID);
+                startActivity(i);
+            }
+        });
 
 
 //        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
@@ -203,9 +229,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //                happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
 //            }
 //        });
+
     }
-
-
 
 }
 
