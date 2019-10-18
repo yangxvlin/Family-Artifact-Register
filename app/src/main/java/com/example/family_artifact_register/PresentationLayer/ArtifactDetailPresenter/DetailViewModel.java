@@ -20,6 +20,7 @@ import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorage
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.PresentationLayer.Util.Pair;
+import com.example.family_artifact_register.UI.ArtifactHub.ArtifactPostWrapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,9 +46,9 @@ public class DetailViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<ArtifactItemWrapper> getArtifactItem(String itemID) {
-        item = (MutableLiveData<ArtifactItem>) artifactManager.getArtifactItemByPostId(itemID);
-        item.observeForever(new Observer<ArtifactItem>() {
+    public LiveData<Pair<ArtifactItemWrapper, MapLocation>> getArtifactItem(String itemID) {
+        MutableLiveData<Pair<ArtifactItemWrapper, MapLocation>> artifactPair = new MutableLiveData<>();
+        artifactManager.getArtifactItemByPostId(itemID).observeForever(new Observer<ArtifactItem>() {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
                 List<String> mediaDataRemoteUrls = artifactItem.getMediaDataUrls();
@@ -69,9 +70,18 @@ public class DetailViewModel extends AndroidViewModel {
                         // artifactList.setValue(artifactList.getValue());
                     }
                 });
+
+                String locationHappenedId = artifactItem.getLocationHappenedId();
+                mapLocationManager.getMapLocationById(locationHappenedId).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        artifactPair.setValue(new Pair<ArtifactItemWrapper, MapLocation>(wrapper, mapLocation));
+                    }
+                });
+
             }
         });
-        return itemWrapper;
+        return artifactPair;
     }
 
     public LiveData<UserInfoWrapper> getPosterInfo(String posterId) {
