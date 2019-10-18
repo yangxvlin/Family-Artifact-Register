@@ -104,7 +104,7 @@
                         android:id="@+id/user_item_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Artifact Items"
+                        android:text="Items"
                         android:layout_below="@id/item_number"
                         android:gravity="center"/>
 
