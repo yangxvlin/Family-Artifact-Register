@@ -64,7 +64,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private ImageView avatar;
 
-    public MaterialButton viewComment, timeline;
+    public MaterialButton viewComment;//, timeline;
 
     private FrameLayout postImage;
 
@@ -97,7 +97,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         time = findViewById(R.id.publisher);
         // storeLocation = findViewById(R.id.store_location);
         viewComment = findViewById(R.id.view_comment);
-        timeline = findViewById(R.id.view_timeline);
+        // timeline = findViewById(R.id.view_timeline);
 
         likeButton = findViewById(R.id.activity_artifact_detail_likes);
         likesNumber = findViewById(R.id.activity_artifact_detail_likes_text);
