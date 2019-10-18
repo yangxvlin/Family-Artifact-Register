@@ -24,8 +24,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/avatar"
-            android:layout_marginStart="10dp"
-            android:src="@mipmap/ic_launcher">
+            android:layout_marginStart="10dp">
         </de.hdodenhof.circleimageview.CircleImageView>
 
         <EditText

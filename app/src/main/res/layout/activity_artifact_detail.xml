@@ -23,8 +23,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/avatarIv"
-                android:src="@mipmap/ic_launcher">
+                android:id="@+id/avatarIv">
             </de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
@@ -35,8 +34,7 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/primaryTextColor"
-                android:text="username">
+                android:textColor="@color/primaryTextColor">
             </TextView>
 
         </LinearLayout>
@@ -76,7 +74,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/desc"
-            android:text="Description"
             android:textSize="18sp"
             android:textColor="@color/primaryTextColor"
             android:layout_below="@id/linearlayout"
@@ -89,7 +86,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="stored location"
             android:textSize="15sp"
             android:layout_gravity="center_vertical"
             android:layout_below="@id/map_happened"
@@ -106,7 +102,6 @@
                 android:id="@+id/publisher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="create time"
                 android:textSize="15sp"
                 android:layout_gravity="center_vertical"
                 />
@@ -121,7 +116,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeWidth="0dp"
-                    android:text="Comment"
+                    android:text="@string/comment"
                     android:layout_toLeftOf="@+id/view_timeline"
                     />
 
@@ -131,7 +126,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeWidth="0dp"
-                    android:text="Timeline"
+                    android:text="@string/timeline"
                     android:layout_alignParentRight="true"
                     />
             </RelativeLayout>
