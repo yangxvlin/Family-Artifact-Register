@@ -139,6 +139,7 @@
     <string name="add_a_comment">留下评论...</string>
     <string name="comment">评论</string>
     <string name="timeline">时间线</string>
+    <string name="detail">详情</string>
 
 
 </resources>
