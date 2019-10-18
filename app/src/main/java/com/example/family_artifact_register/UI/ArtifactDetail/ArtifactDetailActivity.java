@@ -60,7 +60,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private String PostID;
 
-    private TextView desc, user, time, storeLocation;
+    private TextView desc, user, time; //, storeLocation;
 
     private ImageView avatar;
 
@@ -73,6 +73,12 @@ public class ArtifactDetailActivity extends AppCompatActivity {
     public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
 
     private MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+
+    private ImageView commentButton;
+
+    private ImageView likeButton;
+
+    private TextView likesNumber;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,9 +95,13 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         postImage = findViewById(R.id.post_image);
         avatar = findViewById(R.id.avatarIv);
         time = findViewById(R.id.publisher);
-        storeLocation = findViewById(R.id.store_location);
+        // storeLocation = findViewById(R.id.store_location);
         viewComment = findViewById(R.id.view_comment);
         timeline = findViewById(R.id.view_timeline);
+
+        likeButton = findViewById(R.id.activity_artifact_detail_likes);
+        likesNumber = findViewById(R.id.activity_artifact_detail_likes_text);
+        commentButton = findViewById(R.id.activity_artifact_detail_comment);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -114,6 +124,20 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         if(url != null) {
                             avatar.setImageURI(Uri.parse(url));
                         }
+                    }
+                });
+
+                likesNumber.setText(Integer.toString(artifactItemWrapperMapLocationPair.getFst().getLikes().size()));
+                // like button is always clicked to indicate the current number of likes received
+                likeButton.setImageResource(R.drawable.ic_liked);
+                likeButton.setTag("liked");
+                commentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String pid = artifactItemWrapperMapLocationPair.getFst().getPostId();
+                        Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                        i.putExtra("artifactItemPostId", pid);
+                        startActivity(i);
                     }
                 });
 
