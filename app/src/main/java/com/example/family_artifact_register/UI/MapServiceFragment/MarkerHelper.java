@@ -85,7 +85,7 @@ public class MarkerHelper {
         return String.format("%s%s\n%s%s\n%s\n%s\n%s\n",
                 context.getString(R.string.description), pair.getFst().getDescription(),
                 context.getString(R.string.happen_at), pair.getFst().getHappenedDateTime(),
-                getAddress(pair, context),
+                getAddress(pair, context, context.getString(R.string.locate_at)),
                 pair.getFst().getPostId(),
                 pair.getFst().getArtifactTimelineId()
         );
@@ -95,8 +95,8 @@ public class MarkerHelper {
         return context.getString(R.string.create_at) + pair.getFst().getUploadDateTime();
     }
 
-    public static String getAddress(Pair<ArtifactItemWrapper, MapLocation> pair, Context context) {
-        String snippet = context.getString(R.string.locate_at);
+    public static String getAddress(Pair<ArtifactItemWrapper, MapLocation> pair, Context context, String hint) {
+        String snippet = hint;
 
         if (pair.getSnd().getAddress() != null) {
             snippet += pair.getSnd().getAddress();
@@ -106,4 +106,6 @@ public class MarkerHelper {
 
         return snippet;
     }
+    
+    
 }

@@ -152,6 +152,7 @@
     <string name="comment">Comment</string>
     <string name="timeline">Timeline</string>
     <string name="detail">Detail</string>
+    <string name="upload_at">Upload At: </string>
 
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getAddress;
 import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
@@ -80,6 +81,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private TextView likesNumber;
 
+    private TextView createLocationText;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +105,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         likeButton = findViewById(R.id.activity_artifact_detail_likes);
         likesNumber = findViewById(R.id.activity_artifact_detail_likes_text);
         commentButton = findViewById(R.id.activity_artifact_detail_comment);
+        createLocationText = findViewById(R.id.activity_artifact_detail_create_location);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -230,7 +234,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     public void onChanged(MapLocation mapLocation) {
                         Log.d(TAG, "upload location: " + mapLocation.toString());
                         Pair<ArtifactItemWrapper, MapLocation> pair = new Pair<>(artifactItemWrapper, mapLocation);
-                        mHelper.getAddress(pair, artifactDetailActivity);
+                        createLocationText.setText(getAddress(pair, artifactDetailActivity, getString(R.string.upload_at)));
                     }
                 });
 

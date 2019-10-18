@@ -141,6 +141,16 @@
 
             </ImageView>
 
+            <TextView
+                android:id="@+id/activity_artifact_detail_create_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/activity_artifact_detail_comment"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+            />
+
         </RelativeLayout>
 
         <LinearLayout

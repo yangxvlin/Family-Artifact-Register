@@ -140,6 +140,7 @@
     <string name="comment">评论</string>
     <string name="timeline">时间线</string>
     <string name="detail">详情</string>
+    <string name="upload_at">上传于：</string>
 
 
 </resources>
