@@ -80,6 +80,7 @@
             android:layout_below="@+id/activity_artifact_detail_happened_location_map_title"
             android:layout_marginHorizontal="10px"
             android:layout_marginBottom="5dp"
+            android:background="@drawable/icon_loading"
         />
 
         <TextView
