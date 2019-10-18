@@ -63,6 +63,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
 
+    private MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,19 +180,24 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     }
                 }
                 Log.d(TAG, "Set Data");
+
+                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
+                //while (!happened.isMapReady()) {
+                happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
+                //}
             }
         });
 
-        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
-            @Override
-            public void onChanged(MapLocation mapLocation) {
-                // TODO map location data from DB
-                Log.d(TAG, "Happened Map Location: " + mapLocation.toString());
-                MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
-                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
-                happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
-            }
-        });
+//        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
+//            @Override
+//            public void onChanged(MapLocation mapLocation) {
+//                // TODO map location data from DB
+//                Log.d(TAG, "Happened Map Location: " + mapLocation.toString());
+//                MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+//                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
+//                happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
+//            }
+//        });
     }
 
 
