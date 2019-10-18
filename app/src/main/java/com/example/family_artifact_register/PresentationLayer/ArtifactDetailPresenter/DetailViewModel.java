@@ -99,7 +99,7 @@ public class DetailViewModel extends AndroidViewModel {
         return poster;
     }
 
-    public MapLocation getLocationHappenedId(String PostId) {
+    public MapLocation getLocationHappened(String PostId) {
         MapLocation location = new MapLocation();
         artifactManager.getArtifactItemByPostId(PostId).observeForever(new Observer<ArtifactItem>() {
             @Override
