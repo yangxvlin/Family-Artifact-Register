@@ -155,6 +155,10 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         displayLocations();
     }
 
+    public void setDisplayArtifactItems(ArtifactItemWrapper artifactItemWrapper, MapLocation mapLocation) {
+
+    }
+
     public void setDisplayArtifactItems(Pair<ArtifactItemWrapper, MapLocation> pair) {
         // Only display with marker if map is not null and there are locations stored
         if (mMap != null && pair != null) {

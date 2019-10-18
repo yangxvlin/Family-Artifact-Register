@@ -12,11 +12,14 @@ import androidx.lifecycle.Observer;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +32,8 @@ public class DetailViewModel extends AndroidViewModel {
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
 
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
+
+    private MapLocationManager mapLocationManager = MapLocationManager.getInstance();
 
     private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
@@ -94,16 +99,20 @@ public class DetailViewModel extends AndroidViewModel {
         return poster;
     }
 
-    public String getLocationHappenedId(String PostId) {
-        return artifactManager.getArtifactItemByPostId(PostId).getValue().getLocationHappenedId();
+    public MapLocation getLocationHappenedId(String PostId) {
+        MapLocation location = new MapLocation();
+        artifactManager.getArtifactItemByPostId(PostId).observeForever(new Observer<ArtifactItem>() {
+            @Override
+            public void onChanged(ArtifactItem artifactItem) {
+                String locationHappenedId = artifactItem.getLocationHappenedId();
+                mapLocationManager.getMapLocationById(locationHappenedId).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        location.set(mapLocation);
+                    }
+                });
+            }
+        });
+        return location;
     }
-
-    public String getLocationStoredId(String PostId) {
-        return artifactManager.getArtifactItemByPostId(PostId).getValue().getLocationStoredId();
-    }
-
-    public String getLocationUploadId(String PostId) {
-        return artifactManager.getArtifactItemByPostId(PostId).getValue().getLocationUploadedId();
-    }
-
 }
