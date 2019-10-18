@@ -82,9 +82,10 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_weight="3">
 
                     <TextView
                         android:id="@+id/item_number"
@@ -103,7 +104,7 @@
                         android:id="@+id/user_item_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Artifact Items"
+                        android:text="Items"
                         android:layout_below="@id/item_number"
                         android:gravity="center"/>
 
@@ -116,9 +117,10 @@
                     android:layout_gravity="center_vertical"/>
 
                 <RelativeLayout
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_weight="3">
 
                     <TextView
                         android:id="@+id/timeline_number"
@@ -150,9 +152,10 @@
                     android:layout_gravity="center_vertical"/>
 
                 <RelativeLayout
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_weight="3">
 
                     <TextView
                         android:id="@+id/friend_number"
