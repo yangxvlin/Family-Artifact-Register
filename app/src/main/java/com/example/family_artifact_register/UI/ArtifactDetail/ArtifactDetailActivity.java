@@ -53,7 +53,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private String PostID;
 
-    private TextView desc, user;
+    private TextView desc, user, time, storeLocation;
 
     private ImageView avatar;
 
@@ -79,6 +79,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         user = findViewById(R.id.user);
         postImage = findViewById(R.id.post_image);
         avatar = findViewById(R.id.avatarIv);
+        time = findViewById(R.id.create_time);
+        storeLocation = findViewById(R.id.store_location);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -106,6 +108,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
                 // Set artifact information the same as activity hub
                 desc.setText(artifactItemWrapper.getDescription());
+                time.setText(artifactItemWrapper.getUploadDateTime());
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
@@ -187,6 +190,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 //}
             }
         });
+
+
 
 //        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
 //            @Override
