@@ -125,4 +125,25 @@ public class DetailViewModel extends AndroidViewModel {
         });
         return location;
     }
+
+    public LiveData<Pair<ArtifactItemWrapper, MapLocation>> getStorePair(String itemID) {
+        MutableLiveData<Pair<ArtifactItemWrapper, MapLocation>> storePair = new MutableLiveData<>();
+        artifactManager.getArtifactItemByPostId(itemID).observeForever(new Observer<ArtifactItem>() {
+            @Override
+            public void onChanged(ArtifactItem artifactItem) {
+                List<String> mediaDataRemoteUrls = artifactItem.getMediaDataUrls();
+                ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
+
+                String locationStoredId = artifactItem.getLocationStoredId();
+                mapLocationManager.getMapLocationById(locationStoredId).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        storePair.setValue(new Pair<ArtifactItemWrapper, MapLocation>(wrapper, mapLocation));
+                    }
+                });
+
+            }
+        });
+        return storePair;
+    }
 }
