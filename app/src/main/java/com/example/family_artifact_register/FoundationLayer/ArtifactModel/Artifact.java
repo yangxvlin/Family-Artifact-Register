@@ -2,7 +2,6 @@ package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
 import com.example.family_artifact_register.UI.Util.TimeToString;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
