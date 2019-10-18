@@ -38,7 +38,7 @@ public class MyArtifactItemsViewModel extends AndroidViewModel {
     public MyArtifactItemsViewModel(Application application) {
         super(application);
         currentUid = userInfoManager.getCurrentUid();
-        artifactList = (MutableLiveData<List<ArtifactItem>>) artifactManager.getArtifactItemByUid(currentUid);
+        artifactList = (MutableLiveData<List<ArtifactItem>>) artifactManager.listenArtifactItemByUid(currentUid, "MyArtifactItemViewModel1");
         artifactWrapperList = new MutableLiveData<>();
         ArrayList<ArtifactItemWrapper> wrappers = new ArrayList<>();
         artifactWrapperList.setValue(wrappers);
