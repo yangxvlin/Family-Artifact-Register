@@ -1,5 +1,7 @@
 package com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter;
 
+import androidx.annotation.Nullable;
+
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 
 import java.util.ArrayList;
@@ -69,5 +71,10 @@ public class ArtifactItemWrapper {
 
     public String getArtifactTimelineId() {
         return this.artifactItem.getArtifactTimelineId();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return this.getPostId().equals(((ArtifactItemWrapper) obj).getPostId());
     }
 }
