@@ -31,7 +31,6 @@ import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFrag
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
@@ -82,12 +81,12 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 .get(DetailViewModel.class);
 
         ArtifactDetailActivity artifactDetailActivity = this;
+        MapLocation happenedMapLocation = viewModel.getLocationHappened(PostID);
 
         viewModel.getArtifactItem(PostID).observe(this, new Observer<ArtifactItemWrapper>() {
             @Override
             public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
                 Log.d(TAG, "Some changes happen");
-                MapLocation happenedMapLocation = viewModel.getLocationHappened(artifactItemWrapper.getPostId());
 
                 viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(artifactDetailActivity, new Observer<UserInfoWrapper>() {
                     @Override
@@ -184,6 +183,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         // TODO map location data from DB
         MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
         fm.beginTransaction().replace(R.id.map_happened, happened).commit();
+        happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), happenedMapLocation);
     }
 
 
