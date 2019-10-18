@@ -61,13 +61,25 @@
 
     <!--    </ImageView>-->
 
+        <TextView
+            android:id="@+id/activity_artifact_detail_happened_location_map_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/happen_at"
+            android:layout_below="@+id/post_image"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="10px"
+            android:layout_marginTop="10dp"
+            android:textSize="17sp"
+        />
+
         <FrameLayout
             android:id="@+id/map_happened"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_below="@+id/post_image"
+            android:layout_below="@+id/activity_artifact_detail_happened_location_map_title"
             android:layout_marginHorizontal="10px"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="5dp"
         />
 
         <TextView
