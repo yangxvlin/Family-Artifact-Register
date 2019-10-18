@@ -10,7 +10,7 @@
         android:id="@+id/friend_request"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:text="Friend Requests"
+        android:text="@string/fragment_contact_friend_request"
         android:textSize="20sp"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
