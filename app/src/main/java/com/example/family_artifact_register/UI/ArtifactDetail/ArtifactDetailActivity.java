@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
@@ -118,7 +119,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
                 // Set artifact information the same as activity hub
                 desc.setText(artifactItemWrapper.getDescription());
-                time.setText(artifactItemWrapper.getUploadDateTime());
+                time.setText(getCreateAt(new Pair<>(artifactItemWrapper, null), getApplicationContext()));
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
