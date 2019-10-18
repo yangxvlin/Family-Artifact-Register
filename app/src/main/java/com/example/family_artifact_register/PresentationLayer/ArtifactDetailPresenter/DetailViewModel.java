@@ -109,6 +109,7 @@ public class DetailViewModel extends AndroidViewModel {
         return poster;
     }
 
+    @Deprecated
     public LiveData<MapLocation> getLocationHappened(String PostId) {
         MutableLiveData<MapLocation> location = new MutableLiveData<>();
         artifactManager.getArtifactItemByPostId(PostId).observeForever(new Observer<ArtifactItem>() {
@@ -131,12 +132,12 @@ public class DetailViewModel extends AndroidViewModel {
         artifactManager.getArtifactItemByPostId(itemID).observeForever(new Observer<ArtifactItem>() {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
-                Log.d(TAG, "Get upload artifact change");
                 String uploadLocationId = artifactItem.getLocationUploadedId();
-                Log.d(TAG, uploadLocationId);
+                Log.d(TAG, "Get upload location id: " + uploadLocationId);
                 mapLocationManager.getMapLocationById(uploadLocationId).observeForever(new Observer<MapLocation>() {
                     @Override
                     public void onChanged(MapLocation mapLocation) {
+                        Log.d(TAG, "get map location");
                         uploadLocation.setValue(mapLocation);
                         Log.d(TAG, "return upload location: " + uploadLocation.getValue().toString());
                     }
