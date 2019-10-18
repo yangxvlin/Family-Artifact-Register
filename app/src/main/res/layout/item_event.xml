@@ -69,6 +69,8 @@
                     android:text="address"
                     android:textSize="15sp"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/item_event_button"
                     />
 
 
