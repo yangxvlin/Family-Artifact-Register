@@ -38,7 +38,7 @@ public class ContactSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_search2);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Add new friend");
+        actionBar.setTitle(R.string.ContactSearchActivity_title);
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
