@@ -136,6 +136,7 @@
     <string name="artifact_timeline">时间线</string>
     <string name="happen_at">发生于： </string>
     <string name="post_hint">发送</string>
+    <string name="add_a_comment">留下评论...</string>
 
 
 </resources>
