@@ -146,7 +146,13 @@ public class HubViewModel extends AndroidViewModel {
                                         uris.stream()
                                                 .map(Objects::toString)
                                                 .collect(Collectors.toList()));
-                                wrappers.add(wrapper);
+                                if(wrappers.contains(wrapper)) {
+                                    wrappers.remove(wrapper);
+                                    wrappers.add(wrapper);
+                                }
+                                else  {
+                                    wrappers.add(wrapper);
+                                }
                                 latestArtifactWrapperList.setValue(wrappers);
                             }
                         });
