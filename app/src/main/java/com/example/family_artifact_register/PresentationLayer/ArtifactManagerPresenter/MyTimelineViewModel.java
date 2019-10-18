@@ -56,7 +56,7 @@ public class MyTimelineViewModel extends AndroidViewModel {
                     ArtifactTimelineWrapper timelineWrapper = new ArtifactTimelineWrapper(timeline);
 
                     for(String postID: timeline.getArtifactItemPostIds()) {
-                        artifactManager.listenArtifactItemByPostId(postID, "MyTimelineViewModel1").observeForever(new Observer<ArtifactItem>() {
+                        artifactManager.listenArtifactItemByPostId(postID, "MyTimelineViewModel2").observeForever(new Observer<ArtifactItem>() {
                             @Override
                             public void onChanged(ArtifactItem artifactItem) {
                                 ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
