@@ -27,7 +27,7 @@
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@id/request_avatar"
         android:layout_marginStart="20dp"
-        android:text="Username"
+        android:text="@string/friend_request_list_item_request_username"
         android:gravity="center_vertical"/>
 
     <com.google.android.material.button.MaterialButton
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:text="Accept"
+        android:text="@string/friend_request_list_item_request_accept_button"
         android:layout_marginEnd="20dp"/>
 
 </RelativeLayout>
