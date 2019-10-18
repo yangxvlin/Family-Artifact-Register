@@ -24,15 +24,16 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactTimelineWrapper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModelFactory;
-import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
-import com.example.family_artifact_register.User;
+
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Set;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
@@ -103,10 +104,8 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 super(itemView);
                 cardView = itemView.findViewById(R.id.cardview);
                 title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
-                title.setSelected(true);
                 uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
                 duration = itemView.findViewById(R.id.my_timeline_recyclerview_item_duration);
-                duration.setSelected(true);
                 image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
                 image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
                 image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
@@ -114,6 +113,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
         }
 
         private Context context;
+
         private Set<ArtifactTimelineWrapper> dataSet;
         private Comparator<ArtifactTimelineWrapper> comparator;
         private Iterator<ArtifactTimelineWrapper> dataSetIterator;
@@ -146,6 +146,14 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                     startActivity(intent);
                 }
             });
+//            TimerTask task = new TimerTask() {
+//                @Override
+//                public void run() {
+//                    holder.title.setSelected(true);
+//                    holder.duration.setSelected(true);
+//                }
+//            };
+//            timer.scheduleAtFixedRate(task, 1, 200);
             if(dataSet != null) {
                 if(dataSetIterator.hasNext()) {
                     ArtifactTimelineWrapper currentItem = dataSetIterator.next();
@@ -166,6 +174,13 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                     }
                     holder.duration.setSelected(true);
                     holder.duration.setText(timelineDuration);
+                    new Timer().scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            holder.title.setSelected(true);
+                            holder.duration.setSelected(true);
+                        }
+                    }, 500, 1000);
                     for(ArtifactItemWrapper item: currentItem.getArtifacts()) {
                         // all views have been set
                         if(imagesCount == 3) {
