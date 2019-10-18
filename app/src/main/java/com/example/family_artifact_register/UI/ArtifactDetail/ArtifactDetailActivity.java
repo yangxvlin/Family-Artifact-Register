@@ -81,7 +81,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 .get(DetailViewModel.class);
 
         ArtifactDetailActivity artifactDetailActivity = this;
-        MapLocation happenedMapLocation = viewModel.getLocationHappened(PostID);
 
         viewModel.getArtifactItem(PostID).observe(this, new Observer<ArtifactItemWrapper>() {
             @Override
@@ -180,10 +179,16 @@ public class ArtifactDetailActivity extends AppCompatActivity {
             }
         });
 
-        // TODO map location data from DB
-        MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
-        fm.beginTransaction().replace(R.id.map_happened, happened).commit();
-        happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), happenedMapLocation);
+        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
+            @Override
+            public void onChanged(MapLocation mapLocation) {
+                // TODO map location data from DB
+                Log.d(TAG, "Happened Map Location: " + mapLocation.toString());
+                MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
+                happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
+            }
+        });
     }
 
 

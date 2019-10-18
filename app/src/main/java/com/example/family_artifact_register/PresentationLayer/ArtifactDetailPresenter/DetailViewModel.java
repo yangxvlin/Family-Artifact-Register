@@ -99,8 +99,8 @@ public class DetailViewModel extends AndroidViewModel {
         return poster;
     }
 
-    public MapLocation getLocationHappened(String PostId) {
-        MapLocation location = new MapLocation();
+    public LiveData<MapLocation> getLocationHappened(String PostId) {
+        MutableLiveData<MapLocation> location = new MutableLiveData<>();
         artifactManager.getArtifactItemByPostId(PostId).observeForever(new Observer<ArtifactItem>() {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
@@ -108,7 +108,7 @@ public class DetailViewModel extends AndroidViewModel {
                 mapLocationManager.getMapLocationById(locationHappenedId).observeForever(new Observer<MapLocation>() {
                     @Override
                     public void onChanged(MapLocation mapLocation) {
-                        location.set(mapLocation);
+                        location.setValue(mapLocation);
                     }
                 });
             }
