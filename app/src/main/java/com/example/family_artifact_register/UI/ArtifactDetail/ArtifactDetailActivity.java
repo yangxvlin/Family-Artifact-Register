@@ -64,7 +64,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private ImageView avatar;
 
-    public MaterialButton viewComment;//, timeline;
+    public MaterialButton timeline;//, viewComment;
 
     private FrameLayout postImage;
 
@@ -96,8 +96,8 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         avatar = findViewById(R.id.avatarIv);
         time = findViewById(R.id.publisher);
         // storeLocation = findViewById(R.id.store_location);
-        viewComment = findViewById(R.id.view_comment);
-        // timeline = findViewById(R.id.view_timeline);
+        // viewComment = findViewById(R.id.view_comment);
+        timeline = findViewById(R.id.view_timeline);
 
         likeButton = findViewById(R.id.activity_artifact_detail_likes);
         likesNumber = findViewById(R.id.activity_artifact_detail_likes_text);
@@ -256,14 +256,14 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //            }
 //        });
 
-        viewComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
-                i.putExtra("artifactItemPostId", PostID);
-                startActivity(i);
-            }
-        });
+//        viewComment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+//                i.putExtra("artifactItemPostId", PostID);
+//                startActivity(i);
+//            }
+//        });
 
 
 //        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
