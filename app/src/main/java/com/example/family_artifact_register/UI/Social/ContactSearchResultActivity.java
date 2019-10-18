@@ -35,6 +35,9 @@ public class ContactSearchResultActivity extends AppCompatActivity {
      */
     public static final String TAG = ContactSearchResultActivity.class.getSimpleName();
 
+    public static final String DISPLAY_EMAIL = "email";
+    public static final String DISPLAY_NAME = "displayname";
+
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private SearchResultAdapter adapter;
@@ -97,7 +100,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         });
 
         ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setTitle(query);
+        getSupportActionBar().setTitle("Query: " + query);
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
     }
 
@@ -168,7 +171,21 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
             if(dataSet != null) {
-                holder.textView.setText(dataSet.get(position).getDisplayName());
+                String s;
+                if(viewModel.getDisplayMode().equals(DISPLAY_EMAIL)) {
+                    Log.d(TAG, "email, mode chosen by view model: " + viewModel.getDisplayMode());
+                    s = dataSet.get(position).getEmail();
+                    if(s != null && s.length() > 0) {
+                        holder.textView.setText(s);
+                    }
+                }
+                else if(viewModel.getDisplayMode().equals(DISPLAY_NAME)) {
+                    Log.d(TAG, "displayname, mode chosen by view model: " + viewModel.getDisplayMode());
+                    s = dataSet.get(position).getDisplayName();
+                    if(s != null && s.length() > 0) {
+                        holder.textView.setText(s);
+                    }
+                }
                 holder.itemId = dataSet.get(position).getUid();
                 String url = dataSet.get(position).getPhotoUrl();
                 if(url != null) {

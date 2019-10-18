@@ -6,8 +6,10 @@ import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.example.family_artifact_register.FoundationLayer.Util.DefaultListeners;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.example.family_artifact_register.Util.Callback;
@@ -143,12 +145,20 @@ public class UserInfoManager {
     }
 
     public LiveData<UserInfo> getUserInfo(String uid) {
-        // TODO
-        return null;
+        LiveData<UserInfo> userInfoLiveData = listenUserInfo(uid);
+        userInfoLiveData.observeForever(
+                new Observer<UserInfo>() {
+                    @Override
+                    public void onChanged(UserInfo userInfo) {
+                        removeListener(uid);
+                        userInfoLiveData.removeObserver(this);
+                    }
+                }
+        );
+        return userInfoLiveData;
     }
 
     public LiveData<UserInfo> getUserInfo(List<String> uid) {
-        // TODO
         return null;
     }
 
@@ -308,17 +318,15 @@ public class UserInfoManager {
      * @param userInfo1 The first user to connect
      * @param userInfo2 The second user to connect
      *
-     * @deprecated Temporary solution for this, will be modified in the future (this api will then be private)
      */
-    @Deprecated()
-    public void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
+    private void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
         // Make them friend
         if (userInfo1.addFriendUid(userInfo2.getUid())) {
             // Save User info to server
             mUserCollection
                     .document(userInfo1.getUid())
                     .update(UserInfo.FRIEND_UIDS,
-                    userInfo1.getFriendUids()).addOnSuccessListener(aVoid ->
+                            userInfo1.getFriendUids()).addOnSuccessListener(aVoid ->
                     Log.d(TAG, "User friend list"
                             + userInfo1.toString()
                             + "successfully written!"))
@@ -340,6 +348,80 @@ public class UserInfoManager {
                     .addOnFailureListener(e ->
                             Log.w(TAG, "Error writing friend list" +
                                     userInfo2.toString(), e));
+        }
+    }
+
+    /**
+     * Send an invitation from Current User to the other User
+     *
+     * @param otherUid The other userId to send invitation to
+     *
+     */
+    public void sendFriendInvitation(String otherUid) {
+        String currentUid = getCurrentUid();
+        if (currentUid == null) {
+            Log.w(TAG, "There is no currentUid yet!");
+            return;
+        }
+        LiveData<UserInfo> userInfoLiveData = getUserInfo(otherUid);
+        userInfoLiveData.observeForever(
+                new Observer<UserInfo>() {
+                    @Override
+                    public void onChanged(UserInfo userInfo) {
+                        // Not already added
+                        if (userInfo.addFriendInvitation(currentUid)) {
+                            mUserCollection
+                                    .document(otherUid)
+                                    .update(UserInfo.FRIEND_INVITATIONS,
+                                            userInfo.getFriendInvitations())
+                                    .addOnSuccessListener(DefaultListeners.getInstance()
+                                            .getOnSuccessListener(TAG))
+                                    .addOnFailureListener(DefaultListeners.getInstance()
+                                            .getOnFailureListener(TAG))
+                                    .addOnCanceledListener(DefaultListeners.getInstance()
+                                            .getOnCanceledListener(TAG));
+                        }
+                        userInfoLiveData.removeObserver(this);
+                    }
+                }
+        );
+    }
+
+    /**
+     * Accept an invitation from Current User to the other User
+     *
+     * @param otherUid The other userId to send invitation to
+     *
+     */
+    public void acceptFriendInvitation(String otherUid) {
+        UserInfo currentUserInfo = getCurrentUserInfo();
+        if (currentUserInfo != null) {
+            if (currentUserInfo.getFriendInvitations().containsKey(otherUid)) {
+                // Get other User Info
+                LiveData<UserInfo> otherUserInfoLiveData = getUserInfo(otherUid);
+                otherUserInfoLiveData.observeForever(
+                        new Observer<UserInfo>() {
+                            @Override
+                            public void onChanged(UserInfo otherUserInfo) {
+                                // Add friend
+                                addFriend(getCurrentUserInfo(), otherUserInfo);
+
+                                // Remove invitation from the invitation map
+                                currentUserInfo.getFriendInvitations().remove(otherUid);
+                                mUserCollection.document(getCurrentUid())
+                                        .update(UserInfo.FRIEND_INVITATIONS,
+                                                currentUserInfo.getFriendInvitations())
+                                        .addOnSuccessListener(DefaultListeners.getInstance()
+                                                .getOnSuccessListener(TAG))
+                                        .addOnFailureListener(DefaultListeners.getInstance()
+                                                .getOnFailureListener(TAG))
+                                        .addOnCanceledListener(DefaultListeners.getInstance()
+                                                .getOnCanceledListener(TAG));
+                                otherUserInfoLiveData.removeObserver(this);
+                            }
+                        }
+                );
+            }
         }
     }
 

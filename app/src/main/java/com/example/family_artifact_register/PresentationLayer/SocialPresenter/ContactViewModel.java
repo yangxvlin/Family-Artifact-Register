@@ -66,26 +66,34 @@ public class ContactViewModel extends AndroidViewModel {
 //                });
 //                x.addAll(manager.listenUserInfo(friendUids));
 
+                Log.d(TAG, "friend list size: " + friendList.size());
                 for(LiveData<UserInfo> i: friendList) {
                     friends.removeSource(i);
                     friends.addSource(i, new Observer<UserInfo>() {
                         @Override
                         public void onChanged(UserInfo userInfo) {
+                            Log.d(TAG, "friend info: " + userInfo.toString());
                             UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
-                            friends.getValue().add(wrapper);
-                            friends.setValue(friends.getValue());
+//                            friends.getValue().add(wrapper);
+//                            friends.setValue(friends.getValue());
                             String url = wrapper.getPhotoUrl();
-                            if(url == null) {
+                            if(url == null && !wrapper.getUid().equals(manager.getCurrentUid())) {
                                 wrapper.setPhotoUrl(null);
-                                friends.setValue(friends.getValue());
+                                friends.getValue().add(wrapper);
+                                friends.postValue(friends.getValue());
                             }
                             else {
                                 helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
-                                        wrapper.setPhotoUrl(uri.toString());
-//                                    friends.getValue().add(userInfo);
-                                        friends.setValue(friends.getValue());
+                                        if(!wrapper.getUid().equals(manager.getCurrentUid())) {
+                                            wrapper.setPhotoUrl(uri.toString());
+                                            friends.getValue().add(wrapper);
+                                            friends.postValue(friends.getValue());
+                                        }
+//                                        wrapper.setPhotoUrl(uri.toString());
+//                                        friends.getValue().add(wrapper);
+//                                        friends.postValue(friends.getValue());
                                     }
                                 });
                             }
