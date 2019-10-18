@@ -25,6 +25,19 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVi
 public class MarkerHelper {
     public static final String TAG = MarkerHelper.class.getSimpleName();
 
+    public static MarkerOptions setUpMarker(Pair<ArtifactItemWrapper, MapLocation> pair, String title, String snippet) {
+        MapLocation storeLocation = pair.getSnd();
+
+        // Log.d(getFragmentTag(), "store location = " + storeLocation.toString());
+
+        MarkerOptions opt = new MarkerOptions()
+                .position(new LatLng(storeLocation.getLatitude(),
+                        storeLocation.getLongitude()))
+                .title(title)
+                .snippet(snippet);
+        return opt;
+    }
+
     public static MarkerOptions setUpMarker(Pair<ArtifactItemWrapper, MapLocation> pair, Context context, int width, int height, String title, String snippet) {
         ArtifactItemWrapper artifactItemWrapper = pair.getFst();
         MapLocation storeLocation = pair.getSnd();

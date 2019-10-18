@@ -12,8 +12,15 @@ import androidx.lifecycle.Observer;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.Artifact;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfo;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.example.family_artifact_register.PresentationLayer.Util.Pair;
+import com.example.family_artifact_register.UI.ArtifactHub.ArtifactPostWrapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +32,10 @@ public class DetailViewModel extends AndroidViewModel {
 
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
 
+    private UserInfoManager userInfoManager = UserInfoManager.getInstance();
+
+    private MapLocationManager mapLocationManager = MapLocationManager.getInstance();
+
     private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
     private MutableLiveData<ArtifactItem> item;
@@ -35,9 +46,9 @@ public class DetailViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<ArtifactItemWrapper> getArtifactItem(String itemID) {
-        item = (MutableLiveData<ArtifactItem>) artifactManager.getArtifactItemByPostId(itemID);
-        item.observeForever(new Observer<ArtifactItem>() {
+    public LiveData<Pair<ArtifactItemWrapper, MapLocation>> getArtifactItem(String itemID) {
+        MutableLiveData<Pair<ArtifactItemWrapper, MapLocation>> artifactPair = new MutableLiveData<>();
+        artifactManager.getArtifactItemByPostId(itemID).observeForever(new Observer<ArtifactItem>() {
             @Override
             public void onChanged(ArtifactItem artifactItem) {
                 List<String> mediaDataRemoteUrls = artifactItem.getMediaDataUrls();
@@ -59,8 +70,59 @@ public class DetailViewModel extends AndroidViewModel {
                         // artifactList.setValue(artifactList.getValue());
                     }
                 });
+
+                String locationHappenedId = artifactItem.getLocationHappenedId();
+                mapLocationManager.getMapLocationById(locationHappenedId).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        artifactPair.setValue(new Pair<ArtifactItemWrapper, MapLocation>(wrapper, mapLocation));
+                    }
+                });
+
             }
         });
-        return itemWrapper;
+        return artifactPair;
+    }
+
+    public LiveData<UserInfoWrapper> getPosterInfo(String posterId) {
+        MutableLiveData<UserInfoWrapper> poster = new MutableLiveData<>();
+        userInfoManager.listenUserInfo(posterId).observeForever(new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
+                if(wrapper.getPhotoUrl() == null) {
+                    wrapper.setPhotoUrl(null);
+                    poster.postValue(wrapper);
+                }
+                else {
+                    fSHelper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
+                        @Override
+                        public void onChanged(Uri uri) {
+                            wrapper.setPhotoUrl(uri.toString());
+                            poster.postValue(wrapper);
+                        }
+                    });
+                }
+
+            }
+        });
+        return poster;
+    }
+
+    public LiveData<MapLocation> getLocationHappened(String PostId) {
+        MutableLiveData<MapLocation> location = new MutableLiveData<>();
+        artifactManager.getArtifactItemByPostId(PostId).observeForever(new Observer<ArtifactItem>() {
+            @Override
+            public void onChanged(ArtifactItem artifactItem) {
+                String locationHappenedId = artifactItem.getLocationHappenedId();
+                mapLocationManager.getMapLocationById(locationHappenedId).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        location.setValue(mapLocation);
+                    }
+                });
+            }
+        });
+        return location;
     }
 }

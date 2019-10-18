@@ -1,10 +1,7 @@
 package com.example.family_artifact_register.UI.ArtifactDetail;
 
-import android.net.Uri;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +22,9 @@ public class DetailImageViewHolder extends RecyclerView.ViewHolder {
 //        this.mDescTv = itemView.findViewById(R.id.desc);
     }
 
-    public void clearFrame() { postImage.removeAllViews(); }
+    public void clearFrame() {
+        postImage.removeAllViews();
+        // mapHappened.removeAllViews();
+    }
 
 }

@@ -13,18 +13,24 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
@@ -47,41 +53,59 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private String PostID;
 
-    private TextView post, desc, user;
+    private TextView desc, user;
+
+    private ImageView avatar;
 
     private FrameLayout postImage;
 
+    private FragmentManager fm = getSupportFragmentManager();
+
     public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
+
+    private MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_detail);
+        setContentView(R.layout.activity_artifact_detail);
         Intent intent = getIntent();
         PostID = intent.getStringExtra(ARTIFACT_ITEM_ID_KEY);
 
 
         detailImageAdapter = new DetailImageAdapter(this);
 
-        post = findViewById(R.id.publisher);
         desc = findViewById(R.id.desc);
         user = findViewById(R.id.user);
         postImage = findViewById(R.id.post_image);
+        avatar = findViewById(R.id.avatarIv);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
 
         ArtifactDetailActivity artifactDetailActivity = this;
 
-        viewModel.getArtifactItem(PostID).observe(this, new Observer<ArtifactItemWrapper>() {
+        viewModel.getArtifactItem(PostID).observe(this, new Observer<Pair<ArtifactItemWrapper, MapLocation>>() {
             @Override
-            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
+            public void onChanged(Pair<ArtifactItemWrapper, MapLocation> artifactItemWrapperMapLocationPair) {
+                ArtifactItemWrapper artifactItemWrapper = artifactItemWrapperMapLocationPair.getFst();
+                MapLocation mapLocation = artifactItemWrapperMapLocationPair.getSnd();
+
                 Log.d(TAG, "Some changes happen");
 
+                viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(artifactDetailActivity, new Observer<UserInfoWrapper>() {
+                    @Override
+                    public void onChanged(UserInfoWrapper userInfoWrapper) {
+                        String url = userInfoWrapper.getPhotoUrl();
+                        user.setText(userInfoWrapper.getDisplayName());
+                        if(url != null) {
+                            avatar.setImageURI(Uri.parse(url));
+                        }
+                    }
+                });
+
                 // Set artifact information the same as activity hub
-                post.setText(artifactItemWrapper.getPostId());
                 desc.setText(artifactItemWrapper.getDescription());
-                user.setText(artifactItemWrapper.getUid());
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
@@ -145,7 +169,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         postImage.addView(mediaView);
                     } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
                         // video view
-                        mediaView = getVideoThumbnail(750, 750,
+                        mediaView = getVideoThumbnail(postImage.getWidth(), postImage.getWidth(),
                                 mediaList.get(0), artifactDetailActivity);
 
                         ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
@@ -155,11 +179,25 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         Log.e(TAG, "unknown media type !!!");
                     }
                 }
-
-
                 Log.d(TAG, "Set Data");
+
+                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
+                //while (!happened.isMapReady()) {
+                happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
+                //}
             }
         });
+
+//        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
+//            @Override
+//            public void onChanged(MapLocation mapLocation) {
+//                // TODO map location data from DB
+//                Log.d(TAG, "Happened Map Location: " + mapLocation.toString());
+//                MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+//                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
+//                happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
+//            }
+//        });
     }
 
 
@@ -190,7 +228,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.fragment_detail);
+//        setContentView(R.layout.activity_artifact_detail);
 //
 //        // Use intent to send information to artifact detail activity
 //        Intent intent = getIntent();
@@ -279,7 +317,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //
 ////    @Override
 ////    protected int getLayoutResource() {
-////        return R.layout.fragment_detail;
+////        return R.layout.activity_artifact_detail;
 ////    }
 //    /**
 //     * @return created me fragment

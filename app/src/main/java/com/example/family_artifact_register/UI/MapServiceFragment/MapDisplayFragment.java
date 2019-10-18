@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getAddress;
 import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
 import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getSnippet;
 import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.setUpMarker;
@@ -59,6 +60,8 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     // TODO to be implemented in the future for a correct way for interaction
     private OnFragmentInteractionListener mListener;
 
+    private List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems;
+
     /**
      * Required empty public constructor
      */
@@ -72,7 +75,9 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(List<MapLocation> locations) {
-        return MapDisplayFragment.newInstance(locations, false);
+        MapDisplayFragment fragment = MapDisplayFragment.newInstance(locations, false);
+        fragment.artifactItems = new ArrayList<>();
+        return fragment;
     }
 
     /**
@@ -147,6 +152,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         mapView.getMapAsync(this);
     }
 
+    @Deprecated
     public void setDisplayLocations(List<MapLocation> locations) {
         this.locations = locations;
         for (MapLocation mapLocation :locations) {
@@ -155,24 +161,39 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         displayLocations();
     }
 
+    @Deprecated
+    public void setDisplayArtifactItems(ArtifactItemWrapper artifactItemWrapper, MapLocation mapLocation) {
+        setDisplayArtifactItems(new Pair<>(artifactItemWrapper, mapLocation));
+    }
+
+    public void addDisplayArtifactItems(Pair<ArtifactItemWrapper, MapLocation> pair) {
+        this.artifactItems.add(pair);
+    }
+
     public void setDisplayArtifactItems(Pair<ArtifactItemWrapper, MapLocation> pair) {
+        Log.d(getFragmentTag(), "map location " + pair.getSnd().toString());
         // Only display with marker if map is not null and there are locations stored
         if (mMap != null && pair != null) {
             mMap.clear();
             List<Marker> markers = new ArrayList<>();
+            Log.d(getFragmentTag(), "map location " + pair.getSnd().toString());
             MarkerOptions opt = setUpMarker(pair,
-                    getContext(),
-                    IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT,
                     getCreateAt(pair, getContext()),
-                    getSnippet(pair, getContext()));
+                    getAddress(pair, getContext()));
 
             markers.add(mMap.addMarker(opt));
             CameraUpdate cu = MarkerZoomStrategyFactory
                     .getMarkerZoomStrategyFactory()
                     .getMarkerZoomStrategy(markers.size())
                     .makeCameraUpdate(markers);
-            mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+            // mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
             mMap.animateCamera(cu);
+        }
+    }
+
+    public void displayArtifactItemsPairs(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
+        for (Pair<ArtifactItemWrapper, MapLocation> pair: artifactItems) {
+            setDisplayArtifactItems(pair);
         }
     }
 
@@ -195,7 +216,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
                     .getMarkerZoomStrategyFactory()
                     .getMarkerZoomStrategy(markers.size())
                     .makeCameraUpdate(markers);
-            mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+            // mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
             mMap.animateCamera(cu);
         }
     }
@@ -232,6 +253,11 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         displayLocations();
+        displayArtifactItemsPairs(this.artifactItems);
+    }
+
+    public boolean isMapReady() {
+        return mMap != null;
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
@@ -270,6 +296,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
 
     // ********************************************************************************************
     // MyInfoWindowAdapter to customize the popup window in the google map marker
+    @Deprecated
     public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         private final View mWindow;
 

@@ -1,30 +1,20 @@
 package com.example.family_artifact_register.UI.ArtifactDetail;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
-import com.example.family_artifact_register.UI.ArtifactDetail.DetailImageViewHolder;
-import com.example.family_artifact_register.UI.ArtifactHub.HubModelViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
@@ -49,10 +39,11 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
     @NonNull
     @Override
     public DetailImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_detail, parent, false);
+        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_artifact_detail, parent, false);
         return new DetailImageViewHolder(view);
     }
 
+    //TODO: add map images after post images
     @Override
     public void onBindViewHolder(@NonNull DetailImageViewHolder holder, int position) {
 //        ArtifactItemWrapper artifactItemWrapper = artifactItemWrapper.get(position);
