@@ -28,6 +28,8 @@ import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //public class HubFragment extends Fragment implements IFragment {
 //
@@ -331,6 +333,14 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
                 Log.d(TAG, "onChanged: get friends post change");
             }
         });
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                viewModel.getPostsChange();
+                Log.d(TAG, "task scheduled");
+            }
+        }, 1000);
     }
 
     /**
