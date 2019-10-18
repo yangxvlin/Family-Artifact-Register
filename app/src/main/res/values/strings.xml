@@ -147,7 +147,7 @@
     <string name="artifact_item_detail">Detail</string>
     <string name="artifact_timeline">Timeline</string>
     <string name="happen_at">Happened At: </string>
-
+    <string name="post_hint">POST</string>
 
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
