@@ -80,7 +80,7 @@
     <string name="new_artifact_new_timeline_empty_title_warning">新的时间线的标题不能为空！</string>
     <string name="existing_timeline_spinner_prompt">添加到已有的时间线：</string>
     <string name="new_artifact_timeline_exists_warning">时间线已有！</string>
-  
+
     <!-- 地点相关服务字符串 -->
     <string name="option_get_place">使用当前位置</string>
     <string name="title_activity_maps">地图</string>
@@ -136,6 +136,12 @@
     <string name="artifact_timeline">时间线</string>
     <string name="happen_at">发生于： </string>
     <string name="post_hint">发送</string>
+    <string name="add_a_comment">留下评论...</string>
+    <string name="comment">评论</string>
+    <string name="timeline">时间线</string>
+    <string name="detail">详情</string>
+    <string name="upload_at">上传于：</string>
+    <string name="stored_at">储存于：</string>
 
 
 </resources>

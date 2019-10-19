@@ -179,7 +179,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
             Log.d(getFragmentTag(), "map location " + pair.getSnd().toString());
             MarkerOptions opt = setUpMarker(pair,
                     getCreateAt(pair, getContext()),
-                    getAddress(pair, getContext()));
+                    getAddress(pair, getContext(), getString(R.string.locate_at)));
 
             markers.add(mMap.addMarker(opt));
             CameraUpdate cu = MarkerZoomStrategyFactory
@@ -192,8 +192,10 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     }
 
     public void displayArtifactItemsPairs(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
-        for (Pair<ArtifactItemWrapper, MapLocation> pair: artifactItems) {
-            setDisplayArtifactItems(pair);
+        if (artifactItems != null) {
+            for (Pair<ArtifactItemWrapper, MapLocation> pair: artifactItems) {
+                setDisplayArtifactItems(pair);
+            }
         }
     }
 

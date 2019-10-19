@@ -85,7 +85,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         ArtifactPostWrapper artifactItemWrapper = artifactItemWrapperList.get(position);
 
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getUid());
-        holder.time.setText(artifactItemWrapper.getArtifactItemWrapper().getLastUpdateDateTime());
+        holder.time.setText(artifactItemWrapper.getArtifactItemWrapper().getUploadDateTime());
         holder.description.setText(artifactItemWrapper.getArtifactItemWrapper().getDescription());
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getDisplayName());
         holder.avatar.setImageURI(Uri.parse(artifactItemWrapper.getUserInfoWrapper().getPhotoUrl()));

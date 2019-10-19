@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,23 +22,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getAddress;
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
+import static com.example.family_artifact_register.Util.ScreenUnitHelper.convertDpToPixel;
 
 public class ArtifactDetailActivity extends AppCompatActivity {
 
@@ -49,13 +58,17 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private DetailViewModel viewModel;
 
+    private MarkerHelper mHelper;
+
     private ArtifactItem artifactItem;
 
     private String PostID;
 
-    private TextView desc, user;
+    private TextView desc, user, time; //, storeLocation;
 
     private ImageView avatar;
+
+    public MaterialButton timeline;//, viewComment;
 
     private FrameLayout postImage;
 
@@ -63,7 +76,21 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
 
-    private MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
+    private MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+
+    private MapDisplayFragment storedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+
+    private ImageView commentButton;
+
+    private ImageView likeButton;
+
+    private TextView likesNumber;
+
+    private TextView createLocationText;
+
+    private TextView storeLocationHint;
+
+    private FrameLayout storedLocationMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +106,17 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         user = findViewById(R.id.user);
         postImage = findViewById(R.id.post_image);
         avatar = findViewById(R.id.avatarIv);
+        time = findViewById(R.id.publisher);
+        // storeLocation = findViewById(R.id.store_location);
+        // viewComment = findViewById(R.id.view_comment);
+        timeline = findViewById(R.id.view_timeline);
+
+        likeButton = findViewById(R.id.activity_artifact_detail_likes);
+        likesNumber = findViewById(R.id.activity_artifact_detail_likes_text);
+        commentButton = findViewById(R.id.activity_artifact_detail_comment);
+        createLocationText = findViewById(R.id.activity_artifact_detail_create_location);
+        storeLocationHint = findViewById(R.id.activity_artifact_detail_stored_location_map_title);
+        storedLocationMap = findViewById(R.id.activity_artifact_detail_stored_location_map);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
@@ -104,8 +142,75 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     }
                 });
 
+                likesNumber.setText(Integer.toString(artifactItemWrapperMapLocationPair.getFst().getLikes().size()));
+                if ((artifactItemWrapper.getLikes().size() != 0) &&
+                        (artifactItemWrapper.getLikes().get(viewModel.getCurrentUid()) == true)) {
+                    likeButton.setImageResource(R.drawable.ic_liked);
+                    likeButton.setTag("liked");
+                } else {
+                    likeButton.setImageResource(R.drawable.ic_like);
+                    likeButton.setTag("unliked");
+                }
+
+                // like button is always clicked to indicate the current number of likes received
+//                likeButton.setImageResource(R.drawable.ic_liked);
+//                likeButton.setTag("liked");
+                commentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String pid = artifactItemWrapperMapLocationPair.getFst().getPostId();
+                        Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                        i.putExtra("artifactItemPostId", pid);
+                        startActivity(i);
+                    }
+                });
+
+                likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int likes_before = Integer.valueOf(likesNumber.getText().toString());
+                        Log.d(TAG, "number of likes before:" + likes_before);
+                        if (likeButton.getTag() == "liked") {
+                            likeButton.setImageResource(R.drawable.ic_like);
+                            likeButton.setTag("unlike");
+                            likesNumber.setText(String.valueOf(likes_before-1));
+                        } else {
+                            likeButton.setImageResource(R.drawable.ic_liked);
+                            likeButton.setTag("liked");
+                            likesNumber.setText(String.valueOf(likes_before+1));
+                        }
+                        viewModel.getLikeChange(likeButton.getTag().toString(), artifactItemWrapper.getPostId());
+                    }
+                });
+
                 // Set artifact information the same as activity hub
                 desc.setText(artifactItemWrapper.getDescription());
+                time.setText(getCreateAt(new Pair<>(artifactItemWrapper, null), getApplicationContext()));
+
+                // current user is the owner
+                if (UserInfoManager.getInstance().getCurrentUid().equals(artifactItemWrapperMapLocationPair.getFst().getUid())) {
+                    RelativeLayout.LayoutParams frameParam = new RelativeLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            (int)convertDpToPixel(200, getApplicationContext()));
+                    frameParam.addRule(RelativeLayout.BELOW, R.id.activity_artifact_detail_stored_location_map_title);
+                    storedLocationMap.setLayoutParams(frameParam);
+                    storedLocationMap.setVisibility(View.VISIBLE);
+                    storeLocationHint.setVisibility(View.VISIBLE);
+
+                    viewModel.getStoredLocation(PostID).observe(artifactDetailActivity, new Observer<MapLocation>() {
+                        /**
+                         * @param mapLocation stored location of artifact item
+                         */
+                        @Override
+                        public void onChanged(MapLocation mapLocation) {
+                            fm.beginTransaction().replace(R.id.activity_artifact_detail_stored_location_map, storedMap).commit();
+                            storedMap.addDisplayArtifactItems(new Pair<>(artifactItemWrapper, mapLocation));
+                        }
+                    });
+                }
+
+                fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
+                happenedMap.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
@@ -181,26 +286,61 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 }
                 Log.d(TAG, "Set Data");
 
-                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
-                //while (!happened.isMapReady()) {
-                happened.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
-                //}
+
+                Log.d(TAG, "Ready to run get store pair");
+                viewModel.getUploadLocation(PostID).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        Log.d(TAG, "upload location: " + mapLocation.toString());
+                        Pair<ArtifactItemWrapper, MapLocation> pair = new Pair<>(artifactItemWrapper, mapLocation);
+                        createLocationText.setText(getAddress(pair, artifactDetailActivity, getString(R.string.upload_at)));
+                    }
+                });
+
+                timeline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String tid = artifactItemWrapper.getArtifactTimelineId();
+                        Intent i = new Intent(view.getContext(), TimelineActivity.class);
+                        i.putExtra("timelineID", tid);
+                        startActivity(i);
+                    }
+                });
+
             }
         });
+
+//        Log.d(TAG, "Ready to run get store pair");
+//        viewModel.getStorePair(PostID).observeForever(new Observer<Pair<ArtifactItemWrapper, MapLocation>>() {
+//            @Override
+//            public void onChanged(Pair<ArtifactItemWrapper, MapLocation> artifactItemWrapperMapLocationPair) {
+//                Log.d(TAG, "store location: " + artifactItemWrapperMapLocationPair.getSnd().toString());
+//                mHelper.getAddress(artifactItemWrapperMapLocationPair, artifactDetailActivity);
+//            }
+//        });
+
+//        viewComment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+//                i.putExtra("artifactItemPostId", PostID);
+//                startActivity(i);
+//            }
+//        });
+
 
 //        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
 //            @Override
 //            public void onChanged(MapLocation mapLocation) {
 //                // TODO map location data from DB
 //                Log.d(TAG, "Happened Map Location: " + mapLocation.toString());
-//                MapDisplayFragment happened = MapDisplayFragment.newInstance(Collections.emptyList());
-//                fm.beginTransaction().replace(R.id.map_happened, happened).commit();
-//                happened.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
+//                MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+//                fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
+//                happenedMap.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
 //            }
 //        });
+
     }
-
-
 
 }
 
@@ -267,7 +407,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //            @Override
 //            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
 //                detailImageAdapter.setData(artifactItemWrapper);
-//                Log.i(TAG, "some changes happened");
+//                Log.i(TAG, "some changes happenedMap");
 //
 ////                // Set artifact information the same as activity hub
 ////                mTitleTv.setText(artifactItemWrapper.getPostId());
