@@ -59,7 +59,6 @@
                 android:textStyle="bold"
                 android:id="@+id/likes"
                 android:layout_toEndOf="@id/like"
-                android:text="10"
                 android:textColor="@color/primaryTextColor">
 
             </TextView>
