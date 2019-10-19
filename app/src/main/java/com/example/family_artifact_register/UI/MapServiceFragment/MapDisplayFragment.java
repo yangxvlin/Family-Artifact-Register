@@ -192,8 +192,10 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     }
 
     public void displayArtifactItemsPairs(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
-        for (Pair<ArtifactItemWrapper, MapLocation> pair: artifactItems) {
-            setDisplayArtifactItems(pair);
+        if (artifactItems != null) {
+            for (Pair<ArtifactItemWrapper, MapLocation> pair: artifactItems) {
+                setDisplayArtifactItems(pair);
+            }
         }
     }
 
