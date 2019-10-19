@@ -47,8 +47,7 @@ public class ContactRequestActivity extends AppCompatActivity {
 
         // force the system not to display action bar title
         ActionBar actionBar = getSupportActionBar();
-        // TODO add to string resource
-        actionBar.setTitle("New Friend Requests");
+        actionBar.setTitle(R.string.ContactRequestActivity_title);
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         setupRecyclerView();
@@ -166,7 +165,7 @@ public class ContactRequestActivity extends AppCompatActivity {
         public void setData(Set<Request> newData) {
             requests = newData;
             dataSetIterator = requests.iterator();
-            notifyDataSetChanged();;
+            notifyDataSetChanged();
         }
     }
 }

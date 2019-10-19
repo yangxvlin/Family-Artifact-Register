@@ -35,8 +35,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:textColor="@color/black"
-                    android:text="title"
-                    android:textSize="20dp"
+                    android:text="@string/my_timeline_recyclerview_item_title"
+                    android:textSize="20sp"
                     android:gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:singleLine="true"
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:textColor="@color/black"
-                    android:text="time"
+                    android:text="@string/my_timeline_recyclerview_item_duration"
                     android:textSize="17sp"
                     android:gravity="center_vertical"
                     android:layout_marginStart="10dp"
@@ -102,7 +102,7 @@
                     android:id="@+id/my_timeline_recyclerview_item_uploadTime"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:text="555"
+                    android:text="@string/my_timeline_recyclerview_item_create_time"
                     android:textSize="17sp"
                     android:gravity="bottom"/>
 

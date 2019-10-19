@@ -161,4 +161,37 @@
     <!--    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>-->
     <!--    <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>-->
 
+    <!-- liguo string resource -->
+    <!-- ContactDetailActivity -->
+    <string name="activity_friend_detail_username">Username</string>
+    <string name="activity_friend_detail_user_item_number">Items</string>
+    <string name="activity_friend_detail_user_timeline_number">Timelines</string>
+    <string name="activity_friend_detail_user_friend_number">Friends</string>
+    <string name="activity_friend_detail_phone_number">personal</string>
+    <string name="activity_friend_detail_email_address">personal</string>
+    <!-- friend_detail_menu -->
+    <string name="friend_detail_menu_black_list">Add to black list</string>
+    <string name="friend_detail_menu_delete">Delete</string>
+    <!-- ContactFragment -->
+    <string name="fragment_contact_friend_request">Friend Requests</string>
+    <!-- ContactRequestActivity -->
+    <string name="ContactRequestActivity_title">New Friend Requests</string>
+    <string name="friend_request_list_item_request_username">Username</string>
+    <string name="friend_request_list_item_request_accept_button">Accept</string>
+    <!-- ContactSearchActivity -->
+    <string name="ContactSearchActivity_title">Add new friend</string>
+    <string name="activity_friend_search2_search_hint">Search username/email</string>
+    <!-- ContactSearchResultActivity -->
+    <string name="no_result_view_text">This user doesn\'t exist  /(ㄒoㄒ)/~~</string>
+    <string name="friend_list_item_username">Username</string>
+    <!-- NewContactDetailActivity -->
+    <string name="NewContactDetailActivity_add_button">Invitation Sent</string>
+    <string name="activity_new_friend_detail_username_new">Username</string>
+    <string name="activity_new_friend_detail_email_new">E-mail</string>
+    <string name="activity_new_friend_detail_add_button">Add to contact list</string>
+    <!-- MyArtifactTimelineFragment -->
+    <string name="my_timeline_recyclerview_item_title">Title</string>
+    <string name="my_timeline_recyclerview_item_duration">Duration</string>
+    <string name="my_timeline_recyclerview_item_create_time">Creation Time</string>
+
 </resources>

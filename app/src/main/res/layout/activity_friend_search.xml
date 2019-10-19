@@ -7,22 +7,6 @@
     android:layout_height="match_parent"
     android:id="@+id/search_result_layout">
 
-    <!--    <com.google.android.material.appbar.AppBarLayout-->
-    <!--        android:id="@+id/app_bar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content">-->
-
-    <!--        <androidx.appcompat.widget.Toolbar-->
-    <!--            android:id="@+id/tool_bar"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="?attr/actionBarSize"-->
-    <!--            app:title="Friends"-->
-    <!--            app:menu="@menu/toolbar_menu"-->
-    <!--            app:navigationIcon="@drawable/arrow_back"-->
-    <!--            app:titleTextColor="#FFFFFF"/>-->
-
-    <!--    </com.google.android.material.appbar.AppBarLayout>-->
-
     <include layout="@layout/no_result_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

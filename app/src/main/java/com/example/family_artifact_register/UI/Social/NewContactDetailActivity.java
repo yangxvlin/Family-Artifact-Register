@@ -78,8 +78,7 @@ public class NewContactDetailActivity extends AppCompatActivity {
                 addFriend.setFocusable(false);
                 addFriend.setBackground(null);
                 viewModel.addFriend(viewModel.getUserUid());
-                // TODO add to string resource
-                addFriend.setText("Invitation Sent");
+                addFriend.setText(R.string.NewContactDetailActivity_add_button);
             }
         });
     }

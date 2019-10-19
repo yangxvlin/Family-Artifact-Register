@@ -143,5 +143,37 @@
     <string name="upload_at">上传于：</string>
     <string name="stored_at">储存于：</string>
 
+    <!-- liguo string resource -->
+    <!-- ContactDetailActivity -->
+    <string name="activity_friend_detail_username">用户名</string>
+    <string name="activity_friend_detail_user_item_number">物件</string>
+    <string name="activity_friend_detail_user_timeline_number">时间线</string>
+    <string name="activity_friend_detail_user_friend_number">朋友</string>
+    <string name="activity_friend_detail_phone_number">个人</string>
+    <string name="activity_friend_detail_email_address">个人</string>
+    <!-- friend_detail_menu -->
+    <string name="friend_detail_menu_black_list">添加到黑名单</string>
+    <string name="friend_detail_menu_delete">删除</string>
+    <!-- ContactFragment -->
+    <string name="fragment_contact_friend_request">朋友申请</string>
+    <!-- ContactRequestActivity -->
+    <string name="ContactRequestActivity_title">新朋友申请</string>
+    <string name="friend_request_list_item_request_username">用户名</string>
+    <string name="friend_request_list_item_request_accept_button">接受</string>
+    <!-- ContactSearchActivity -->
+    <string name="ContactSearchActivity_title">添加新朋友</string>
+    <string name="activity_friend_search2_search_hint">用户名/电子邮箱</string>
+    <!-- ContactSearchResultActivity -->
+    <string name="no_result_view_text">用户不存在  /(ㄒoㄒ)/~~</string>
+    <string name="friend_list_item_username">用户名</string>
+    <!-- NewContactDetailActivity -->
+    <string name="NewContactDetailActivity_add_button">邀请已发送</string>
+    <string name="activity_new_friend_detail_username_new">yonhum</string>
+    <string name="activity_new_friend_detail_email_new">电子邮箱</string>
+    <string name="activity_new_friend_detail_add_button">添加到联系人</string>
+    <!-- MyArtifactTimelineFragment -->
+    <string name="my_timeline_recyclerview_item_title">标题</string>
+    <string name="my_timeline_recyclerview_item_duration">时间跨度</string>
+    <string name="my_timeline_recyclerview_item_create_time">创造时间</string>
 
 </resources>

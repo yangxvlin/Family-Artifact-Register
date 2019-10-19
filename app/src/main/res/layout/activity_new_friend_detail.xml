@@ -32,7 +32,7 @@
                 android:id="@+id/username_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="@string/activity_new_friend_detail_username_new"
                 android:textSize="35sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -41,7 +41,7 @@
                 android:id="@+id/email_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="email"
+                android:text="@string/activity_new_friend_detail_email_new"
                 android:textSize="25sp"/>
 
         </LinearLayout>
@@ -54,7 +54,7 @@
         android:id="@+id/add_friend"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="Add to contact list"
+        android:text="@string/activity_new_friend_detail_add_button"
         android:textSize="25sp"
         android:gravity="center"
         android:clickable="true"

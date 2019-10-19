@@ -61,25 +61,6 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         setupRecyclerView();
 
-//        Observer<List<UserInfo>> resultObserver = new Observer<List<UserInfo>>() {
-//            @Override
-//            public void onChanged(List<UserInfo> newData) {
-//                // search result back from database
-//                Log.d(TAG, "search observer invoked, result: "+ newData.size() +" comes back");
-//                if(newData.size() > 0) {
-//                    try {
-//                        layout.removeView(textView);
-//                    } catch (Exception e) {
-//                        Log.d(TAG, e.toString());
-//                    }
-//                    for (UserInfo user : newData)
-//                        Log.d(TAG, user.toString());
-//                    // got a match
-//                    adapter.setData(newData);
-//                }
-//            }
-//        };
-
         viewModel.getUsers().observe(this, new Observer<List<UserInfoWrapper>>() {
             @Override
             public void onChanged(List<UserInfoWrapper> newData) {
@@ -100,7 +81,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         });
 
         ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setTitle("Query: " + query);
+        getSupportActionBar().setTitle(query);
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
     }
 
@@ -138,8 +119,6 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String selectedUserName = textView.getText().toString();
-//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
                 Intent intent;
                 if(viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
                     // searching an existing friend
@@ -193,8 +172,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
                 }
             }
             else
-                // TODO what to display when data is not ready
-                holder.textView.setText("Loading data");
+                holder.textView.setText("");
         }
 
         @Override
