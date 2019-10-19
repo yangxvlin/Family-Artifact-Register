@@ -120,8 +120,8 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent;
-                if(viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
-                    // searching an existing friend
+                if(itemId.equals(viewModel.getCurrentUser().getUid()) || viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
+                    // searching an existing friend or the current user
                     intent = new Intent(view.getContext(), ContactDetailActivity.class);
                 }
                 else {
