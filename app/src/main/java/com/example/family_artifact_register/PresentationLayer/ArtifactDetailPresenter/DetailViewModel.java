@@ -166,4 +166,16 @@ public class DetailViewModel extends AndroidViewModel {
         });
         return storedLocation;
     }
+
+    public void getLikeChange(String tag, String PostId) {
+        if (tag == "liked") {
+            artifactManager.addLike(PostId, userInfoManager.getCurrentUid());
+        } else {
+            artifactManager.removeLike(PostId, userInfoManager.getCurrentUid());
+        }
+    }
+
+    public String getCurrentUid() {
+        return userInfoManager.getCurrentUid();
+    }
 }

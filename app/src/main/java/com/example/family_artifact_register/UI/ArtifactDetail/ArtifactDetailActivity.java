@@ -143,9 +143,18 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 });
 
                 likesNumber.setText(Integer.toString(artifactItemWrapperMapLocationPair.getFst().getLikes().size()));
+                if ((artifactItemWrapper.getLikes().size() != 0) &&
+                        (artifactItemWrapper.getLikes().get(viewModel.getCurrentUid()) == true)) {
+                    likeButton.setImageResource(R.drawable.ic_liked);
+                    likeButton.setTag("liked");
+                } else {
+                    likeButton.setImageResource(R.drawable.ic_like);
+                    likeButton.setTag("unliked");
+                }
+
                 // like button is always clicked to indicate the current number of likes received
-                likeButton.setImageResource(R.drawable.ic_liked);
-                likeButton.setTag("liked");
+//                likeButton.setImageResource(R.drawable.ic_liked);
+//                likeButton.setTag("liked");
                 commentButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -153,6 +162,24 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
                         i.putExtra("artifactItemPostId", pid);
                         startActivity(i);
+                    }
+                });
+
+                likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int likes_before = Integer.valueOf(likesNumber.getText().toString());
+                        Log.d(TAG, "number of likes before:" + likes_before);
+                        if (likeButton.getTag() == "liked") {
+                            likeButton.setImageResource(R.drawable.ic_like);
+                            likeButton.setTag("unlike");
+                            likesNumber.setText(String.valueOf(likes_before-1));
+                        } else {
+                            likeButton.setImageResource(R.drawable.ic_liked);
+                            likeButton.setTag("liked");
+                            likesNumber.setText(String.valueOf(likes_before+1));
+                        }
+                        viewModel.getLikeChange(likeButton.getTag().toString(), artifactItemWrapper.getPostId());
                     }
                 });
 
