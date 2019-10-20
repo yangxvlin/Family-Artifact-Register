@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.family_artifact_register">
+    package="com.unimelb.family_artifact_register">
 
     <application
-        android:name=".MyApplication"
+        android:name="com.unimelb.family_artifact_register.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.ArtifactComment.ArtifactCommentActivity"></activity>
-        <activity android:name=".test.MapManagerTestActivity">
+        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity"></activity>
+        <activity android:name="com.unimelb.family_artifact_register.test.MapManagerTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.Upload.PostActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.UI.Upload.PostActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -29,7 +29,7 @@
         You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <activity
-            android:name=".FamilyArtifactRegisterActivity"
+            android:name="com.unimelb.family_artifact_register.FamilyArtifactRegisterActivity"
             android:theme="@style/splashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,46 +37,43 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CollectUserInfoActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.HomeActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.MainActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.CollectUserInfoActivity" />
         <activity
-            android:name=".test.MapTestActivity"
+            android:name="com.unimelb.family_artifact_register.test.MapTestActivity"
             android:label="@string/title_activity_fullscreen" />
         <activity
-            android:name=".UI.ArtifactHub.HubActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
         <activity
-            android:name=".UI.ArtifactDetail.ArtifactDetailActivity"
-            android:parentActivityName=".UI.ArtifactHub.HubActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity" />
         <activity
-            android:name=".UI.Social.FriendActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.FriendActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
         <activity
-            android:name=".UI.Social.ContactDetailActivity"
-            android:parentActivityName=".UI.Social.FriendActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.ContactDetailActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.FriendActivity" />
         <activity
-            android:name=".UI.Social.NewContactDetailActivity"
-            android:parentActivityName=".UI.Social.ContactSearchActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContactDetailActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity" />
         <activity
-            android:name=".UI.Social.ContactSearchActivity"
-            android:parentActivityName=".UI.Social.ContactDetailActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactDetailActivity" />
         <activity
-            android:name=".UI.Social.ContactSearchResultActivity"
-            android:parentActivityName=".UI.Social.ContactSearchActivity" />
-        <activity android:name=".UI.Social.ContactRequestActivity"
-            android:parentActivityName=".UI.Social.ContactSearchActivity"/>
+            android:name="com.unimelb.family_artifact_register.UI.Social.ContactSearchResultActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.UI.Social.ContactRequestActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity"/>
         <activity
-            android:name=".UI.ArtifactManager.ArtifactManageActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2" />
         <activity
-            android:name=".UI.ArtifactManager.NewArtifact.NewArtifactActivity"
-            android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
-        <activity android:name=".UI.ArtifactManager.NewArtifact.NewArtifactActivity2" />
-        <activity
-            android:name=".UI.ArtifactManager.HappenedActivity"
-            android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
-        <activity android:name=".UI.ArtifactTimeline.TimelineActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.HappenedActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -87,16 +84,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.mydomain.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
     </application>
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
