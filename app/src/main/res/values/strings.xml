@@ -55,11 +55,11 @@
     <string name="menu_sign_out">Sign Out</string>
 
     <!-- main activity functionality -->
-    <string name="artifact_hub">Artifact Hub</string>
+    <string name="artifact_hub">Hub</string>
     <string name="friends">Friends</string>
     <string name="artifact_management">Artifact Management</string>
-    <string name="artifact_map">Artifact Footprint</string>
-    <string name="artifact_event">Artifact Event</string>
+    <string name="artifact_map">Footprint</string>
+    <string name="artifact_event">Event</string>
 
     <!-- artifactItem manage activity functionality -->
     <string name="new_artifact">New Artifact</string>
@@ -139,8 +139,8 @@
     <string name="unimelb_description">Founded in 1853, it has many campuses and graduate schools.</string>
 
     <string name="happened_time_not_chosen_warning">Please choose the time to continue</string>
-    <string name="artifact_items_map_happened_title">Items Happened Location</string>
-    <string name="artifact_items_map_stored_title">Items Stored Location</string>
+    <string name="artifact_items_map_happened_title">Items Happened Map</string>
+    <string name="artifact_items_map_stored_title">Items Stored Map</string>
     <string name="create_at">Create at: </string>
     <string name="description">Description: </string>
     <string name="locate_at">Locate at:</string>
@@ -193,5 +193,7 @@
     <string name="my_timeline_recyclerview_item_title">Title</string>
     <string name="my_timeline_recyclerview_item_duration">Duration</string>
     <string name="my_timeline_recyclerview_item_create_time">Creation Time</string>
+    <string name="artifact_map_title">Artifact Map Footprint</string>
+    <string name="artifact_hub_title">Artifact Hub</string>
 
 </resources>

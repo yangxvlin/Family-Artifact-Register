@@ -264,6 +264,11 @@ public class ArtifactManager {
                                     // Query is not empty, update value
                                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                                         if (documentSnapshot.exists()) {
+                                            Log.d(TAG, "getting artifactItem: " +
+                                                    documentSnapshot.getId() + ", postId: " +
+                                                    documentSnapshot.get("postId") +
+                                                    "\nlikes: " + documentSnapshot.get("likes")
+                                                    .toString());
                                             itemList.add(documentSnapshot.toObject(ArtifactItem.class));
                                         }
                                     }

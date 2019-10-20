@@ -37,7 +37,7 @@ public class TabbedMapFragment extends Fragment implements IFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(R.string.artifact_map);
+        getActivity().setTitle(R.string.artifact_map_title);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
