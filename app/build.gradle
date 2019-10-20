@@ -1,16 +1,25 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('E:\\backup\\key-store\\forget-me-not-deploy-key.jks')
+            storePassword '123456789'
+            keyAlias = 'key0'
+            keyPassword '123456789'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
     defaultConfig {
-        applicationId "com.example.family_artifact_register"
+        applicationId "com.unimelb.family_artifact_register"
         minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        signingConfig signingConfigs.release
 
         javaCompileOptions {
             annotationProcessorOptions {
