@@ -186,7 +186,7 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
             timeline.addArtifactPostId(newItem.getPostId());
             Log.d(TAG, newItem.getPostId() + "\n"+ timeline.getPostId());
             Log.d(TAG, Arrays.toString(timeline.getArtifactItemPostIds().toArray()));
-
+            UserInfoManager.getInstance().addArtifactTimelineId(timeline.getPostId());
 //            am.addArtifact(timeline);
         } else if (timelineStrategy == EXISTING_ARTIFACT_TIMELINE) {
             timeline = selectedArtifactTimeline;

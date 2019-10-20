@@ -67,6 +67,9 @@ public class ArtifactItem extends Artifact {
         this.locationHappenedId = locationHappenedId;
         this.locationStoredId = locationStoredId;
         this.happenedDateTime = happenedDateTime;
+        if (likes == null) {
+            likes = new HashMap<>();
+        }
         this.likes = likes;
         this.artifactTimelineId = artifactTimelineId;
         if (artifactCommentIds == null) {
