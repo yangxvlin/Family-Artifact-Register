@@ -23,7 +23,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/avatarIv">
+                android:id="@+id/avatarIv"
+                android:src="@drawable/default_avatar_list">
             </de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
