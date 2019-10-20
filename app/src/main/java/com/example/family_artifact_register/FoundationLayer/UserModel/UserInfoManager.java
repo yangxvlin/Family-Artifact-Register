@@ -367,13 +367,13 @@ public class UserInfoManager {
         userInfoLiveData.observeForever(
                 new Observer<UserInfo>() {
                     @Override
-                    public void onChanged(UserInfo userInfo) {
+                    public void onChanged(UserInfo otherUserInfo) {
                         // Not already added
-                        if (userInfo.addFriendInvitation(currentUid)) {
+                        if (otherUserInfo.addFriendInvitation(currentUid)) {
                             mUserCollection
                                     .document(otherUid)
                                     .update(UserInfo.FRIEND_INVITATIONS,
-                                            userInfo.getFriendInvitations())
+                                            otherUserInfo.getFriendInvitations())
                                     .addOnSuccessListener(DefaultListeners.getInstance()
                                             .getOnSuccessListener(TAG))
                                     .addOnFailureListener(DefaultListeners.getInstance()
@@ -404,10 +404,12 @@ public class UserInfoManager {
                             @Override
                             public void onChanged(UserInfo otherUserInfo) {
                                 // Add friend
-                                addFriend(getCurrentUserInfo(), otherUserInfo);
+                                addFriend(currentUserInfo, otherUserInfo);
 
                                 // Remove invitation from the invitation map
                                 currentUserInfo.getFriendInvitations().remove(otherUid);
+
+                                // Remove other uid
                                 mUserCollection.document(getCurrentUid())
                                         .update(UserInfo.FRIEND_INVITATIONS,
                                                 currentUserInfo.getFriendInvitations())
