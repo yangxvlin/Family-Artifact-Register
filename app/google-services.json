@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "51048253579",
-    "firebase_url": "https://it-project-artifact.firebaseio.com",
-    "project_id": "it-project-artifact",
-    "storage_bucket": "it-project-artifact.appspot.com"
+    "project_number": "106965501017",
+    "firebase_url": "https://forget-me-not-c06f6.firebaseio.com",
+    "project_id": "forget-me-not-c06f6",
+    "storage_bucket": "forget-me-not-c06f6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:51048253579:android:404c89cafb75b4c3",
+        "mobilesdk_app_id": "1:106965501017:android:0e77e8472f57673941dd48",
         "android_client_info": {
-          "package_name": "com.example.family_artifact_register"
+          "package_name": "com.unimelb.family_artifact_register"
         }
       },
       "oauth_client": [
         {
-          "client_id": "51048253579-38in11df48p5dgtvj06vlg2scoh8po7q.apps.googleusercontent.com",
+          "client_id": "106965501017-klov51k0qev5dovopnvffecgg2lok1uh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA66oCNeiJ6dEcPb03FpOt6qXWD2-eVMlo"
+          "current_key": "AIzaSyA_MIo7bsGi1YKglTs45U80ZkEIxJQX418"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "51048253579-38in11df48p5dgtvj06vlg2scoh8po7q.apps.googleusercontent.com",
+              "client_id": "106965501017-klov51k0qev5dovopnvffecgg2lok1uh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
