@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.example.family_artifact_register.UI.ArtifactHub.HubActivity;
 import com.example.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity;
 import com.example.family_artifact_register.UI.Social.FriendActivity;
-import com.example.family_artifact_register.UI.ArtifactHub.HubActivity;
 import com.example.family_artifact_register.UI.Util.BaseSignOutActionBarActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +25,7 @@ import static com.example.family_artifact_register.UI.Util.ActivityNavigator.nav
 public class MainActivity extends BaseSignOutActionBarActivity {
     private FirebaseAuth mFirebaseAuth;
     public static final int RC_SIGN_IN = 1;
-    private FirebaseAuth.AuthStateListener mAuthStateListner;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -37,7 +36,7 @@ public class MainActivity extends BaseSignOutActionBarActivity {
         super.onCreate(savedInstanceState);
         // set firebase sign in layout
         mFirebaseAuth=FirebaseAuth.getInstance();
-        mAuthStateListner= firebaseAuth -> {
+        mAuthStateListener = firebaseAuth -> {
             FirebaseUser user=firebaseAuth.getCurrentUser();
             if (user!=null) {
                 Toast.makeText(MainActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
@@ -75,13 +74,13 @@ public class MainActivity extends BaseSignOutActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListner);
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
+        mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
 
     }
 
