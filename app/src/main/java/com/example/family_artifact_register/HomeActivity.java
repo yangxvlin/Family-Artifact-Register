@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
             = item -> {
                 switch (item.getItemId()) {
                     case R.id.item_hub:
-                        setTitle(R.string.artifact_hub);
+                        setTitle(R.string.artifact_hub_title);
                         getSupportActionBar().setElevation(defaultActionBarElevation);
                         fm.beginTransaction().hide(active).show(hubFragment).commit();
                         active = hubFragment;
@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
                         active = contactFragment;
                         return true;
                     case R.id.item_map:
-                        setTitle(R.string.artifact_map);
+                        setTitle(R.string.artifact_map_title);
                         getSupportActionBar().setElevation(0);
                         fm.beginTransaction().hide(active).show(mapFragment).commit();
                         active = mapFragment;
@@ -142,11 +142,11 @@ public class HomeActivity extends AppCompatActivity {
         String tag = ((IFragment)active).getFragmentTag();
 
         if (tag.equals(HubFragment.TAG)) {
-            setTitle(R.string.artifact_hub);
+            setTitle(R.string.artifact_hub_title);
         } else if (tag.equals(ContactFragment.TAG)) {
             setTitle(R.string.bottom_bar_contacts);
         } else if (tag.equals(MapDisplayFragment.TAG)) {
-            setTitle(R.string.artifact_map);
+            setTitle(R.string.artifact_map_title);
         } else if (tag.equals(MeFragment.TAG)) {
             setTitle(R.string.bottom_bar_profile);
         } else if (tag.equals(EventFragment.TAG)) {
