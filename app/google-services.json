@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "51048253579-fi0upmfjv51c7d3uako685sdncafn9vh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unimelb.family_artifact_register",
+            "certificate_hash": "6f03c3db2721d6d4e9a13e322dbfc92cf8926e3a"
+          }
+        },
+        {
           "client_id": "51048253579-38in11df48p5dgtvj06vlg2scoh8po7q.apps.googleusercontent.com",
           "client_type": 3
         }

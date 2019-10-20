@@ -69,9 +69,6 @@
         <activity
             android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
-        <activity
-            android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity" />
         <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2" />
         <activity
             android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.HappenedActivity"
@@ -87,16 +84,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.mydomain.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
     </application>
     <uses-feature android:name="android.hardware.camera.autofocus" />
 

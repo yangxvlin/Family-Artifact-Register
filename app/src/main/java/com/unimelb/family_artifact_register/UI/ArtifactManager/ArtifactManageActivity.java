@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity;
 
 import static com.unimelb.family_artifact_register.UI.Util.ActivityNavigator.navigateFromTo;
 
@@ -25,6 +24,6 @@ public class ArtifactManageActivity extends AppCompatActivity {
 
     /* ********************************** view controller *************************************** */
     public void newArtifact(View view) {
-        navigateFromTo(this, NewArtifactActivity.class);
+//        navigateFromTo(this, NewArtifactActivity.class);
     }
 }

@@ -60,6 +60,8 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
     private void createCheckAndSigninListener() {
         // set firebase sign in listener
         mAuthStateListner = firebaseAuth -> {
+            Log.d(TAG, "firebaseAuth: " + firebaseAuth.toString());
+            Log.d(TAG, "app name: " + FirebaseAuth.getInstance().getApp().getName());
             // Already logged in
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
