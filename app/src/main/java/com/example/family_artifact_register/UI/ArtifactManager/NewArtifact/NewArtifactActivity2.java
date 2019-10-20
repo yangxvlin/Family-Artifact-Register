@@ -13,12 +13,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
-import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModelFactory;
 import com.example.family_artifact_register.R;
@@ -34,10 +30,7 @@ import com.example.family_artifact_register.UI.Util.StoredLocationListener;
 import com.example.family_artifact_register.UI.Util.UploadLocationListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static com.example.family_artifact_register.UI.Util.TimeToString.getCurrentTimeFormattedString;
 
 /**
  * @author XuLin Yang 904904,
@@ -137,65 +130,16 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
     // ************************************ implement interface ***********************************
     @Override
     public void uploadNewArtifact() {
-        MapLocationManager mlm =  MapLocationManager.getInstance();
-        mlm.storeMapLocation(uploadLocation);
-        String uploadLocationId = uploadLocation.getMapLocationId();
-
-        mlm.storeMapLocation(happenedLocation);
-        String happenedLocationId = happenedLocation.getMapLocationId();
-
-        mlm.storeMapLocation(storedLocation);
-        String storedLocationId = storedLocation.getMapLocationId();
-
-        Log.i(TAG, "upload location id: " + uploadLocationId);
-        Log.i(TAG, "happened location id: " + happenedLocationId);
-        Log.i(TAG, "stored location id" + storedLocationId);
-
-//        String happenedTimeString = calendarToFormattedString(this.happenedTime);
-        String currentTimeString = getCurrentTimeFormattedString();
-
-        ArtifactManager am = ArtifactManager.getInstance();
-
-        // convert uri to String
-        List<String> mediaDataString = new ArrayList<>();
-        for (Uri uri: mediaData) {
-//            File externalStoredFile = MediaProcessHelper.copyFileToExternal(uri);
-             mediaDataString.add(uri.toString());
-//            Uri externalStoredUri = Uri.fromFile(externalStoredFile);
-//            mediaDataString.add(externalStoredUri.toString());
-//            Log.d(TAG, "media file Uri toString(): "+ externalStoredUri.toString());
-//            Log.d(TAG, "media file Uri getPath() : "+ externalStoredUri.getPath());
-        }
-
-        ArtifactItem newItem = ArtifactItem.newInstance(currentTimeString,
-                                                        currentTimeString,
-                                                        mediaType,
-                                                        mediaDataString,
-                                                        description,
-                                                        uploadLocationId,
-                                                        happenedLocationId,
-                                                        storedLocationId,
-                                                        happenedTime,
-                                                        null);
-        am.addArtifact(newItem);
-
-        ArtifactTimeline timeline = null;
-        // add new timeline to DB
-        if (timelineStrategy == NEW_ARTIFACT_TIMELINE) {
-            timeline = new ArtifactTimeline(null, UserInfoManager.getInstance().getCurrentUid(), currentTimeString, currentTimeString, new ArrayList<>(), timelineTitle);
-            timeline.addArtifactPostId(newItem.getPostId());
-            Log.d(TAG, newItem.getPostId() + "\n"+ timeline.getPostId());
-            Log.d(TAG, Arrays.toString(timeline.getArtifactItemPostIds().toArray()));
-            UserInfoManager.getInstance().addArtifactTimelineId(timeline.getPostId());
-//            am.addArtifact(timeline);
-        } else if (timelineStrategy == EXISTING_ARTIFACT_TIMELINE) {
-            timeline = selectedArtifactTimeline;
-        } else {
-            Log.e(TAG, "unknown timeline strategy !!!");
-        }
-
-        // associate timeline with item
-        am.associateArtifactItemAndArtifactTimeline(newItem, timeline);
+        viewModel.upload(uploadLocation,
+                happenedLocation,
+                storedLocation,
+                mediaData,
+                mediaType,
+                description,
+                happenedTime,
+                timelineStrategy,
+                timelineTitle,
+                selectedArtifactTimeline);
     }
 
     /**
