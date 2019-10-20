@@ -38,6 +38,7 @@ public class EventFragment extends Fragment implements IFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
 //                .add(R.string.title, PageFragment.class)

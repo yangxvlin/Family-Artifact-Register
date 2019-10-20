@@ -175,5 +175,6 @@
     <string name="my_timeline_recyclerview_item_title">标题</string>
     <string name="my_timeline_recyclerview_item_duration">时间跨度</string>
     <string name="my_timeline_recyclerview_item_create_time">创造时间</string>
+    <string name="artifact_map_title">文物足迹地图</string>
 
 </resources>
