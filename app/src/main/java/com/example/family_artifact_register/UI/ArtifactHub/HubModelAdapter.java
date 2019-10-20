@@ -20,9 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.example.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.example.family_artifact_register.R;
+import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.example.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 //import com.example.family_artifact_register.UI.ArtifactDetail.DetailFragment;
@@ -61,9 +64,12 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
     private List<Uri> mediaList;
 
-    public HubModelAdapter(Context context) {
+    private HubViewModel viewModel;
+
+    public HubModelAdapter(Context context, HubViewModel hubViewModel) {
         this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
+        this.viewModel = hubViewModel;
 //        this.fm = fm;
     }
 
@@ -79,10 +85,20 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         ArtifactPostWrapper artifactItemWrapper = artifactItemWrapperList.get(position);
 
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getUid());
-        holder.time.setText(artifactItemWrapper.getArtifactItemWrapper().getLastUpdateDateTime());
+        holder.time.setText(artifactItemWrapper.getArtifactItemWrapper().getUploadDateTime());
         holder.description.setText(artifactItemWrapper.getArtifactItemWrapper().getDescription());
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getDisplayName());
         holder.avatar.setImageURI(Uri.parse(artifactItemWrapper.getUserInfoWrapper().getPhotoUrl()));
+        holder.likes.setText(Integer.toString(artifactItemWrapper.getArtifactItemWrapper().getLikes().size()));
+        Log.d(TAG, "likes: " + artifactItemWrapper.getArtifactItemWrapper().getLikes());
+        if ((artifactItemWrapper.getArtifactItemWrapper().getLikes().size() != 0) &&
+                (artifactItemWrapper.getArtifactItemWrapper().getLikes().get(viewModel.getCurrentUid()) == true)) {
+            holder.like.setImageResource(R.drawable.ic_liked);
+            holder.like.setTag("liked");
+        } else {
+            holder.like.setImageResource(R.drawable.ic_like);
+            holder.like.setTag("unliked");
+        }
 
         mediaList = new ArrayList<>();
         for (String mediaUrl: artifactItemWrapper.getArtifactItemWrapper().getLocalMediaDataUrls()) {
@@ -111,7 +127,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             holder.postImage.setLayoutParams(layoutParam);
             // video view
         } else if (artifactItemWrapper.getArtifactItemWrapper().getMediaType() == TYPE_VIDEO) {
-            ImageView iv = getVideoThumbnail(750, 750, mediaList.get(0), context);
+            ImageView iv = getVideoThumbnail(500, 500, mediaList.get(0), context);
 
             ImageView playIcon = getVideoPlayIcon(context);
 
@@ -139,6 +155,34 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 String tid = artifactItemWrapper.getArtifactItemWrapper().getArtifactTimelineId();
                 Intent i = new Intent(view.getContext(), TimelineActivity.class);
                 i.putExtra("timelineID", tid);
+                context.startActivity(i);
+            }
+        });
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int likes_before = Integer.valueOf(holder.likes.getText().toString());
+                Log.d(TAG, "number of likes before:" + likes_before);
+                if (holder.like.getTag() == "liked") {
+                    holder.like.setImageResource(R.drawable.ic_like);
+                    holder.like.setTag("unlike");
+                    holder.likes.setText(String.valueOf(likes_before-1));
+                } else {
+                    holder.like.setImageResource(R.drawable.ic_liked);
+                    holder.like.setTag("liked");
+                    holder.likes.setText(String.valueOf(likes_before+1));
+                }
+                viewModel.getLikeChange(holder.like.getTag().toString(), artifactItemWrapper.getArtifactItemWrapper().getPostId());
+            }
+        });
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pid = artifactItemWrapper.getArtifactItemWrapper().getPostId();
+                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                i.putExtra("artifactItemPostId", pid);
                 context.startActivity(i);
             }
         });

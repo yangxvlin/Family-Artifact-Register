@@ -1,6 +1,7 @@
 package com.example.family_artifact_register.FoundationLayer.ArtifactModel;
 
-import java.util.List;
+import com.example.family_artifact_register.UI.Util.TimeToString;
+
 import java.util.UUID;
 
 /**
@@ -33,7 +34,14 @@ public abstract class Artifact {
         // Full Constructor need by firestore
         this.postId = postId;
         this.uid = uid;
+        if (uploadDateTime == null) {
+            uploadDateTime = TimeToString.getCurrentTimeFormattedString();
+        }
         this.uploadDateTime = uploadDateTime;
+
+        if (lastUpdateDateTime == null) {
+            lastUpdateDateTime = TimeToString.getCurrentTimeFormattedString();
+        }
         this.lastUpdateDateTime = lastUpdateDateTime;
     }
 

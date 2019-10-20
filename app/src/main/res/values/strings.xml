@@ -120,20 +120,78 @@
     <string name="attend_dialog_content">Are you sure you want to attend this event?</string>
     <string name="cancel_dialog_content">Are you sure you want to cancel this event?</string>
 
+
+    <string name="happened_time_not_choosen_warning">Please choose the time to continue</string>
+    <string name="melbourne_museum_address">11 Nicholson St, Carlton VIC 3053</string>
+    <string name="melbourne_museum">Melbourne Museum</string>
+    <string name="melbourne_museum_description">A modern building founded in 1854 by public institutions, exhibiting dinosaurs and regional historical artifacts.</string>
+    <string name="seven_seeds_address">114 Berkeley St, Carlton VIC 3053</string>
+    <string name="seven_seeds_name">Seven Seeds Coffee Roasters</string>
+    <string name="seven_seeds_description">The airy, industrial-style elegant cafe is also a mini-coffee bakery that serves brunch, salads and specialty teas throughout the day.</string>
+    <string name="uyuni_address">Near the town of Uyuni, southwest of Bolivia</string>
+    <string name="uyuni_name">Salar de Uyuni</string>
+    <string name="uyuni_description">This is the world\'s largest salt flat. After the rain, the lake will become like a mirror, reflecting the seemingly suffocating sky of the earth, which many people call it the \'mirror of the sky\'.</string>
+    <string name="oko_oko_address">644A Swanston St, Carlton VIC 3053</string>
+    <string name="oko_oko_name">Oko Oko</string>
+    <string name="oko_oko_description">Established in 2013, Oko Oko has been known by locals to make delicious and healthy Japanese style Oko pancakes, donburi rice dishes and seasonal ramen and udon noodles.</string>
+    <string name="unimelb_address">Parkville VIC 3010</string>
+    <string name="unimelb_name">University of Melbourne</string>
+    <string name="unimelb_description">Founded in 1853, it has many campuses and graduate schools.</string>
+
     <string name="happened_time_not_chosen_warning">Please choose the time to continue</string>
-    <string name="artifact_items_map_happened_title">All Items Happened Location</string>
-    <string name="artifact_items_map_stored_title">All Items Stored Location</string>
+    <string name="artifact_items_map_happened_title">Items Happened Location</string>
+    <string name="artifact_items_map_stored_title">Items Stored Location</string>
     <string name="create_at">Create at: </string>
     <string name="description">Description: </string>
     <string name="locate_at">Locate at:</string>
     <string name="artifact_item_detail">Detail</string>
     <string name="artifact_timeline">Timeline</string>
     <string name="happen_at">Happened At: </string>
+    <string name="post_hint">POST</string>
+    <string name="add_a_comment">Add a comment...</string>
+    <string name="comment">Comment</string>
+    <string name="timeline">Timeline</string>
+    <string name="detail">Detail</string>
+    <string name="upload_at">Upload At: </string>
+    <string name="stored_at">Stored At:</string>
 
 
     <!--    <string name="facebook_login_protocol_scheme" translatable="false">fb1:51048253579:android:404c89cafb75b4c3</string>-->
     <!-- Twitter consumer key and secret -->
     <!--    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>-->
     <!--    <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>-->
+
+    <!-- liguo string resource -->
+    <!-- ContactDetailActivity -->
+    <string name="activity_friend_detail_username">Username</string>
+    <string name="activity_friend_detail_user_item_number">Items</string>
+    <string name="activity_friend_detail_user_timeline_number">Timelines</string>
+    <string name="activity_friend_detail_user_friend_number">Friends</string>
+    <string name="activity_friend_detail_phone_number">personal</string>
+    <string name="activity_friend_detail_email_address">personal</string>
+    <!-- friend_detail_menu -->
+    <string name="friend_detail_menu_black_list">Add to black list</string>
+    <string name="friend_detail_menu_delete">Delete</string>
+    <!-- ContactFragment -->
+    <string name="fragment_contact_friend_request">Friend Requests</string>
+    <!-- ContactRequestActivity -->
+    <string name="ContactRequestActivity_title">New Friend Requests</string>
+    <string name="friend_request_list_item_request_username">Username</string>
+    <string name="friend_request_list_item_request_accept_button">Accept</string>
+    <!-- ContactSearchActivity -->
+    <string name="ContactSearchActivity_title">Add new friend</string>
+    <string name="activity_friend_search2_search_hint">Search username/email</string>
+    <!-- ContactSearchResultActivity -->
+    <string name="no_result_view_text">This user doesn\'t exist  /(ㄒoㄒ)/~~</string>
+    <string name="friend_list_item_username">Username</string>
+    <!-- NewContactDetailActivity -->
+    <string name="NewContactDetailActivity_add_button">Invitation Sent</string>
+    <string name="activity_new_friend_detail_username_new">Username</string>
+    <string name="activity_new_friend_detail_email_new">E-mail</string>
+    <string name="activity_new_friend_detail_add_button">Add to contact list</string>
+    <!-- MyArtifactTimelineFragment -->
+    <string name="my_timeline_recyclerview_item_title">Title</string>
+    <string name="my_timeline_recyclerview_item_duration">Duration</string>
+    <string name="my_timeline_recyclerview_item_create_time">Creation Time</string>
 
 </resources>

@@ -19,8 +19,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:id="@+id/avatar"
-                android:src="@mipmap/ic_launcher">
+                android:id="@+id/avatar">
             </de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
@@ -30,8 +29,7 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/primaryTextColor"
-                android:text="username">
+                android:textColor="@color/primaryTextColor">
             </TextView>
 
         </LinearLayout>
@@ -51,8 +49,7 @@
                 android:id="@+id/like"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_like"
-                android:tint="@color/primaryTextColor">
+                android:src="@drawable/ic_like">
             </ImageView>
 
             <TextView
@@ -62,8 +59,7 @@
                 android:textStyle="bold"
                 android:id="@+id/likes"
                 android:layout_toEndOf="@id/like"
-                android:text="10"
-                android:textColor="@color/dark_gray">
+                android:textColor="@color/primaryTextColor">
 
             </TextView>
 
@@ -97,10 +93,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:id="@+id/description"
-            android:text="description"
             android:textSize="15sp"
-            android:textColor="@color/primaryTextColor">
+            android:textColor="@color/primaryTextColor"
+            android:maxLines="1"
+            android:ellipsize="end">
 
         </TextView>
 
@@ -114,7 +112,6 @@
                 android:id="@+id/publisher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="create time"
                 android:textSize="15sp"
                 android:layout_gravity="center_vertical"
                 />
@@ -129,7 +126,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeWidth="0dp"
-                    android:text="Detail"
+                    android:text="@string/detail"
                     android:layout_toLeftOf="@+id/view_timeline"
                     />
 
@@ -139,7 +136,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeWidth="0dp"
-                    android:text="Timeline"
+                    android:text="@string/timeline"
                     android:layout_alignParentRight="true"
                     />
             </RelativeLayout>

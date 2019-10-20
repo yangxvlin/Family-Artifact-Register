@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UI.ArtifactComment.ArtifactCommentActivity"></activity>
         <activity android:name=".test.MapManagerTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +28,8 @@
         sign the APK for publishing.
         You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".FamilyArtifactRegisterActivity"
+        <activity
+            android:name=".FamilyArtifactRegisterActivity"
             android:theme="@style/splashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,9 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".HomeActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".CollectUserInfoActivity" />
         <activity
             android:name=".test.MapTestActivity"
@@ -63,6 +64,8 @@
         <activity
             android:name=".UI.Social.ContactSearchResultActivity"
             android:parentActivityName=".UI.Social.ContactSearchActivity" />
+        <activity android:name=".UI.Social.ContactRequestActivity"
+            android:parentActivityName=".UI.Social.ContactSearchActivity"/>
         <activity
             android:name=".UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName=".MainActivity" />
@@ -73,8 +76,7 @@
         <activity
             android:name=".UI.ArtifactManager.HappenedActivity"
             android:parentActivityName=".UI.ArtifactManager.ArtifactManageActivity" />
-
-        <activity android:name=".UI.ArtifactTimeline.TimelineActivity"/>
+        <activity android:name=".UI.ArtifactTimeline.TimelineActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -95,18 +97,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
-
-    <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
 </manifest>

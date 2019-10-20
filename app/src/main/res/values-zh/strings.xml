@@ -80,7 +80,7 @@
     <string name="new_artifact_new_timeline_empty_title_warning">新的时间线的标题不能为空！</string>
     <string name="existing_timeline_spinner_prompt">添加到已有的时间线：</string>
     <string name="new_artifact_timeline_exists_warning">时间线已有！</string>
-  
+
     <!-- 地点相关服务字符串 -->
     <string name="option_get_place">使用当前位置</string>
     <string name="title_activity_maps">地图</string>
@@ -109,6 +109,23 @@
     <string name="attend_dialog_content">您确定要参加这个活动吗？</string>
     <string name="cancel_dialog_content">您确定要取消参加这个活动吗？</string>
 
+    <string name="happened_time_not_choosen_warning">请选择时间继续</string>
+    <string name="melbourne_museum_address">尼科尔森路 11号, 卡尔顿 VIC 3053</string>
+    <string name="melbourne_museum">墨尔本博物馆</string>
+    <string name="melbourne_museum_description">一家创始于 1854 年的公共机构所在的现代化建筑，展品包括恐龙和地区历史文物。</string>
+    <string name="seven_seeds_address">伯克利街 114号, 卡尔顿 VIC 3053</string>
+    <string name="seven_seeds_name">Seven Seeds 咖啡店</string>
+    <string name="seven_seeds_description">通风良好、工业风格的雅致咖啡馆，也是一个微型咖啡烘焙店，全天供应早午餐、沙拉和特制茶品。</string>
+    <string name="uyuni_address">玻利维亚西南部，乌尤尼小镇附近</string>
+    <string name="uyuni_name">乌尤尼盐沼</string>
+    <string name="uyuni_description">这是世界上最大的盐沼。在雨后，湖面会变得像镜子一样，反射着好似不是地球上的、美丽的令人窒息的天空景色，许多人称它为‘天空之境’。</string>
+    <string name="oko_oko_address">斯旺斯顿大街 644A号, 卡尔顿 VIC 3053</string>
+    <string name="oko_oko_name">Oko Oko 日式餐厅</string>
+    <string name="oko_oko_description">Oko Oko成立于2013年，以制作美味健康的日式Oko薄饼、Donburi米饭、时令拉面和乌冬面而闻名于世。</string>
+    <string name="unimelb_address">帕克维尔 VIC 3010</string>
+    <string name="unimelb_name">墨尔本大学</string>
+    <string name="unimelb_description">成立于 1853 年的公共教学和研究机构，设有多个校区和研究生院。</string>
+
     <string name="happened_time_not_chosen_warning">请选择时间继续</string>
     <string name="artifact_items_map_happened_title">所有文物发生的地点</string>
     <string name="artifact_items_map_stored_title">所有文物储存的地点</string>
@@ -118,6 +135,45 @@
     <string name="artifact_item_detail">详情</string>
     <string name="artifact_timeline">时间线</string>
     <string name="happen_at">发生于： </string>
+    <string name="post_hint">发送</string>
+    <string name="add_a_comment">留下评论...</string>
+    <string name="comment">评论</string>
+    <string name="timeline">时间线</string>
+    <string name="detail">详情</string>
+    <string name="upload_at">上传于：</string>
+    <string name="stored_at">储存于：</string>
 
+    <!-- liguo string resource -->
+    <!-- ContactDetailActivity -->
+    <string name="activity_friend_detail_username">用户名</string>
+    <string name="activity_friend_detail_user_item_number">物件</string>
+    <string name="activity_friend_detail_user_timeline_number">时间线</string>
+    <string name="activity_friend_detail_user_friend_number">朋友</string>
+    <string name="activity_friend_detail_phone_number">个人</string>
+    <string name="activity_friend_detail_email_address">个人</string>
+    <!-- friend_detail_menu -->
+    <string name="friend_detail_menu_black_list">添加到黑名单</string>
+    <string name="friend_detail_menu_delete">删除</string>
+    <!-- ContactFragment -->
+    <string name="fragment_contact_friend_request">朋友申请</string>
+    <!-- ContactRequestActivity -->
+    <string name="ContactRequestActivity_title">新朋友申请</string>
+    <string name="friend_request_list_item_request_username">用户名</string>
+    <string name="friend_request_list_item_request_accept_button">接受</string>
+    <!-- ContactSearchActivity -->
+    <string name="ContactSearchActivity_title">添加新朋友</string>
+    <string name="activity_friend_search2_search_hint">用户名/电子邮箱</string>
+    <!-- ContactSearchResultActivity -->
+    <string name="no_result_view_text">用户不存在  /(ㄒoㄒ)/~~</string>
+    <string name="friend_list_item_username">用户名</string>
+    <!-- NewContactDetailActivity -->
+    <string name="NewContactDetailActivity_add_button">邀请已发送</string>
+    <string name="activity_new_friend_detail_username_new">yonhum</string>
+    <string name="activity_new_friend_detail_email_new">电子邮箱</string>
+    <string name="activity_new_friend_detail_add_button">添加到联系人</string>
+    <!-- MyArtifactTimelineFragment -->
+    <string name="my_timeline_recyclerview_item_title">标题</string>
+    <string name="my_timeline_recyclerview_item_duration">时间跨度</string>
+    <string name="my_timeline_recyclerview_item_create_time">创造时间</string>
 
 </resources>

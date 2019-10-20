@@ -1,9 +1,12 @@
 package com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter;
 
+import androidx.annotation.Nullable;
+
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * a wrapper class that store media's local address
@@ -48,7 +51,7 @@ public class ArtifactItemWrapper {
         return this.artifactItem.getHappenedDateTime();
     }
 
-    public int getlikes() {return this.artifactItem.getlikes();}
+    public Map<String, Boolean> getLikes() {return this.artifactItem.getlikes();}
 
     public String getLastUpdateDateTime() {
         return this.artifactItem.getLastUpdateDateTime();
@@ -68,5 +71,10 @@ public class ArtifactItemWrapper {
 
     public String getArtifactTimelineId() {
         return this.artifactItem.getArtifactTimelineId();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return this.getPostId().equals(((ArtifactItemWrapper) obj).getPostId());
     }
 }

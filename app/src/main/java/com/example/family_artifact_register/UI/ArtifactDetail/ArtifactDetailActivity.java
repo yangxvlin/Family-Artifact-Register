@@ -6,43 +6,47 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
-import com.example.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
-import com.example.family_artifact_register.IFragment;
-import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailFragmentPresenter;
+import com.example.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
 import com.example.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
-import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModel;
-import com.example.family_artifact_register.PresentationLayer.HubPresenter.PostDetailViewModelFactory;
+import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.example.family_artifact_register.PresentationLayer.Util.Pair;
 import com.example.family_artifact_register.R;
-import com.example.family_artifact_register.UI.Util.MediaProcessHelper;
+import com.example.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
+import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
+import com.example.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
+import com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getAddress;
+import static com.example.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
+import static com.example.family_artifact_register.Util.ScreenUnitHelper.convertDpToPixel;
 
 public class ArtifactDetailActivity extends AppCompatActivity {
 
@@ -54,43 +58,159 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     private DetailViewModel viewModel;
 
+    private MarkerHelper mHelper;
+
     private ArtifactItem artifactItem;
 
     private String PostID;
 
-    private TextView post, desc, user;
+    private TextView desc, user, time; //, storeLocation;
+
+    private ImageView avatar;
+
+    public MaterialButton timeline;//, viewComment;
 
     private FrameLayout postImage;
+
+    private FragmentManager fm = getSupportFragmentManager();
+
+    public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
+
+    private MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+
+    private MapDisplayFragment storedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+
+    private ImageView commentButton;
+
+    private ImageView likeButton;
+
+    private TextView likesNumber;
+
+    private TextView createLocationText;
+
+    private TextView storeLocationHint;
+
+    private FrameLayout storedLocationMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_detail);
+        setContentView(R.layout.activity_artifact_detail);
         Intent intent = getIntent();
-        PostID = intent.getStringExtra("artifactItemPostId");
+        PostID = intent.getStringExtra(ARTIFACT_ITEM_ID_KEY);
 
 
         detailImageAdapter = new DetailImageAdapter(this);
 
-        post = findViewById(R.id.publisher);
         desc = findViewById(R.id.desc);
         user = findViewById(R.id.user);
         postImage = findViewById(R.id.post_image);
+        avatar = findViewById(R.id.avatarIv);
+        time = findViewById(R.id.publisher);
+        // storeLocation = findViewById(R.id.store_location);
+        // viewComment = findViewById(R.id.view_comment);
+        timeline = findViewById(R.id.view_timeline);
+
+        likeButton = findViewById(R.id.activity_artifact_detail_likes);
+        likesNumber = findViewById(R.id.activity_artifact_detail_likes_text);
+        commentButton = findViewById(R.id.activity_artifact_detail_comment);
+        createLocationText = findViewById(R.id.activity_artifact_detail_create_location);
+        storeLocationHint = findViewById(R.id.activity_artifact_detail_stored_location_map_title);
+        storedLocationMap = findViewById(R.id.activity_artifact_detail_stored_location_map);
 
         viewModel = ViewModelProviders.of(this, new DetailViewModelFactory(getApplication()))
                 .get(DetailViewModel.class);
 
         ArtifactDetailActivity artifactDetailActivity = this;
 
-        viewModel.getArtifactItem(PostID).observe(this, new Observer<ArtifactItemWrapper>() {
+        viewModel.getArtifactItem(PostID).observe(this, new Observer<Pair<ArtifactItemWrapper, MapLocation>>() {
             @Override
-            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
+            public void onChanged(Pair<ArtifactItemWrapper, MapLocation> artifactItemWrapperMapLocationPair) {
+                ArtifactItemWrapper artifactItemWrapper = artifactItemWrapperMapLocationPair.getFst();
+                MapLocation mapLocation = artifactItemWrapperMapLocationPair.getSnd();
+
                 Log.d(TAG, "Some changes happen");
 
+                viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(artifactDetailActivity, new Observer<UserInfoWrapper>() {
+                    @Override
+                    public void onChanged(UserInfoWrapper userInfoWrapper) {
+                        String url = userInfoWrapper.getPhotoUrl();
+                        user.setText(userInfoWrapper.getDisplayName());
+                        if(url != null) {
+                            avatar.setImageURI(Uri.parse(url));
+                        }
+                    }
+                });
+
+                likesNumber.setText(Integer.toString(artifactItemWrapperMapLocationPair.getFst().getLikes().size()));
+                if ((artifactItemWrapper.getLikes().size() != 0) &&
+                        (artifactItemWrapper.getLikes().get(viewModel.getCurrentUid()) == true)) {
+                    likeButton.setImageResource(R.drawable.ic_liked);
+                    likeButton.setTag("liked");
+                } else {
+                    likeButton.setImageResource(R.drawable.ic_like);
+                    likeButton.setTag("unliked");
+                }
+
+                // like button is always clicked to indicate the current number of likes received
+//                likeButton.setImageResource(R.drawable.ic_liked);
+//                likeButton.setTag("liked");
+                commentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String pid = artifactItemWrapperMapLocationPair.getFst().getPostId();
+                        Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                        i.putExtra("artifactItemPostId", pid);
+                        startActivity(i);
+                    }
+                });
+
+                likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int likes_before = Integer.valueOf(likesNumber.getText().toString());
+                        Log.d(TAG, "number of likes before:" + likes_before);
+                        if (likeButton.getTag() == "liked") {
+                            likeButton.setImageResource(R.drawable.ic_like);
+                            likeButton.setTag("unlike");
+                            likesNumber.setText(String.valueOf(likes_before-1));
+                        } else {
+                            likeButton.setImageResource(R.drawable.ic_liked);
+                            likeButton.setTag("liked");
+                            likesNumber.setText(String.valueOf(likes_before+1));
+                        }
+                        viewModel.getLikeChange(likeButton.getTag().toString(), artifactItemWrapper.getPostId());
+                    }
+                });
+
                 // Set artifact information the same as activity hub
-                post.setText(artifactItemWrapper.getPostId());
                 desc.setText(artifactItemWrapper.getDescription());
-                user.setText(artifactItemWrapper.getUid());
+                time.setText(getCreateAt(new Pair<>(artifactItemWrapper, null), getApplicationContext()));
+
+                // current user is the owner
+                if (UserInfoManager.getInstance().getCurrentUid().equals(artifactItemWrapperMapLocationPair.getFst().getUid())) {
+                    RelativeLayout.LayoutParams frameParam = new RelativeLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            (int)convertDpToPixel(200, getApplicationContext()));
+                    frameParam.addRule(RelativeLayout.BELOW, R.id.activity_artifact_detail_stored_location_map_title);
+                    storedLocationMap.setLayoutParams(frameParam);
+                    storedLocationMap.setVisibility(View.VISIBLE);
+                    storeLocationHint.setVisibility(View.VISIBLE);
+
+                    viewModel.getStoredLocation(PostID).observe(artifactDetailActivity, new Observer<MapLocation>() {
+                        /**
+                         * @param mapLocation stored location of artifact item
+                         */
+                        @Override
+                        public void onChanged(MapLocation mapLocation) {
+                            fm.beginTransaction().replace(R.id.activity_artifact_detail_stored_location_map, storedMap).commit();
+                            storedMap.addDisplayArtifactItems(new Pair<>(artifactItemWrapper, mapLocation));
+                        }
+                    });
+                }
+
+                fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
+                happenedMap.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
 
                 List<Uri> mediaList = new ArrayList<>();
                 for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
@@ -154,7 +274,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         postImage.addView(mediaView);
                     } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
                         // video view
-                        mediaView = getVideoThumbnail(750, 750,
+                        mediaView = getVideoThumbnail(postImage.getWidth(), postImage.getWidth(),
                                 mediaList.get(0), artifactDetailActivity);
 
                         ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
@@ -164,14 +284,63 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         Log.e(TAG, "unknown media type !!!");
                     }
                 }
-
-
                 Log.d(TAG, "Set Data");
+
+
+                Log.d(TAG, "Ready to run get store pair");
+                viewModel.getUploadLocation(PostID).observeForever(new Observer<MapLocation>() {
+                    @Override
+                    public void onChanged(MapLocation mapLocation) {
+                        Log.d(TAG, "upload location: " + mapLocation.toString());
+                        Pair<ArtifactItemWrapper, MapLocation> pair = new Pair<>(artifactItemWrapper, mapLocation);
+                        createLocationText.setText(getAddress(pair, artifactDetailActivity, getString(R.string.upload_at)));
+                    }
+                });
+
+                timeline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String tid = artifactItemWrapper.getArtifactTimelineId();
+                        Intent i = new Intent(view.getContext(), TimelineActivity.class);
+                        i.putExtra("timelineID", tid);
+                        startActivity(i);
+                    }
+                });
+
             }
         });
+
+//        Log.d(TAG, "Ready to run get store pair");
+//        viewModel.getStorePair(PostID).observeForever(new Observer<Pair<ArtifactItemWrapper, MapLocation>>() {
+//            @Override
+//            public void onChanged(Pair<ArtifactItemWrapper, MapLocation> artifactItemWrapperMapLocationPair) {
+//                Log.d(TAG, "store location: " + artifactItemWrapperMapLocationPair.getSnd().toString());
+//                mHelper.getAddress(artifactItemWrapperMapLocationPair, artifactDetailActivity);
+//            }
+//        });
+
+//        viewComment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+//                i.putExtra("artifactItemPostId", PostID);
+//                startActivity(i);
+//            }
+//        });
+
+
+//        viewModel.getLocationHappened(PostID).observeForever(new Observer<MapLocation>() {
+//            @Override
+//            public void onChanged(MapLocation mapLocation) {
+//                // TODO map location data from DB
+//                Log.d(TAG, "Happened Map Location: " + mapLocation.toString());
+//                MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(Collections.emptyList());
+//                fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
+//                happenedMap.setDisplayArtifactItems(new ArtifactItemWrapper(artifactItem), mapLocation);
+//            }
+//        });
+
     }
-
-
 
 }
 
@@ -199,7 +368,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.fragment_detail);
+//        setContentView(R.layout.activity_artifact_detail);
 //
 //        // Use intent to send information to artifact detail activity
 //        Intent intent = getIntent();
@@ -238,7 +407,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //            @Override
 //            public void onChanged(ArtifactItemWrapper artifactItemWrapper) {
 //                detailImageAdapter.setData(artifactItemWrapper);
-//                Log.i(TAG, "some changes happened");
+//                Log.i(TAG, "some changes happenedMap");
 //
 ////                // Set artifact information the same as activity hub
 ////                mTitleTv.setText(artifactItemWrapper.getPostId());
@@ -288,7 +457,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 //
 ////    @Override
 ////    protected int getLayoutResource() {
-////        return R.layout.fragment_detail;
+////        return R.layout.activity_artifact_detail;
 ////    }
 //    /**
 //     * @return created me fragment

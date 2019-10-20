@@ -39,7 +39,9 @@
             android:text="Title"
             android:textSize="18sp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/item_description"
@@ -48,7 +50,9 @@
             android:text="time"
             android:textSize="18sp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
 
     </LinearLayout>

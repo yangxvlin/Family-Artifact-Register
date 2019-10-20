@@ -40,7 +40,7 @@ public class NewContactDetailActivity extends AppCompatActivity {
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar_new);
         TextView username = (TextView) findViewById(R.id.username_new);
-        TextView area = (TextView) findViewById(R.id.area_new);
+        TextView email = (TextView) findViewById(R.id.email_new);
 
         TextView addFriend = (TextView) findViewById(R.id.add_friend);
 
@@ -53,8 +53,14 @@ public class NewContactDetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(UserInfoWrapper newData) {
                 Log.d(TAG, "user data come back from DB: " + newData.toString());
-                username.setText(newData.getDisplayName());
-                area.setText("area");
+                String s = newData.getDisplayName();
+                if(s != null && s.length() > 0) {
+                    username.setText(s);
+                }
+                s = newData.getEmail();
+                if(s != null && s.length() > 0) {
+                    email.setText(s);
+                }
                 String url = newData.getPhotoUrl();
                 if(url != null) {
                     Log.d(TAG, "URL is " + url);
@@ -71,8 +77,8 @@ public class NewContactDetailActivity extends AppCompatActivity {
                 addFriend.setClickable(false);
                 addFriend.setFocusable(false);
                 addFriend.setBackground(null);
-                viewModel.insert();
-                addFriend.setText("Added to list");
+                viewModel.addFriend(viewModel.getUserUid());
+                addFriend.setText(R.string.NewContactDetailActivity_add_button);
             }
         });
     }

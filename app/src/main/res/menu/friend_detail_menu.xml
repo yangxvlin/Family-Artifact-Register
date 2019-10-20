@@ -5,12 +5,12 @@
 
     <item
         android:id="@+id/add_to_black_list_friend"
-        android:title="Add to black list"
+        android:title="@string/friend_detail_menu_black_list"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/delete_friend"
-        android:title="Delete"
+        android:title="@string/friend_detail_menu_delete"
         app:showAsAction="never"/>
 
 </menu>

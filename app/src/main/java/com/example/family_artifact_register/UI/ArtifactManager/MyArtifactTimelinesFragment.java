@@ -26,10 +26,15 @@ import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyTimelineViewModelFactory;
 import com.example.family_artifact_register.R;
 import com.example.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
+
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Set;
 
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.example.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
@@ -69,9 +74,9 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
         viewModel = ViewModelProviders.of(this, new MyTimelineViewModelFactory(getActivity().getApplication())).get(MyTimelineViewModel.class);
 
-        viewModel.getTimelines().observe(this, new Observer<List<ArtifactTimelineWrapper>>() {
+        viewModel.getTimelines().observe(this, new Observer<Set<ArtifactTimelineWrapper>>() {
             @Override
-            public void onChanged(List<ArtifactTimelineWrapper> newData) {
+            public void onChanged(Set<ArtifactTimelineWrapper> newData) {
                 adapter.setData(newData);
             }
         });
@@ -99,19 +104,19 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                 super(itemView);
                 cardView = itemView.findViewById(R.id.cardview);
                 title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
-                title.setSelected(true);
                 uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
                 duration = itemView.findViewById(R.id.my_timeline_recyclerview_item_duration);
-                duration.setSelected(true);
                 image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
                 image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
                 image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
             }
         }
 
-        private List<ArtifactTimelineWrapper> dataSet;
-        private Comparator<ArtifactTimelineWrapper> comparator;
         private Context context;
+
+        private Set<ArtifactTimelineWrapper> dataSet;
+        private Comparator<ArtifactTimelineWrapper> comparator;
+        private Iterator<ArtifactTimelineWrapper> dataSetIterator;
 
         public MyTimelineAdapter(Context context) {
             this.context = context;
@@ -141,48 +146,73 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                     startActivity(intent);
                 }
             });
-            // number of images that has been set
-            int imagesCount = 0;
-            holder.itemID = dataSet.get(position).getPostID();
-            holder.title.setSelected(true);
-            holder.title.setText(dataSet.get(position).getTitle());
-            holder.uploadtime.setText(dataSet.get(position).getUploadDateTime());
-            List<ArtifactItemWrapper> items = dataSet.get(position).getArtifacts();
-            String timelineDuration = null;
-            if(items.size() == 1) {
-                timelineDuration = dataSet.get(position).getUploadDateTime().substring(0, 7);
-            } else if(items.size() > 1) {
-                String oldestTime = items.get(0).getHappenedDateTime().substring(0, 7);
-                String newestTime = items.get(items.size() - 1).getHappenedDateTime().substring(0, 7);
-                timelineDuration = oldestTime + " -- " + newestTime;
-            }
-            holder.duration.setSelected(true);
-            holder.duration.setText(timelineDuration);
-            for(ArtifactItemWrapper item: dataSet.get(position).getArtifacts()) {
-                // all views have been set
-                if(imagesCount == 3) {
-                    break;
-                }
-                for(String url: item.getLocalMediaDataUrls()) {
-                    // all views have been set
-                    if(imagesCount == 3) {
-                        break;
+//            TimerTask task = new TimerTask() {
+//                @Override
+//                public void run() {
+//                    holder.title.setSelected(true);
+//                    holder.duration.setSelected(true);
+//                }
+//            };
+//            timer.scheduleAtFixedRate(task, 1, 200);
+            if(dataSet != null) {
+                if(dataSetIterator.hasNext()) {
+                    ArtifactTimelineWrapper currentItem = dataSetIterator.next();
+                    // number of images that has been set
+                    int imagesCount = 0;
+                    holder.itemID = currentItem.getPostID();
+                    holder.title.setSelected(true);
+                    holder.title.setText(currentItem.getTitle());
+                    holder.uploadtime.setText(currentItem.getUploadDateTime());
+                    List<ArtifactItemWrapper> items = currentItem.getArtifacts();
+                    String timelineDuration = null;
+                    if(items.size() == 1) {
+                        timelineDuration = currentItem.getUploadDateTime().substring(0, 7);
+                    } else if(items.size() > 1) {
+                        items.sort(currentItem.getWrapperComparator());
+                        String oldestTime = items.get(0).getHappenedDateTime().substring(0, 7);
+                        String newestTime = items.get(items.size() - 1).getHappenedDateTime().substring(0, 7);
+                        timelineDuration = oldestTime + " -- " + newestTime;
                     }
-                    if(url != null) {
-                        if(imagesCount == 0) {
-                            setImage(holder.image1, Uri.parse(url), item.getMediaType());
-                            imagesCount++;
+                    holder.duration.setSelected(true);
+                    holder.duration.setText(timelineDuration);
+                    new Timer().scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            holder.title.setSelected(true);
+                            holder.duration.setSelected(true);
                         }
-                        else if(imagesCount == 1) {
-                            setImage(holder.image2, Uri.parse(url), item.getMediaType());
-                            imagesCount++;
+                    }, 500, 1000);
+                    for(ArtifactItemWrapper item: currentItem.getArtifacts()) {
+                        // all views have been set
+                        if(imagesCount == 3) {
+                            break;
                         }
-                        else if(imagesCount == 2) {
-                            setImage(holder.image3, Uri.parse(url), item.getMediaType());
-                            imagesCount++;
+                        for(String url: item.getLocalMediaDataUrls()) {
+                            // all views have been set
+                            if(imagesCount == 3) {
+                                break;
+                            }
+                            if(url != null) {
+                                if(imagesCount == 0) {
+                                    setImage(holder.image1, Uri.parse(url), item.getMediaType());
+                                    imagesCount++;
+                                }
+                                else if(imagesCount == 1) {
+                                    setImage(holder.image2, Uri.parse(url), item.getMediaType());
+                                    imagesCount++;
+                                }
+                                else if(imagesCount == 2) {
+                                    setImage(holder.image3, Uri.parse(url), item.getMediaType());
+                                    imagesCount++;
+                                }
+                            }
                         }
                     }
                 }
+                else {
+                    Log.e(TAG, "error iterating data", new Throwable());
+                }
+
             }
         }
 
@@ -204,9 +234,9 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             return 0;
         }
 
-        public void setData(List<ArtifactTimelineWrapper> newData) {
+        public void setData(Set<ArtifactTimelineWrapper> newData) {
             dataSet = newData;
-            dataSet.sort(comparator);
+            dataSetIterator = dataSet.iterator();
             notifyDataSetChanged();
         }
     }

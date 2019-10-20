@@ -1,5 +1,7 @@
 package com.example.family_artifact_register.UI.ArtifactHub;
 
+import androidx.annotation.Nullable;
+
 import com.example.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 
@@ -28,5 +30,10 @@ public class ArtifactPostWrapper {
 
     public void setUserInfoWrapper(UserInfoWrapper userInfoWrapper) {
         this.userInfoWrapper = userInfoWrapper;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return this.artifactItemWrapper.getPostId().equals(((ArtifactPostWrapper) obj).getArtifactItemWrapper().getPostId());
     }
 }

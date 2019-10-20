@@ -134,6 +134,7 @@ public class HubViewModel extends AndroidViewModel {
                 latestArtifactWrapperList.setValue(wrappers);
                 for(ArtifactItem artifactItem: artifactItems) {
                     ArtifactPostWrapper wrapper = new ArtifactPostWrapper(new ArtifactItemWrapper(artifactItem), userInfo);
+                    Log.d(TAG, wrapper.getArtifactItemWrapper().getDescription() + "get likes size: " + wrapper.getArtifactItemWrapper().getLikes().size());
 //                    wrappers.add(wrapper);
 //                    latestArtifactWrapperList.postValue(wrappers);
                     List<String> urls = artifactItem.getMediaDataUrls();
@@ -145,7 +146,13 @@ public class HubViewModel extends AndroidViewModel {
                                         uris.stream()
                                                 .map(Objects::toString)
                                                 .collect(Collectors.toList()));
-                                wrappers.add(wrapper);
+                                if(wrappers.contains(wrapper)) {
+                                    wrappers.remove(wrapper);
+                                    wrappers.add(wrapper);
+                                }
+                                else  {
+                                    wrappers.add(wrapper);
+                                }
                                 latestArtifactWrapperList.setValue(wrappers);
                             }
                         });
@@ -197,6 +204,18 @@ public class HubViewModel extends AndroidViewModel {
 
     public LiveData<List<UserInfoWrapper>> getFriends() {
         return friends;
+    }
+
+    public void getLikeChange(String tag, String PostId) {
+        if (tag == "liked") {
+            artifactManager.addLike(PostId, userInfoManager.getCurrentUid());
+        } else {
+            artifactManager.removeLike(PostId, userInfoManager.getCurrentUid());
+        }
+    }
+
+    public String getCurrentUid() {
+        return userInfoManager.getCurrentUid();
     }
 
 }

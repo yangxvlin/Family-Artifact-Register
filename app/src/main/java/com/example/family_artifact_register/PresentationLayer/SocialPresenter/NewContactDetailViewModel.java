@@ -20,6 +20,8 @@ public class NewContactDetailViewModel extends AndroidViewModel {
 
     public static final String TAG = NewContactDetailViewModel.class.getSimpleName();
 
+    private String uid;
+
     private UserInfoManager manager = UserInfoManager.getInstance();
     private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
@@ -27,6 +29,7 @@ public class NewContactDetailViewModel extends AndroidViewModel {
 
     public NewContactDetailViewModel(Application application, String uid) {
         super(application);
+        this.uid = uid;
         manager.listenUserInfo(uid).observeForever(new Observer<UserInfo>() {
             @Override
             public void onChanged(UserInfo userInfo) {
@@ -53,8 +56,11 @@ public class NewContactDetailViewModel extends AndroidViewModel {
 
     public LiveData<UserInfoWrapper> getUser() { return friend; }
 
-    public void insert() {
-        UserInfo currentUser = manager.getCurrentUserInfo();
-        manager.addFriend(currentUser, UserInfoWrapper.toUserInfo(friend.getValue()));
+    public void addFriend(String uid) {
+        manager.sendFriendInvitation(uid);
+    }
+
+    public String getUserUid() {
+        return uid;
     }
 }

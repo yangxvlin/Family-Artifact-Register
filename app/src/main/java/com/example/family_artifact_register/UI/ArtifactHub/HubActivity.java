@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * @time 2019-9-18 12:15:48
  * @description activity for artifact hub.
  */
+@Deprecated
 public class HubActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;

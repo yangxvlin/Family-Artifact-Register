@@ -28,6 +28,8 @@ import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //public class HubFragment extends Fragment implements IFragment {
 //
@@ -278,7 +280,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             mRecyclerView = getView().findViewById(R.id.recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            hubModelAdapter = new HubModelAdapter(getContext());
+            hubModelAdapter = new HubModelAdapter(getContext(), viewModel);
             mRecyclerView.setAdapter(hubModelAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
             mRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -328,9 +330,17 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
         viewModel.getFriends().observe(this, new Observer<List<UserInfoWrapper>>() {
             @Override
             public void onChanged(List<UserInfoWrapper> userInfoWrappers) {
-                // TODO
+                Log.d(TAG, "onChanged: get friends post change");
             }
         });
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                viewModel.getPostsChange();
+                Log.d(TAG, "task scheduled");
+            }
+        }, 1000);
     }
 
     /**

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DiffUtil;
@@ -26,13 +25,10 @@ import com.example.family_artifact_register.PresentationLayer.SocialPresenter.Co
 import com.example.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.example.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class ContactFragment extends Fragment implements IFragment {
     /**
@@ -70,6 +66,14 @@ public class ContactFragment extends Fragment implements IFragment {
                 Intent intent = new Intent(view.getContext(), ContactDetailActivity.class);
                 intent.putExtra("selectedUid", contactModel.getCurrentUid());
                 startActivity(intent);
+            }
+        });
+
+        TextView requests = (TextView) view.findViewById(R.id.friend_request);
+        requests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ContactRequestActivity.class));
             }
         });
 
@@ -196,8 +200,7 @@ public class ContactFragment extends Fragment implements IFragment {
             }
             // data is not ready yet
             else {
-                // TODO what to display when data is not ready
-                holder.textView.setText("Loading data");
+                holder.textView.setText("");
             }
         }
 

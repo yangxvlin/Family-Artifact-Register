@@ -4,6 +4,6 @@
     android:id="@+id/text_view_no_result"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:text="This user doesn't exist  /(ㄒoㄒ)/~~"
+    android:text="@string/no_result_view_text"
     android:textSize="20sp"
     android:gravity="center"/>

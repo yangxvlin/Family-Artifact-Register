@@ -35,6 +35,9 @@ public class ContactSearchResultActivity extends AppCompatActivity {
      */
     public static final String TAG = ContactSearchResultActivity.class.getSimpleName();
 
+    public static final String DISPLAY_EMAIL = "email";
+    public static final String DISPLAY_NAME = "displayname";
+
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private SearchResultAdapter adapter;
@@ -57,25 +60,6 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new ContactSearchResultViewModelFactory(getApplication(), query)).get(ContactSearchResultViewModel.class);
 
         setupRecyclerView();
-
-//        Observer<List<UserInfo>> resultObserver = new Observer<List<UserInfo>>() {
-//            @Override
-//            public void onChanged(List<UserInfo> newData) {
-//                // search result back from database
-//                Log.d(TAG, "search observer invoked, result: "+ newData.size() +" comes back");
-//                if(newData.size() > 0) {
-//                    try {
-//                        layout.removeView(textView);
-//                    } catch (Exception e) {
-//                        Log.d(TAG, e.toString());
-//                    }
-//                    for (UserInfo user : newData)
-//                        Log.d(TAG, user.toString());
-//                    // got a match
-//                    adapter.setData(newData);
-//                }
-//            }
-//        };
 
         viewModel.getUsers().observe(this, new Observer<List<UserInfoWrapper>>() {
             @Override
@@ -135,11 +119,9 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String selectedUserName = textView.getText().toString();
-//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
                 Intent intent;
-                if(viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
-                    // searching an existing friend
+                if(itemId.equals(viewModel.getCurrentUser().getUid()) || viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
+                    // searching an existing friend or the current user
                     intent = new Intent(view.getContext(), ContactDetailActivity.class);
                 }
                 else {
@@ -168,7 +150,21 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
             if(dataSet != null) {
-                holder.textView.setText(dataSet.get(position).getDisplayName());
+                String s;
+                if(viewModel.getDisplayMode().equals(DISPLAY_EMAIL)) {
+                    Log.d(TAG, "email, mode chosen by view model: " + viewModel.getDisplayMode());
+                    s = dataSet.get(position).getEmail();
+                    if(s != null && s.length() > 0) {
+                        holder.textView.setText(s);
+                    }
+                }
+                else if(viewModel.getDisplayMode().equals(DISPLAY_NAME)) {
+                    Log.d(TAG, "displayname, mode chosen by view model: " + viewModel.getDisplayMode());
+                    s = dataSet.get(position).getDisplayName();
+                    if(s != null && s.length() > 0) {
+                        holder.textView.setText(s);
+                    }
+                }
                 holder.itemId = dataSet.get(position).getUid();
                 String url = dataSet.get(position).getPhotoUrl();
                 if(url != null) {
@@ -176,8 +172,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
                 }
             }
             else
-                // TODO what to display when data is not ready
-                holder.textView.setText("Loading data");
+                holder.textView.setText("");
         }
 
         @Override

@@ -17,8 +17,11 @@ import com.example.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.example.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class MyTimelineViewModel extends AndroidViewModel {
@@ -29,16 +32,21 @@ public class MyTimelineViewModel extends AndroidViewModel {
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
     private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
-    private MutableLiveData<List<ArtifactTimelineWrapper>> timelines = new MutableLiveData<>();
+    private MutableLiveData<Set<ArtifactTimelineWrapper>> timelines = new MutableLiveData<>();
 
-    private List<ArtifactTimelineWrapper> timelineList;
+    private Set<ArtifactTimelineWrapper> timelineList;
 
     public MyTimelineViewModel(@NonNull Application application) {
         super(application);
 
-        timelineList = new ArrayList<>();
+        timelineList = new TreeSet<>(new Comparator<ArtifactTimelineWrapper>() {
+            @Override
+            public int compare(ArtifactTimelineWrapper artifactTimelineWrapper, ArtifactTimelineWrapper t1) {
+                return artifactTimelineWrapper.getUploadDateTime().compareTo(t1.getUploadDateTime());
+            }
+        });
         timelines.postValue(timelineList);
-        artifactManager.getArtifactTimelineByUid(userInfoManager.getCurrentUid()).observeForever(new Observer<List<ArtifactTimeline>>() {
+        artifactManager.listenArtifactTimelineByUid(userInfoManager.getCurrentUid(), "MyTimelineViewModel1").observeForever(new Observer<List<ArtifactTimeline>>() {
             @Override
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
                 Log.d(TAG, "get timelines from DB");
@@ -46,39 +54,37 @@ public class MyTimelineViewModel extends AndroidViewModel {
 
                     List<ArtifactItemWrapper> wrappers = new ArrayList<>();
                     ArtifactTimelineWrapper timelineWrapper = new ArtifactTimelineWrapper(timeline);
-                    // not sure if 5000 is a good timeout value
-                    artifactManager.getArtifactItemByPostId(timeline.getArtifactItemPostIds(), 5000).observeForever(new Observer<List<ArtifactItem>>() {
-                        @Override
-                        public void onChanged(List<ArtifactItem> artifactItems) {
-                            Log.d(TAG, "get artifacts from DB using ids in timeline object");
-                            for(ArtifactItem item: artifactItems) {
-                                Log.d(TAG, "item: " + item.toString());
-                                ArtifactItemWrapper wrapper = new ArtifactItemWrapper(item);
-                                helper.loadByRemoteUri(item.getMediaDataUrls()).observeForever(new Observer<List<Uri>>() {
+
+                    for(String postID: timeline.getArtifactItemPostIds()) {
+                        artifactManager.listenArtifactItemByPostId(postID, "MyTimelineViewModel2").observeForever(new Observer<ArtifactItem>() {
+                            @Override
+                            public void onChanged(ArtifactItem artifactItem) {
+                                ArtifactItemWrapper wrapper = new ArtifactItemWrapper(artifactItem);
+                                helper.loadByRemoteUri(artifactItem.getMediaDataUrls()).observeForever(new Observer<List<Uri>>() {
                                     @Override
                                     public void onChanged(List<Uri> uris) {
-                                        Log.d(TAG, "get urls from firebaes helper: " + uris.toString());
+                                        Log.d(TAG, "get uris from helper");
                                         wrapper.setLocalMediaDataUrls(
                                                 uris.stream()
                                                         .map(Objects::toString)
                                                         .collect(Collectors.toList())
                                         );
-                                        timelineWrapper.getArtifacts().add(wrapper);
-                                        timelines.postValue(timelineList);
+                                        if(!timelineWrapper.getArtifacts().contains(wrapper)) {
+                                            timelineWrapper.getArtifacts().add(wrapper);
+                                            timelineList.add(timelineWrapper);
+                                            timelines.postValue(timelineList);
+                                        }
                                     }
                                 });
                             }
-//                            ArtifactTimelineWrapper timelineWrapper = new ArtifactTimelineWrapper(timeline);
-                            timelineList.add(timelineWrapper);
-                            timelines.postValue(timelineList);
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });
     }
 
-    public LiveData<List<ArtifactTimelineWrapper>> getTimelines() {
+    public LiveData<Set<ArtifactTimelineWrapper>> getTimelines() {
         return timelines;
     }
 }

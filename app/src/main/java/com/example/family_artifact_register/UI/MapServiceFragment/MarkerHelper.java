@@ -25,6 +25,19 @@ import static com.example.family_artifact_register.UI.Util.MediaViewHelper.getVi
 public class MarkerHelper {
     public static final String TAG = MarkerHelper.class.getSimpleName();
 
+    public static MarkerOptions setUpMarker(Pair<ArtifactItemWrapper, MapLocation> pair, String title, String snippet) {
+        MapLocation storeLocation = pair.getSnd();
+
+        // Log.d(getFragmentTag(), "store location = " + storeLocation.toString());
+
+        MarkerOptions opt = new MarkerOptions()
+                .position(new LatLng(storeLocation.getLatitude(),
+                        storeLocation.getLongitude()))
+                .title(title)
+                .snippet(snippet);
+        return opt;
+    }
+
     public static MarkerOptions setUpMarker(Pair<ArtifactItemWrapper, MapLocation> pair, Context context, int width, int height, String title, String snippet) {
         ArtifactItemWrapper artifactItemWrapper = pair.getFst();
         MapLocation storeLocation = pair.getSnd();
@@ -72,7 +85,7 @@ public class MarkerHelper {
         return String.format("%s%s\n%s%s\n%s\n%s\n%s\n",
                 context.getString(R.string.description), pair.getFst().getDescription(),
                 context.getString(R.string.happen_at), pair.getFst().getHappenedDateTime(),
-                getAddress(pair, context),
+                getAddress(pair, context, context.getString(R.string.locate_at)),
                 pair.getFst().getPostId(),
                 pair.getFst().getArtifactTimelineId()
         );
@@ -82,8 +95,8 @@ public class MarkerHelper {
         return context.getString(R.string.create_at) + pair.getFst().getUploadDateTime();
     }
 
-    public static String getAddress(Pair<ArtifactItemWrapper, MapLocation> pair, Context context) {
-        String snippet = context.getString(R.string.locate_at);
+    public static String getAddress(Pair<ArtifactItemWrapper, MapLocation> pair, Context context, String hint) {
+        String snippet = hint;
 
         if (pair.getSnd().getAddress() != null) {
             snippet += pair.getSnd().getAddress();
@@ -93,4 +106,6 @@ public class MarkerHelper {
 
         return snippet;
     }
+    
+    
 }

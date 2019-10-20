@@ -56,7 +56,7 @@
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        // Inflate the layout for this fragment
 //        Log.v(TAG, "detail fragment created");
-//        return inflater.inflate(R.layout.fragment_detail, container, false);
+//        return inflater.inflate(R.layout.activity_artifact_detail, container, false);
 //    }
 //
 //    @Override
