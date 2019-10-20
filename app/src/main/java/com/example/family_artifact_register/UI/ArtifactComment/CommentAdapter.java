@@ -44,8 +44,12 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
         holder.username.setText(artifactComment.getUserInfoWrapper().getDisplayName());
         holder.comment.setText(artifactComment.getArtifactComment().getContent());
         holder.time.setText(artifactComment.getArtifactComment().getLastUpdateDateTime());
-        holder.avatar.setImageURI(Uri.parse(artifactComment.getUserInfoWrapper().getPhotoUrl()));
+        String url = artifactComment.getUserInfoWrapper().getPhotoUrl();
+        if (url != null) {
+            holder.avatar.setImageURI(Uri.parse(url));
+        }
     }
+
 
     @Override
     public int getItemCount() {
