@@ -92,6 +92,7 @@ public class UserInfoManager {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user!=null) {
+            Log.i(TAG, "firebase auth: " + user.getUid());
             // Already logged in
             mCurrentUid = user.getUid();
 
@@ -117,6 +118,7 @@ public class UserInfoManager {
             // Reset registration Map
             mListenerRegistrationMap = new HashMap<>();
         } else {
+            Log.i(TAG, "firebase auth: no user");
             // Cleanup the listeners
             for (Pair<ListenerRegistration, Integer> listenerRegistrationIntegerPair:
                     mListenerRegistrationMap.values()) {
