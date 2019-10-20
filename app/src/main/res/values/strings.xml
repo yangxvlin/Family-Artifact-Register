@@ -55,11 +55,11 @@
     <string name="menu_sign_out">Sign Out</string>
 
     <!-- main activity functionality -->
-    <string name="artifact_hub">Artifact Hub</string>
+    <string name="artifact_hub">Hub</string>
     <string name="friends">Friends</string>
     <string name="artifact_management">Artifact Management</string>
-    <string name="artifact_map">Artifact Footprint</string>
-    <string name="artifact_event">Artifact Event</string>
+    <string name="artifact_map">Footprint</string>
+    <string name="artifact_event">Event</string>
 
     <!-- artifactItem manage activity functionality -->
     <string name="new_artifact">New Artifact</string>
@@ -193,5 +193,6 @@
     <string name="my_timeline_recyclerview_item_title">Title</string>
     <string name="my_timeline_recyclerview_item_duration">Duration</string>
     <string name="my_timeline_recyclerview_item_create_time">Creation Time</string>
+    <string name="artifact_map_title">Artifact Map Footprint</string>
 
 </resources>
