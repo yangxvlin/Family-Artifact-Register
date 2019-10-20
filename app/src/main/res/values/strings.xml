@@ -139,8 +139,8 @@
     <string name="unimelb_description">Founded in 1853, it has many campuses and graduate schools.</string>
 
     <string name="happened_time_not_chosen_warning">Please choose the time to continue</string>
-    <string name="artifact_items_map_happened_title">Items Happened Location</string>
-    <string name="artifact_items_map_stored_title">Items Stored Location</string>
+    <string name="artifact_items_map_happened_title">Items Happened</string>
+    <string name="artifact_items_map_stored_title">Items Stored</string>
     <string name="create_at">Create at: </string>
     <string name="description">Description: </string>
     <string name="locate_at">Locate at:</string>
