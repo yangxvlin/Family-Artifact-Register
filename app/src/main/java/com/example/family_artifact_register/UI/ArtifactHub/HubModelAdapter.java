@@ -95,7 +95,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.likes.setText(Integer.toString(artifactItemWrapper.getArtifactItemWrapper().getLikes().size()));
         Log.d(TAG, "likes: " + artifactItemWrapper.getArtifactItemWrapper().getLikes());
         if ((artifactItemWrapper.getArtifactItemWrapper().getLikes().size() != 0) &&
-                (artifactItemWrapper.getArtifactItemWrapper().getLikes().get(viewModel.getCurrentUid()) == true)) {
+                (artifactItemWrapper.getArtifactItemWrapper().getLikes().keySet().contains(viewModel.getCurrentUid()))) {
             holder.like.setImageResource(R.drawable.ic_liked);
             holder.like.setTag("liked");
         } else {
