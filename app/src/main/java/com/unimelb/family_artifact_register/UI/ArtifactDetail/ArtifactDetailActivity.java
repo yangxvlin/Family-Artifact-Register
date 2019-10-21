@@ -144,7 +144,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
                 likesNumber.setText(Integer.toString(artifactItemWrapperMapLocationPair.getFst().getLikes().size()));
                 if ((artifactItemWrapper.getLikes().size() != 0) &&
-                        (artifactItemWrapper.getLikes().get(viewModel.getCurrentUid()) == true)) {
+                        (artifactItemWrapper.getLikes().containsKey(viewModel.getCurrentUid()))) {
                     likeButton.setImageResource(R.drawable.ic_liked);
                     likeButton.setTag("liked");
                 } else {
