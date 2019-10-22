@@ -82,6 +82,7 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                                 .createSignInIntentBuilder()
                                 .setIsSmartLockEnabled(false)
                                 .setAvailableProviders(providers)
+                                .setTheme(R.style.AppTheme)
                                 .setLogo(R.drawable.icon_forget_me_not_1)
                                 .build(),
                         RC_SIGN_IN
