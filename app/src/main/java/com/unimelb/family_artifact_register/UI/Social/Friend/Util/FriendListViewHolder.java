@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.Social;
+package com.unimelb.family_artifact_register.UI.Social.Friend.Util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
 
 public class FriendListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 

@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.Social;
+package com.unimelb.family_artifact_register.UI.Social.Friend;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
 import com.unimelb.family_artifact_register.UI.Util.BaseActionBarActivity;
 
 import java.util.ArrayList;

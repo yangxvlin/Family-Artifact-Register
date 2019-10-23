@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.Social;
+package com.unimelb.family_artifact_register.UI.Social.Friend.Util;
 
 import android.view.LayoutInflater;
 import android.view.View;

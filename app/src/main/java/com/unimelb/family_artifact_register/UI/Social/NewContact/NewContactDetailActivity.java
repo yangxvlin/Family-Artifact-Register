@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.Social;
+package com.unimelb.family_artifact_register.UI.Social.NewContact;
 
 import android.content.Intent;
 import android.net.Uri;

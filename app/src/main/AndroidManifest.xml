@@ -50,22 +50,22 @@
             android:name="com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.FriendActivity"
+            android:name="com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.ContactDetailActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.FriendActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.NewContactDetailActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.NewContactDetailActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactDetailActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.ContactSearchResultActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity" />
-        <activity android:name="com.unimelb.family_artifact_register.UI.Social.ContactRequestActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity"/>
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchResultActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity"/>
         <activity
             android:name="com.unimelb.family_artifact_register.UI.ViewArtifact.ArtifactManageActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />

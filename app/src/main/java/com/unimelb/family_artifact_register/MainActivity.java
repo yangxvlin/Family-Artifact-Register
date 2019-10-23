@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity;
 import com.unimelb.family_artifact_register.UI.ViewArtifact.ArtifactManageActivity;
-import com.unimelb.family_artifact_register.UI.Social.FriendActivity;
+import com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity;
 import com.unimelb.family_artifact_register.UI.Util.BaseSignOutActionBarActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;

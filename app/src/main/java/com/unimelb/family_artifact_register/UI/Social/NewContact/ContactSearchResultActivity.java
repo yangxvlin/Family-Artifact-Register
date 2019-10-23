@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.Social;
+package com.unimelb.family_artifact_register.UI.Social.NewContact;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +24,7 @@ import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.Co
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
 
 import java.util.List;
 
