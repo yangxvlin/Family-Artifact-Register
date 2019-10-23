@@ -22,6 +22,7 @@ import static com.unimelb.family_artifact_register.UI.Util.ActivityNavigator.nav
  * @time 2019-8-10 17:01:49
  * @description main activity let user to choose to sign in or sign up
  */
+@Deprecated
 public class MainActivity extends BaseSignOutActionBarActivity {
     private FirebaseAuth mFirebaseAuth;
     public static final int RC_SIGN_IN = 1;
