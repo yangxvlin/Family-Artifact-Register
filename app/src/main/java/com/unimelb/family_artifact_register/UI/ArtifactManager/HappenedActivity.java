@@ -4,17 +4,19 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.ArtifactManager.Util.BaseCancelToolBarActivity;
 
 import java.util.List;
 
-import static com.unimelb.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_DESCRIPTION;
-import static com.unimelb.family_artifact_register.UI.ArtifactManager.UploadingArtifact.ARTIFACT_IMAGES;
+import static com.unimelb.family_artifact_register.UI.ArtifactManager.UploadingArtifactConstant.ARTIFACT_DESCRIPTION;
+import static com.unimelb.family_artifact_register.UI.ArtifactManager.UploadingArtifactConstant.ARTIFACT_IMAGES;
 
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-14 14:05:49
  * @description activity for the user choose the place where the artifact happened
  */
+@Deprecated
 public class HappenedActivity extends BaseCancelToolBarActivity {
 
     /**

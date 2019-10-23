@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager;
+package com.unimelb.family_artifact_register.UI.ArtifactManager.Util;
 
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Util.BaseActionBarActivity;
@@ -10,6 +10,7 @@ import com.unimelb.family_artifact_register.UI.Util.BaseActionBarActivity;
  * @description activity with predefined app bar with one cancel label at top left corner of the
  * page and direct back to ArtifactManageActivity
  */
+@Deprecated
 public abstract class BaseCancelToolBarActivity extends BaseActionBarActivity {
 
     @Override

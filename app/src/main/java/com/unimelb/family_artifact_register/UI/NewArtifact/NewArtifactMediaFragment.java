@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.unimelb.family_artifact_register.UI.NewArtifact;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,10 +19,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
-import com.unimelb.family_artifact_register.UI.Util.DescriptionListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.DescriptionListener;
 import com.unimelb.family_artifact_register.UI.Util.MediaListener;
 import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
-import com.unimelb.family_artifact_register.UI.Util.UploadLocationListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.UploadLocationListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import pl.aprilapps.easyphotopicker.ChooserType;

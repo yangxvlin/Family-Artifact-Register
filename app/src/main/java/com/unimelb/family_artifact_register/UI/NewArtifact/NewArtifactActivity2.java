@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.unimelb.family_artifact_register.UI.NewArtifact;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,16 +18,16 @@ import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.NewArtifactViewModelFactory;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.Util.DescriptionListener;
-import com.unimelb.family_artifact_register.UI.Util.HappenedLocationListener;
-import com.unimelb.family_artifact_register.UI.Util.HappenedTimeListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.DescriptionListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.HappenedLocationListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.HappenedTimeListener;
 import com.unimelb.family_artifact_register.UI.Util.MediaListener;
 import com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper;
-import com.unimelb.family_artifact_register.UI.Util.NewTimelineListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.NewTimelineListener;
 import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
-import com.unimelb.family_artifact_register.UI.Util.StartUploadListener;
-import com.unimelb.family_artifact_register.UI.Util.StoredLocationListener;
-import com.unimelb.family_artifact_register.UI.Util.UploadLocationListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.StartUploadListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.StoredLocationListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.UploadLocationListener;
 
 import java.util.ArrayList;
 import java.util.List;

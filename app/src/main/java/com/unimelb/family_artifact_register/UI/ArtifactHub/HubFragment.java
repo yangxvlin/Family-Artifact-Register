@@ -23,7 +23,7 @@ import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubFr
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2;
+import com.unimelb.family_artifact_register.UI.NewArtifact.NewArtifactActivity2;
 import com.unimelb.family_artifact_register.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

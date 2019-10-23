@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.unimelb.family_artifact_register.UI.NewArtifact;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +18,8 @@ import androidx.fragment.app.Fragment;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.Util.NewTimelineListener;
-import com.unimelb.family_artifact_register.UI.Util.StartUploadListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.NewTimelineListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.StartUploadListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 
 import es.dmoral.toasty.Toasty;
 
-import static com.unimelb.family_artifact_register.UI.Util.NewTimelineListener.EXISTING_ARTIFACT_TIMELINE;
-import static com.unimelb.family_artifact_register.UI.Util.NewTimelineListener.NEW_ARTIFACT_TIMELINE;
+import static com.unimelb.family_artifact_register.UI.NewArtifact.Util.NewTimelineListener.EXISTING_ARTIFACT_TIMELINE;
+import static com.unimelb.family_artifact_register.UI.NewArtifact.Util.NewTimelineListener.NEW_ARTIFACT_TIMELINE;
 
 /**
  * @author XuLin Yang 904904,

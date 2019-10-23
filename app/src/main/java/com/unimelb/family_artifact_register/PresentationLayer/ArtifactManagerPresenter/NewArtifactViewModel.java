@@ -17,8 +17,8 @@ import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.unimelb.family_artifact_register.UI.Util.NewTimelineListener.EXISTING_ARTIFACT_TIMELINE;
-import static com.unimelb.family_artifact_register.UI.Util.NewTimelineListener.NEW_ARTIFACT_TIMELINE;
+import static com.unimelb.family_artifact_register.UI.NewArtifact.Util.NewTimelineListener.EXISTING_ARTIFACT_TIMELINE;
+import static com.unimelb.family_artifact_register.UI.NewArtifact.Util.NewTimelineListener.NEW_ARTIFACT_TIMELINE;
 import static com.unimelb.family_artifact_register.UI.Util.TimeToString.getCurrentTimeFormattedString;
 
 public class NewArtifactViewModel extends AndroidViewModel {

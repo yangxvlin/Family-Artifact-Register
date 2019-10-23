@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.unimelb.family_artifact_register.UI.NewArtifact;
 
 import android.net.Uri;
 import android.os.Bundle;

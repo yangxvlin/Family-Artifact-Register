@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.unimelb.family_artifact_register.UI.NewArtifact;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.Util.HappenedTimeListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.HappenedTimeListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;

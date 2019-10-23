@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager;
+package com.unimelb.family_artifact_register.UI.ArtifactManager.Util;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +40,7 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TY
  *
  * 2. set media layout param by call setSingleMediaHeight() and setSingleMediaWidth()
  */
+@Deprecated
 public class ViewMediaFragment extends Fragment implements IFragment {
     /**
      * class tag

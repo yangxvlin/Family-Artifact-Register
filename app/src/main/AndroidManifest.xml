@@ -69,7 +69,7 @@
         <activity
             android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
-        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2" />
+        <activity android:name=".UI.NewArtifact.NewArtifactActivity2" />
         <activity
             android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.HappenedActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity" />

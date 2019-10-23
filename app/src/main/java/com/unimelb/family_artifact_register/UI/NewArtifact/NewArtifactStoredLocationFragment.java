@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact;
+package com.unimelb.family_artifact_register.UI.NewArtifact;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
-import com.unimelb.family_artifact_register.UI.Util.StoredLocationListener;
+import com.unimelb.family_artifact_register.UI.NewArtifact.Util.StoredLocationListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import es.dmoral.toasty.Toasty;
