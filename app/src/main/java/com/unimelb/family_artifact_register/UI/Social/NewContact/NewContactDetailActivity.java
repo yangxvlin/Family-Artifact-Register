@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.NewContactDetailViewModelFactory;
-import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
 
 public class NewContactDetailActivity extends AppCompatActivity {

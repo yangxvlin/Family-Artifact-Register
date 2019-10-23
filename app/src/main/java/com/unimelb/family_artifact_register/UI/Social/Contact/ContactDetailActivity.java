@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactDetailViewModelFactory;
-import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
 
 

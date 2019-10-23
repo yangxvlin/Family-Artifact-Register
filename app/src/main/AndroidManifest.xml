@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity"></activity>
+        <activity android:name=".UI.Artifact.ArtifactComment.ArtifactCommentActivity"></activity>
         <activity android:name="com.unimelb.family_artifact_register.TestActivity.MapManagerTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,11 +44,11 @@
             android:name="com.unimelb.family_artifact_register.TestActivity.MapTestActivity"
             android:label="@string/title_activity_fullscreen" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity"
+            android:name=".UI.Artifact.ArtifactHub.HubActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity" />
+            android:name=".UI.Artifact.ArtifactDetail.ArtifactDetailActivity"
+            android:parentActivityName=".UI.Artifact.ArtifactHub.HubActivity" />
         <activity
             android:name="com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
@@ -67,13 +67,13 @@
         <activity android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity"/>
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.ViewArtifact.ArtifactManageActivity"
+            android:name=".UI.Artifact.NewArtifact.ArtifactManageActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
-        <activity android:name=".UI.NewArtifact.NewArtifactActivity2" />
+        <activity android:name=".UI.Artifact.NewArtifact.NewArtifactActivity2" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.ViewArtifact.HappenedActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.ViewArtifact.ArtifactManageActivity" />
-        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity" />
+            android:name=".UI.Artifact.NewArtifact.HappenedActivity"
+            android:parentActivityName=".UI.Artifact.NewArtifact.ArtifactManageActivity" />
+        <activity android:name=".UI.Artifact.ArtifactTimeline.TimelineActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

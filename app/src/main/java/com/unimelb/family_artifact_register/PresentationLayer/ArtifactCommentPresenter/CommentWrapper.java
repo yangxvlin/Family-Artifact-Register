@@ -1,7 +1,7 @@
 package com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
-import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 
 public class CommentWrapper {
 

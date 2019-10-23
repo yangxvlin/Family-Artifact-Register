@@ -2,6 +2,7 @@ package com.unimelb.family_artifact_register.PresentationLayer.ArtifactDetailPre
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 
+@Deprecated
 public class DetailFragmentPresenter {
 
     private IView view;

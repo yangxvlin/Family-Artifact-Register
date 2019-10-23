@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchResultViewModelFactory;
-import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
 

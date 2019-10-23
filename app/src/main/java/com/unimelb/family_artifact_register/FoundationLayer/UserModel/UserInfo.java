@@ -3,7 +3,7 @@ package com.unimelb.family_artifact_register.FoundationLayer.UserModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.unimelb.family_artifact_register.UI.Util.TimeToString;
+import com.unimelb.family_artifact_register.Util.TimeToString;
 
 import org.jetbrains.annotations.NotNull;
 

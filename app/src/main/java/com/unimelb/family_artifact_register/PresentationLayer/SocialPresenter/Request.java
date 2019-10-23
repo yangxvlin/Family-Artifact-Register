@@ -1,5 +1,7 @@
 package com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter;
 
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
+
 public class Request {
 
     private UserInfoWrapper user;

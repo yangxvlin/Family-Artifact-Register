@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.ArtifactMap.SearchLocationMap.MapSearchDisplayFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.SearchLocationMap.MapSearchDisplayFragment;
 
 import pl.aprilapps.easyphotopicker.ChooserType;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
