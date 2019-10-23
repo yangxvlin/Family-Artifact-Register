@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.PresentationLayer.ViewArtifactPresenter;
+package com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ViewArtifactPresenter;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
@@ -6,6 +6,7 @@ import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class MeFragmentPresenter {
 
     private List<ArtifactItem> artifacts;

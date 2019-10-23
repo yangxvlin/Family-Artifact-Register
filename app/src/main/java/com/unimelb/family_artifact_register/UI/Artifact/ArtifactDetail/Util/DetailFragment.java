@@ -18,9 +18,9 @@
 //
 //import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 //import com.unimelb.family_artifact_register.Util.IFragment;
-//import com.unimelb.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailFragmentPresenter;
-//import com.unimelb.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModel;
-//import com.unimelb.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
+//import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailFragmentPresenter;
+//import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailViewModel;
+//import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailViewModelFactory;
 //import com.unimelb.family_artifact_register.R;
 //
 //import java.util.List;

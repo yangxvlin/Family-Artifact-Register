@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter;
+package com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;

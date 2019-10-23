@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactTimelinePresenter.TimelineViewModel;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactTimelinePresenter.TimelineViewModelFactory;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactTimelinePresenter.TimelineViewModel;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactTimelinePresenter.TimelineViewModelFactory;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.ArtifactDetailActivity;
 import com.unimelb.family_artifact_register.Util.TimeToString;

@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.unimelb.family_artifact_register.PresentationLayer.NewArtifactPresenter.NewArtifactViewModel;
-import com.unimelb.family_artifact_register.PresentationLayer.NewArtifactPresenter.NewArtifactViewModelFactory;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.NewArtifactPresenter.NewArtifactViewModel;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.NewArtifactPresenter.NewArtifactViewModelFactory;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.DescriptionListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.HappenedLocationListener;

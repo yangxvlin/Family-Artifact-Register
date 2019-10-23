@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.ViewArtifactPresenter.MeViewModelFactory;
-import com.unimelb.family_artifact_register.PresentationLayer.ViewArtifactPresenter.MyArtifactItemsViewModel;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ViewArtifactPresenter.MyArtifactItemsViewModelFactory;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ViewArtifactPresenter.MyArtifactItemsViewModel;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.Util.ArtifactItemHeaderViewBinder;
 import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.Util.ArtifactItemViewBinder;
@@ -66,7 +66,7 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders
-                .of(this, new MeViewModelFactory(getActivity().getApplication()))
+                .of(this, new MyArtifactItemsViewModelFactory(getActivity().getApplication()))
                 .get(MyArtifactItemsViewModel.class);
 
         // create recycler view

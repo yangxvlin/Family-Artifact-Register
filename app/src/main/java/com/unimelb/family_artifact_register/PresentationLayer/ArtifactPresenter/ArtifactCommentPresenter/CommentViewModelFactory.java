@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter;
+package com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter;
 
 import android.app.Application;
 

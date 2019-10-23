@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.PresentationLayer.ViewArtifactPresenter;
+package com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ViewArtifactPresenter;
 
 import android.app.Application;
 import android.net.Uri;

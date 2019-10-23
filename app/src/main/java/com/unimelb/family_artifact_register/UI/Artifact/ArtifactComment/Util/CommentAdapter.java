@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter.CommentWrapper;
 import com.unimelb.family_artifact_register.R;
 
 import java.util.List;

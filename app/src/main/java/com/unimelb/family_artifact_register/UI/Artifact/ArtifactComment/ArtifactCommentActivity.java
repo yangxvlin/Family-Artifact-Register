@@ -18,9 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModel;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentViewModelFactory;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter.CommentViewModel;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter.CommentViewModelFactory;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter.CommentWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactComment.Util.CommentAdapter;

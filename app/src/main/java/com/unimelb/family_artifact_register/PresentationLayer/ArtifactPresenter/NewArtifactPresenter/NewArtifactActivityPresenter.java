@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.PresentationLayer.NewArtifactPresenter;
+package com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.NewArtifactPresenter;
 
 /**
  * @author XuLin Yang 904904,
