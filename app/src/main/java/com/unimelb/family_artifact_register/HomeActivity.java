@@ -19,6 +19,7 @@ import com.unimelb.family_artifact_register.UI.MapServiceFragment.TabbedMapFragm
 import com.unimelb.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 /**
  * @author XuLin Yang 904904,

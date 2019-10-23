@@ -5,7 +5,7 @@ import android.content.Context;
 
 import androidx.fragment.app.Fragment;
 
-import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;

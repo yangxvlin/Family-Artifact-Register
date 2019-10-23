@@ -46,7 +46,7 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TY
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
-import static com.unimelb.family_artifact_register.Util.ScreenUnitHelper.convertDpToPixel;
+import static com.unimelb.family_artifact_register.UI.Util.ScreenUnitHelper.convertDpToPixel;
 
 public class ArtifactDetailActivity extends AppCompatActivity {
 

@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.MapPresenter.MapStoredViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.MapPresenter.MapStoredViewModelFactory;

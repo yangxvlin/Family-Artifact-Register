@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register;
+package com.unimelb.family_artifact_register.Util;
 
 public interface IFragment {
 

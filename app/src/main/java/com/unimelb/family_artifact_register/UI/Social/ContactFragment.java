@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;

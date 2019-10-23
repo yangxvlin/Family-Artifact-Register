@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.Util;
+package com.unimelb.family_artifact_register.UI.Util;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

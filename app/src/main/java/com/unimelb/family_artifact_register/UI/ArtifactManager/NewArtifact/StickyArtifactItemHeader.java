@@ -1,11 +1,14 @@
 package com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact;
 
+import android.util.Log;
+
 import com.unimelb.family_artifact_register.R;
 
 import tellh.com.stickyheaderview_rv.adapter.DataBean;
 import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
 
 public class StickyArtifactItemHeader extends DataBean {
+    private final String TAG = getClass().getSimpleName();
 
     private String prefix;
 
@@ -19,6 +22,7 @@ public class StickyArtifactItemHeader extends DataBean {
 
     @Override
     public int getItemLayoutId(StickyHeaderViewAdapter adapter) {
+        Log.d(TAG, "layout id for sticky header adapter: " + R.layout.artifact_item_sticky_header);
         return R.layout.artifact_item_sticky_header;
     }
 
