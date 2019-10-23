@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.MapServiceFragment;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerStrategy;
 
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -15,7 +15,7 @@ public class MultipleMarkerZoomStrategy extends MarkerZoomStrategy {
      * @return A CameraUpdate object used to update the location of camera view.
      */
     @Override
-    CameraUpdate makeCameraUpdate(List<Marker> markers) {
+    public CameraUpdate makeCameraUpdate(List<Marker> markers) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markers) {
             builder.include(marker.getPosition());

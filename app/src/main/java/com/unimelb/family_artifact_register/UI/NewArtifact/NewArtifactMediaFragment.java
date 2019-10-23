@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.CurrentLocationMap.CurrentLocationFragment;
 import com.unimelb.family_artifact_register.UI.NewArtifact.Util.DescriptionListener;
 import com.unimelb.family_artifact_register.UI.Util.MediaListener;
 import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;

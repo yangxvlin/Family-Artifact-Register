@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.MapServiceFragment;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.Util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,7 @@ import com.unimelb.family_artifact_register.R;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
-abstract class BasePlacesFragment extends Fragment implements IFragment {
+public abstract class BasePlacesFragment extends Fragment implements IFragment {
     // Add tag for logging
     private static final String TAG = BasePlacesFragment.class.getSimpleName();
 

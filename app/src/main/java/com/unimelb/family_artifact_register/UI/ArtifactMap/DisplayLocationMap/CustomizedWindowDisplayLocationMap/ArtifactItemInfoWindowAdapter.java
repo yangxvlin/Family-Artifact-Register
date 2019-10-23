@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.MapServiceFragment;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.DisplayLocationMap.CustomizedWindowDisplayLocationMap;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.Marker;
 /**
  * can be used to customize marker's layout not sure whether we needed by XuLin
  */
+@Deprecated
 public class ArtifactItemInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;

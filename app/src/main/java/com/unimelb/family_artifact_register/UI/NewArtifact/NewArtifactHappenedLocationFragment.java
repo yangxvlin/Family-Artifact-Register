@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.SearchLocationMap.MapSearchDisplayFragment;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.UI.NewArtifact.Util.HappenedLocationListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

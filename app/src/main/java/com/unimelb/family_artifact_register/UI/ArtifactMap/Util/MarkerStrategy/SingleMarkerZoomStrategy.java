@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.MapServiceFragment;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerStrategy;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,7 +14,7 @@ public class SingleMarkerZoomStrategy extends MarkerZoomStrategy {
      * @return A CameraUpdate object used to update the location of camera view.
      */
     @Override
-    CameraUpdate makeCameraUpdate(List<Marker> markers) {
+    public CameraUpdate makeCameraUpdate(List<Marker> markers) {
         assert markers.size() == 1;
         Marker marker = markers.get(0);
         CameraPosition cp = CameraPosition

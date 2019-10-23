@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.MapServiceFragment;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerStrategy;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -8,8 +8,8 @@ import com.google.android.gms.maps.model.Marker;
 
 import java.util.List;
 
-class ZeroMarkerZoomStrategy extends MarkerZoomStrategy {
-    private static final LatLng DEFAULT_LATLNG = new LatLng(0, 0);
+public class ZeroMarkerZoomStrategy extends MarkerZoomStrategy {
+    public static final LatLng DEFAULT_LATLNG = new LatLng(0, 0);
 
     /**
      * Returns a CameraUpdate object that can be used my GoogleMap to update the camera location
@@ -17,7 +17,7 @@ class ZeroMarkerZoomStrategy extends MarkerZoomStrategy {
      * @return A CameraUpdate object used to update the location of camera view.
      */
     @Override
-    CameraUpdate makeCameraUpdate(List<Marker> markers) {
+    public CameraUpdate makeCameraUpdate(List<Marker> markers) {
         CameraPosition cp = CameraPosition
                 .builder()
                 .zoom(DEFAULT_ZOOM)

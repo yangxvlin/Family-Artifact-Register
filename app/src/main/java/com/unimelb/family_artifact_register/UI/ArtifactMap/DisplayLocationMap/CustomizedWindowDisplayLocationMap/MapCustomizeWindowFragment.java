@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.MapServiceFragment;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.DisplayLocationMap.CustomizedWindowDisplayLocationMap;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import com.appolica.interactiveinfowindow.InfoWindow;
 import com.appolica.interactiveinfowindow.InfoWindowManager;
 import com.appolica.interactiveinfowindow.customview.TouchInterceptFrameLayout;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerStrategy.MarkerZoomStrategyFactory;
 import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
@@ -26,9 +27,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.unimelb.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
-import static com.unimelb.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getSnippet;
-import static com.unimelb.family_artifact_register.UI.MapServiceFragment.MarkerHelper.setUpMarker;
+import static com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerHelper.getCreateAt;
+import static com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerHelper.getSnippet;
+import static com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerHelper.setUpMarker;
 
 public class MapCustomizeWindowFragment extends Fragment implements
         IFragment,

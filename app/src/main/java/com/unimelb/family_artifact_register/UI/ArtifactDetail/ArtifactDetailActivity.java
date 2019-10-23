@@ -31,16 +31,16 @@ import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
 import com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MarkerHelper;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerHelper;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.unimelb.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getAddress;
-import static com.unimelb.family_artifact_register.UI.MapServiceFragment.MarkerHelper.getCreateAt;
+import static com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerHelper.getAddress;
+import static com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerHelper.getCreateAt;
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getImageRecyclerView;

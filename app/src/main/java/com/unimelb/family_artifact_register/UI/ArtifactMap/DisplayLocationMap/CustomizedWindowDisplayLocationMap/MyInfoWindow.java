@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.MapServiceFragment;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.DisplayLocationMap.CustomizedWindowDisplayLocationMap;
 
 import android.content.Intent;
 import android.os.Bundle;

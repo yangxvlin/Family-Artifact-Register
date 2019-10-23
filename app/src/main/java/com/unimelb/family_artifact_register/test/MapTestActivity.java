@@ -7,9 +7,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.CurrentLocationMap.CurrentLocationFragment;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.SearchLocationMap.MapSearchDisplayFragment;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
