@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactMap;
+package com.unimelb.family_artifact_register.UI.ArtifactMap.ArtifactLocationMap;
 
 import android.os.Bundle;
 import android.util.Log;
