@@ -30,6 +30,7 @@ import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.Us
 import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
+import com.unimelb.family_artifact_register.UI.ArtifactDetail.Util.DetailImageAdapter;
 import com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.unimelb.family_artifact_register.UI.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
 import com.unimelb.family_artifact_register.UI.ArtifactMap.Util.MarkerHelper;

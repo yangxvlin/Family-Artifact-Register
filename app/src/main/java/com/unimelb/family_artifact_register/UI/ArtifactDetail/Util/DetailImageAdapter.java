@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactDetail;
+package com.unimelb.family_artifact_register.UI.ArtifactDetail.Util;
 
 import android.content.Context;
 import android.net.Uri;

@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.ArtifactHub.Util.HubModelAdapter;
+import com.unimelb.family_artifact_register.UI.ArtifactHub.Util.Model;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactHub;
+package com.unimelb.family_artifact_register.UI.ArtifactHub.Util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
+import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.ArtifactPostWrapper;
 import com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 //import com.unimelb.family_artifact_register.UI.ArtifactDetail.DetailFragment;

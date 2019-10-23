@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactHub;
+package com.unimelb.family_artifact_register.PresentationLayer.HubPresenter;
 
 import androidx.annotation.Nullable;
 

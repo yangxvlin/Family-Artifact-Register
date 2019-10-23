@@ -15,7 +15,7 @@ import com.unimelb.family_artifact_register.UI.ArtifactHub.HubFragment;
 import com.unimelb.family_artifact_register.UI.ViewArtifact.MeFragment;
 import com.unimelb.family_artifact_register.UI.Event.EventFragment;
 import com.unimelb.family_artifact_register.UI.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
-import com.unimelb.family_artifact_register.UI.ArtifactMap.TabbedMapFragment;
+import com.unimelb.family_artifact_register.UI.ArtifactMap.ArtifactLocationMap.TabbedMapFragment;
 import com.unimelb.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;

@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactDetail;
+package com.unimelb.family_artifact_register.UI.ArtifactDetail.Util;
 
 import android.view.View;
 import android.widget.FrameLayout;
