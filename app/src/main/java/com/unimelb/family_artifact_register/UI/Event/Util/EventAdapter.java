@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.Util;
+package com.unimelb.family_artifact_register.UI.Event.Util;
 
 import android.content.Context;
 import android.view.LayoutInflater;
