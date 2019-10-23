@@ -1,5 +1,6 @@
 package com.unimelb.family_artifact_register.UI.Post;
 
+@Deprecated
 public class Post {
 
     public String postid;
