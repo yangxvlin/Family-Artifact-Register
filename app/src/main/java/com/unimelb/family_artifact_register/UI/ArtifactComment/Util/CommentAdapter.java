@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactComment;
+package com.unimelb.family_artifact_register.UI.ArtifactComment.Util;
 
 import android.content.Context;
 import android.net.Uri;
@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +17,7 @@ import com.unimelb.family_artifact_register.R;
 
 import java.util.List;
 
-public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     private static final String TAG = CommentAdapter.class.getSimpleName();
 
@@ -61,4 +63,18 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
         notifyDataSetChanged();
     }
 
+    static class CommentViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView avatar;
+        public TextView username, comment, time;
+
+        public CommentViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.time = itemView.findViewById(R.id.time);
+            this.username = itemView.findViewById(R.id.username);
+            this.comment = itemView.findViewById(R.id.comment);
+            this.avatar = itemView.findViewById(R.id.avatar);
+        }
+
+    }
 }

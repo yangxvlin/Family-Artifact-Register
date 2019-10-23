@@ -23,6 +23,7 @@ import com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPre
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPresenter.CommentWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.ArtifactComment.Util.CommentAdapter;
 import com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 
 import java.util.List;
