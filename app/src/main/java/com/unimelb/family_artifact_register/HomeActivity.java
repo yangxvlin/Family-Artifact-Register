@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.unimelb.family_artifact_register.UI.ArtifactHub.HubFragment;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.MeFragment;
+import com.unimelb.family_artifact_register.UI.ViewArtifact.MeFragment;
 import com.unimelb.family_artifact_register.UI.Event.EventFragment;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.TabbedMapFragment;

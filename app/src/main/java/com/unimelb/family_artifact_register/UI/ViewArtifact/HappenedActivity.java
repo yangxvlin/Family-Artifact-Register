@@ -1,15 +1,15 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager;
+package com.unimelb.family_artifact_register.UI.ViewArtifact;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.Util.BaseCancelToolBarActivity;
+import com.unimelb.family_artifact_register.UI.ViewArtifact.Util.BaseCancelToolBarActivity;
 
 import java.util.List;
 
-import static com.unimelb.family_artifact_register.UI.ArtifactManager.UploadingArtifactConstant.ARTIFACT_DESCRIPTION;
-import static com.unimelb.family_artifact_register.UI.ArtifactManager.UploadingArtifactConstant.ARTIFACT_IMAGES;
+import static com.unimelb.family_artifact_register.UI.ViewArtifact.UploadingArtifactConstant.ARTIFACT_DESCRIPTION;
+import static com.unimelb.family_artifact_register.UI.ViewArtifact.UploadingArtifactConstant.ARTIFACT_IMAGES;
 
 /**
  * @author XuLin Yang 904904,

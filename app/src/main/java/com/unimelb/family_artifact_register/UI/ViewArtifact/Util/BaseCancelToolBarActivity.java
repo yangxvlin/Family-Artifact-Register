@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.Util;
+package com.unimelb.family_artifact_register.UI.ViewArtifact.Util;
 
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Util.BaseActionBarActivity;

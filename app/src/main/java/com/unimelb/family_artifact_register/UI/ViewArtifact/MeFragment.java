@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager;
+package com.unimelb.family_artifact_register.UI.ViewArtifact;
 
 import android.os.Bundle;
 import android.util.Log;

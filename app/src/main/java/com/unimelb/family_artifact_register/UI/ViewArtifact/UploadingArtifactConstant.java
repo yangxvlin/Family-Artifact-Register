@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager;
+package com.unimelb.family_artifact_register.UI.ViewArtifact;
 
 public class UploadingArtifactConstant {
     public static final String ARTIFACT_DESCRIPTION = "Description";

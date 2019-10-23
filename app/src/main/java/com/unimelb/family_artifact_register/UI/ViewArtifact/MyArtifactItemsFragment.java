@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager;
+package com.unimelb.family_artifact_register.UI.ViewArtifact;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +19,10 @@ import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MeViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.MyArtifactItemsViewModel;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.Util.ArtifactItemHeaderViewBinder;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.Util.ArtifactItemViewBinder;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.Util.StickyArtifactItemHeader;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.Util.StickyArtifactItemItem;
+import com.unimelb.family_artifact_register.UI.ViewArtifact.Util.ArtifactItemHeaderViewBinder;
+import com.unimelb.family_artifact_register.UI.ViewArtifact.Util.ArtifactItemViewBinder;
+import com.unimelb.family_artifact_register.UI.ViewArtifact.Util.StickyArtifactItemHeader;
+import com.unimelb.family_artifact_register.UI.ViewArtifact.Util.StickyArtifactItemItem;
 
 import java.util.ArrayList;
 import java.util.Collections;

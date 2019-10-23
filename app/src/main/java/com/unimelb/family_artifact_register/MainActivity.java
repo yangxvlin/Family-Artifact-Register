@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity;
+import com.unimelb.family_artifact_register.UI.ViewArtifact.ArtifactManageActivity;
 import com.unimelb.family_artifact_register.UI.Social.FriendActivity;
 import com.unimelb.family_artifact_register.UI.Util.BaseSignOutActionBarActivity;
 import com.firebase.ui.auth.AuthUI;

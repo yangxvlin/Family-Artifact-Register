@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.UI.ArtifactManager.Util;
+package com.unimelb.family_artifact_register.UI.ViewArtifact.Util;
 
 import android.content.Context;
 
