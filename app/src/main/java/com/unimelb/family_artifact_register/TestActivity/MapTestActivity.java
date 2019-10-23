@@ -1,4 +1,4 @@
-package com.unimelb.family_artifact_register.test;
+package com.unimelb.family_artifact_register.TestActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

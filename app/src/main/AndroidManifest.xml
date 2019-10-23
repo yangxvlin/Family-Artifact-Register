@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity"></activity>
-        <activity android:name="com.unimelb.family_artifact_register.test.MapManagerTestActivity">
+        <activity android:name="com.unimelb.family_artifact_register.TestActivity.MapManagerTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -41,7 +41,7 @@
         <activity android:name="com.unimelb.family_artifact_register.MainActivity" />
         <activity android:name="com.unimelb.family_artifact_register.CollectUserInfoActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.test.MapTestActivity"
+            android:name="com.unimelb.family_artifact_register.TestActivity.MapTestActivity"
             android:label="@string/title_activity_fullscreen" />
         <activity
             android:name="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity"
