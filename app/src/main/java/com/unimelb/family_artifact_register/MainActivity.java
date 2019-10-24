@@ -21,6 +21,9 @@ import static com.unimelb.family_artifact_register.Util.ActivityNavigator.naviga
  * @author XuLin Yang 904904,
  * @time 2019-8-10 17:01:49
  * @description main activity let user to choose to sign in or sign up
+ *
+ * Deprecated because we decide to separate authenticate logic to a separate class
+ * Not Deleted by open-close principle.
  */
 @Deprecated
 public class MainActivity extends BaseSignOutActionBarActivity {
