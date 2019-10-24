@@ -8,10 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
 
+/**
+ * required android recycler view's view holder
+ */
 public class ImagesRecyclerViewHolder extends RecyclerView.ViewHolder {
 
+    /**
+     * image view in view holder
+     */
     ImageView imageView;
 
+    /**
+     * @param itemView itemView
+     */
     public ImagesRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
 
