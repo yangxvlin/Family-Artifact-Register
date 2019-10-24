@@ -18,18 +18,29 @@ import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
 import com.unimelb.family_artifact_register.R;
 
+/**
+ * UI fragment to display user attending events
+ */
 public class MyEventFragment extends Fragment implements IFragment, EventListener {
     /**
      * class tag
      */
     public static final String TAG = MyEventFragment.class.getSimpleName();
 
+    /**
+     * recycler view
+     */
     private RecyclerView recyclerView;
 
+    /**
+     * event adapter
+     */
     private EventAdapter eventAdapter;
 
+    /**
+     * Required empty public constructor
+     */
     public MyEventFragment() {
-        // Required empty public constructor
     }
 
     @Override

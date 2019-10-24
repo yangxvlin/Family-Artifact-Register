@@ -18,18 +18,29 @@ import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
 import com.unimelb.family_artifact_register.R;
 
+/**
+ * UI fragment to display recommended events for user
+ */
 public class RecommendedEventFragment extends Fragment implements IFragment, EventListener {
     /**
      * class tag
      */
     public static final String TAG = RecommendedEventFragment.class.getSimpleName();
 
+    /**
+     * recycler view
+     */
     private RecyclerView recyclerView;
 
+    /**
+     * event adapter
+     */
     private EventAdapter eventAdapter;
 
+    /**
+     * Required empty public constructor
+     */
     public RecommendedEventFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -51,7 +62,6 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
         EventViewModel.getInstance().addObserver(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(eventAdapter);
-
     }
 
     /**
