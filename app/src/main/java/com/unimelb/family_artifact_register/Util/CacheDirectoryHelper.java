@@ -2,8 +2,6 @@ package com.unimelb.family_artifact_register.Util;
 
 import android.util.Log;
 
-import com.unimelb.family_artifact_register.UI.Util.TimeToString;
-
 import java.io.File;
 import java.util.UUID;
 

@@ -18,8 +18,9 @@ import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocationManager;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.TimelineMapWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.unimelb.family_artifact_register.UI.Upload;
 
+@Deprecated
 public class Upload {
     private String mName;
     private String mImageUrl;

@@ -1,6 +1,6 @@
 package com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel;
 
-import com.unimelb.family_artifact_register.UI.Util.TimeToString;
+import com.unimelb.family_artifact_register.Util.TimeToString;
 
 import java.util.UUID;
 

@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
