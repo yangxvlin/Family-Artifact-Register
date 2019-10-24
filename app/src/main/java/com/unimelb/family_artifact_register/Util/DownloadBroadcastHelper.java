@@ -14,14 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class handles the event when download is finished
+ * This class handles the event when download is finished by polymorphism
  */
 public class DownloadBroadcastHelper extends BroadcastReceiver {
-    // Add tag for logging
+    /**
+     * Add tag for logging
+     * */
     private static final String TAG = DownloadBroadcastHelper.class.getSimpleName();
 
+    /**
+     * singleton object
+     */
     private static DownloadBroadcastHelper ourInstance = null;
 
+    /**
+     * @return singleton object
+     */
     public static DownloadBroadcastHelper getInstance() {
         if (ourInstance == null) {
             ourInstance = new DownloadBroadcastHelper();
@@ -29,9 +37,19 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
         return ourInstance;
     }
 
+    /**
+     * list of callback task
+     */
     List<DownloadCallback> callbackList;
+
+    /**
+     * down load manager
+     */
     DownloadManager downloadManager;
 
+    /**
+     * create object
+     */
     private DownloadBroadcastHelper() {
         callbackList = new ArrayList<>();
         downloadManager = (DownloadManager) MyApplication
@@ -56,15 +74,29 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
         }
     }
 
+    /**
+     * register callback task
+     * @param callback callback task
+     */
     public void addCallback(DownloadCallback callback) {
         callbackList.add(callback);
     }
 
+    /**
+     * cancel callback task
+     * @param callback callback task
+     */
     public void removeCallback(DownloadCallback callback) {
         callbackList.remove(callback);
     }
 
+    /**
+     * task to download by polymorphism to have variation protection
+     */
     public static abstract class DownloadCallback implements Callback<Uri> {
+        /**
+         * @param downloadId FirebaseDatabase data id to be downloaded
+         */
         public abstract void callback(long downloadId);
 
         @Override
