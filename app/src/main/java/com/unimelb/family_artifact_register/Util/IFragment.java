@@ -1,5 +1,8 @@
 package com.unimelb.family_artifact_register.Util;
 
+/**
+ * pure fabricate the logic of getting class name to reduce code duplication
+ */
 public interface IFragment {
 
     /**
