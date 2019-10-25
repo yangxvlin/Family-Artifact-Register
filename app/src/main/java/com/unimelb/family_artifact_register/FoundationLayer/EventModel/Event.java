@@ -1,17 +1,38 @@
 package com.unimelb.family_artifact_register.FoundationLayer.EventModel;
 
+/**
+ * event data class
+ */
 public class Event {
 
+    /**
+     * event address
+     */
     private String address;
 
+    /**
+     * event image
+     */
     private int image;
 
+    /**
+     * event time
+     */
     private String time;
 
+    /**
+     * event name
+     */
     private String name;
 
+    /**
+     * event description
+     */
     private String description;
 
+    /**
+     * event id
+     */
     private String id;
 
     private Event(String id, String address, int image, String time, String name, String description) {

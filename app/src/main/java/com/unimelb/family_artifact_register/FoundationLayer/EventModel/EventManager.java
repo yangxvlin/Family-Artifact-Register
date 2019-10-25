@@ -6,9 +6,18 @@ import com.unimelb.family_artifact_register.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * singleton event manager to pull event data from DB to provide global access
+ */
 public class EventManager {
+    /**
+     * class tag
+     */
     public static final String TAG = EventManager.class.getSimpleName();
 
+    /**
+     * singleton instance
+     */
     private static final EventManager ourInstance = new EventManager();
 
     public static EventManager getInstance() {
