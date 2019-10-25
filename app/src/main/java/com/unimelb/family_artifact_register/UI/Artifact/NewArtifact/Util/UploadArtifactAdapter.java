@@ -12,6 +12,10 @@ import com.unimelb.family_artifact_register.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Deprecated because no need to preview artifacts before upload
+ * not deleted by the open-close principle
+ */
 @Deprecated
 public class UploadArtifactAdapter extends RecyclerView.Adapter<UploadArtifactViewHolder> {
     private List<Bitmap> images;

@@ -9,6 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
 
+/**
+ * Deprecated because no need to preview artifacts before upload
+ * not deleted by the open-close principle
+ */
 @Deprecated
 public class UploadArtifactViewHolder extends RecyclerView.ViewHolder {
     public ImageView img;
