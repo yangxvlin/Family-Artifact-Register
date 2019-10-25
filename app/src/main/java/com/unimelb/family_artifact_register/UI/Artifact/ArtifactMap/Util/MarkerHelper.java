@@ -22,13 +22,23 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.cr
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.getResizedBitmap;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
 
+/**
+ * pure fabricate logic to set up marker to reduce duplicate code
+ */
 public class MarkerHelper {
+    /**
+     * class tag
+     */
     public static final String TAG = MarkerHelper.class.getSimpleName();
 
+    /**
+     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param title title of marker
+     * @param snippet snippet of marker
+     * @return marker to be displayed
+     */
     public static MarkerOptions setUpMarker(Pair<ArtifactItemWrapper, MapLocation> pair, String title, String snippet) {
         MapLocation storeLocation = pair.getSnd();
-
-        // Log.d(getFragmentTag(), "store location = " + storeLocation.toString());
 
         MarkerOptions opt = new MarkerOptions()
                 .position(new LatLng(storeLocation.getLatitude(),
@@ -38,11 +48,18 @@ public class MarkerHelper {
         return opt;
     }
 
+    /**
+     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param context context
+     * @param width width of icon
+     * @param height height of icon
+     * @param title title of marker
+     * @param snippet snippet of marker
+     * @return marker to be displayed
+     */
     public static MarkerOptions setUpMarker(Pair<ArtifactItemWrapper, MapLocation> pair, Context context, int width, int height, String title, String snippet) {
         ArtifactItemWrapper artifactItemWrapper = pair.getFst();
         MapLocation storeLocation = pair.getSnd();
-
-        // Log.d(getFragmentTag(), "store location = " + storeLocation.toString());
 
         MarkerOptions opt = new MarkerOptions()
                 .position(new LatLng(storeLocation.getLatitude(),
@@ -80,8 +97,12 @@ public class MarkerHelper {
         return opt;
     }
 
+    /**
+     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param context context
+     * @return turn required data to a single string separated by new line
+     */
     public static String getSnippet(Pair<ArtifactItemWrapper, MapLocation> pair, Context context) {
-
         return String.format("%s%s\n%s%s\n%s\n%s\n%s\n",
                 context.getString(R.string.description), pair.getFst().getDescription(),
                 context.getString(R.string.happen_at), pair.getFst().getHappenedDateTime(),
@@ -91,10 +112,21 @@ public class MarkerHelper {
         );
     }
 
+    /**
+     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param context context
+     * @return formatted string of creation time
+     */
     public static String getCreateAt(Pair<ArtifactItemWrapper, MapLocation> pair, Context context) {
         return context.getString(R.string.create_at) + pair.getFst().getUploadDateTime();
     }
 
+    /**
+     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param context context
+     * @param hint string about the output
+     * @return formatted string of address if no specific address use lat and lon as address
+     */
     public static String getAddress(Pair<ArtifactItemWrapper, MapLocation> pair, Context context, String hint) {
         String snippet = hint;
 
@@ -106,6 +138,4 @@ public class MarkerHelper {
 
         return snippet;
     }
-    
-    
 }

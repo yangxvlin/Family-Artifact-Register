@@ -8,6 +8,9 @@ import com.google.android.gms.maps.model.Marker;
 
 import java.util.List;
 
+/**
+ * concrete implementation of marker zoom strategy pattern
+ */
 public class MultipleMarkerZoomStrategy extends MarkerZoomStrategy {
     /**
      * Returns a CameraUpdate object that can be used my GoogleMap to update the camera location

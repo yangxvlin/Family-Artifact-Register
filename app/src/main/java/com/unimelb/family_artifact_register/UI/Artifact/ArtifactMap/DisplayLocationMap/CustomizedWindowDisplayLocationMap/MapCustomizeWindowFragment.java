@@ -31,6 +31,9 @@ import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.Util.
 import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.Util.MarkerHelper.getSnippet;
 import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.Util.MarkerHelper.setUpMarker;
 
+/**
+ * fragment for customized info window
+ */
 public class MapCustomizeWindowFragment extends Fragment implements
         IFragment,
         OnMapReadyCallback,
@@ -40,15 +43,34 @@ public class MapCustomizeWindowFragment extends Fragment implements
      */
     public static final String TAG = MapCustomizeWindowFragment.class.getSimpleName();
 
+    /**
+     * info window manager
+     */
     private InfoWindowManager infoWindowManager;
 
+    /**
+     * interactive info window
+     */
     private InfoWindow infoWindow;
 
+    /**
+     * google map
+     */
     GoogleMap mMap;
 
+    /**
+     * map view
+     */
     private MapView mapView;
 
+    /**
+     * default icon width
+     */
     public static final int IMAGE_DEFAULT_WIDTH = 200;
+
+    /**
+     * default icon height
+     */
     public static final int IMAGE_DEFAULT_HEIGHT = 200;
 
     /**
@@ -131,6 +153,9 @@ public class MapCustomizeWindowFragment extends Fragment implements
         return true;
     }
 
+    /**
+     * @param artifactItems data
+     */
     public void setDisplayArtifactItems(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
         // Only display with marker if map is not null and there are locations stored
         if (mMap != null && artifactItems.size() != 0) {

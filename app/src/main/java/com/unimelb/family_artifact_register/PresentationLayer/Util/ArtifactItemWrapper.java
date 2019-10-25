@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * a wrapper class that store media's local address
+ * delegate an artifact item
  */
 public class ArtifactItemWrapper {
 

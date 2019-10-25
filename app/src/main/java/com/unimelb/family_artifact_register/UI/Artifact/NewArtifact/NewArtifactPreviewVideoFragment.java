@@ -22,14 +22,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+/**
+ * fragment to for user to preview chosen video
+ */
 public class NewArtifactPreviewVideoFragment extends Fragment implements IFragment, OnBackPressedListener {
     /**
      * class tag
      */
     public static final String TAG = NewArtifactPreviewVideoFragment.class.getSimpleName();
 
+    /**
+     * required empty constructor
+     */
     public NewArtifactPreviewVideoFragment() {
-        // required empty constructor
     }
 
     @Override

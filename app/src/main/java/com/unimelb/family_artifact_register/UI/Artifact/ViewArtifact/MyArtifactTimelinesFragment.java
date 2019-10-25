@@ -41,19 +41,34 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TY
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.cropCenter;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
 
+/**
+ * fragment for user to see artifact timelines history
+ */
 public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = MyArtifactTimelinesFragment.class.getSimpleName();
 
+    /**
+     * view model
+     */
     private MyTimelineViewModel viewModel;
 
+    /**
+     * recycler view
+     */
     private RecyclerView recyclerView;
+
+    /**
+     * recycler view adapter
+     */
     private MyTimelineAdapter adapter;
 
+    /**
+     * Required empty public constructor
+     */
     public MyArtifactTimelinesFragment() {
-        // Required empty public constructor
     }
 
     @Override

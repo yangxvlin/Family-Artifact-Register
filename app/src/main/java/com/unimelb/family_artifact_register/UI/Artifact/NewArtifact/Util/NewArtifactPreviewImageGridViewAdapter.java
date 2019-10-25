@@ -11,6 +11,9 @@ import com.unimelb.family_artifact_register.R;
 
 import java.util.List;
 
+/**
+ * grid adapter for recycler view in android
+ */
 public class NewArtifactPreviewImageGridViewAdapter extends BaseAdapter {
     private Context mContext;
     private List<Uri> images;
@@ -50,7 +53,6 @@ public class NewArtifactPreviewImageGridViewAdapter extends BaseAdapter {
 
         Uri image = images.get(i);
         viewHolder.imageView.setImageURI(image);
-//        viewHolder.delete.setImageResource(R.drawable.ic_delete);
         viewHolder.delete.setOnClickListener(view1 -> {
             images.remove(i);
             notifyDataSetChanged();
@@ -59,10 +61,16 @@ public class NewArtifactPreviewImageGridViewAdapter extends BaseAdapter {
         return view;
     }
 
+    /**
+     * @param uri new image
+     */
     public void addImage(Uri uri) {
         notifyDataSetChanged();
     }
 
+    /**
+     * grid adapter's required view holder
+     */
     private class ViewHolder {
         ImageView imageView;
         ImageView delete;

@@ -10,7 +10,7 @@ import java.util.List;
  * the length of markers.
  */
 public abstract class MarkerZoomStrategy {
-    // The default Zoom level to use if there are not enough markers to generate a proper zoom.
+    /** The default Zoom level to use if there are not enough markers to generate a proper zoom. */
     public static final float DEFAULT_ZOOM = 9;
 
     /**

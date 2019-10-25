@@ -31,6 +31,9 @@ import pl.aprilapps.easyphotopicker.MediaSource;
 
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 
+/**
+ * fragment for user to preview selected image and add more images
+ */
 public class NewArtifactPreviewImagesFragment extends Fragment implements IFragment, OnBackPressedListener {
     /**
      * class tag
@@ -39,10 +42,15 @@ public class NewArtifactPreviewImagesFragment extends Fragment implements IFragm
 
     private NewArtifactPreviewImageGridViewAdapter imageAdapter;
 
+    /**
+     * easy image library
+     */
     private EasyImage easyImage;
 
+    /**
+     * required empty constructor
+     */
     public NewArtifactPreviewImagesFragment() {
-        // required empty constructor
     }
 
     @Override

@@ -32,9 +32,18 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVi
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.setImagesViewPager;
 
+/**
+ * sticky item adapter
+ */
 public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, ArtifactItemViewBinder.ViewHolder> {
+    /**
+     * class tag
+     */
     public static final String TAG = ArtifactItemViewBinder.class.getSimpleName();
 
+    /**
+     * list of images or video
+     */
     private List<Uri> mediaList;
 
     @Override
@@ -57,32 +66,12 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
         }
 
         holder.clearFrame();
-        // set frame layout param
-//        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-//                FrameLayout.LayoutParams.MATCH_PARENT,
-//                FrameLayout.LayoutParams.WRAP_CONTENT
-//        );
-//        layoutParam.gravity = Gravity.CENTER;
-//        layoutParam.topMargin = 20;
-//        layoutParam.bottomMargin = 20;
 
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
-
-            // View imagesRecyclerView = getImageRecyclerView(200, 200, mediaList, context);
-
-            // holder.frame.addView(imagesRecyclerView);
-
-//            View imageSlider = getImagesSliderView(400, 400, mediaList, context);
-//            holder.frame.addView(imageSlider);
-
             setImagesViewPager(mediaList, context, holder.ultraViewPager, true);
             holder.frame.setVisibility(View.GONE);
-//            holder.ultraViewPager.setPadding(0, 20, 0, 20);
             holder.ultraViewPager.setVisibility(View.VISIBLE);
-//            holder.frame.addView(imagesViewPager);
-
-//            holder.frame.setLayoutParams(layoutParam);
             // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             ImageView iv = getVideoThumbnail(mediaList.get(0), context);
@@ -92,7 +81,6 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
             // set frame's layout and add image view to it programmatically
             holder.frame.addView(iv);
             holder.frame.addView(playIcon);
-//            holder.frame.setLayoutParams(layoutParam);
             holder.ultraViewPager.setVisibility(View.GONE);
         } else {
             Log.e(TAG, "unknown media type !!!");
@@ -117,16 +105,6 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
                 view.getContext().startActivity(detailActivity);
             }
         });
-
-//        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
-//                Intent activityChangeIntent = new Intent(context, TimelineActivity.class);
-//                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemWrapper.getArtifactTimelineId());
-//                context.startActivity(activityChangeIntent);
-//            }
-//        });
     }
 
     @Override
@@ -134,20 +112,38 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
         return R.layout.item_my_artifact;
     }
 
+    /**
+     * view holder for ArtifactItemViewBinder
+     */
     static class ViewHolder extends ViewBinder.ViewHolder {
-
+        /**
+         * artifact item's creation time
+         */
         TextView time;
 
+        /**
+         * artifact item's  description
+         */
         TextView description;
 
+        /**
+         * artifact item's video frame
+         */
         FrameLayout frame;
 
-//        ImageView navigateToArtifactTimeline;
-
+        /**
+         * artifact item's image view pager
+         */
         UltraViewPager ultraViewPager;
 
+        /**
+         * artifact item's timeline button
+         */
         MaterialButton timelineButton;
 
+        /**
+         * artifact item's detail button
+         */
         MaterialButton detailButton;
 
         public ViewHolder(@NonNull View itemView) {
@@ -156,7 +152,6 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
             time = itemView.findViewById(R.id.item_my_artifact_time);
             description = itemView.findViewById(R.id.item_my_artifact_description);
             frame = itemView.findViewById(R.id.item_my_artifact_media);
-//            navigateToArtifactTimeline = itemView.findViewById(R.id.item_my_artifact_right_arrow);
             ultraViewPager = itemView.findViewById(R.id.ultra_viewpager);
             timelineButton = itemView.findViewById(R.id.item_my_artifact_timeline_button);
             detailButton = itemView.findViewById(R.id.item_my_artifact_more_button);

@@ -21,16 +21,37 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
+/**
+ * required adapter for recycler view in android
+ */
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
 
+    /**
+     * list of events
+     */
     private List<Event> eventList;
 
+    /**
+     * whether user attend the event
+     */
     private boolean isAttend;
 
+    /**
+     * event listener
+     */
     private EventListener eventListener;
 
+    /**
+     * context
+     */
     private Context context;
 
+    /**
+     * @param eventList list of events
+     * @param isAttend whether user attend the event
+     * @param eventListener event listener
+     * @param context context
+     */
     public EventAdapter(List<Event> eventList, boolean isAttend, EventListener eventListener, Context context) {
         this.eventList = eventList;
         this.isAttend = isAttend;
@@ -122,16 +143,34 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    /**
+     * required view holder for recycler view in android
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        /**
+         * image
+         */
         ImageView imageView;
 
+        /**
+         * event name
+         */
         TextView name;
 
+        /**
+         * event description
+         */
         TextView description;
 
+        /**
+         * event address
+         */
         TextView address;
 
+        /**
+         * button to attend or cancel
+         */
         MaterialButton button;
 
         ViewHolder(@NonNull View itemView) {

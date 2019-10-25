@@ -3,6 +3,9 @@ package com.unimelb.family_artifact_register.UI.Util;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+/**
+ * @description pure fabric screen unit convert logic
+ */
 public class ScreenUnitHelper {
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.

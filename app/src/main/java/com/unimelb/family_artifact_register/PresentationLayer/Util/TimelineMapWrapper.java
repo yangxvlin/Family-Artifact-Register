@@ -6,6 +6,9 @@ import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * delegates a timeline in thw wrapper
+ */
 public class TimelineMapWrapper {
     private ArtifactTimeline artifactTimeline;
 

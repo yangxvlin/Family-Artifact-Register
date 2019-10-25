@@ -24,7 +24,8 @@ import com.unimelb.family_artifact_register.Util.IFragment;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 13:33:24
- * @description main activity let user to use the app
+ * @description main activity let the user use the app with various bottom navigation
+ * contains the logic to transit between different fragments and sign out
  */
 public class HomeActivity extends AppCompatActivity {
     /**
@@ -32,6 +33,9 @@ public class HomeActivity extends AppCompatActivity {
      */
     private final String TAG = getClass().getSimpleName();
 
+    /**
+     * bottom navigation
+     */
     BottomNavigationView navigation;
 
     /**

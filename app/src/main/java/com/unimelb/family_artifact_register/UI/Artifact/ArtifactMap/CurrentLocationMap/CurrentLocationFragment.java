@@ -30,25 +30,48 @@ import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.Util.BasePla
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * fragment to detect user's current location
+ */
 public class CurrentLocationFragment extends BasePlacesFragment {
-    // Add tag for logging
+    /**
+     * class tag
+     */
     private static final String TAG = CurrentLocationFragment.class.getSimpleName();
 
-    // Success code for location access permission
+    /**
+     * Success code for location access permission
+     */
     private static final int PERMISSIONS_REQUEST_LOCATION = 1;
 
-    // Records the permission status
+    /**
+     * Records the permission status
+     */
     private boolean mLocationPermissionGranted = false;
 
-    // Used for selecting the current place.
+    /**
+     * Used for selecting the current place.
+     */
     private static final int M_MAX_ENTRIES = 5;
-    // Stores location information related to the placed detected by GPS
+
+    /**
+     * Stores location information related to the placed detected by GPS
+     */
     private List<Place> mLikelyPlace = new ArrayList<>();
 
-    // Stores the current user location
+    /**
+     * Stores the current user location
+     */
     private Place currentPlace;
+
+    /**
+     * map view
+     */
     private View view;
 
+    /**
+     * @return created fragment
+     */
     public static CurrentLocationFragment newInstance() {
         return new CurrentLocationFragment();
     }
@@ -78,6 +101,9 @@ public class CurrentLocationFragment extends BasePlacesFragment {
         }
     }
 
+    /**
+     * get Location List And Update Location
+     */
     private void getLocationListAndUpdateLocation() {
         if (mLocationPermissionGranted) {
             // Use fields to define the data types to return.
@@ -202,6 +228,9 @@ public class CurrentLocationFragment extends BasePlacesFragment {
         }
     }
 
+    /**
+     * @return return the map location of current location
+     */
     public MapLocation getLocation() {
         MapLocation location = null;
         if (currentPlace != null) {

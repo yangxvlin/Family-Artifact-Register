@@ -30,23 +30,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * fragment for the user to filter all artifacts by timeline displayed by stored location with a
+ * pop-up info window to navigate to artifact item detail or its timeline
+ */
 public class AllArtifactStoredMapFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = AllArtifactStoredMapFragment.class.getSimpleName();
 
+    /**
+     * pop up window info for marker
+     */
     private MapCustomizeWindowFragment mdFragment = MapCustomizeWindowFragment.newInstance();
 
+    /**
+     * map view model
+     */
     private MapStoredViewModel viewModel;
 
+    /**
+     * timeline filter
+     */
     private AppCompatSpinner chooseTimeline;
 
-    // TODO get this from DB
-//    private List<TimelineMapWrapper> timelineMapWrapperList = new ArrayList<>();
-
+    /**
+     * list of timeline titles
+     */
     private List<String> timelineTitles;
 
+    /**
+     * default cleared filter
+     */
     public static final String ALL_TIMELINE = "";
 
     /**
@@ -122,7 +138,7 @@ public class AllArtifactStoredMapFragment extends Fragment implements IFragment 
     }
 
     /**
-     *
+     * @return created fragment
      */
     public static AllArtifactStoredMapFragment newInstance() {
         return new AllArtifactStoredMapFragment();

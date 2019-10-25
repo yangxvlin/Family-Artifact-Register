@@ -10,7 +10,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 /**
- * can be used to customize marker's layout not sure whether we needed by XuLin
+ * Deprecated because can be used to customize marker's layout bu we don't need it
+ * not deleted by the open-close principle
  */
 @Deprecated
 public class ArtifactItemInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {

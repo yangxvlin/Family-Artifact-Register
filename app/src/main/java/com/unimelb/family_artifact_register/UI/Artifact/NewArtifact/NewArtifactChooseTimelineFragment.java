@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -15,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
-import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.NewTimelineListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.StartUploadListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,26 +41,56 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
      */
     private static final String TAG = NewArtifactChooseTimelineFragment.class.getSimpleName();
 
+    /**
+     * associate item with new timeline
+     */
     private FloatingActionButton newTimelineConfirmButton;
 
+    /**
+     * associate item with existing timeline
+     */
     private FloatingActionButton existingTimelineConfirmButton;
 
+    /**
+     * new timeline strategy button
+     */
     private RadioButton newTimelineButton;
 
+
+    /**
+     * existing timeline strategy button
+     */
     private RadioButton existingTimelineButton;
 
+    /**
+     * edit text for user to create new timeline with title
+     */
     private EditText newTimelineTitleEditText;
 
+    /**
+     * spinner for user to choose existing timeline
+     */
     private Spinner existingTimelineSpinner;
 
+    /**
+     * list of existing timeline titles
+     */
     private List<String> timelineTitles;
 
+    /**
+     * user's chosen existing timeline's title
+     */
     private String selectedTimelineTitle = null;
 
+    /**
+     * list of existing timeline from DB
+     */
     private List<ArtifactTimeline> timelines;
 
+    /**
+     * required empty constructor
+     */
     public NewArtifactChooseTimelineFragment() {
-        // required empty constructor
     }
 
     @Override
@@ -88,11 +117,6 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
         existingTimelineSpinner = view.findViewById(R.id.existing_timeline_spinner);
 
-        // TODO pull existing timeline titles from server
-//        timelineTitles = new ArrayList<>();
-//        timelineTitles.add("timeline1");
-//        timelineTitles.add("timeline2");
-//        timelineTitles.add("timeline3");
         timelines = ((NewTimelineListener)this.getActivity()).getArtifactTimelines();
         timelineTitles = timelines.stream()
                                     .map(ArtifactTimeline::getTitle)
@@ -107,26 +131,6 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
         // Apply the adapter to the spinner
         existingTimelineSpinner.setAdapter(adapter);
-        existingTimelineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            /**
-             * @param parent parent view which is the spinner
-             * @param view spinner item's view
-             * @param pos position of the item in the adapter
-             * @param id the line number of the item, normally same as pos
-             */
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//                selectedTimelineTitle = timelineTitles.get(pos);
-//                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
-//                ((TextView) parent.getChildAt(0)).setTextSize((int) getResources()
-//                        .getDimension(R.dimen.timeline_selection_spinner_text_size));
-                // Toast.makeText(getContext(), timelineTitles.get(pos), Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Another interface callback
-            }
-        });
 
         newTimelineConfirmButton = view.findViewById(R.id.fragment_new_artifact_choose_timeline_floating_button_new_timeline_confirm);
         newTimelineConfirmButton.setOnClickListener(view1 -> {
@@ -182,6 +186,9 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
     public static NewArtifactChooseTimelineFragment newInstance() { return new NewArtifactChooseTimelineFragment(); }
 
+    /**
+     * disable all required UI component
+     */
     public void disableVisibility() {
         newTimelineConfirmButton.setVisibility(View.GONE);
         newTimelineTitleEditText.setVisibility(View.GONE);
@@ -189,6 +196,10 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         existingTimelineSpinner.setVisibility(View.GONE);
     }
 
+    /**
+     * update UI based on user's choice of timeline strategy
+     * @param view view
+     */
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         // Check which radio button was clicked

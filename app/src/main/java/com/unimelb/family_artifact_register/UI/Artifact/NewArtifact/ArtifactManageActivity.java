@@ -11,6 +11,8 @@ import com.unimelb.family_artifact_register.R;
  * @author XuLin Yang 904904,
  * @time 2019-9-13 21:33:40
  * @description activity for the user to manage artifacts
+ * Deprecated because change to activity-fragment design
+ * not deleted by the open-close principle
  */
 @Deprecated
 public class ArtifactManageActivity extends AppCompatActivity {
@@ -23,6 +25,5 @@ public class ArtifactManageActivity extends AppCompatActivity {
 
     /* ********************************** view controller *************************************** */
     public void newArtifact(View view) {
-//        navigateFromTo(this, NewArtifactActivity.class);
     }
 }

@@ -21,16 +21,24 @@ import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
 
+/**
+ * fragment to collect artifact item's happened time info
+ */
 public class NewArtifactHappenedTimeFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = NewArtifactHappenedTimeFragment.class.getSimpleName();
 
-    String happenedTime;
+    /**
+     * artifact time'a happened time
+     */
+    private String happenedTime;
 
+    /**
+     * required empty constructor
+     */
     public NewArtifactHappenedTimeFragment() {
-        // required empty constructor
     }
 
     @Override

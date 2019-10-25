@@ -20,6 +20,10 @@ import com.google.android.material.button.MaterialButton;
 import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.ArtifactDetailActivity.ARTIFACT_ITEM_ID_KEY;
 import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 
+/**
+ * customized interactive info window for google map marker
+ * adapter pattern
+ */
 public class MyInfoWindow extends Fragment implements IFragment {
 
     /**
@@ -27,8 +31,14 @@ public class MyInfoWindow extends Fragment implements IFragment {
      */
     public static final String TAG = MyInfoWindow.class.getSimpleName();
 
+    /**
+     * marker
+     */
     private Marker marker;
 
+    /**
+     * empty constructor
+     */
     public MyInfoWindow() {
     }
 
@@ -45,12 +55,20 @@ public class MyInfoWindow extends Fragment implements IFragment {
         render(view);
     }
 
+    /**
+     * @param marker marker
+     * @return created interactive info window
+     */
     public static MyInfoWindow newInstance(Marker marker) {
         MyInfoWindow myInfoWindow = new MyInfoWindow();
         myInfoWindow.marker = marker;
         return myInfoWindow;
     }
 
+    /**
+     * inflate data on view
+     * @param view view
+     */
     private void render(View view) {
         TextView title = view.findViewById(R.id.title);
         title.setText(marker.getTitle());

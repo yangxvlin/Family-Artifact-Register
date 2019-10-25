@@ -1,5 +1,7 @@
 package com.unimelb.family_artifact_register.PresentationLayer.Util;
-
+/**
+ * generic pair class
+ * */
 public class Pair<U, V> {
     private U fst;
     private V snd;

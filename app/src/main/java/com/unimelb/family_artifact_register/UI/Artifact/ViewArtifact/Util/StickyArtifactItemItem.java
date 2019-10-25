@@ -8,11 +8,23 @@ import com.unimelb.family_artifact_register.R;
 import tellh.com.stickyheaderview_rv.adapter.DataBean;
 import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
 
+/**
+ * sticky item wrapper
+ */
 public class StickyArtifactItemItem extends DataBean {
+    /**
+     * data
+     */
     private ArtifactItemWrapper artifactItemWrapper;
 
+    /**
+     * context
+     */
     private Context context;
 
+    /**
+     * is this sticky
+     */
     private boolean shouldSticky;
 
     public StickyArtifactItemItem(ArtifactItemWrapper artifactItemWrapper, Context context) {

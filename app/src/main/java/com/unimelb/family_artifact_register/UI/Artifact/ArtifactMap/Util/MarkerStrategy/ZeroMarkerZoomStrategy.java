@@ -8,7 +8,13 @@ import com.google.android.gms.maps.model.Marker;
 
 import java.util.List;
 
+/**
+ * concrete implementation of marker zoom strategy pattern
+ */
 public class ZeroMarkerZoomStrategy extends MarkerZoomStrategy {
+    /**
+     * if no marker default value
+     */
     public static final LatLng DEFAULT_LATLNG = new LatLng(0, 0);
 
     /**

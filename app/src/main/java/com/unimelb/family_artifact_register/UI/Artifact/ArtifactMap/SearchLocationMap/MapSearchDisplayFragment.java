@@ -38,6 +38,10 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
      * class tag
      */
     public static final String TAG = MapSearchDisplayFragment.class.getSimpleName();
+
+    /**
+     * current location
+     */
     private MapLocation currentMapLocation;
 
     /**

@@ -49,19 +49,45 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
      * class tag
      */
     public static final String TAG = MapDisplayFragment.class.getSimpleName();
+
+    /**
+     * location constant
+     */
     public static final String LOCATIONS = "locations";
+
+    /**
+     * static map
+     */
     public static final String STATIC = "static";
-    // Stores the map object to be operated
+
+    /**
+     * Stores the map object to be operated
+     */
     protected GoogleMap mMap;
-    // Stores the locations to be displayed on screen
+
+    /**
+     * Stores the locations to be displayed on screen
+     */
     private List<MapLocation> locations = new ArrayList<>();
+
+    /**
+     * is map static
+     */
     private boolean isStatic = false;
-    // MapView the current fragment is operating on
+
+    /**
+     * MapView the current fragment is operating on
+     */
     MapView mapView;
 
-    // TODO to be implemented in the future for a correct way for interaction
+    /**
+     * TODO to be implemented in the future for a correct way for interaction
+     */
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * list of items to be displayed
+     */
     private List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems;
 
     /**
@@ -168,10 +194,16 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         setDisplayArtifactItems(new Pair<>(artifactItemWrapper, mapLocation));
     }
 
+    /**
+     * @param pair data
+     */
     public void addDisplayArtifactItems(Pair<ArtifactItemWrapper, MapLocation> pair) {
         this.artifactItems.add(pair);
     }
 
+    /**
+     * @param pair data
+     */
     public void setDisplayArtifactItems(Pair<ArtifactItemWrapper, MapLocation> pair) {
         Log.d(getFragmentTag(), "map location " + pair.getSnd().toString());
         // Only display with marker if map is not null and there are locations stored
@@ -193,6 +225,9 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         }
     }
 
+    /**
+     * @param artifactItems data
+     */
     public void displayArtifactItemsPairs(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
         if (artifactItems != null) {
             for (Pair<ArtifactItemWrapper, MapLocation> pair: artifactItems) {
@@ -201,6 +236,9 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         }
     }
 
+    /**
+     * @param artifactItems data
+     */
     @Deprecated
     public void setDisplayArtifactItems(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
         // Only display with marker if map is not null and there are locations stored
@@ -260,33 +298,12 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         displayArtifactItemsPairs(this.artifactItems);
     }
 
+    /**
+     * @return google map requested
+     */
     public boolean isMapReady() {
         return mMap != null;
     }
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
 
     /**
      * This interface must be implemented by activities that contain this fragment to allow an
@@ -298,8 +315,12 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
         void onFragmentInteraction(Uri uri);
     }
 
-    // ********************************************************************************************
-    // MyInfoWindowAdapter to customize the popup window in the google map marker
+    /**
+     * MyInfoWindowAdapter to customize the popup window in the google map marker
+     * Deprecated because has CustomizedWindowDisplayLocationMap and MyInfoWindowAdapter provides a
+     * non-interactive info window
+     * not deleted by the open-close principle
+     */
     @Deprecated
     public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         private final View mWindow;

@@ -28,15 +28,16 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.setIm
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 15:57:25
- * @description
+ * @description recycler view for artifact item
+ * Deprecated because no longer use ViewMediaFragment
+ * Not deleted because open-close principle
  */
 @Deprecated
 public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsRecyclerViewHolder> {
 
     private static final String TAG = MyArtifactsRecyclerViewAdapter.class.getSimpleName();
-    private List<ArtifactItemWrapper> artifactItemWrapperList;
 
-//    private FragmentManager fm;
+    private List<ArtifactItemWrapper> artifactItemWrapperList;
 
     private Context context;
 
@@ -45,7 +46,6 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     public MyArtifactsRecyclerViewAdapter(Context context) {
         this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
-//        this.fm = fm;
     }
 
     @NonNull
@@ -69,32 +69,12 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         }
 
         holder.clearFrame();
-        // set frame layout param
-//        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
-//                FrameLayout.LayoutParams.MATCH_PARENT,
-//                FrameLayout.LayoutParams.WRAP_CONTENT
-//        );
-//        layoutParam.gravity = Gravity.CENTER;
-//        layoutParam.topMargin = 20;
-//        layoutParam.bottomMargin = 20;
 
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
-
-            // View imagesRecyclerView = getImageRecyclerView(200, 200, mediaList, context);
-
-            // holder.frame.addView(imagesRecyclerView);
-
-//            View imageSlider = getImagesSliderView(400, 400, mediaList, context);
-//            holder.frame.addView(imageSlider);
-
             setImagesViewPager(mediaList, context, holder.ultraViewPager, true);
             holder.frame.setVisibility(View.GONE);
-//            holder.ultraViewPager.setPadding(0, 20, 0, 20);
             holder.ultraViewPager.setVisibility(View.VISIBLE);
-//            holder.frame.addView(imagesViewPager);
-
-//            holder.frame.setLayoutParams(layoutParam);
         // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             ImageView iv = getVideoThumbnail(mediaList.get(0), context);
@@ -104,21 +84,10 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             // set frame's layout and add image view to it programmatically
             holder.frame.addView(iv);
             holder.frame.addView(playIcon);
-//            holder.frame.setLayoutParams(layoutParam);
             holder.ultraViewPager.setVisibility(View.GONE);
         } else {
             Log.e(TAG, "unknown media type !!!");
         }
-
-//        holder.navigateToArtifactTimeline.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(TAG, "#" + position + " holder.navigateToArtifactTimeline clicked");
-//                Intent activityChangeIntent = new Intent(context, TimelineActivity.class);
-//                activityChangeIntent.putExtra(TIMELINE_ID_KEY, artifactItemWrapperList.get(position).getArtifactTimelineId());
-//                context.startActivity(activityChangeIntent);
-//            }
-//        });
     }
 
     @Override
@@ -141,13 +110,4 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         artifactItemWrapperList.addAll(newData);
         notifyDataSetChanged();
     }
-
-    // *************************************** getter & setters ***********************************
-
-
-//    public void addData(ArtifactItem artifactItem) {
-//        // 0 to add data at start
-//        this.artifactItemWrapperList.add(0, artifactItem);
-//        notifyDataSetChanged();
-//    }
 }

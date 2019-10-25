@@ -5,6 +5,9 @@ import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * delegates user info in the wrapper
+ */
 public class UserInfoWrapper {
 
     private UserInfo user;
