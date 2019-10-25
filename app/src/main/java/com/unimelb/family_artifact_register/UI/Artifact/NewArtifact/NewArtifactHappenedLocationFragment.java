@@ -20,16 +20,24 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import es.dmoral.toasty.Toasty;
 
+/**
+ * fragment to collect artifact item's happened location info
+ */
 public class NewArtifactHappenedLocationFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = NewArtifactHappenedLocationFragment.class.getSimpleName();
 
+    /**
+     * search display map
+     */
     private MapSearchDisplayFragment mapSearchDisplayFragment;
 
+    /**
+     * required empty constructor
+     */
     public NewArtifactHappenedLocationFragment() {
-        // required empty constructor
     }
 
     @Override

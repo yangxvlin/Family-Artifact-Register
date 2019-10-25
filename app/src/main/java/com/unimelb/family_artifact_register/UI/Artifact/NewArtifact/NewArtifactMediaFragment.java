@@ -34,20 +34,31 @@ import pl.aprilapps.easyphotopicker.MediaSource;
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
+/**
+ * fragment to collect artifact item's description, images or video, user's current location
+ */
 public class NewArtifactMediaFragment extends Fragment implements IFragment, OnBackPressedListener {
     /**
      * class tag
      */
     public static final String TAG = NewArtifactMediaFragment.class.getSimpleName();
 
+    /**
+     * easy image library
+     */
     private EasyImage easyImage;
 
+    /**
+     * fragment to collect user's current location
+     */
     private CurrentLocationFragment uploadLocationFragment;
 
-    EditText description;
+    private EditText description;
 
+    /**
+     * required empty constructor
+     */
     public NewArtifactMediaFragment() {
-        // required empty constructor
     }
 
     @Override
