@@ -20,17 +20,18 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 14:15:48
- * @description fragment for user to manage own artifacts
+ * @description fragment for user to manage own artifacts with two tabbed fragments: all items and all timelines
  */
-//public class MeFragment extends Fragment implements MeFragmentPresenter.IView, View.OnClickListener {
 public class MeFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = MeFragment.class.getSimpleName();
 
+    /**
+     * Required empty public constructor
+     */
     public MeFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -44,13 +45,8 @@ public class MeFragment extends Fragment implements IFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        getChildFragmentManager().beginTransaction().add(R.id.frame1111, MyArtifactItemsFragment.newInstance()).commit();
-
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
-//                .add(R.string.title, PageFragment.class)
-//                .add(R.string.title, WithArgumentsPageFragment.class, new Bundler().putString("key", "value").get()),
-//                 .add("title", PageFragment.class)
                 .add(getString(R.string.my_artifact_items_title), MyArtifactItemsFragment.class)
                 .add(getString(R.string.my_artifact_timelines_title), MyArtifactTimelinesFragment.class)
                 // .add(getString(R.string.me_my_title), MyEventFragment.class)
