@@ -17,6 +17,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
+/**
+ * fragment with two map fragment: happened map and stored map
+ */
 public class TabbedMapFragment extends Fragment implements IFragment {
     /**
      * class tag
@@ -43,7 +46,6 @@ public class TabbedMapFragment extends Fragment implements IFragment {
                 getChildFragmentManager(), FragmentPagerItems.with(getContext())
                 .add(getString(R.string.artifact_items_map_happened_title), AllArtifactHappenedMapFragment.class)
                 .add(getString(R.string.artifact_items_map_stored_title), AllArtifactStoredMapFragment.class)
-                // .add(getString(R.string.me_my_title), MyEventFragment.class)
                 .create());
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_tabbed_map_view_pager);
@@ -54,7 +56,7 @@ public class TabbedMapFragment extends Fragment implements IFragment {
     }
 
     /**
-     * @return created me fragment
+     * @return created tabbed map fragment
      */
     public static TabbedMapFragment newInstance() { return new TabbedMapFragment(); }
 }
