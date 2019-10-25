@@ -34,7 +34,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- *
+ * UI class for displaying a list of contacts
  */
 public class ContactFragment extends Fragment implements IFragment {
     /**
