@@ -12,7 +12,10 @@ import java.util.List;
 /**
  * this class is responsible for communicating with different data sources
  * (remote data source or local cache) to fetch data for the rest of the app
+ * Deprecated because we decided not to use local repository
+ * not deleted for the open-close principle
  */
+@Deprecated
 public class UserRepository {
 
     public static final String TAG = UserRepository.class.getSimpleName();
