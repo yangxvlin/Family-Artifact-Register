@@ -32,26 +32,34 @@ import java.util.List;
 import tellh.com.stickyheaderview_rv.adapter.DataBean;
 import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
 
+/**
+ * fragment for user to see artifact items history
+ */
 public class MyArtifactItemsFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = MyArtifactItemsFragment.class.getSimpleName();
 
-    // *********************************** recycler view *****************************************
     /**
-     * recycler view adapter
+     * sticky header recycler view
      */
-    // private MyArtifactsRecyclerViewAdapter myArtifactsRecyclerViewAdapter;
-
     private StickyHeaderViewAdapter adapter;
 
+    /**
+     * recycler view
+     */
     RecyclerView mRecyclerView;
 
+    /**
+     * view model
+     */
     private MyArtifactItemsViewModel viewModel;
 
+    /**
+     * Required empty public constructor
+     */
     public MyArtifactItemsFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -73,43 +81,12 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
         mRecyclerView = view.findViewById(R.id.recycler_view_my_artifacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
-//        myArtifactsRecyclerViewAdapter = new MyArtifactsRecyclerViewAdapter(getContext());
-//        mRecyclerView.setAdapter(myArtifactsRecyclerViewAdapter);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-//                mRecyclerView.getContext(),
-//                layoutManager.getOrientation()
-//        );
-//        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         Log.v(TAG, "recycler view created");
-
-
-        // add new artifact button
-//        FloatingActionButton add = view.findViewById(R.id.fragment_me_floating_button_add);
-//        add.setOnClickListener(view1 -> {
-//            Intent intent = new Intent(getContext(), NewArtifactActivity2.class);
-//            startActivity(intent);
-//        });
-//
-//        // recycler view's scroll to hide the floating button
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                if (dy > 0) {
-//                    add.hide();
-//                } else if (dy < 0) {
-//                    add.show();
-//                }
-//            }
-//        });
 
         viewModel.getArtifactList().observe(this, new Observer<List<ArtifactItemWrapper>>() {
             @Override
             public void onChanged(List<ArtifactItemWrapper> artifactItemWrappers) {
-//                mRecyclerView.removeAllViews();
-//                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
-//                myArtifactsRecyclerViewAdapter.setData(artifactItemWrappers);
-//                Log.d(TAG, "enter onchange with adapter size: " + myArtifactsRecyclerViewAdapter.getItemCount());
                 Collections.sort(artifactItemWrappers, new Comparator<ArtifactItemWrapper>() {
                     @Override
                     public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
