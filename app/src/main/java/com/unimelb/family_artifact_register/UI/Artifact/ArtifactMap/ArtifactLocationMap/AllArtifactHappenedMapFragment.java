@@ -31,23 +31,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * fragment for the user to filter all artifacts by timeline displayed by happened location with a
+ * pop-up info window to navigate to artifact item detail or its timeline
+ */
 public class AllArtifactHappenedMapFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = AllArtifactHappenedMapFragment.class.getSimpleName();
 
+    /**
+     * pop up window info for marker
+     */
     private MapCustomizeWindowFragment mdFragment = MapCustomizeWindowFragment.newInstance();
 
+    /**
+     * map view model
+     */
     private MapHappenedViewModel viewModel;
 
+    /**
+     * timeline filter
+     */
     private AppCompatSpinner chooseTimeline;
 
-    // TODO get this from DB
-//    private List<TimelineMapWrapper> timelineMapWrapperList = new ArrayList<>();
-
+    /**
+     * list of timeline titles
+     */
     private List<String> timelineTitles;
 
+    /**
+     * default cleared filter
+     */
     public static final String ALL_TIMELINE = "";
 
     /**
@@ -123,8 +139,9 @@ public class AllArtifactHappenedMapFragment extends Fragment implements IFragmen
         });
     }
 
+
     /**
-     *
+     * @return created fragment
      */
     public static AllArtifactHappenedMapFragment newInstance() {
         return new AllArtifactHappenedMapFragment();
