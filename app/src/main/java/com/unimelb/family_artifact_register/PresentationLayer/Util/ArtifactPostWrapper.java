@@ -2,6 +2,9 @@ package com.unimelb.family_artifact_register.PresentationLayer.Util;
 
 import androidx.annotation.Nullable;
 
+/**
+ * delegates user info with artifact item post as a post wrapper
+ */
 public class ArtifactPostWrapper {
 
     private ArtifactItemWrapper artifactItemWrapper;
