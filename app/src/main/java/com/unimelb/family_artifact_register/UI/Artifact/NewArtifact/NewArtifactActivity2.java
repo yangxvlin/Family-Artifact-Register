@@ -50,22 +50,49 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
      */
     private static final String TAG = NewArtifactActivity2.class.getSimpleName();
 
+    /**
+     * fragment manager
+     */
     private FragmentManager fm;
 
+    /**
+     * media fragment to view selected images or video
+     */
     private Fragment mediaFragment = NewArtifactMediaFragment.newInstance();
 
+    /**
+     * list of images or video
+     */
     private List<Uri> mediaData;
 
+    /**
+     * artifact item's description
+     */
     private String description;
 
+    /**
+     * artifact item's type: images or video
+     */
     private int mediaType;
 
+    /**
+     * artifact item's happened time
+     */
     private String happenedTime;
 
+    /**
+     * artifact item's happened location
+     */
     private MapLocation happenedLocation;
 
+    /**
+     * artifact item's stored location
+     */
     private MapLocation storedLocation;
 
+    /**
+     * artifact item's timeline strategy
+     */
     private int timelineStrategy;
 
     /**
@@ -73,13 +100,25 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
      */
     private List<ArtifactTimeline> timelines = new ArrayList<>();
 
+    /**
+     * artifact item's timeline
+     */
     private ArtifactTimeline selectedArtifactTimeline = null;
 
-    // TODO might be changed later
+
+    /**
+     * artifact item's timeline title
+     */
     private String timelineTitle;
 
+    /**
+     * artifact item's upload location
+     */
     private MapLocation uploadLocation;
 
+    /**
+     * view model
+     */
     private NewArtifactViewModel viewModel;
 
     @Override
