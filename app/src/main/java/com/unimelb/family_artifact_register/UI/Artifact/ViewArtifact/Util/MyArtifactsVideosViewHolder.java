@@ -7,8 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
+
+/**
+ * view holder for video recycler view
+ * Deprecated because only one video is needed
+ * not deleted by the open-close principle
+ */
 @Deprecated
 public class MyArtifactsVideosViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * video
+     */
     VideoView video;
 
     public MyArtifactsVideosViewHolder(@NonNull View itemView) {

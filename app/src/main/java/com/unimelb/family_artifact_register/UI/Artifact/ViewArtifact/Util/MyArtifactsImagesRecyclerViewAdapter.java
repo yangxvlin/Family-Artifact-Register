@@ -16,7 +16,9 @@ import java.util.List;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 19:03:05
- * @description
+ * adapter for images recycler view
+ * Deprecated because use view pager for images
+ * not deleted by the open-close principle
  */
 @Deprecated
 public class MyArtifactsImagesRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsImagesViewHolder> {

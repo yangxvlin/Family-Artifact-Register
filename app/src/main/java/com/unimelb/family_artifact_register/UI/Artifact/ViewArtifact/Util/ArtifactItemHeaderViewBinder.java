@@ -8,6 +8,9 @@ import com.unimelb.family_artifact_register.R;
 import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
 import tellh.com.stickyheaderview_rv.adapter.ViewBinder;
 
+/**
+ * adapter sticky header
+ */
 public class ArtifactItemHeaderViewBinder extends ViewBinder<StickyArtifactItemHeader, ArtifactItemHeaderViewBinder.ViewHolder> {
 
     @Override
@@ -26,7 +29,13 @@ public class ArtifactItemHeaderViewBinder extends ViewBinder<StickyArtifactItemH
         return R.layout.artifact_item_sticky_header;
     }
 
+    /**
+     * sticky header's view holder
+     */
     static class ViewHolder extends ViewBinder.ViewHolder {
+        /**
+         * simple text
+         */
         TextView tvPrefix;
 
         public ViewHolder(View rootView) {

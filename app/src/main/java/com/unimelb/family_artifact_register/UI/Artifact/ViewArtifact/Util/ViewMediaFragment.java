@@ -38,6 +38,9 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TY
  * see {@link MyArtifactsRecyclerViewAdapter onBindViewHolder()} for unimelb usage
  *
  * 2. set media layout param by call setSingleMediaHeight() and setSingleMediaWidth()
+ *
+ * Deprecated because can't use fragment in recycler view
+ * not deleted for the open-close principle
  */
 @Deprecated
 public class ViewMediaFragment extends Fragment implements IFragment {
