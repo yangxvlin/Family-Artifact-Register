@@ -8,8 +8,14 @@ import java.util.List;
  * activity with media source and needed to be interacted with the fragment
  */
 public interface MediaListener {
+    /**
+     * clear all media data
+     */
     void clearData();
 
+    /**
+     * @return media data list
+     */
     List<Uri> getData();
 
     /**
