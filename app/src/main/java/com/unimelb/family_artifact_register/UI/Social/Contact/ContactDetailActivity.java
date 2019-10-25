@@ -19,11 +19,17 @@ import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.Co
 import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
 
-
+/**
+ * UI class for displaying the detail information of a user in the system
+ */
 public class ContactDetailActivity extends AppCompatActivity {
 
+    /**
+     * class tag
+     */
     public static final String TAG = ContactDetailActivity.class.getSimpleName();
 
+    // view model for this activity
     private ContactDetailViewModel viewModel;
 
     @Override
@@ -31,12 +37,10 @@ public class ContactDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_detail);
 
-//        getSupportActionBar().hide();
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.user_detail_toolbar);
-//        setSupportActionBar(toolbar);
-        // force the system not to display action bar title
         ActionBar actionBar = getSupportActionBar();
+        // force the system not to display action bar title
         actionBar.setDisplayShowTitleEnabled(false);
+        // set gradient color for action bar
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar);
@@ -54,13 +58,15 @@ public class ContactDetailActivity extends AppCompatActivity {
         phoneNumber.setSelected(true);
         email.setSelected(true);
 
+        // get the id of the user whose information is to be displayed
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
-//        username.setText(selectedUser);
 
+        // get view model
         viewModel = ViewModelProviders.of(this, new ContactDetailViewModelFactory(getApplication(), selectedUid)).get(ContactDetailViewModel.class);
 
-        Observer<UserInfoWrapper> contactObserver = new Observer<UserInfoWrapper>() {
+        // retrieve data from DB
+        viewModel.getUser().observe(this, new Observer<UserInfoWrapper>() {
             @Override
             public void onChanged(UserInfoWrapper newData) {
                 // display user detail information using the latest data
@@ -82,9 +88,7 @@ public class ContactDetailActivity extends AppCompatActivity {
                     avatar.setImageURI(Uri.parse(url));
                 }
             }
-        };
-
-        viewModel.getUser().observe(this, contactObserver);
+        });
     }
 
     @Override
@@ -94,7 +98,7 @@ public class ContactDetailActivity extends AppCompatActivity {
         return true;
     }
 
-    // conver int to string with appropriate format
+    // convert int to string with appropriate format
     private String intToString(int n) {
         if(n < 1000) {
             return Integer.toString(n);
