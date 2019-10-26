@@ -73,9 +73,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
 //            }
 //        });
 
-        /**
-         * get current user information and its avatar
-         */
+        // get current user information and its avatar
         viewModel.getCurrentUserInfo().observe(this, new Observer<UserInfoWrapper>() {
             @Override
             public void onChanged(UserInfoWrapper wrapper) {
@@ -86,9 +84,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             }
         });
 
-        /**
-         * set action bar
-         */
+        // set action bar
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
@@ -97,9 +93,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
 
-        /**
-         * get comments from backend database by adapter and view model
-         */
+        // get comments from backend database by adapter and view model
         viewModel.getComments().observe(this, new Observer<List<CommentWrapper>>() {
             @Override
             public void onChanged(List<CommentWrapper> commentWrappers) {
@@ -107,10 +101,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             }
         });
 
-
-        /**
-         * post user's comment if it is not null when user click post button
-         */
+        // post user's comment if it is not null when user click post button
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
