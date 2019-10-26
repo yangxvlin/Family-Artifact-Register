@@ -11,6 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
 
+/**
+ * This was the original ViewHolder class for the recyclerView in
+ * {@link com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity}.
+ * Since {@link com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity} has been
+ * deprecated, this class is now deprecated as well.
+ */
+@Deprecated
 public class FriendListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     public TextView textView;

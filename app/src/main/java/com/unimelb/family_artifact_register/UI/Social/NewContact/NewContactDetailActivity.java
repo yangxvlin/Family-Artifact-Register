@@ -19,10 +19,17 @@ import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.Ne
 import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
 
+/**
+ * UI class for displaying the detail information of new contacts in the system
+ */
 public class NewContactDetailActivity extends AppCompatActivity {
 
+    /**
+     * class tag
+     */
     public static final String TAG = NewContactDetailActivity.class.getSimpleName();
 
+    // view model for this activity
     private NewContactDetailViewModel viewModel;
 
     @Override
@@ -31,7 +38,9 @@ public class NewContactDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_friend_detail);
 
         ActionBar actionBar = getSupportActionBar();
+        // force the system not to display action bar title
         actionBar.setDisplayShowTitleEnabled(false);
+        // set gradient color for action bar
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         ImageView avatar = (ImageView) findViewById(R.id.avatar_new);
@@ -40,11 +49,14 @@ public class NewContactDetailActivity extends AppCompatActivity {
 
         TextView addFriend = (TextView) findViewById(R.id.add_friend);
 
+        // get the id of the user whose information is to be displayed
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
 
+        // get view model
         viewModel = ViewModelProviders.of(this, new NewContactDetailViewModelFactory(getApplication(), selectedUid)).get(NewContactDetailViewModel.class);
 
+        // retrieve data from DB
         viewModel.getUser().observe(this, new Observer<UserInfoWrapper>() {
             @Override
             public void onChanged(UserInfoWrapper newData) {
@@ -65,11 +77,10 @@ public class NewContactDetailActivity extends AppCompatActivity {
             }
         });
 
+        // click listener for add friend button
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                System.out.println("add function working ########");
-//                FakeDB.getInstance().add(username.getText().toString());
                 addFriend.setClickable(false);
                 addFriend.setFocusable(false);
                 addFriend.setBackground(null);

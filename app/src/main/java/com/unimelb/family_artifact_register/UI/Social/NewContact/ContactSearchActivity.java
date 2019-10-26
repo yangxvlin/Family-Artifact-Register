@@ -18,6 +18,9 @@ import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.Co
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactSearchViewModelFactory;
 import com.unimelb.family_artifact_register.R;
 
+/**
+ * UI class for helping user to do contacts searching
+ */
 public class ContactSearchActivity extends AppCompatActivity {
 
     /**
@@ -25,6 +28,7 @@ public class ContactSearchActivity extends AppCompatActivity {
      */
     public static final String TAG = ContactSearchActivity.class.getSimpleName();
 
+    // view model for this activity
     private ContactSearchViewModel viewModel;
 
     @Override
@@ -34,14 +38,19 @@ public class ContactSearchActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.ContactSearchActivity_title);
+        // set gradient color for action bar
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
+        // get view model
         viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
 
+        // auto-focus and auto-displaying-input-method
         EditText searchEditText = findViewById(R.id.search_edit_text);
         if(searchEditText.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+
+        // get search query from view model
         String storedQuery = viewModel.getQuery();
         if(storedQuery != null)
             searchEditText.setText(storedQuery);

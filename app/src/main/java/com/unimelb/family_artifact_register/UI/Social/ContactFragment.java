@@ -33,17 +33,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * UI class for displaying a list of contacts
+ */
 public class ContactFragment extends Fragment implements IFragment {
     /**
      * class tag
      */
     public static final String TAG = ContactFragment.class.getSimpleName();
 
+    // reference to the recyclerView used for displaying a list of contacts
     private RecyclerView recyclerView;
+
+    // linear layout manager for recyclerView
     private LinearLayoutManager layoutManager;
+
+    // adapter for recyclerView
     private FriendListAdapter adapter;
+
+    // divider between elements in recyclerView
     private DividerItemDecoration divider;
 
+    // view model for this fragment
     private ContactViewModel contactModel;
 
     public ContactFragment() {
@@ -55,14 +66,13 @@ public class ContactFragment extends Fragment implements IFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-//        String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        Log.d(TAG ,"uid of current user: " + currentUserID);
-
+        // get view model
         contactModel = ViewModelProviders.of(this, new ContactViewModelFactory(getActivity().getApplication())).get(ContactViewModel.class);
 
         setupRecyclerView(view);
 
         ImageView userProfile = (ImageView) view.findViewById(R.id.user_profile);
+        // clickl listener for the user's own profile button
         userProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +83,7 @@ public class ContactFragment extends Fragment implements IFragment {
         });
 
         TextView requests = (TextView) view.findViewById(R.id.friend_request);
+        // click listener for request list button
         requests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +92,7 @@ public class ContactFragment extends Fragment implements IFragment {
         });
 
         FloatingActionButton fab = view.findViewById(R.id.friend_list_fab);
+        // click listener for FAB
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +100,7 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
+        // scroll listener for FAB so that it disappears when scrolls down and re-appears when up
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -100,6 +113,7 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
+        // retrieve user's own data from DB
         contactModel.getPersonalProfile().observe(this, new Observer<UserInfoWrapper>() {
             @Override
             public void onChanged(UserInfoWrapper wrapper) {
@@ -110,6 +124,7 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
+        // retrieve contacts data from DB
         contactModel.getContacts().observe(this, new Observer<Set<UserInfoWrapper>>() {
             @Override
             public void onChanged(Set<UserInfoWrapper> newData) {
@@ -122,8 +137,13 @@ public class ContactFragment extends Fragment implements IFragment {
         return view;
     }
 
+    /**
+     * get a new instance of {@link ContactFragment}
+     * @return a new instance of {@link ContactFragment}
+     */
     public static ContactFragment newInstance() { return new ContactFragment(); }
 
+    // setup recyclerView
     private void setupRecyclerView(View view) {
         // get the view
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -145,13 +165,35 @@ public class ContactFragment extends Fragment implements IFragment {
     @Override
     public String getFragmentTag() { return TAG; }
 
+    /**
+     * This is the Adapter class for the recyclerView in {@link ContactFragment}
+     */
     public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListViewHolder> {
 
+        /**
+         * This is the ViewHolder class for the recyclerView in {@link ContactFragment}
+         */
         public class FriendListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView textView;
+
+            /**
+             * the {@link ImageView} in the item
+             */
             public ImageView imageView;
+
+            /**
+             * the unique id of the item
+             */
             public String itemId;
+
+            /**
+             * public constructor for instantiating a new {@link FriendListViewHolder}
+             * @param itemView the inflated view for the item
+             */
             public FriendListViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -161,20 +203,27 @@ public class ContactFragment extends Fragment implements IFragment {
 
             @Override
             public void onClick(View view) {
-                String selectedUserName= textView.getText().toString();
                 Intent i = new Intent(view.getContext(), ContactDetailActivity.class);
-//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
                 i.putExtra("selectedUid", itemId);
                 startActivity(i);
             }
         }
 
+        /**
+         * public constructor for instantiating a new {@link FriendListAdapter}
+         * @param viewModel the view model of the {@link ContactFragment}
+         */
         public FriendListAdapter(ContactViewModel viewModel) {
             this.viewModel = viewModel;
         }
 
+        // the view model from the recyclerView's owner
         private ContactViewModel viewModel;
+
+        // data to be used
         private Set<UserInfoWrapper> dataSet;
+
+        // an iterator for iterating data list
         private Iterator<UserInfoWrapper> dataSetIterator;
 
         @NonNull
@@ -215,12 +264,17 @@ public class ContactFragment extends Fragment implements IFragment {
             return 0;
         }
 
+        /**
+         * set new data for adapter
+         * @param newData the new data to be set
+         */
         public void setData(Set<UserInfoWrapper> newData) {
             // solution from codelab
             dataSet = newData;
             dataSetIterator = dataSet.iterator();
             notifyDataSetChanged();
 
+            // alternative
 //            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
 //            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
 //
@@ -230,6 +284,9 @@ public class ContactFragment extends Fragment implements IFragment {
         }
 
         // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview
+        /**
+         * class used to update data in recyclerView, when new data is retrieved from live data
+         */
         class StringDiffCallBack extends DiffUtil.Callback {
 
             private ArrayList<String> newList;

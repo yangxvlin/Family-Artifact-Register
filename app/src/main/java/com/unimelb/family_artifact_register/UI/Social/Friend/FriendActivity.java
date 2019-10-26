@@ -26,6 +26,12 @@ import com.unimelb.family_artifact_register.UI.Util.BaseActionBarActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This was the original Activity that displays a list of contacts the user has.
+ * Since the design has moved to bottom navigation bar, the responsibility of this Activity is now
+ * replaced by {@link com.unimelb.family_artifact_register.UI.Social.ContactFragment}
+ */
+@Deprecated
 public class FriendActivity extends BaseActionBarActivity {
 
     private RecyclerView recyclerView;
@@ -94,14 +100,39 @@ public class FriendActivity extends BaseActionBarActivity {
     }
 
     // probably become a separate class in the future
+
+    /**
+     * This is the Adapter class for the recyclerView in {@link FriendActivity}
+     * this class has been deprecated because {@link FriendActivity} has been deprecated
+     */
+    @Deprecated
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
+        // data to be displayed
         private ArrayList<String> dataSet;
         private final int[] avatars = new int[] {R.drawable.my_logo};
 
-        // probably become a separate class in the future
+        /**
+         * This is the ViewHolder class for the recyclerView in {@link FriendActivity}
+         * this class has been deprecated because {@link FriendActivity} has been deprecated
+         */
+        @Deprecated
         public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView textView;
+
+            /**
+             * the {@link ImageView} in the item
+             */
             public ImageView imageView;
+
+            /**
+             * public constructor for instantiating a new {@link MyViewHolder}
+             * @param itemView the inflated view for the item
+             */
             public MyViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -121,6 +152,10 @@ public class FriendActivity extends BaseActionBarActivity {
             }
         }
 
+        /**
+         * public constructor for instantiating a new {@link MyAdapter}
+         * @param dataSet data to be displayed
+         */
         public MyAdapter(ArrayList<String> dataSet) {
             this.dataSet = dataSet;
         }
