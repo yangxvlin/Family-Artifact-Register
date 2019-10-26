@@ -284,7 +284,9 @@ public class ContactFragment extends Fragment implements IFragment {
         }
 
         // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview
-        // class used to update data in recyclerView, when new data is retrieved from live data
+        /**
+         * class used to update data in recyclerView, when new data is retrieved from live data
+         */
         class StringDiffCallBack extends DiffUtil.Callback {
 
             private ArrayList<String> newList;
