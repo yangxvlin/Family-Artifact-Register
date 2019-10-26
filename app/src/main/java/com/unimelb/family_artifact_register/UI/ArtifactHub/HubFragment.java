@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.unimelb.family_artifact_register.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.ArtifactPostWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubFragmentPresenter;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModelFactory;

@@ -18,7 +18,6 @@ import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoMa
 import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
-import com.unimelb.family_artifact_register.UI.ArtifactHub.ArtifactPostWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

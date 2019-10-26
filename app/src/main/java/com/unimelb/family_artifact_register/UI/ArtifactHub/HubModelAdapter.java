@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.ArtifactPostWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity;
