@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * data class for user
+ */
 @Entity(tableName = "user_table")
 public class User {
 

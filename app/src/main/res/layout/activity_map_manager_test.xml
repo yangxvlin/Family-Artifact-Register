@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".test.MapManagerTestActivity">
+    tools:context=".TestActivity.MapManagerTestActivity">
     <FrameLayout
         android:id="@+id/test_map_search_add"
         android:layout_width="match_parent"

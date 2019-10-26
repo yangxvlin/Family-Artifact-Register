@@ -3,7 +3,7 @@ package com.unimelb.family_artifact_register.FoundationLayer.UserModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.unimelb.family_artifact_register.UI.Util.TimeToString;
+import com.unimelb.family_artifact_register.Util.TimeToString;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * data class for user
+ */
 public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> {
     // Encapsulate database attribute access
     public static final String UID = "uid";

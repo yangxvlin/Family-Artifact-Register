@@ -11,19 +11,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.unimelb.family_artifact_register.UI.ArtifactHub.HubFragment;
-import com.unimelb.family_artifact_register.UI.ArtifactManager.MeFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactHub.HubFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.MeFragment;
 import com.unimelb.family_artifact_register.UI.Event.EventFragment;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.TabbedMapFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.ArtifactLocationMap.TabbedMapFragment;
 import com.unimelb.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 13:33:24
- * @description main activity let user to use the app
+ * @description main activity let the user use the app with various bottom navigation
+ * contains the logic to transit between different fragments and sign out
  */
 public class HomeActivity extends AppCompatActivity {
     /**
@@ -31,6 +33,9 @@ public class HomeActivity extends AppCompatActivity {
      */
     private final String TAG = getClass().getSimpleName();
 
+    /**
+     * bottom navigation
+     */
     BottomNavigationView navigation;
 
     /**

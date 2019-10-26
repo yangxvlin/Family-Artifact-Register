@@ -18,17 +18,16 @@ import java.util.List;
 
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.setImageOnClickOpenDialogSliderListener;
 
+/**
+ * required adapter for pager adapter
+ */
 public class ImageUltraPagerAdapter extends PagerAdapter {
     private List<Uri> images;
-//    private int imageWidth;
-//    private int imageHeight;
     private Context context;
 
     public ImageUltraPagerAdapter(List<Uri> images, Context context) {
         this.images = images;
         this.context = context;
-//        this.imageWidth = imageWidth;
-//        this.imageHeight = imageHeight;
     }
 
     @Override
@@ -51,11 +50,8 @@ public class ImageUltraPagerAdapter extends PagerAdapter {
         imageView.setImageURI(images.get(position));
         imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        // setImageOnClickOpenDialogListener(imageView, images.get(position), context);
         setImageOnClickOpenDialogSliderListener(imageView, images, context, position);
         container.addView(linearLayout);
-//        linearLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, container.getContext().getResources().getDisplayMetrics());
-//        linearLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, container.getContext().getResources().getDisplayMetrics());
         return linearLayout;
     }
 

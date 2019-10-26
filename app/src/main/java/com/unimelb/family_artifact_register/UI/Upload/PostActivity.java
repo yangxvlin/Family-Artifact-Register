@@ -1,10 +1,5 @@
 package com.unimelb.family_artifact_register.UI.Upload;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -17,8 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.unimelb.family_artifact_register.HomeActivity;
-import com.unimelb.family_artifact_register.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,15 +28,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.unimelb.family_artifact_register.HomeActivity;
+import com.unimelb.family_artifact_register.R;
 
 import java.util.HashMap;
 
+<<<<<<< HEAD
 /**
  * @author Haichao Song 854035,
  * @time 2019-9-20 23:22:48
  * @description activity for user to post new artifact and upload to backend
  * Deprecate and integrate with new artifact activity now.
  */
+=======
+>>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
 @Deprecated
 public class PostActivity extends AppCompatActivity {
 

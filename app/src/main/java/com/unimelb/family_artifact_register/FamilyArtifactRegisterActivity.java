@@ -19,6 +19,11 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
+/**
+ * @description activity let the user authenticate
+ * contains the logic to save FirebaseAuth user information to FirebaseDatabase and direct to
+ * collect user info or home activity by Callback
+ */
 public class FamilyArtifactRegisterActivity extends AppCompatActivity implements Callback<Void> {
     /**
      * class tag
@@ -57,6 +62,9 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
         FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
     }
 
+    /**
+     *
+     */
     private void createCheckAndSigninListener() {
         // set firebase sign in listener
         mAuthStateListner = firebaseAuth -> {
@@ -69,11 +77,6 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                 // Check user even if signed in to register him to database (if haven't)
                 FirebaseAuthHelper.getInstance().checkRegisterUser(user,
                         this, CHECK_USER_DB);
-
-                // Toast.makeText(this, "User Signed In", Toast.LENGTH_SHORT).show();
-//                Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
-//                        .show();
-//                startHomeActivity();
             } else {
                 Log.d(TAG, "user hasn't signed in");
                 // Signed out or hasn't logged in
@@ -133,15 +136,11 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
         if (requestCode == CHECK_USER_DB) {
             switch (resultCode) {
                 case (FirebaseAuthHelper.RESULT_USER_EXIST):
-//                     Toast.makeText(this, R.string.user_signed_in, Toast.LENGTH_SHORT).show();
                     Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
                             .show();
                      startHomeActivity();
-//                    startCollectUserInfoActivity();
                     break;
                 case (FirebaseAuthHelper.RESULT_NEW_USER):
-                    // Toast.makeText(this, R.string.registration_successful,
-                    //        Toast.LENGTH_SHORT).show();
                     Toasty.success(this, R.string.registration_successful, Toasty.LENGTH_LONG)
                             .show();
                     startCollectUserInfoActivity();
@@ -154,13 +153,6 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
             }
         }
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Log.d(TAG, "FamilyArtifactRegisterMain onResume");
-//        FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListner);
-//    }
 
     @Override
     protected void onDestroy() {

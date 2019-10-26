@@ -16,9 +16,9 @@ import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
-
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactPostWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,8 +38,10 @@ public class HubViewModel extends AndroidViewModel {
     private ArtifactManager artifactManager = ArtifactManager.getInstance();
     private FirebaseStorageHelper fSHelper = FirebaseStorageHelper.getInstance();
 
-    private MutableLiveData<List<ArtifactPostWrapper>> artifactWrapperList = new MutableLiveData<>();
-    private MutableLiveData<List<ArtifactPostWrapper>> latestArtifactWrapperList = new MutableLiveData<>();
+    private MutableLiveData<List<ArtifactPostWrapper>> artifactWrapperList =
+            new MutableLiveData<>();
+    private MutableLiveData<List<ArtifactPostWrapper>> latestArtifactWrapperList =
+            new MutableLiveData<>();
 
     private String currentUid;
     private List<String> friendUids;
@@ -108,7 +110,8 @@ public class HubViewModel extends AndroidViewModel {
      * @param userInfo the friends user information
      * @param wrappers the artifact information post by friends
      */
-    private void getFriendArtifactItem(UserInfoWrapper userInfo, List<ArtifactPostWrapper> wrappers) {
+    private void getFriendArtifactItem(UserInfoWrapper userInfo,
+                                       List<ArtifactPostWrapper> wrappers) {
 
         // now processing this user's artifact info
         artifactManager.listenArtifactItemByUid(userInfo.getUid(), "HubViewModel1")

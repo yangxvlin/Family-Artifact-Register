@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 
 public class ContactDetailViewModel extends AndroidViewModel {
 

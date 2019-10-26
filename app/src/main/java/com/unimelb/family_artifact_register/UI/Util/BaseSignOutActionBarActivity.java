@@ -20,7 +20,11 @@ import com.unimelb.family_artifact_register.R;
  * 1. sign out from menu
  * 2. set centered title text
  * 3. disable navigation icon
+ * by polymorphism to provide sign out logic to child activity
+ * Deprecated because we adapt built in action bar design
+ * not deleted by open-close principle
  */
+@Deprecated
 public abstract class BaseSignOutActionBarActivity extends BaseActionBarActivity {
     TextView textView;
 

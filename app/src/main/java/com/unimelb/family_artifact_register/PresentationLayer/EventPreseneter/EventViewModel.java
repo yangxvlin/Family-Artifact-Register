@@ -9,13 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * event view model to collect data from DB and process it to UI
+ * singleton pattern to provide a global access
+ * observer pattern to observer on view model
+ */
 public class EventViewModel {
+    /**
+     * class tag
+     */
     public static final String TAG = EventViewModel.class.getSimpleName();
 
+    /**
+     * list of user attending events
+     */
     private List<String> attendEvent;
 
+    /**
+     * fragments
+     */
     private List<EventListener> fragments;
 
+    /**
+     * singleton view model
+     */
     private static EventViewModel eventViewModel;
 
     private EventViewModel() {
@@ -31,6 +48,9 @@ public class EventViewModel {
         return eventViewModel;
     }
 
+    /**
+     * @return list of recommended events for user
+     */
     public List<Event> getRecommendedEvent() {
         return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid())
                 .stream()
@@ -38,6 +58,9 @@ public class EventViewModel {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * @return list of user attending events
+     */
     public List<Event> getAttendedEvent() {
         return EventManager.getInstance().getEventByUid(UserInfoManager.getInstance().getCurrentUid())
                 .stream()
@@ -45,16 +68,25 @@ public class EventViewModel {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * @param eventId user attend an event
+     */
     public void addAttendEvent(String eventId) {
         attendEvent.add(eventId);
         fragments.forEach(EventListener::notifyEventsChange);
     }
 
+    /**
+     * @param eventId user cancel an event
+     */
     public void cancelAttendEvent(String eventId) {
         attendEvent.remove(eventId);
         fragments.forEach(EventListener::notifyEventsChange);
     }
 
+    /**
+     * @param fragment subject
+     */
     public void addObserver(EventListener fragment) {
         fragments.add(fragment);
     }

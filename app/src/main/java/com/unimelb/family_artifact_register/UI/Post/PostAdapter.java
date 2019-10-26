@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,12 +24,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * @author Haichao Song 854035,
  * @time 2019-9-20 22:48:54
  * @description adapter for post in home fragment.
  * Deprecate and replace by hub model adapter now.
  */
+=======
+>>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
 @Deprecated
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 

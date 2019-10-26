@@ -22,17 +22,35 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.setIm
 
 /**
  * a recycler view adapter for displaying multiple images with customized image size;
+ * required by android recycler view
+ * pure fabricate with image width and length setter to reuse
  */
 public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecyclerViewHolder> {
-
+    /**
+     * image item width
+     */
     private int imageWidth;
 
+    /**
+     * image item height
+     */
     private int imageHeight;
 
+    /**
+     * list of images to be displayed
+     */
     private List<Uri> images;
 
+    /**
+     * context object
+     */
     private Context context;
 
+    /**
+     * @param height image height
+     * @param width image width
+     * @param context contect object
+     */
     public ImagesRecyclerViewAdapter(int height, int width, Context context) {
         images = new ArrayList<>();
         this.imageHeight = height;
@@ -56,36 +74,11 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
                 getImageWidth(),
                 getImageHeight()
         );
-        System.out.println("image uri string: " + images.get(position).toString());
-        System.out.println("image uri path:   " + images.get(position).getPath());
 
         Uri imageUri = images.get(position);
 
-//        InputStream is = null;
-//        try {
-//
-//            is = context.getContentResolver().openInputStream(imageUri);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Bitmap bitmap = null;
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        // only access image's size info, not read whole image into memory so that won't memory leak
-//        options.inJustDecodeBounds = false;
-//        bitmap = BitmapFactory.decodeStream(
-//                is,
-//                null,
-//                options);
-
-
-        // System.out.println(" start decode ");
         Bitmap bitmap = BitmapFactory.decodeFile(imageUri.getPath());
-        // System.out.println("bitmap: " + bitmap.toString());
-        // System.out.println(" finish decode ");
         holder.imageView.setImageBitmap(bitmap);
-        // System.out.println("set bitmap finished");
 
         holder.imageView.setLayoutParams(layoutParams);
         setImageOnClickOpenDialogListener(holder.imageView, images.get(position), context);
@@ -94,12 +87,21 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
     @Override
     public int getItemCount() { return images.size(); }
 
+    /**
+     * @param image new image
+     */
     public void addData(Uri image) {
         this.images.add(image);
         notifyDataSetChanged();
     }
 
+    /**
+     * @return get image item width
+     */
     public int getImageWidth() { return imageWidth; }
 
+    /**
+     * @return get image item height
+     */
     public int getImageHeight() { return imageHeight; }
 }
