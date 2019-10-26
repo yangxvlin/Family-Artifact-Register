@@ -23,6 +23,11 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getIm
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoPlayIcon;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbnail;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-10-3 12:35:41
+ * @description adapter for artifact fragment. Deprecated because now detail page is an activity.
+ */
 @Deprecated
 public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHolder> {
 
@@ -44,7 +49,6 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
         return new DetailImageViewHolder(view);
     }
 
-    //TODO: add map images after post images
     @Override
     public void onBindViewHolder(@NonNull DetailImageViewHolder holder, int position) {
 //        ArtifactItemWrapper artifactItemWrapper = artifactItemWrapper.get(position);
@@ -55,18 +59,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
             mediaList.add(Uri.parse(mediaUrl));
         }
 
-//        holder.clearFrame();
-//        // set frame layout param
-//        GridLayout.LayoutParams layoutParam = new GridLayout.LayoutParams(
-//                GridLayout.Spec 3,
-//                GridLayout.Spec
-//        );
-//        layoutParam.gravity = Gravity.CENTER;
-//        layoutParam.topMargin = 20;
-//        layoutParam.bottomMargin = 20;
-//        layoutParam.leftMargin = 20;
-//        layoutParam.rightMargin = 20;
-//
+        holder.clearFrame();
         // image view
         if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
 

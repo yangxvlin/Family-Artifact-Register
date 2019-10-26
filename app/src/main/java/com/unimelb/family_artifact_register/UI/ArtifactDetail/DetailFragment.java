@@ -22,7 +22,11 @@ import com.unimelb.family_artifact_register.PresentationLayer.ArtifactDetailPres
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.unimelb.family_artifact_register.R;
 
-
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-10-3 12:15:48
+ * @description activity for artifact fragment. Deprecated because now detail page is an activity.
+ */
 @Deprecated
 public class DetailFragment extends Fragment implements IFragment {
     /**
