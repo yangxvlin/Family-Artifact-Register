@@ -42,27 +42,22 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.cr
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
 
 /**
- * fragment for user to see artifact timelines history
+ * UI class for displaying a list of artifact timelines
  */
 public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
+
     /**
      * class tag
      */
     public static final String TAG = MyArtifactTimelinesFragment.class.getSimpleName();
 
-    /**
-     * view model
-     */
+    // view model for this fragment
     private MyTimelineViewModel viewModel;
 
-    /**
-     * recycler view
-     */
+    // reference to the recyclerView for displaying artifact timelines
     private RecyclerView recyclerView;
 
-    /**
-     * recycler view adapter
-     */
+    // adapter for recyclerView
     private MyTimelineAdapter adapter;
 
     /**
@@ -87,8 +82,10 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
         adapter = new MyTimelineAdapter(view.getContext());
         recyclerView.setAdapter(adapter);
 
+        // get view model
         viewModel = ViewModelProviders.of(this, new MyTimelineViewModelFactory(getActivity().getApplication())).get(MyTimelineViewModel.class);
 
+        // retrieve data from DB
         viewModel.getTimelines().observe(this, new Observer<Set<ArtifactTimelineWrapper>>() {
             @Override
             public void onChanged(Set<ArtifactTimelineWrapper> newData) {
@@ -102,19 +99,60 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
      */
     public static MyArtifactTimelinesFragment newInstance() { return new MyArtifactTimelinesFragment(); }
 
+    /**
+     * This is the Adapter class for the recyclerView in {@link MyArtifactTimelinesFragment}
+     */
     public class MyTimelineAdapter extends RecyclerView.Adapter<MyTimelineAdapter.MyTimelineViewHolder> {
 
+        /**
+         * This is the ViewHolder class for the recyclerView in {@link MyArtifactTimelinesFragment}
+         */
         public class MyTimelineViewHolder extends RecyclerView.ViewHolder {
 
+            /**
+             * the {@link MaterialCardView} in the item
+             */
             public MaterialCardView cardView;
+
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView title;
+
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView uploadtime;
+
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView duration;
+
+            /**
+             * the {@link ImageView} in the item
+             */
             public ImageView image1;
+
+            /**
+             * the {@link ImageView} in the item
+             */
             public ImageView image2;
+
+            /**
+             * the {@link ImageView} in the item
+             */
             public ImageView image3;
+
+            /**
+             * the unique id of the item
+             */
             public String itemID;
 
+            /**
+             * public constructor for instantiating a new {@link MyTimelineViewHolder}
+             * @param itemView the inflated view for the item
+             */
             public MyTimelineViewHolder(@NonNull View itemView) {
                 super(itemView);
                 cardView = itemView.findViewById(R.id.cardview);
@@ -127,14 +165,25 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             }
         }
 
+        // the context
         private Context context;
 
+        // data to be displayed
         private Set<ArtifactTimelineWrapper> dataSet;
+
+        // comparator used for sorting list elements
         private Comparator<ArtifactTimelineWrapper> comparator;
+
+        // an iterator for iterating the data list
         private Iterator<ArtifactTimelineWrapper> dataSetIterator;
 
+        /**
+         * public constructor for instantiating a new {@link MyTimelineAdapter}
+         * @param context the context
+         */
         public MyTimelineAdapter(Context context) {
             this.context = context;
+            // sort elements in ascending order of upload time
             comparator = new Comparator<ArtifactTimelineWrapper>() {
                 @Override
                 public int compare(ArtifactTimelineWrapper artifactTimelineWrapper, ArtifactTimelineWrapper t1) {
@@ -161,14 +210,6 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                     startActivity(intent);
                 }
             });
-//            TimerTask task = new TimerTask() {
-//                @Override
-//                public void run() {
-//                    holder.title.setSelected(true);
-//                    holder.duration.setSelected(true);
-//                }
-//            };
-//            timer.scheduleAtFixedRate(task, 1, 200);
             if(dataSet != null) {
                 if(dataSetIterator.hasNext()) {
                     ArtifactTimelineWrapper currentItem = dataSetIterator.next();
@@ -231,6 +272,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             }
         }
 
+        // set image or video thumbnail
         private void setImage(ImageView image, Uri src, int type) {
             if (type == TYPE_IMAGE) {
                 image.setImageURI(src);
@@ -249,6 +291,10 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             return 0;
         }
 
+        /**
+         * set new data for adapter
+         * @param newData the new data to be set
+         */
         public void setData(Set<ArtifactTimelineWrapper> newData) {
             dataSet = newData;
             dataSetIterator = dataSet.iterator();
