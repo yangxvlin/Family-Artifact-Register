@@ -3,6 +3,11 @@ package com.unimelb.family_artifact_register.PresentationLayer.ArtifactCommentPr
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactComment;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-10-16 18:32:01
+ * @description pair comment item with user info to show user avatar and display name is comment.
+ */
 public class CommentWrapper {
 
     ArtifactComment artifactComment;
