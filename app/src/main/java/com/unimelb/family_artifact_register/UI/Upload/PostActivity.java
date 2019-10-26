@@ -33,6 +33,13 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 23:22:48
+ * @description activity for user to post new artifact and upload to backend
+ * Deprecate and integrate with new artifact activity now.
+ */
+@Deprecated
 public class PostActivity extends AppCompatActivity {
 
     Uri imageUri;
