@@ -20,7 +20,7 @@ import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapp
 import com.unimelb.family_artifact_register.R;
 
 /**
- * UI class for displaying the detail information of a user in the system
+ * UI class for displaying the detail information of contacts in the system
  */
 public class ContactDetailActivity extends AppCompatActivity {
 
