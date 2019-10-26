@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 /**
- * data class for user
+ * Data class for user
+ * This class is deprecated because local database is not used
  */
+@Deprecated
 @Entity(tableName = "user_table")
 public class User {
 
