@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * UI class for displaying a list of friend requests
+ * UI class for displaying a list of contact requests
  */
 public class ContactRequestActivity extends AppCompatActivity {
 
@@ -39,7 +39,7 @@ public class ContactRequestActivity extends AppCompatActivity {
      */
     public static final String TAG = ContactRequestActivity.class.getSimpleName();
 
-    // reference to the recyclerView used for displaying a list of friend requests
+    // reference to the recyclerView used for displaying a list of contact requests
     private RecyclerView recyclerView;
 
     // linear layout manager for recyclerView

@@ -28,6 +28,9 @@ import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActiv
 
 import java.util.List;
 
+/**
+ * UI class for displaying a list of contact search results
+ */
 public class ContactSearchResultActivity extends AppCompatActivity {
 
     /**
@@ -35,14 +38,29 @@ public class ContactSearchResultActivity extends AppCompatActivity {
      */
     public static final String TAG = ContactSearchResultActivity.class.getSimpleName();
 
+    /**
+     * constant for mode "displaying email on action bar"
+     */
     public static final String DISPLAY_EMAIL = "email";
+
+    /**
+     * constant for mode "displaying displayName on action bar"
+     */
     public static final String DISPLAY_NAME = "displayname";
 
+    // reference to the recyclerView used for displaying a list of contact search results
     private RecyclerView recyclerView;
+
+    // linear layout manager for recyclerView
     private LinearLayoutManager linearLayoutManager;
+
+    // adapter for recyclerView
     private SearchResultAdapter adapter;
+
+    // divider between elements in recyclerView
     private DividerItemDecoration divider;
 
+    // view model for this activity
     private ContactSearchResultViewModel viewModel;
 
     @Override
@@ -54,13 +72,16 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.text_view_no_result);
 
+        // get search query from the previous activity
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
+        // get view model
         viewModel = ViewModelProviders.of(this, new ContactSearchResultViewModelFactory(getApplication(), query)).get(ContactSearchResultViewModel.class);
 
         setupRecyclerView();
 
+        // retrieve data from DB
         viewModel.getUsers().observe(this, new Observer<List<UserInfoWrapper>>() {
             @Override
             public void onChanged(List<UserInfoWrapper> newData) {
@@ -82,9 +103,11 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         getSupportActionBar().setTitle(query);
+        // set gradient color for action bar
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
     }
 
+    // setup recyclerView
     private void setupRecyclerView() {
         // get the view
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -103,13 +126,35 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(divider);
     }
 
+    /**
+     * This is the Adapter class for recyclerView in {@link ContactSearchResultActivity}
+     */
     public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
 
+        /**
+         * This is the ViewHolder class for recyclerView in {@link ContactSearchResultActivity}
+         */
         public class SearchResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView textView;
+
+            /**
+             * the {@link ImageView} in the item
+             */
             public ImageView imageView;
+
+            /**
+             * the unique id of the item
+             */
             public String itemId;
+
+            /**
+             * public constructor for instantiating a new {@link SearchResultViewHolder}
+             * @param itemView the inflated view for the item
+             */
             public SearchResultViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -133,11 +178,18 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         * public constructor for instantiating a new {@link SearchResultAdapter}
+         * @param viewModel the view model of the {@link ContactSearchResultActivity}
+         */
         public SearchResultAdapter(ContactSearchResultViewModel viewModel) {
             this.viewModel = viewModel;
         }
 
+        // the view model from the recyclerView's owner
         private ContactSearchResultViewModel viewModel;
+
+        // data to be used
         private List<UserInfoWrapper> dataSet;
 
         @NonNull
@@ -182,6 +234,10 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             return 0;
         }
 
+        /**
+         * set new data for adapter
+         * @param newData the new data to be set
+         */
         public void setData(List<UserInfoWrapper> newData) {
             dataSet = newData;
             notifyDataSetChanged();
