@@ -14,6 +14,7 @@ import java.util.List;
  * @param <W> The intermediate type
  * @param <V> The final type
  */
+@Deprecated
 public class NestedLiveDataAsyncHelper<T, W, V> {
 
     private MediatorLiveData<List<V>> result = new MediatorLiveData<>();

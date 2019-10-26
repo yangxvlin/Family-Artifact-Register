@@ -6,8 +6,10 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 /**
- * class used to handle many-to-many unary relationship for user entity
+ * Class used to handle many-to-many unary relationship for user entity
+ * This class is deprecated because local database is not used
  */
+@Deprecated
 @Entity(tableName = "friend_table",
         primaryKeys = {"user", "friend"},
         foreignKeys = {

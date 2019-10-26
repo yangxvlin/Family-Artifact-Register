@@ -10,8 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentActivity"></activity>
-        <activity android:name="com.unimelb.family_artifact_register.test.MapManagerTestActivity">
+        <activity android:name=".UI.Artifact.ArtifactComment.ArtifactCommentActivity"></activity>
+        <activity android:name="com.unimelb.family_artifact_register.TestActivity.MapManagerTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -41,40 +41,39 @@
         <activity android:name="com.unimelb.family_artifact_register.MainActivity" />
         <activity android:name="com.unimelb.family_artifact_register.CollectUserInfoActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.test.MapTestActivity"
+            android:name="com.unimelb.family_artifact_register.TestActivity.MapTestActivity"
             android:label="@string/title_activity_fullscreen" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity"
+            android:name=".UI.Artifact.ArtifactHub.HubActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity" />
+            android:name=".UI.Artifact.ArtifactDetail.ArtifactDetailActivity"
+            android:parentActivityName=".UI.Artifact.ArtifactHub.HubActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.FriendActivity"
+            android:name="com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.ContactDetailActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.FriendActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.NewContactDetailActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.NewContactDetailActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactDetailActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.ContactSearchResultActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity" />
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchResultActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity" />
+        <activity android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity"/>
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.Social.ContactRequestActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.ContactSearchActivity" />
-        <activity
-            android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity"
+            android:name=".UI.Artifact.NewArtifact.ArtifactManageActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
-        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.NewArtifact.NewArtifactActivity2" />
+        <activity android:name=".UI.Artifact.NewArtifact.NewArtifactActivity2" />
         <activity
-            android:name="com.unimelb.family_artifact_register.UI.ArtifactManager.HappenedActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity" />
-        <activity android:name="com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity" />
+            android:name=".UI.Artifact.NewArtifact.HappenedActivity"
+            android:parentActivityName=".UI.Artifact.NewArtifact.ArtifactManageActivity" />
+        <activity android:name=".UI.Artifact.ArtifactTimeline.TimelineActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -86,11 +85,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-feature android:name="android.hardware.camera" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

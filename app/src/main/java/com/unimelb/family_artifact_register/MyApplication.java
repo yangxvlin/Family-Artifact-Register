@@ -14,13 +14,26 @@ import com.unimelb.family_artifact_register.Util.CacheDirectoryHelper;
 import com.unimelb.family_artifact_register.Util.DownloadBroadcastHelper;
 import com.unimelb.family_artifact_register.Util.FileHelper;
 
+/**
+ * the class to customize the application in android
+ */
 public class MyApplication extends Application {
+    /**
+     * store application attribute
+     */
     private static Application sApplication;
 
+    /**
+     * @return application
+     */
     public static Application getApplication() {
         return sApplication;
     }
 
+    /**
+     * provide a global access to context
+     * @return context
+     */
     public static Context getContext() {
         return getApplication().getApplicationContext();
     }

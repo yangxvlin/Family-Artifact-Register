@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 /**
- * this class is only used to provide additional param to instantiate view model object
+ * @author Haichao Song 854035,
+ * @time 2019-10-08 14:23:23
+ * @description this class is only used to provide additional param to instantiate view model object
  */
 public class HubViewModelFactory implements ViewModelProvider.Factory {
 

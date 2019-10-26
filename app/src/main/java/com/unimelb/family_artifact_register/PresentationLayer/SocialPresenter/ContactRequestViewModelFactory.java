@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class ContactRequestViewModelFactory implements ViewModelProvider.Factory {
+/**
+ * this class is only used to provide additional param to instantiate view model object
+ */
+public class ContactRequestViewModelFactory implements ViewModelProvider.Factory{
 
     private Application application;
 

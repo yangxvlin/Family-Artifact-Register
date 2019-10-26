@@ -23,6 +23,16 @@ import com.unimelb.family_artifact_register.R;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 22:13:01
+ * @description hub fragment before navigation bar.
+ * Deprecate and replace by hub fragment now.
+ */
+=======
+>>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
+@Deprecated
 public class HomeFragment extends Fragment {
 
     LinearLayoutManager layoutManager;

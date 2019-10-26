@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.unimelb.family_artifact_register.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,14 +19,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.User;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+<<<<<<< HEAD
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 22:48:54
+ * @description adapter for post in home fragment.
+ * Deprecate and replace by hub model adapter now.
+ */
+=======
+>>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
+@Deprecated
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     public Context mContext;
     public List<Post> mPost;
@@ -52,7 +61,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         Glide.with(mContext).load(post.getPostimage()).into(holder.mPostImage);
 
-        if (post.getDescription().equals("")) {
+        if (post.getDescription().equals("")){
             holder.mDescrption.setVisibility(View.GONE);
         } else {
             holder.mDescrption.setVisibility(View.VISIBLE);
@@ -68,26 +77,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mPost.size();
     }
 
-    private void publisherInfo(ImageView avatar, TextView username, TextView publisher, String userid) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                Glide.with(mContext).load(user.getAvatar()).into(avatar);
-                username.setText(user.getUsername());
-                publisher.setText(user.getUsername());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView mAvatar, mPostImage, mLike, mComment, mSave;
         public TextView mUsername, mLikes, mPublisher, mDescrption, mTimeline;
@@ -107,6 +97,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             mTimeline = itemView.findViewById(R.id.timeline);
 
         }
+    }
+
+    private void publisherInfo(ImageView avatar, TextView username, TextView publisher, String userid) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                Glide.with(mContext).load(user.getAvatar()).into(avatar);
+                username.setText(user.getUsername());
+                publisher.setText(user.getUsername());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

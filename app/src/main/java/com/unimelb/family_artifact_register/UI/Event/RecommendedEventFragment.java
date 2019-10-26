@@ -13,23 +13,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.FoundationLayer.EventModel.EventListener;
-import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.UI.Event.Util.EventAdapter;
+import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.Util.EventAdapter;
 
+/**
+ * UI fragment to display recommended events for user
+ */
 public class RecommendedEventFragment extends Fragment implements IFragment, EventListener {
     /**
      * class tag
      */
     public static final String TAG = RecommendedEventFragment.class.getSimpleName();
 
+    /**
+     * recycler view
+     */
     private RecyclerView recyclerView;
 
+    /**
+     * event adapter
+     */
     private EventAdapter eventAdapter;
 
+    /**
+     * Required empty public constructor
+     */
     public RecommendedEventFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -58,7 +69,6 @@ public class RecommendedEventFragment extends Fragment implements IFragment, Eve
         EventViewModel.getInstance().addObserver(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(eventAdapter);
-
     }
 
     @Override

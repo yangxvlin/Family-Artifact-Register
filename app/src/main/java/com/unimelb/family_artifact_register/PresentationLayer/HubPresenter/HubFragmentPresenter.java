@@ -6,6 +6,11 @@ import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-10-08 14:01:21
+ * @description presenter to initial hub fragment and add data
+ */
 public class HubFragmentPresenter {
 
     private List<ArtifactItem> artifacts;
@@ -15,10 +20,6 @@ public class HubFragmentPresenter {
         this.view = view;
         // tmp data
         this.artifacts = initArtifacts();
-
-        for (ArtifactItem aItem : this.artifacts) {
-//            this.view.addData(((Artifact) aItem).getCreatedDate(), aItem.getDescription(), aItem.getImages(), aItem.getVideos());
-        }
     }
 
     private List<ArtifactItem> initArtifacts() {

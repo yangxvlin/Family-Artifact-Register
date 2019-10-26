@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
-    tools:context=".test.MapTestActivity">
-
+    tools:context=".TestActivity.MapTestActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
         <!-- This FrameLayout insets its children based on system windows using
              android:fitsSystemWindows. -->
         <FrameLayout
@@ -22,11 +22,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
-
             <FrameLayout
                 android:id="@+id/current_location_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
         </com.google.android.material.card.MaterialCardView>
     </RelativeLayout>
 

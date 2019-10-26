@@ -16,9 +16,15 @@ import com.unimelb.family_artifact_register.R;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-16 20:04:45
- * @description base activity with an action bar which can 1. sign out from menu 2. set centered
- * title text 3. disable navigation icon
+ * @description base activity with an action bar which can
+ * 1. sign out from menu
+ * 2. set centered title text
+ * 3. disable navigation icon
+ * by polymorphism to provide sign out logic to child activity
+ * Deprecated because we adapt built in action bar design
+ * not deleted by open-close principle
  */
+@Deprecated
 public abstract class BaseSignOutActionBarActivity extends BaseActionBarActivity {
     TextView textView;
 
@@ -48,7 +54,7 @@ public abstract class BaseSignOutActionBarActivity extends BaseActionBarActivity
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER);
-        TextView textViewTitle = viewActionBar.findViewById(R.id.action_bar_title);
+        TextView textViewTitle = (TextView) viewActionBar.findViewById(R.id.action_bar_title);
         textViewTitle.setText(id);
         getMyActionBar().setCustomView(viewActionBar, params);
         getMyActionBar().setDisplayShowCustomEnabled(true);

@@ -1,5 +1,8 @@
 package com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel;
 
+/**
+ * data class for an artifact item's comment leave by an user
+ */
 public class ArtifactComment extends Artifact {
     /**
      * the text of the comment

@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class for managing user information
+ * singleton Class for managing user information to provide global access
  */
 public class UserInfoManager {
     // Return code if the request for userInfo is ok (successful)

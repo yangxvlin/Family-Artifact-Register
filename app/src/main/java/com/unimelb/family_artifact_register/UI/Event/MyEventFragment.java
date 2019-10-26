@@ -13,23 +13,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.FoundationLayer.EventModel.EventListener;
-import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.UI.Event.Util.EventAdapter;
+import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
 import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.Util.EventAdapter;
 
+/**
+ * UI fragment to display user attending events
+ */
 public class MyEventFragment extends Fragment implements IFragment, EventListener {
     /**
      * class tag
      */
     public static final String TAG = MyEventFragment.class.getSimpleName();
 
+    /**
+     * recycler view
+     */
     private RecyclerView recyclerView;
 
+    /**
+     * event adapter
+     */
     private EventAdapter eventAdapter;
 
+    /**
+     * Required empty public constructor
+     */
     public MyEventFragment() {
-        // Required empty public constructor
     }
 
     /**

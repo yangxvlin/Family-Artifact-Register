@@ -6,6 +6,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * polymorphism to provide a base activity with an action bar with cancel icon
+ */
 public abstract class BaseActionBarActivity extends AppCompatActivity {
     private ActionBar actionBar;
 

@@ -34,9 +34,21 @@ import com.unimelb.family_artifact_register.Util.FileHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @description pure fabricate media view creation or set logic
+ */
 public class MediaViewHelper {
+    /**
+     * class tag
+     */
     public static final String TAG = MediaViewHelper.class.getSimpleName();
 
+    /**
+     * @param images list of images
+     * @param context context
+     * @param ultraViewPager ultraViewPager
+     * @param infiniteLoop can go back to begin if at the end
+     */
     public static void setImagesViewPager(List<Uri> images, Context context, UltraViewPager ultraViewPager, Boolean infiniteLoop) {
         ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
         //initialize ImageUltraPagerAdapter，and add child view to UltraViewPager
@@ -50,7 +62,6 @@ public class MediaViewHelper {
                 .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
                 .setFocusColor(context.getColor(R.color.primaryColor))
                 .setNormalColor(context.getColor(R.color.wechat_grey))
-                // TODO size of indicator
                 .setRadius((int) TypedValue.applyDimension(
                         TypedValue.COMPLEX_RADIX_0p23,
                         images.size(),
@@ -67,48 +78,13 @@ public class MediaViewHelper {
         // ultraViewPager.setAutoScroll(2000);
     }
 
-//    public static SliderLayout getImagesSliderView(int imageWidth, int imageHeight, List<Uri> images, Context context) {
-//        SliderLayout imagesSliderLayout = new SliderLayout(context);
-//
-//        for (Uri image: images) {
-//            DefaultSliderView slider = new DefaultSliderView(context);
-//            slider.image(image.toString())
-//                    .setScaleType(DefaultSliderView.ScaleType.Fit)
-//                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-//                        @Override
-//                        public void onSliderClick(BaseSliderView slider) {
-//                            //
-//                        }
-//                    });
-//            imagesSliderLayout.addSlider(slider);
-//        }
-//
-//        imagesSliderLayout.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageHeight));
-//        imagesSliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-//        imagesSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-//        imagesSliderLayout.setCustomAnimation(new DescriptionAnimation());
-//        imagesSliderLayout.setDuration(4000);
-//        imagesSliderLayout.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                //
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                //
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//                //
-//            }
-//        });
-//
-//
-//        return imagesSliderLayout;
-//    }
-
+    /**
+     * @param imageWidth image item width
+     * @param imageHeight image item height
+     * @param images list of images
+     * @param context context
+     * @return dynamically created recycler view
+     */
     public static RecyclerView getImageRecyclerView(int imageWidth, int imageHeight, List<Uri> images, Context context) {
         // recycler view adapter for display images
         ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
@@ -153,6 +129,10 @@ public class MediaViewHelper {
         return imageRecyclerView;
     }
 
+    /**
+     * @param video video address
+     * @return thumbnail of video
+     */
     public static Bitmap getVideoThumbNail(String video) {
         Bitmap thumb;
         //MINI_KIND, size:  512 x 384 thumbnail
@@ -160,6 +140,11 @@ public class MediaViewHelper {
         return thumb;
     }
 
+    /**
+     * @param video video address
+     * @param context context
+     * @return dynamically created thumbnail image view of video
+     */
     public static ImageView getVideoThumbnail(Uri video, Context context) {
         Uri videoUri = FileHelper.getInstance().checkAddScheme(video);
 
@@ -217,6 +202,13 @@ public class MediaViewHelper {
         return iv;
     }
 
+    /**
+     * @param thumbnailWidth image width
+     * @param thumbnailHeight image height
+     * @param video video address
+     * @param context context context
+     * @return dynamically created thumbnail image view of video
+     */
     public static ImageView getVideoThumbnail(int thumbnailWidth, int thumbnailHeight, Uri video, Context context) {
         Uri videoUri = FileHelper.getInstance().checkAddScheme(video);
 
@@ -274,6 +266,10 @@ public class MediaViewHelper {
         return iv;
     }
 
+    /**
+     * @param context context
+     * @return dynamically created play icon for video thumbnail
+     */
     public static ImageView getVideoPlayIcon(Context context) {
         // add a play icon to the thumbnail
         ImageView playIcon = new ImageView(context);
@@ -288,6 +284,12 @@ public class MediaViewHelper {
         return playIcon;
     }
 
+    /**
+     * click image and open a dialog to see whole image
+     * @param imageView image view
+     * @param image image address
+     * @param context context
+     */
     public static void setImageOnClickOpenDialogListener(View imageView, Uri image, Context context) {
         imageView.setOnClickListener(view -> {
             // whole screen dialog of image
@@ -305,8 +307,6 @@ public class MediaViewHelper {
                 dia.dismiss();
             });
             dia.setContentView(iv);
-//            dia.setContentView(imageView);
-//            imageView.setBackgroundResource(R.mipmap.iv_android);
             dia.show();
 
             dia.setCanceledOnTouchOutside(true); // Sets whether this dialog is
@@ -318,6 +318,13 @@ public class MediaViewHelper {
         });
     }
 
+    /**
+     * when image clicked start a dialog with images of view pager and start at selected index
+     * @param imageView image view
+     * @param images list of images
+     * @param context context
+     * @param selectedIndex index of selected image
+     */
     public static void setImageOnClickOpenDialogSliderListener(View imageView, List<Uri> images, Context context, int selectedIndex) {
         List<String> imagesUriString = new ArrayList<>();
         for (Uri image : images) {
