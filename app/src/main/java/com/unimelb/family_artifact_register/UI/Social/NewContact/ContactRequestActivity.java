@@ -29,16 +29,29 @@ import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActiv
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * UI class for displaying a list of friend requests
+ */
 public class ContactRequestActivity extends AppCompatActivity {
 
+    /**
+     * class tag
+     */
     public static final String TAG = ContactRequestActivity.class.getSimpleName();
 
+    // reference to the recyclerView used for displaying a list of friend requests
     private RecyclerView recyclerView;
+
+    // linear layout manager for recyclerView
     private LinearLayoutManager layoutManager;
+
+    // divider between elements in recyclerView
     private DividerItemDecoration divider;
 
+    // adapter for recyclerView
     private RequestAdapter adapter;
 
+    // view model for this activity
     private ContactRequestViewModel viewModel;
 
     @Override
@@ -49,12 +62,15 @@ public class ContactRequestActivity extends AppCompatActivity {
         // force the system not to display action bar title
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.ContactRequestActivity_title);
+        // set gradient color for action bar
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
         setupRecyclerView();
 
+        // get view model
         viewModel = ViewModelProviders.of(this, new ContactRequestViewModelFactory(getApplication())).get(ContactRequestViewModel.class);
 
+        // retrieve data from DB
         viewModel.getRequests().observe(this, new Observer<Set<Request>>() {
             @Override
             public void onChanged(Set<Request> requests) {
@@ -64,6 +80,7 @@ public class ContactRequestActivity extends AppCompatActivity {
         });
     }
 
+    // setup recyclerView
     private void setupRecyclerView() {
         // get the view
         recyclerView = (RecyclerView) findViewById(R.id.friend_request_recycler_view);
@@ -82,16 +99,40 @@ public class ContactRequestActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(divider);
     }
 
-
+    /**
+     * This is the Adapter class for recyclerView in {@link ContactRequestActivity}
+     */
     public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
 
+        /**
+         * This is the ViewHolder class for recyclerView in {@link ContactRequestActivity}
+         */
         public class RequestViewHolder extends RecyclerView.ViewHolder {
 
+            /**
+             * the {@link ImageView} in the item
+             */
             public ImageView avatar;
+
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView username;
+
+            /**
+             * the {@link MaterialButton} in the item
+             */
             public MaterialButton accept;
+
+            /**
+             * the unique id of the item
+             */
             public String itemID;
 
+            /**
+             * public constructor for instantiating a new {@link RequestViewHolder}
+             * @param itemView the inflated view for the item
+             */
             public RequestViewHolder(@NonNull View itemView) {
                 super(itemView);
                 avatar = itemView.findViewById(R.id.request_avatar);
@@ -100,8 +141,10 @@ public class ContactRequestActivity extends AppCompatActivity {
             }
         }
 
-//        private ContactRequestViewModel viewModel;
+        // data to be used
         private Set<Request> requests;
+
+        // an iterator for iterating data list
         private Iterator<Request> dataSetIterator;
 
         @NonNull
@@ -163,6 +206,10 @@ public class ContactRequestActivity extends AppCompatActivity {
             return 0;
         }
 
+        /**
+         * set new data for adapter
+         * @param newData the new data to be set
+         */
         public void setData(Set<Request> newData) {
             requests = newData;
             dataSetIterator = requests.iterator();

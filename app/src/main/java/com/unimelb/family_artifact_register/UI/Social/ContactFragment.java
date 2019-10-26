@@ -264,6 +264,10 @@ public class ContactFragment extends Fragment implements IFragment {
             return 0;
         }
 
+        /**
+         * set new data for adapter
+         * @param newData the new data to be set
+         */
         public void setData(Set<UserInfoWrapper> newData) {
             // solution from codelab
             dataSet = newData;
