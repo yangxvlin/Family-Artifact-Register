@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
 
-public class FriendListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class FriendListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView textView;
     public ImageView imageView;

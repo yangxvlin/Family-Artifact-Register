@@ -6,13 +6,13 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
 import com.unimelb.family_artifact_register.R;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 
@@ -106,6 +106,6 @@ public class MarkerHelper {
 
         return snippet;
     }
-    
-    
+
+
 }

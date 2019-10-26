@@ -10,12 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.material.button.MaterialButton;
 import com.unimelb.family_artifact_register.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 import com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.material.button.MaterialButton;
 
 import static com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity.ARTIFACT_ITEM_ID_KEY;
 import static com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
@@ -32,6 +32,12 @@ public class MyInfoWindow extends Fragment implements IFragment {
     public MyInfoWindow() {
     }
 
+    public static MyInfoWindow newInstance(Marker marker) {
+        MyInfoWindow myInfoWindow = new MyInfoWindow();
+        myInfoWindow.marker = marker;
+        return myInfoWindow;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,12 +49,6 @@ public class MyInfoWindow extends Fragment implements IFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         render(view);
-    }
-
-    public static MyInfoWindow newInstance(Marker marker) {
-        MyInfoWindow myInfoWindow = new MyInfoWindow();
-        myInfoWindow.marker = marker;
-        return myInfoWindow;
     }
 
     private void render(View view) {

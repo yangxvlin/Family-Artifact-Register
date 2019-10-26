@@ -26,10 +26,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.Util.FileHelper;
 import com.kodmap.app.library.PopopDialogBuilder;
 import com.tmall.ultraviewpager.UltraViewPager;
+import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.Util.FileHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,7 +145,7 @@ public class MediaViewHelper {
                 imageWidth,
                 context
         );
-        for (Uri image: images) {
+        for (Uri image : images) {
             imagesRecyclerViewAdapter.addData(image);
         }
         imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
@@ -320,7 +320,7 @@ public class MediaViewHelper {
 
     public static void setImageOnClickOpenDialogSliderListener(View imageView, List<Uri> images, Context context, int selectedIndex) {
         List<String> imagesUriString = new ArrayList<>();
-        for (Uri image: images) {
+        for (Uri image : images) {
             imagesUriString.add("file:/" + image.toString());
         }
 
@@ -345,7 +345,7 @@ public class MediaViewHelper {
                     // Set image scale type for slider image
                     .setSliderImageScaleType(ImageView.ScaleType.FIT_CENTER)
                     // Set indicator drawable
-                     .setSelectorIndicator(R.drawable.sample_indicator_selector)
+                    .setSelectorIndicator(R.drawable.sample_indicator_selector)
                     // Enable or disable zoomable
                     .setIsZoomable(true)
                     // Build Km Slider Popup Dialog

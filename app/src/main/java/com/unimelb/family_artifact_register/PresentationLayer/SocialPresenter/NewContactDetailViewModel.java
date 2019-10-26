@@ -33,11 +33,10 @@ public class NewContactDetailViewModel extends AndroidViewModel {
                 Log.d(TAG, "user info come back from DB: " + userInfo.toString());
                 UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
                 String url = wrapper.getPhotoUrl();
-                if(url == null) {
+                if (url == null) {
                     wrapper.setPhotoUrl(null);
                     friend.postValue(wrapper);
-                }
-                else {
+                } else {
                     helper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(Uri uri) {
@@ -51,7 +50,9 @@ public class NewContactDetailViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<UserInfoWrapper> getUser() { return friend; }
+    public LiveData<UserInfoWrapper> getUser() {
+        return friend;
+    }
 
     public void addFriend(String uid) {
         manager.sendFriendInvitation(uid);

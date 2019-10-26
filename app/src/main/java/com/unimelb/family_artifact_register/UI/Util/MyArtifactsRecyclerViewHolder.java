@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.R;
 import com.tmall.ultraviewpager.UltraViewPager;
+import com.unimelb.family_artifact_register.R;
 
 public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
@@ -17,7 +17,7 @@ public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     TextView description;
 
-//    int frame;
+    //    int frame;
     FrameLayout frame;
 
     ImageView navigateToArtifactTimeline;

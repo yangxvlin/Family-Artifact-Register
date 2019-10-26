@@ -39,7 +39,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
     @NonNull
     @Override
     public DetailImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_artifact_detail, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_artifact_detail, parent, false);
         return new DetailImageViewHolder(view);
     }
 
@@ -49,7 +49,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
 //        ArtifactItemWrapper artifactItemWrapper = artifactItemWrapper.get(position);
 
         mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
+        for (String mediaUrl : artifactItemWrapper.getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri" + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }
@@ -100,7 +100,6 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageViewHold
         artifactItemWrapper = newData;
         notifyDataSetChanged();
     }
-
 
 
     // *************************************** getter & setters ***********************************

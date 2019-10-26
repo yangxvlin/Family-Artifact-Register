@@ -63,7 +63,7 @@ public class ContactViewModel extends AndroidViewModel {
 //                x.addAll(manager.listenUserInfo(friendUids));
 
                 Log.d(TAG, "friend list size: " + friendList.size());
-                for(LiveData<UserInfo> i: friendList) {
+                for (LiveData<UserInfo> i : friendList) {
                     friends.removeSource(i);
                     friends.addSource(i, new Observer<UserInfo>() {
                         @Override
@@ -73,16 +73,15 @@ public class ContactViewModel extends AndroidViewModel {
 //                            friends.getValue().add(wrapper);
 //                            friends.setValue(friends.getValue());
                             String url = wrapper.getPhotoUrl();
-                            if(url == null && !wrapper.getUid().equals(manager.getCurrentUid())) {
+                            if (url == null && !wrapper.getUid().equals(manager.getCurrentUid())) {
                                 wrapper.setPhotoUrl(null);
                                 friends.getValue().add(wrapper);
                                 friends.postValue(friends.getValue());
-                            }
-                            else {
+                            } else {
                                 helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
-                                        if(!wrapper.getUid().equals(manager.getCurrentUid())) {
+                                        if (!wrapper.getUid().equals(manager.getCurrentUid())) {
                                             wrapper.setPhotoUrl(uri.toString());
                                             friends.getValue().add(wrapper);
                                             friends.postValue(friends.getValue());
@@ -111,11 +110,10 @@ public class ContactViewModel extends AndroidViewModel {
             @Override
             public void onChanged(UserInfo userInfo) {
                 UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
-                if(wrapper.getPhotoUrl() == null) {
+                if (wrapper.getPhotoUrl() == null) {
                     wrapper.setPhotoUrl(null);
                     me.postValue(wrapper);
-                }
-                else {
+                } else {
                     helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(Uri uri) {
@@ -130,5 +128,7 @@ public class ContactViewModel extends AndroidViewModel {
         return me;
     }
 
-    public String getCurrentUid() { return manager.getCurrentUid(); }
+    public String getCurrentUid() {
+        return manager.getCurrentUid();
+    }
 }

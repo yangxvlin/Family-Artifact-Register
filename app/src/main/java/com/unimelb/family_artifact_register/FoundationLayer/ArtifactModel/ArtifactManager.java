@@ -7,11 +7,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.DBConstant;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.DefaultListeners;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,6 +14,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.UploadTask;
+import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.DefaultListeners;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,33 +31,24 @@ import java.util.Map;
  */
 public class ArtifactManager {
     /**
-     Tag for logging
+     * Tag for logging
      */
     private static final String TAG = ArtifactManager.class.getSimpleName();
 
     private static final ArtifactManager ourInstance = new ArtifactManager();
-
-    public static ArtifactManager getInstance() {
-        return ourInstance;
-    }
-
     private UserInfoManager userInfoManager;
-
     /**
      * The database reference used artifact timeline.
      */
     private CollectionReference mArtifactItemCollection;
-
     /**
      * The database reference used for artifact item.
      */
     private CollectionReference mArtifactTimelineCollection;
-
     /**
      * The database reference used for artifact comments.
      */
     private CollectionReference mArtifactCommentCollection;
-
     /**
      * Active listeners used (this should be cleared if not used)
      */
@@ -80,6 +71,10 @@ public class ArtifactManager {
 
         mListenerRegistrationMap = new HashMap<>();
         userInfoManager = UserInfoManager.getInstance();
+    }
+
+    public static ArtifactManager getInstance() {
+        return ourInstance;
     }
 
     public void addArtifact(Artifact artifact) {
@@ -130,8 +125,8 @@ public class ArtifactManager {
 
         liveDataListDispatchHelper.addWaitingTask();
 
-        Log.d(TAG, "Artifact Media Urls: "+ artifact.getMediaDataUrls().toString());
-        for (String localMediaDataUrl: artifact.getMediaDataUrls()) {
+        Log.d(TAG, "Artifact Media Urls: " + artifact.getMediaDataUrls().toString());
+        for (String localMediaDataUrl : artifact.getMediaDataUrls()) {
 
             Log.d(TAG, "Iterated to URL: " + localMediaDataUrl);
             Uri localUri = Uri.parse(localMediaDataUrl);
@@ -221,7 +216,7 @@ public class ArtifactManager {
         MutableLiveData<List<ArtifactItem>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactItem> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
-        for (String postId: new HashSet<>(postIds)) {
+        for (String postId : new HashSet<>(postIds)) {
             liveDataListDispatchHelper.addWaitingTask();
             LiveData<ArtifactItem> artifactItemLiveData = getArtifactItemByPostId(postId);
             artifactItemLiveData.observeForever(
@@ -302,7 +297,7 @@ public class ArtifactManager {
         MutableLiveData<List<ArtifactTimeline>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<ArtifactTimeline> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData, timeout);
-        for (String postId: new HashSet<>(postIds)) {
+        for (String postId : new HashSet<>(postIds)) {
             liveDataListDispatchHelper.addWaitingTask();
             LiveData<ArtifactTimeline> artifactTimelineLiveData = getArtifactTimelineByPostId(postId);
             artifactTimelineLiveData.observeForever(
@@ -417,7 +412,6 @@ public class ArtifactManager {
                                                             DefaultListeners.getInstance()
                                                                     .getOnFailureListener(TAG)
                                                     );
-                                                    ;
                                                 }
                                         ).addOnCanceledListener(
                                         DefaultListeners.getInstance()

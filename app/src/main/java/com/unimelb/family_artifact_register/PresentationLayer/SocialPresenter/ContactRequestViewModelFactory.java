@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class ContactRequestViewModelFactory implements ViewModelProvider.Factory{
+public class ContactRequestViewModelFactory implements ViewModelProvider.Factory {
 
     private Application application;
 

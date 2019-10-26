@@ -28,6 +28,13 @@ public class UserInfoWrapper {
         artifactTimelineIds = user.getArtifactTimelineIds();
     }
 
+    public static UserInfo toUserInfo(UserInfoWrapper wrapper) {
+//        return new UserInfo(wrapper.getUid(), wrapper.getDisplayName(), wrapper.getEmail(),
+//                            wrapper.getPhoneNumber(), wrapper.getPhotoUrl(), wrapper.getFriendUids(),
+//                            wrapper.getArtifactItemIds(), wrapper.getArtifactTimelineIds());
+        return null;
+    }
+
     public String getUid() {
         return user.getUid();
     }
@@ -113,13 +120,6 @@ public class UserInfoWrapper {
     public boolean removeArtifactTimelineId(String artifactId) {
         artifactTimelineIds.remove(artifactId);
         return true;
-    }
-
-    public static UserInfo toUserInfo(UserInfoWrapper wrapper) {
-//        return new UserInfo(wrapper.getUid(), wrapper.getDisplayName(), wrapper.getEmail(),
-//                            wrapper.getPhoneNumber(), wrapper.getPhotoUrl(), wrapper.getFriendUids(),
-//                            wrapper.getArtifactItemIds(), wrapper.getArtifactTimelineIds());
-        return null;
     }
 
     @Override

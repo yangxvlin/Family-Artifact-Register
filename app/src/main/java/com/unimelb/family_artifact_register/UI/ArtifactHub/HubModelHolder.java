@@ -16,10 +16,10 @@ import org.jetbrains.annotations.NotNull;
  * @description Hold recycler view and implement click listener to cards in recycler.
  */
 @Deprecated
-public class HubModelHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class HubModelHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     ImageView mImeaView, mAvatar;
-    TextView  mDes, mUsername, mPublisher;
+    TextView mDes, mUsername, mPublisher;
     ItemClickListener itemClickListener;
 
     HubModelHolder(@NotNull View itemView) {

@@ -16,7 +16,7 @@ public class HubFragmentPresenter {
         // tmp data
         this.artifacts = initArtifacts();
 
-        for (ArtifactItem aItem: this.artifacts) {
+        for (ArtifactItem aItem : this.artifacts) {
 //            this.view.addData(((Artifact) aItem).getCreatedDate(), aItem.getDescription(), aItem.getImages(), aItem.getVideos());
         }
     }

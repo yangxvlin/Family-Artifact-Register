@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  * @author XuLin Yang 904904,
  * @time 2019-8-10 17:06:40
  * @description main activity
@@ -7,11 +6,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/activity_main"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -20,53 +18,48 @@
         android:background="#FFF"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/icon_forget_me_not_1"
-    />
+        android:src="@drawable/icon_forget_me_not_1" />
 
     <Button
         android:id="@+id/artifact_hub_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/logo"
-        app:icon="@drawable/bottom_bar_discovery_icon"
+        android:layout_centerHorizontal="true"
+        android:onClick="artifactHub"
         android:text="@string/artifact_hub"
         android:textSize="20sp"
-        android:onClick="artifactHub"
-    />
+        app:icon="@drawable/bottom_bar_discovery_icon" />
 
     <Button
         android:id="@+id/friends_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/artifact_hub_button"
-        app:icon="@drawable/bottom_bar_contact_icon"
+        android:layout_centerHorizontal="true"
+        android:onClick="social"
         android:text="@string/friends"
         android:textSize="20sp"
-        android:onClick="social"
-    />
+        app:icon="@drawable/bottom_bar_contact_icon" />
 
     <Button
         android:id="@+id/manage_my_artifact_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/friends_button"
-        app:icon="@drawable/button_management_icon"
+        android:layout_centerHorizontal="true"
+        android:onClick="manageArtifact"
         android:text="@string/artifact_management"
         android:textSize="20sp"
-        android:onClick="manageArtifact"
-    />
+        app:icon="@drawable/button_management_icon" />
 
     <Button
         android:id="@+id/artifact_map_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/manage_my_artifact_button"
-        app:icon="@drawable/bottom_bar_map_icon"
+        android:layout_centerHorizontal="true"
         android:text="@string/artifact_map"
         android:textSize="20sp"
-        />
+        app:icon="@drawable/bottom_bar_map_icon" />
 </RelativeLayout>

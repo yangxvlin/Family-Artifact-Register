@@ -17,7 +17,7 @@ public class ContactDetailViewModel extends AndroidViewModel {
 
     public static final String TAG = ContactDetailViewModel.class.getSimpleName();
 
-    private UserInfoManager manager = UserInfoManager.getInstance();;
+    private UserInfoManager manager = UserInfoManager.getInstance();
     private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
     private MutableLiveData<UserInfoWrapper> selectedUser = new MutableLiveData<>();
@@ -31,11 +31,10 @@ public class ContactDetailViewModel extends AndroidViewModel {
                 Log.d(TAG, "user info come back from DB: " + userInfo.toString());
                 UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
                 String url = wrapper.getPhotoUrl();
-                if(url == null) {
+                if (url == null) {
                     wrapper.setPhotoUrl(null);
                     selectedUser.postValue(wrapper);
-                }
-                else {
+                } else {
                     helper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(Uri uri) {
@@ -49,5 +48,7 @@ public class ContactDetailViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<UserInfoWrapper> getUser() { return selectedUser; }
+    public LiveData<UserInfoWrapper> getUser() {
+        return selectedUser;
+    }
 }

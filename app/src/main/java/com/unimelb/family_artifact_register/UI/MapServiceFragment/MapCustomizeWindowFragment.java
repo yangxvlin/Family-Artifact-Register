@@ -11,17 +11,17 @@ import androidx.fragment.app.Fragment;
 import com.appolica.interactiveinfowindow.InfoWindow;
 import com.appolica.interactiveinfowindow.InfoWindowManager;
 import com.appolica.interactiveinfowindow.customview.TouchInterceptFrameLayout;
-import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.unimelb.family_artifact_register.IFragment;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
-import com.unimelb.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
+import com.unimelb.family_artifact_register.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,26 +38,29 @@ public class MapCustomizeWindowFragment extends Fragment implements
      * class tag
      */
     public static final String TAG = MapCustomizeWindowFragment.class.getSimpleName();
-
-    private InfoWindowManager infoWindowManager;
-
-    private InfoWindow infoWindow;
-
-    GoogleMap mMap;
-
-    private MapView mapView;
-
     public static final int IMAGE_DEFAULT_WIDTH = 200;
     public static final int IMAGE_DEFAULT_HEIGHT = 200;
+    GoogleMap mMap;
+    private InfoWindowManager infoWindowManager;
+    private InfoWindow infoWindow;
+    private MapView mapView;
 
     /**
      * Required empty public constructor
      */
-    public MapCustomizeWindowFragment() { }
+    public MapCustomizeWindowFragment() {
+    }
+
+    /**
+     *
+     */
+    public static MapCustomizeWindowFragment newInstance() {
+        return new MapCustomizeWindowFragment();
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_map_customize_window, container, false);
         return view;
     }
@@ -150,12 +153,5 @@ public class MapCustomizeWindowFragment extends Fragment implements
                     .makeCameraUpdate(markers);
             mMap.animateCamera(cu);
         }
-    }
-
-    /**
-     *
-     */
-    public static MapCustomizeWindowFragment newInstance() {
-        return new MapCustomizeWindowFragment();
     }
 }

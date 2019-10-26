@@ -48,7 +48,7 @@ public class CommentViewModel extends AndroidViewModel {
             public void onChanged(List<ArtifactComment> artifactComments) {
                 List<CommentWrapper> wrappers = new ArrayList<>();
                 comments.setValue(wrappers);
-                for(ArtifactComment artifactComment: artifactComments) {
+                for (ArtifactComment artifactComment : artifactComments) {
                     Log.d(TAG, "retrieved comment data about user with comment: " + artifactComment.getContent());
                     userInfoManager.listenUserInfo(artifactComment.getUid()).observeForever(new Observer<UserInfo>() {
                         @Override
@@ -56,13 +56,12 @@ public class CommentViewModel extends AndroidViewModel {
                             Log.d(TAG, "retrieved comment data about user with uid " + userInfo.getUid());
                             UserInfoWrapper senderInfo = new UserInfoWrapper(userInfo);
                             String url = senderInfo.getPhotoUrl();
-                            if(url == null) {
+                            if (url == null) {
                                 senderInfo.setPhotoUrl(null);
                                 CommentWrapper wrapper = new CommentWrapper(artifactComment, senderInfo);
                                 wrappers.add(wrapper);
                                 comments.postValue(wrappers);
-                            }
-                            else {
+                            } else {
                                 fSHelper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
@@ -102,11 +101,10 @@ public class CommentViewModel extends AndroidViewModel {
             @Override
             public void onChanged(UserInfo userInfo) {
                 UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
-                if(wrapper.getPhotoUrl() == null) {
+                if (wrapper.getPhotoUrl() == null) {
                     wrapper.setPhotoUrl(null);
                     me.postValue(wrapper);
-                }
-                else {
+                } else {
                     fSHelper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(Uri uri) {

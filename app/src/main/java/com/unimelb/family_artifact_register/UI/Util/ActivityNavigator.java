@@ -12,8 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ActivityNavigator {
     /**
      * e.g.: navigateFromTo(FromActivity.this, ToActivity.class);
+     *
      * @param from The current activity
-     * @param to The next activity to directed to
+     * @param to   The next activity to directed to
      */
     public static void navigateFromTo(AppCompatActivity from, Class<?> to) {
         Intent activityChangeIntent = new Intent(from, to);
@@ -22,10 +23,11 @@ public class ActivityNavigator {
 
     /**
      * e.g.: navigateFromTo(FromActivity.this, ToActivity.class);
+     *
      * @param from The current activity
-     * @param to The next activity to directed to
+     * @param to   The next activity to directed to
      */
-    public static void  navigateFromToEmpty(AppCompatActivity from, Class<?> to) {
+    public static void navigateFromToEmpty(AppCompatActivity from, Class<?> to) {
         Intent activityChangeIntent = new Intent(from, to);
         // set navigation stack to empty
         activityChangeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

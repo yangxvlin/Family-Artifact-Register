@@ -11,12 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.button.MaterialButton;
+import com.tmall.ultraviewpager.UltraViewPager;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 import com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
-import com.google.android.material.button.MaterialButton;
-import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class ArtifactItemViewBinder extends ViewBinder<StickyArtifactItemItem, A
         holder.description.setText(artifactItemWrapper.getDescription());
 
         mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
+        for (String mediaUrl : artifactItemWrapper.getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri: " + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }

@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.unimelb.family_artifact_register.R;
 
-import static com.unimelb.family_artifact_register.UI.Util.ActivityNavigator.navigateFromTo;
-
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-13 21:33:40

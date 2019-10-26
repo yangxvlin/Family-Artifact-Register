@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <group
-        android:id="@+id/draw_group_1">
+    <group android:id="@+id/draw_group_1">
 
         <item
             android:id="@+id/draw_item_1"
+            android:icon="@drawable/search_icon"
             android:title="item1"
-            app:showAsAction="withText"
-            android:icon="@drawable/search_icon"/>
+            app:showAsAction="withText" />
 
         <item
             android:id="@+id/draw_item_2"
+            android:icon="@drawable/search_icon"
             android:title="item2"
-            app:showAsAction="withText"
-            android:icon="@drawable/search_icon"/>
+            app:showAsAction="withText" />
 
     </group>
 
-    <group
-        android:id="@+id/draw_group_2">
+    <group android:id="@+id/draw_group_2">
 
         <item
             android:id="@+id/draw_item_3"
+            android:icon="@drawable/search_icon"
             android:title="item3"
-            app:showAsAction="withText"
-            android:icon="@drawable/search_icon"/>
+            app:showAsAction="withText" />
 
         <item
             android:id="@+id/draw_sign_out"
+            android:icon="@drawable/ic_power"
             android:title="@string/menu_sign_out"
-            app:showAsAction="withText"
-            android:icon="@drawable/ic_power"/>
+            app:showAsAction="withText" />
 
     </group>
 

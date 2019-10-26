@@ -33,7 +33,7 @@ public class ContactRequestViewModel extends AndroidViewModel {
         Set<Request> requestList = new TreeSet<>(new Comparator<Request>() {
             @Override
             public int compare(Request request, Request t1) {
-                if(request.getTime() != null && t1.getTime() != null) {
+                if (request.getTime() != null && t1.getTime() != null) {
                     return -request.getTime().compareTo(t1.getTime());
                 }
                 return 0;
@@ -46,17 +46,16 @@ public class ContactRequestViewModel extends AndroidViewModel {
             public void onChanged(UserInfo me) {
                 List<String> invitationIDs = new ArrayList<>();
                 Map<String, String> invitations = me.getFriendInvitations();
-                for(String id: invitations.keySet()) {
+                for (String id : invitations.keySet()) {
                     userInfoManager.listenUserInfo(id).observeForever(new Observer<UserInfo>() {
                         @Override
                         public void onChanged(UserInfo newFriend) {
                             UserInfoWrapper wrapper = new UserInfoWrapper(newFriend);
-                            if(wrapper.getPhotoUrl() == null) {
+                            if (wrapper.getPhotoUrl() == null) {
                                 wrapper.setPhotoUrl(null);
                                 requestList.add(new Request(wrapper, invitations.get(id)));
                                 requests.postValue(requestList);
-                            }
-                            else {
+                            } else {
                                 helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
@@ -82,7 +81,11 @@ public class ContactRequestViewModel extends AndroidViewModel {
         userInfoManager.acceptFriendInvitation(uid);
     }
 
-    public String getCurrentUid() { return userInfoManager.getCurrentUid(); }
+    public String getCurrentUid() {
+        return userInfoManager.getCurrentUid();
+    }
 
-    public UserInfo getCurrentUser() { return userInfoManager.getCurrentUserInfo(); }
+    public UserInfo getCurrentUser() {
+        return userInfoManager.getCurrentUserInfo();
+    }
 }

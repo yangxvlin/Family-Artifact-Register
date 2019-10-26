@@ -15,12 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.unimelb.family_artifact_register.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Util.NewTimelineListener;
 import com.unimelb.family_artifact_register.UI.Util.StartUploadListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +64,10 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         // required empty constructor
     }
 
+    public static NewArtifactChooseTimelineFragment newInstance() {
+        return new NewArtifactChooseTimelineFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -93,15 +97,15 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 //        timelineTitles.add("timeline1");
 //        timelineTitles.add("timeline2");
 //        timelineTitles.add("timeline3");
-        timelines = ((NewTimelineListener)this.getActivity()).getArtifactTimelines();
+        timelines = ((NewTimelineListener) this.getActivity()).getArtifactTimelines();
         timelineTitles = timelines.stream()
-                                    .map(ArtifactTimeline::getTitle)
-                                    .collect(Collectors.toCollection(ArrayList::new));
+                .map(ArtifactTimeline::getTitle)
+                .collect(Collectors.toCollection(ArrayList::new));
 
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-            R.layout.timeline_selection_spinner_item, timelineTitles);
+                R.layout.timeline_selection_spinner_item, timelineTitles);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
@@ -122,6 +126,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 //                        .getDimension(R.dimen.timeline_selection_spinner_text_size));
                 // Toast.makeText(getContext(), timelineTitles.get(pos), Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
@@ -141,9 +146,9 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
                         .show();
             } else {
                 // pass data to activity
-                ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, newTimelineTitle);
+                ((NewTimelineListener) getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, newTimelineTitle);
                 // call NewArtifactActivity method to start upload
-                ((StartUploadListener)getActivity()).uploadNewArtifact();
+                ((StartUploadListener) getActivity()).uploadNewArtifact();
                 // finish the activity
                 getActivity().finish();
             }
@@ -154,7 +159,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
             String selectedTimelineTitle = existingTimelineSpinner.getSelectedItem().toString();
             ArtifactTimeline selected = null;
 
-            for (ArtifactTimeline t: timelines) {
+            for (ArtifactTimeline t : timelines) {
                 if (t.getTitle().equals(selectedTimelineTitle)) {
                     selected = t;
                     break;
@@ -166,11 +171,11 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
             }
 
             // pass selected timeline to activity
-            ((NewTimelineListener)getActivity()).setTimeline(EXISTING_ARTIFACT_TIMELINE, selectedTimelineTitle);
-            ((NewTimelineListener)getActivity()).setSelectedTimeline(selected);
+            ((NewTimelineListener) getActivity()).setTimeline(EXISTING_ARTIFACT_TIMELINE, selectedTimelineTitle);
+            ((NewTimelineListener) getActivity()).setSelectedTimeline(selected);
             // Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
             // call NewArtifactActivity method to start upload
-            ((StartUploadListener)getActivity()).uploadNewArtifact();
+            ((StartUploadListener) getActivity()).uploadNewArtifact();
             // finish the activity
             getActivity().finish();
         });
@@ -179,8 +184,6 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         // one method (one radio button is selected)
         disableVisibility();
     }
-
-    public static NewArtifactChooseTimelineFragment newInstance() { return new NewArtifactChooseTimelineFragment(); }
 
     public void disableVisibility() {
         newTimelineConfirmButton.setVisibility(View.GONE);
@@ -192,7 +195,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.new_artifact_new_timeline_radio_button:
                 if (checked) {
                     newTimelineConfirmButton.setVisibility(View.VISIBLE);

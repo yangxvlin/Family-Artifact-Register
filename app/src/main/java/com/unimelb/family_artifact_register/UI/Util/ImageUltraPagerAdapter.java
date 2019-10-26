@@ -20,7 +20,7 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.setIm
 
 public class ImageUltraPagerAdapter extends PagerAdapter {
     private List<Uri> images;
-//    private int imageWidth;
+    //    private int imageWidth;
 //    private int imageHeight;
     private Context context;
 

@@ -39,16 +39,16 @@ public class ContactDetailActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
-        ImageView avatar = (ImageView) findViewById(R.id.avatar);
-        TextView username = (TextView) findViewById(R.id.username);
-        TextView phoneNumber = (TextView) findViewById(R.id.phone_number);
-        TextView email = (TextView) findViewById(R.id.email);
+        ImageView avatar = findViewById(R.id.avatar);
+        TextView username = findViewById(R.id.username);
+        TextView phoneNumber = findViewById(R.id.phone_number);
+        TextView email = findViewById(R.id.email);
 
-        TextView itemNumber = (TextView) findViewById(R.id.item_number);
+        TextView itemNumber = findViewById(R.id.item_number);
         itemNumber.setSelected(true);
-        TextView timelineNumber = (TextView) findViewById(R.id.timeline_number);
+        TextView timelineNumber = findViewById(R.id.timeline_number);
         timelineNumber.setSelected(true);
-        TextView friendNumber = (TextView) findViewById(R.id.friend_number);
+        TextView friendNumber = findViewById(R.id.friend_number);
         friendNumber.setSelected(true);
 
         phoneNumber.setSelected(true);
@@ -77,7 +77,7 @@ public class ContactDetailActivity extends AppCompatActivity {
                 friendNumber.setText(intToString(newData.getFriendUids().size()));
                 friendNumber.setSelected(true);
                 String url = newData.getPhotoUrl();
-                if(url != null) {
+                if (url != null) {
                     Log.d(TAG, "URL is not null");
                     avatar.setImageURI(Uri.parse(url));
                 }
@@ -96,14 +96,12 @@ public class ContactDetailActivity extends AppCompatActivity {
 
     // conver int to string with appropriate format
     private String intToString(int n) {
-        if(n < 1000) {
+        if (n < 1000) {
             return Integer.toString(n);
-        }
-        else if(n < 10000) {
+        } else if (n < 10000) {
             String numberString = Integer.toString(n);
             return numberString.charAt(0) + "." + numberString.charAt(1) + " K";
-        }
-        else {
+        } else {
             Log.e(TAG, "input number overflow!");
             return null;
         }

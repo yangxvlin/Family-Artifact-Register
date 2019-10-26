@@ -64,8 +64,8 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<UserInfoWrapper> newData) {
                 // search result back from database
-                Log.d(TAG, "search observer invoked, result: "+ newData.size() +" comes back");
-                if(newData.size() > 0) {
+                Log.d(TAG, "search observer invoked, result: " + newData.size() + " comes back");
+                if (newData.size() > 0) {
                     try {
                         layout.removeView(textView);
                     } catch (Exception e) {
@@ -86,7 +86,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         // get the view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -104,40 +104,12 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
     public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
 
-        public class SearchResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            public TextView textView;
-            public ImageView imageView;
-            public String itemId;
-            public SearchResultViewHolder(View itemView) {
-                super(itemView);
-                itemView.setOnClickListener(this);
-                this.textView = itemView.findViewById(R.id.username);
-                this.imageView = itemView.findViewById(R.id.avatar);
-            }
-
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                if(itemId.equals(viewModel.getCurrentUser().getUid()) || viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
-                    // searching an existing friend or the current user
-                    intent = new Intent(view.getContext(), ContactDetailActivity.class);
-                }
-                else {
-                    // searching a new friend
-                    intent = new Intent(view.getContext(), NewContactDetailActivity.class);
-                }
-                intent.putExtra("selectedUid", itemId);
-                startActivity(intent);
-            }
-        }
+        private ContactSearchResultViewModel viewModel;
+        private List<UserInfoWrapper> dataSet;
 
         public SearchResultAdapter(ContactSearchResultViewModel viewModel) {
             this.viewModel = viewModel;
         }
-
-        private ContactSearchResultViewModel viewModel;
-        private List<UserInfoWrapper> dataSet;
 
         @NonNull
         @Override
@@ -148,35 +120,33 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
-            if(dataSet != null) {
+            if (dataSet != null) {
                 String s;
-                if(viewModel.getDisplayMode().equals(DISPLAY_EMAIL)) {
+                if (viewModel.getDisplayMode().equals(DISPLAY_EMAIL)) {
                     Log.d(TAG, "email, mode chosen by view model: " + viewModel.getDisplayMode());
                     s = dataSet.get(position).getEmail();
-                    if(s != null && s.length() > 0) {
+                    if (s != null && s.length() > 0) {
                         holder.textView.setText(s);
                     }
-                }
-                else if(viewModel.getDisplayMode().equals(DISPLAY_NAME)) {
+                } else if (viewModel.getDisplayMode().equals(DISPLAY_NAME)) {
                     Log.d(TAG, "displayname, mode chosen by view model: " + viewModel.getDisplayMode());
                     s = dataSet.get(position).getDisplayName();
-                    if(s != null && s.length() > 0) {
+                    if (s != null && s.length() > 0) {
                         holder.textView.setText(s);
                     }
                 }
                 holder.itemId = dataSet.get(position).getUid();
                 String url = dataSet.get(position).getPhotoUrl();
-                if(url != null) {
+                if (url != null) {
                     holder.imageView.setImageURI(Uri.parse(url));
                 }
-            }
-            else
+            } else
                 holder.textView.setText("");
         }
 
         @Override
         public int getItemCount() {
-            if(dataSet != null)
+            if (dataSet != null)
                 return dataSet.size();
             return 0;
         }
@@ -184,6 +154,34 @@ public class ContactSearchResultActivity extends AppCompatActivity {
         public void setData(List<UserInfoWrapper> newData) {
             dataSet = newData;
             notifyDataSetChanged();
+        }
+
+        public class SearchResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            public TextView textView;
+            public ImageView imageView;
+            public String itemId;
+
+            public SearchResultViewHolder(View itemView) {
+                super(itemView);
+                itemView.setOnClickListener(this);
+                this.textView = itemView.findViewById(R.id.username);
+                this.imageView = itemView.findViewById(R.id.avatar);
+            }
+
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                if (itemId.equals(viewModel.getCurrentUser().getUid()) || viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
+                    // searching an existing friend or the current user
+                    intent = new Intent(view.getContext(), ContactDetailActivity.class);
+                } else {
+                    // searching a new friend
+                    intent = new Intent(view.getContext(), NewContactDetailActivity.class);
+                }
+                intent.putExtra("selectedUid", itemId);
+                startActivity(intent);
+            }
         }
     }
 }

@@ -88,11 +88,10 @@ public class DetailViewModel extends AndroidViewModel {
             @Override
             public void onChanged(UserInfo userInfo) {
                 UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
-                if(wrapper.getPhotoUrl() == null) {
+                if (wrapper.getPhotoUrl() == null) {
                     wrapper.setPhotoUrl(null);
                     poster.postValue(wrapper);
-                }
-                else {
+                } else {
                     fSHelper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(Uri uri) {

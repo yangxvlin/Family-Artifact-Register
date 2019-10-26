@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -39,11 +38,11 @@ public class ContactSearchActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new ContactSearchViewModelFactory(getApplication())).get(ContactSearchViewModel.class);
 
         EditText searchEditText = findViewById(R.id.search_edit_text);
-        if(searchEditText.requestFocus()) {
+        if (searchEditText.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
         String storedQuery = viewModel.getQuery();
-        if(storedQuery != null)
+        if (storedQuery != null)
             searchEditText.setText(storedQuery);
 
         // listen to see if the user has finished typing

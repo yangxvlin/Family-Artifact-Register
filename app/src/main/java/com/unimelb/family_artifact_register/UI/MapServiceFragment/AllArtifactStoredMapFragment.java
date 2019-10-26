@@ -34,24 +34,27 @@ public class AllArtifactStoredMapFragment extends Fragment implements IFragment 
      * class tag
      */
     public static final String TAG = AllArtifactStoredMapFragment.class.getSimpleName();
-
+    public static final String ALL_TIMELINE = "";
     private MapCustomizeWindowFragment mdFragment = MapCustomizeWindowFragment.newInstance();
-
     private MapStoredViewModel viewModel;
-
-    private AppCompatSpinner chooseTimeline;
 
     // TODO get this from DB
 //    private List<TimelineMapWrapper> timelineMapWrapperList = new ArrayList<>();
-
+    private AppCompatSpinner chooseTimeline;
     private List<String> timelineTitles;
-
-    public static final String ALL_TIMELINE = "";
 
     /**
      * Required empty public constructor
      */
-    public AllArtifactStoredMapFragment() { }
+    public AllArtifactStoredMapFragment() {
+    }
+
+    /**
+     *
+     */
+    public static AllArtifactStoredMapFragment newInstance() {
+        return new AllArtifactStoredMapFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,7 +102,7 @@ public class AllArtifactStoredMapFragment extends Fragment implements IFragment 
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                         if (pos == 0) {
                             List<Pair<ArtifactItemWrapper, MapLocation>> allArtifactItems = new ArrayList<>();
-                            for (TimelineMapWrapper timelineMapWrapper: timelineMapWrappers) {
+                            for (TimelineMapWrapper timelineMapWrapper : timelineMapWrappers) {
                                 allArtifactItems.addAll(timelineMapWrapper.getAllPairs());
                             }
                             Log.d(getFragmentTag(), "chosen time = " + adapter.getItem(pos));
@@ -107,10 +110,11 @@ public class AllArtifactStoredMapFragment extends Fragment implements IFragment 
                             mdFragment.setDisplayArtifactItems(allArtifactItems);
                         } else {
                             Log.d(getFragmentTag(), "chosen time = " + adapter.getItem(pos));
-                            Log.d(getFragmentTag(), "allArtifactItems size = " + timelineMapWrappers.get(pos-1).getAllPairs().size());
-                            mdFragment.setDisplayArtifactItems(timelineMapWrappers.get(pos-1).getAllPairs());
+                            Log.d(getFragmentTag(), "allArtifactItems size = " + timelineMapWrappers.get(pos - 1).getAllPairs().size());
+                            mdFragment.setDisplayArtifactItems(timelineMapWrappers.get(pos - 1).getAllPairs());
                         }
                     }
+
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         // Another interface callback
@@ -118,12 +122,5 @@ public class AllArtifactStoredMapFragment extends Fragment implements IFragment 
                 });
             }
         });
-    }
-
-    /**
-     *
-     */
-    public static AllArtifactStoredMapFragment newInstance() {
-        return new AllArtifactStoredMapFragment();
     }
 }

@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.unimelb.family_artifact_register.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,6 +18,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.unimelb.family_artifact_register.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,8 +42,8 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters. The map is by default interactive.
-     * @param locations The locations to be displayed on the google map
      *
+     * @param locations The locations to be displayed on the google map
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(List<MapLocation> locations) {
@@ -53,8 +53,8 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters. The points to be displayed is by default empty
-     * @param staticMap If the map is static (limited interaction)
      *
+     * @param staticMap If the map is static (limited interaction)
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(boolean staticMap) {
@@ -64,9 +64,9 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
+     *
      * @param locations The locations to be displayed on the google map
      * @param staticMap If the map displayed should be static (limited interaction)
-     *
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(List<MapLocation> locations, boolean staticMap) {
@@ -97,19 +97,6 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "Instantiated Class " + TAG);
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this fragment to allow an
-     * interaction in this fragment to be communicated to the activity and potentially other
-     * fragments contained in that activity.
-     * <p>
-     * See the Android Training lesson <a href= "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
     @Override
@@ -204,5 +191,18 @@ public class MapSearchDisplayFragment extends MapDisplayFragment {
 
     public MapLocation getSelectedLocation() {
         return currentMapLocation;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this fragment to allow an
+     * interaction in this fragment to be communicated to the activity and potentially other
+     * fragments contained in that activity.
+     * <p>
+     * See the Android Training lesson <a href= "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

@@ -34,11 +34,11 @@ public class NewContactDetailActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
 
-        ImageView avatar = (ImageView) findViewById(R.id.avatar_new);
-        TextView username = (TextView) findViewById(R.id.username_new);
-        TextView email = (TextView) findViewById(R.id.email_new);
+        ImageView avatar = findViewById(R.id.avatar_new);
+        TextView username = findViewById(R.id.username_new);
+        TextView email = findViewById(R.id.email_new);
 
-        TextView addFriend = (TextView) findViewById(R.id.add_friend);
+        TextView addFriend = findViewById(R.id.add_friend);
 
         Intent intent = getIntent();
         String selectedUid = intent.getStringExtra("selectedUid");
@@ -50,15 +50,15 @@ public class NewContactDetailActivity extends AppCompatActivity {
             public void onChanged(UserInfoWrapper newData) {
                 Log.d(TAG, "user data come back from DB: " + newData.toString());
                 String s = newData.getDisplayName();
-                if(s != null && s.length() > 0) {
+                if (s != null && s.length() > 0) {
                     username.setText(s);
                 }
                 s = newData.getEmail();
-                if(s != null && s.length() > 0) {
+                if (s != null && s.length() > 0) {
                     email.setText(s);
                 }
                 String url = newData.getPhotoUrl();
-                if(url != null) {
+                if (url != null) {
                     Log.d(TAG, "URL is " + url);
                     avatar.setImageURI(Uri.parse(url));
                 }

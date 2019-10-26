@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/recycler_view"
-        android:id="@+id/friend_request_recycler_view"/>
+    <include
+        android:id="@+id/friend_request_recycler_view"
+        layout="@layout/recycler_view" />
 
 </LinearLayout>

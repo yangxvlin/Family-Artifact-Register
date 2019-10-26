@@ -7,15 +7,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.unimelb.family_artifact_register.FoundationLayer.Util.DBConstant;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.DefaultListeners;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.UploadTask;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.DefaultListeners;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
 
 import java.util.List;
 
@@ -29,11 +29,6 @@ public class MapLocationManager {
     private static final String TAG = MapLocationManager.class.getSimpleName();
 
     private static final MapLocationManager ourInstance = new MapLocationManager();
-
-    public static MapLocationManager getInstance() {
-        return ourInstance;
-    }
-
     /**
      * The database reference used.
      */
@@ -42,6 +37,10 @@ public class MapLocationManager {
     private MapLocationManager() {
         mMapLocationCollection = FirebaseFirestore.getInstance()
                 .collection(DBConstant.MAP_LOCATION);
+    }
+
+    public static MapLocationManager getInstance() {
+        return ourInstance;
     }
 
     /**

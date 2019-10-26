@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            storeFile file('E:\\backup\\key-store\\forget-me-not-deploy-key.jks')
+//            storeFile file('E:\\backup\\key-store\\forget-me-not-deploy-key.jks')
             storePassword '123456789'
             keyAlias = 'key0'
             keyPassword '123456789'

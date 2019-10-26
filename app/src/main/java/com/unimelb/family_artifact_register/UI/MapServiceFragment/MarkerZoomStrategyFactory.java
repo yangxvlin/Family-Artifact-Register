@@ -2,6 +2,7 @@ package com.unimelb.family_artifact_register.UI.MapServiceFragment;
 
 public class MarkerZoomStrategyFactory {
     private static MarkerZoomStrategyFactory markerZoomStrategyFactory = new MarkerZoomStrategyFactory();
+
     public static MarkerZoomStrategyFactory getMarkerZoomStrategyFactory() {
         return markerZoomStrategyFactory;
     }

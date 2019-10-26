@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    >
+        android:orientation="vertical">
 
         <DatePicker
             android:id="@+id/fragment_new_artifact_happened_time_date_picker"
-            android:theme="@style/DatePicker"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        />
+            android:layout_gravity="center"
+            android:theme="@style/DatePicker" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fragment_new_artifact_happened_time_floating_button_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:src="@drawable/next_button"
             android:layout_margin="16dp"
+            android:src="@drawable/next_button"
             app:backgroundTint="@android:color/white"
-            app:tint="@color/primaryColor"
             app:rippleColor="@color/primaryColor"
-        />
+            app:tint="@color/primaryColor" />
 
     </LinearLayout>
 

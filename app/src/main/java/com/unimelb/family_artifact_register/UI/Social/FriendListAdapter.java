@@ -15,7 +15,9 @@ public class FriendListAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> dataSet;
 
-    public FriendListAdapter(ArrayList<String> dataSet) { this.dataSet = dataSet; }
+    public FriendListAdapter(ArrayList<String> dataSet) {
+        this.dataSet = dataSet;
+    }
 
     @NonNull
     @Override

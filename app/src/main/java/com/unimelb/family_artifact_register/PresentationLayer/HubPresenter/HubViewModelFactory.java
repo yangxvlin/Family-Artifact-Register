@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 public class HubViewModelFactory implements ViewModelProvider.Factory {
 
     private Application application;
+
     public HubViewModelFactory(Application application) {
         this.application = application;
     }

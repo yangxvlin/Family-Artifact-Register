@@ -1,21 +1,21 @@
 package com.unimelb.family_artifact_register.test;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
-import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
-import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
+import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
+import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +63,7 @@ public class MapTestActivity extends AppCompatActivity {
         placeIds.add("ChIJP3Sa8ziYEmsRUKgyFmh9AQM");
         placeIds.add("ChIJEVCBAZpmAGAR3vBoBTxlQdM");
 
-        for (String placeId: placeIds) {
+        for (String placeId : placeIds) {
             // Specify the fields to return.
             List<Place.Field> placeFields = Arrays.asList(Place.Field.ID,
                     Place.Field.LAT_LNG,
@@ -87,5 +87,5 @@ public class MapTestActivity extends AppCompatActivity {
                 }
             });
         }
-   }
+    }
 }

@@ -49,7 +49,7 @@ public class TimelineViewModel extends AndroidViewModel {
         artifactManager.getArtifactItemByPostId(IDs, 5000).observeForever(new Observer<List<ArtifactItem>>() {
             @Override
             public void onChanged(List<ArtifactItem> artifactItems) {
-                for(ArtifactItem item: artifactItems) {
+                for (ArtifactItem item : artifactItems) {
                     ArtifactItemWrapper wrapper = new ArtifactItemWrapper(item);
                     Log.d(TAG, "artifact item from DB: " + wrapper.toString());
                     wrappers.add(wrapper);

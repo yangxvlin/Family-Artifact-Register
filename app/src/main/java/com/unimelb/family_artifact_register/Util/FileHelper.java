@@ -10,11 +10,11 @@ public class FileHelper {
 
     private static final FileHelper ourInstance = new FileHelper();
 
-    public static FileHelper getInstance() {
-        return ourInstance;
+    private FileHelper() {
     }
 
-    private FileHelper() {
+    public static FileHelper getInstance() {
+        return ourInstance;
     }
 
     public Uri checkAddScheme(Uri uri) {
@@ -40,6 +40,7 @@ public class FileHelper {
 
     /**
      * Wrapper for make dir (hide away the check exist)
+     *
      * @param file The directory to make
      * @return if the mkdirs is successful
      */

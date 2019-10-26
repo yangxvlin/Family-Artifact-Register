@@ -39,19 +39,24 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
     public static final String TAG = MyArtifactItemsFragment.class.getSimpleName();
 
     // *********************************** recycler view *****************************************
+    RecyclerView mRecyclerView;
     /**
      * recycler view adapter
      */
     // private MyArtifactsRecyclerViewAdapter myArtifactsRecyclerViewAdapter;
 
     private StickyHeaderViewAdapter adapter;
-
-    RecyclerView mRecyclerView;
-
     private MyArtifactItemsViewModel viewModel;
 
     public MyArtifactItemsFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * @return created MyArtifactItemsFragment
+     */
+    public static MyArtifactItemsFragment newInstance() {
+        return new MyArtifactItemsFragment();
     }
 
     @Override
@@ -126,7 +131,7 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
                 String currentPrefix = artifactItemWrappers.get(0).getUploadDateTime().substring(0, 7);
                 artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
 
-                for (ArtifactItemWrapper wrapper: artifactItemWrappers) {
+                for (ArtifactItemWrapper wrapper : artifactItemWrappers) {
                     Log.d(TAG, "size = " + artifactItemList.size());
                     String wrapperPrefix = wrapper.getUploadDateTime().substring(0, 7);
                     if (wrapperPrefix.equals(currentPrefix)) {
@@ -147,9 +152,4 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
             }
         });
     }
-
-    /**
-     * @return created MyArtifactItemsFragment
-     */
-    public static MyArtifactItemsFragment newInstance() { return new MyArtifactItemsFragment(); }
 }

@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.TimelineViewModel;
@@ -29,7 +30,6 @@ import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactDetail.ArtifactDetailActivity;
 import com.unimelb.family_artifact_register.UI.Util.TimeToString;
-import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -62,7 +62,7 @@ public class TimelineActivity extends AppCompatActivity {
         Intent intent = getIntent();
         timelineID = intent.getStringExtra(TIMELINE_ID_KEY);
 
-        recyclerView = (RecyclerView) findViewById(R.id.timeline_recycler2);
+        recyclerView = findViewById(R.id.timeline_recycler2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -110,51 +110,13 @@ public class TimelineActivity extends AppCompatActivity {
 
     public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
-        public class TimelineViewHolder extends RecyclerView.ViewHolder {
-
-            public TimelineView timelineView;
-
-            public LinearLayout timelineHeader;
-            public TextView time;
-            public TextView description;
-            public FrameLayout frame;
-            public String itemId;
-
-            public TimelineViewHolder(@NonNull View itemView, int viewType) {
-                super(itemView);
-                this.timelineHeader = itemView.findViewById(R.id.header);
-                this.time = itemView.findViewById(R.id.item_time);
-                this.description = itemView.findViewById(R.id.item_description);
-                this.frame = itemView.findViewById(R.id.timeline_frame);
-                this.timelineView = itemView.findViewById(R.id.timeline2);
-                // END = 2
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineView.getLayoutParams();
-                if(viewType == 2) {
-                    params.height = 1290;
-                }
-                // ONLYONE = 3
-                else if(viewType == 3) {
-                    params.height = 2095;
-                }
-                timelineView.setLayoutParams(params);
-                timelineView.initLine(0);
-            }
-
-            public void clearFrame() {
-                frame.removeAllViews();
-            }
-        }
-
-        private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
-        private Comparator<ArtifactItemWrapper> comparator;
-//        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
-
-        private long maxInterval, minInterval;
-
         private final int maxGap = 1500;
         private final int minGap = 800;
+        private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
+//        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
+private Comparator<ArtifactItemWrapper> comparator;
+        private long maxInterval, minInterval;
         private Context context;
-
         public TimelineAdapter(Context context) {
             this.context = context;
             comparator = new Comparator<ArtifactItemWrapper>() {
@@ -188,7 +150,7 @@ public class TimelineActivity extends AppCompatActivity {
             });
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
                     holder.timelineView.getLayoutParams();
-            if(dataSet.size() > 2 && position != dataSet.size() - 1) {
+            if (dataSet.size() > 2 && position != dataSet.size() - 1) {
                 long diff = getTimeDiff(dataSet.get(position).getHappenedDateTime(),
                         dataSet.get(position + 1).getHappenedDateTime());
 //                float ratio = (maxInterval - diff) / (maxInterval - minInterval);
@@ -206,7 +168,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            if(dataSet != null) {
+            if (dataSet != null) {
                 return dataSet.size();
             }
             return 0;
@@ -226,10 +188,10 @@ public class TimelineActivity extends AppCompatActivity {
             for (int i = 0; i < dataSet.size() - 1; i++) {
                 diff = getTimeDiff(dataSet.get(i).getHappenedDateTime(),
                         dataSet.get(i + 1).getHappenedDateTime());
-                if(maxInterval < diff) {
+                if (maxInterval < diff) {
                     maxInterval = diff;
                 }
-                if(minInterval > diff) {
+                if (minInterval > diff) {
                     minInterval = diff;
                 }
             }
@@ -244,6 +206,41 @@ public class TimelineActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 return 0;
+            }
+        }
+
+        public class TimelineViewHolder extends RecyclerView.ViewHolder {
+
+            public TimelineView timelineView;
+
+            public LinearLayout timelineHeader;
+            public TextView time;
+            public TextView description;
+            public FrameLayout frame;
+            public String itemId;
+
+            public TimelineViewHolder(@NonNull View itemView, int viewType) {
+                super(itemView);
+                this.timelineHeader = itemView.findViewById(R.id.header);
+                this.time = itemView.findViewById(R.id.item_time);
+                this.description = itemView.findViewById(R.id.item_description);
+                this.frame = itemView.findViewById(R.id.timeline_frame);
+                this.timelineView = itemView.findViewById(R.id.timeline2);
+                // END = 2
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineView.getLayoutParams();
+                if (viewType == 2) {
+                    params.height = 1290;
+                }
+                // ONLYONE = 3
+                else if (viewType == 3) {
+                    params.height = 2095;
+                }
+                timelineView.setLayoutParams(params);
+                timelineView.initLine(0);
+            }
+
+            public void clearFrame() {
+                frame.removeAllViews();
             }
         }
     }

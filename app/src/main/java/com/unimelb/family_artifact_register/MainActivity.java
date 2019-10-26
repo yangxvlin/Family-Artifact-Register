@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.unimelb.family_artifact_register.UI.ArtifactHub.HubActivity;
 import com.unimelb.family_artifact_register.UI.ArtifactManager.ArtifactManageActivity;
 import com.unimelb.family_artifact_register.UI.Social.FriendActivity;
 import com.unimelb.family_artifact_register.UI.Util.BaseSignOutActionBarActivity;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,25 +23,23 @@ import static com.unimelb.family_artifact_register.UI.Util.ActivityNavigator.nav
  * @description main activity let user to choose to sign in or sign up
  */
 public class MainActivity extends BaseSignOutActionBarActivity {
-    private FirebaseAuth mFirebaseAuth;
     public static final int RC_SIGN_IN = 1;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
-
     List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.EmailBuilder().build(),
             new AuthUI.IdpConfig.PhoneBuilder().build());
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // set firebase sign in layout
-        mFirebaseAuth=FirebaseAuth.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = firebaseAuth -> {
-            FirebaseUser user=firebaseAuth.getCurrentUser();
-            if (user!=null) {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
                 Toast.makeText(MainActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 startActivityForResult(
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
@@ -86,13 +84,15 @@ public class MainActivity extends BaseSignOutActionBarActivity {
 
     /* ********************************** view controller *************************************** */
 
-    public void manageArtifact(View view){
+    public void manageArtifact(View view) {
         navigateFromTo(this, ArtifactManageActivity.class);
     }
 
-    public void artifactHub(View view){ navigateFromTo(this, HubActivity.class); }
+    public void artifactHub(View view) {
+        navigateFromTo(this, HubActivity.class);
+    }
 
-    public void social (View view){
+    public void social(View view) {
         navigateFromTo(this, FriendActivity.class);
     }
 }

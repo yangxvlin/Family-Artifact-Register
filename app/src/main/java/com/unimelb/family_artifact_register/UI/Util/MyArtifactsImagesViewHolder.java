@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
 
-public class MyArtifactsImagesViewHolder  extends RecyclerView.ViewHolder {
+public class MyArtifactsImagesViewHolder extends RecyclerView.ViewHolder {
     ImageView image;
 
     public MyArtifactsImagesViewHolder(@NonNull View itemView) {

@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactRequestViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactRequestViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.Request;
 import com.unimelb.family_artifact_register.R;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -65,7 +65,7 @@ public class ContactRequestActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         // get the view
-        recyclerView = (RecyclerView) findViewById(R.id.friend_request_recycler_view);
+        recyclerView = findViewById(R.id.friend_request_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -84,22 +84,7 @@ public class ContactRequestActivity extends AppCompatActivity {
 
     public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
 
-        public class RequestViewHolder extends RecyclerView.ViewHolder {
-
-            public ImageView avatar;
-            public TextView username;
-            public MaterialButton accept;
-            public String itemID;
-
-            public RequestViewHolder(@NonNull View itemView) {
-                super(itemView);
-                avatar = itemView.findViewById(R.id.request_avatar);
-                username = itemView.findViewById(R.id.request_username);
-                accept = itemView.findViewById(R.id.request_accept_button);
-            }
-        }
-
-//        private ContactRequestViewModel viewModel;
+        //        private ContactRequestViewModel viewModel;
         private Set<Request> requests;
         private Iterator<Request> dataSetIterator;
 
@@ -112,20 +97,19 @@ public class ContactRequestActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
-            if(requests != null) {
+            if (requests != null) {
                 Request request;
-                if(dataSetIterator.hasNext()) {
+                if (dataSetIterator.hasNext()) {
                     request = dataSetIterator.next();
                     holder.itemID = request.getUser().getUid();
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent;
-                            if(holder.itemID.equals(viewModel.getCurrentUid()) ||
+                            if (holder.itemID.equals(viewModel.getCurrentUid()) ||
                                     viewModel.getCurrentUser().getFriendUids().containsKey(holder.itemID)) {
                                 intent = new Intent(view.getContext(), ContactDetailActivity.class);
-                            }
-                            else {
+                            } else {
                                 intent = new Intent(view.getContext(), NewContactDetailActivity.class);
                             }
                             intent.putExtra("selectedUid", holder.itemID);
@@ -133,11 +117,11 @@ public class ContactRequestActivity extends AppCompatActivity {
                         }
                     });
                     String s = request.getUser().getDisplayName();
-                    if(s != null && s.length() > 0) {
+                    if (s != null && s.length() > 0) {
                         holder.username.setText(s);
                     }
                     s = request.getUser().getPhotoUrl();
-                    if(s != null) {
+                    if (s != null) {
                         Log.d(TAG, "url set to image view: " + s);
                         holder.avatar.setImageURI(Uri.parse(s));
                     }
@@ -156,7 +140,7 @@ public class ContactRequestActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            if(requests != null) {
+            if (requests != null) {
                 return requests.size();
             }
             return 0;
@@ -166,6 +150,21 @@ public class ContactRequestActivity extends AppCompatActivity {
             requests = newData;
             dataSetIterator = requests.iterator();
             notifyDataSetChanged();
+        }
+
+        public class RequestViewHolder extends RecyclerView.ViewHolder {
+
+            public ImageView avatar;
+            public TextView username;
+            public MaterialButton accept;
+            public String itemID;
+
+            public RequestViewHolder(@NonNull View itemView) {
+                super(itemView);
+                avatar = itemView.findViewById(R.id.request_avatar);
+                username = itemView.findViewById(R.id.request_username);
+                accept = itemView.findViewById(R.id.request_accept_button);
+            }
         }
     }
 }

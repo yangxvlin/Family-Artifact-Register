@@ -23,7 +23,12 @@ public class ContactSearchViewModel extends AndroidViewModel {
 
 //    public LiveData<List<User>> getUsers(List<String> username) { return repository.getUsers(username); }
 
-    public void setQuery(String query) { this.query = query; }
-    public String getQuery() { return query; }
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
 
 }

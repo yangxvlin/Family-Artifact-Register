@@ -23,6 +23,8 @@ public class PostDetailViewModel extends AndroidViewModel {
         selectedPost = manager.getArtifactItemByPostId(selectedPid);
     }
 
-    public LiveData<ArtifactItem> getPost() { return selectedPost; }
+    public LiveData<ArtifactItem> getPost() {
+        return selectedPost;
+    }
 
 }

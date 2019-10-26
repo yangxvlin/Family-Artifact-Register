@@ -43,10 +43,10 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
     @NonNull
     @Override
     public ImagesRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.item_my_artifact_image,
-                                                    parent,
-                                                    false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_my_artifact_image,
+                        parent,
+                        false);
         return new ImagesRecyclerViewHolder(view);
     }
 
@@ -92,14 +92,20 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
     }
 
     @Override
-    public int getItemCount() { return images.size(); }
+    public int getItemCount() {
+        return images.size();
+    }
 
     public void addData(Uri image) {
         this.images.add(image);
         notifyDataSetChanged();
     }
 
-    public int getImageWidth() { return imageWidth; }
+    public int getImageWidth() {
+        return imageWidth;
+    }
 
-    public int getImageHeight() { return imageHeight; }
+    public int getImageHeight() {
+        return imageHeight;
+    }
 }

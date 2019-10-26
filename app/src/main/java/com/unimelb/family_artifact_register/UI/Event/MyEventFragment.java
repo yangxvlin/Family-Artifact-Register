@@ -32,6 +32,13 @@ public class MyEventFragment extends Fragment implements IFragment, EventListene
         // Required empty public constructor
     }
 
+    /**
+     * @return created me fragment
+     */
+    public static MyEventFragment newInstance() {
+        return new MyEventFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -52,11 +59,6 @@ public class MyEventFragment extends Fragment implements IFragment, EventListene
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(eventAdapter);
     }
-
-    /**
-     * @return created me fragment
-     */
-    public static MyEventFragment newInstance() { return new MyEventFragment(); }
 
     @Override
     public void notifyEventsChange() {

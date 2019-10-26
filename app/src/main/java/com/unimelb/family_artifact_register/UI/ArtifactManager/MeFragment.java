@@ -11,11 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.unimelb.family_artifact_register.IFragment;
-import com.unimelb.family_artifact_register.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.R;
 
 /**
  * @author XuLin Yang 904904,
@@ -31,6 +31,13 @@ public class MeFragment extends Fragment implements IFragment {
 
     public MeFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * @return created me fragment
+     */
+    public static MeFragment newInstance() {
+        return new MeFragment();
     }
 
     @Override
@@ -56,15 +63,10 @@ public class MeFragment extends Fragment implements IFragment {
                 // .add(getString(R.string.me_my_title), MyEventFragment.class)
                 .create());
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_me_view_pager);
+        ViewPager viewPager = view.findViewById(R.id.fragment_me_view_pager);
         viewPager.setAdapter(adapter);
 
-        SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.fragment_me_view_pager_tab);
+        SmartTabLayout viewPagerTab = view.findViewById(R.id.fragment_me_view_pager_tab);
         viewPagerTab.setViewPager(viewPager);
     }
-
-    /**
-     * @return created me fragment
-     */
-    public static MeFragment newInstance() { return new MeFragment(); }
 }

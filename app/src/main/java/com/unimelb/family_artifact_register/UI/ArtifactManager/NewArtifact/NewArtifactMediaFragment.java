@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.CurrentLocationFragment;
@@ -23,7 +24,6 @@ import com.unimelb.family_artifact_register.UI.Util.DescriptionListener;
 import com.unimelb.family_artifact_register.UI.Util.MediaListener;
 import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.unimelb.family_artifact_register.UI.Util.UploadLocationListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import pl.aprilapps.easyphotopicker.ChooserType;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -39,15 +39,16 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
      * class tag
      */
     public static final String TAG = NewArtifactMediaFragment.class.getSimpleName();
-
-    private EasyImage easyImage;
-
-    private CurrentLocationFragment uploadLocationFragment;
-
     EditText description;
+    private EasyImage easyImage;
+    private CurrentLocationFragment uploadLocationFragment;
 
     public NewArtifactMediaFragment() {
         // required empty constructor
+    }
+
+    public static NewArtifactMediaFragment newInstance() {
+        return new NewArtifactMediaFragment();
     }
 
     @Override
@@ -103,10 +104,8 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
 
         // set description if any
         description = view.findViewById(R.id.fragment_new_artifact_media_description_input);
-        description.setText(((DescriptionListener)getActivity()).getDescription(), TextView.BufferType.EDITABLE);
+        description.setText(((DescriptionListener) getActivity()).getDescription(), TextView.BufferType.EDITABLE);
     }
-
-    public static NewArtifactMediaFragment newInstance() { return new NewArtifactMediaFragment(); }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -119,13 +118,13 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                 if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE || source == MediaSource.GALLERY) {
                     // call back to parent activity
                     for (MediaFile imageFile : mediaFiles) {
-                        Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
+                        Log.d(TAG + "/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
                         Uri image = Uri.fromFile(imageFile.getFile());
-                        ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
+                        ((MediaListener) getActivity()).addData(image, TYPE_IMAGE);
                     }
-                    ((MediaListener)getActivity()).setMediaType(TYPE_IMAGE);
-                    ((UploadLocationListener)getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
-                    ((DescriptionListener)getActivity()).setDescription(description.getText().toString());
+                    ((MediaListener) getActivity()).setMediaType(TYPE_IMAGE);
+                    ((UploadLocationListener) getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
+                    ((DescriptionListener) getActivity()).setDescription(description.getText().toString());
                     // next images fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
@@ -134,13 +133,13 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
                 } else if (source == MediaSource.CAMERA_VIDEO) {
                     // call back to parent activity
                     for (MediaFile videoFile : mediaFiles) {
-                        Log.d(TAG+"/EasyImage", "Video file returned: " + videoFile.getFile().toURI().toString());
+                        Log.d(TAG + "/EasyImage", "Video file returned: " + videoFile.getFile().toURI().toString());
                         Uri image = Uri.fromFile(videoFile.getFile());
-                        ((MediaListener)getActivity()).addData(image, TYPE_VIDEO);
+                        ((MediaListener) getActivity()).addData(image, TYPE_VIDEO);
                     }
-                    ((MediaListener)getActivity()).setMediaType(TYPE_VIDEO);
-                    ((UploadLocationListener)getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
-                    ((DescriptionListener)getActivity()).setDescription(description.getText().toString());
+                    ((MediaListener) getActivity()).setMediaType(TYPE_VIDEO);
+                    ((UploadLocationListener) getActivity()).setUploadLocation(uploadLocationFragment.getLocation());
+                    ((DescriptionListener) getActivity()).setDescription(description.getText().toString());
                     // next fragment
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.addToBackStack("next");
@@ -166,6 +165,6 @@ public class NewArtifactMediaFragment extends Fragment implements IFragment, OnB
     // ************************************ implement interface ***********************************
     @Override
     public void onBackPressed() {
-        ((MediaListener)getActivity()).clearData();
+        ((MediaListener) getActivity()).clearData();
     }
 }

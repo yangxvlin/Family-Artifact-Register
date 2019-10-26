@@ -15,7 +15,7 @@ import com.unimelb.family_artifact_register.R;
 
 import java.util.List;
 
-public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
     private static final String TAG = CommentAdapter.class.getSimpleName();
 
@@ -30,7 +30,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
         return new CommentViewHolder(view);
     }
 
@@ -50,7 +50,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentViewHolder> {
 
     @Override
     public int getItemCount() {
-        if(artifactComments != null) {
+        if (artifactComments != null) {
             return artifactComments.size();
         }
         return 0;

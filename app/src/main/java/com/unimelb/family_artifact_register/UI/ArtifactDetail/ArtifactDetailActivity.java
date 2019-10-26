@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
@@ -33,7 +34,6 @@ import com.unimelb.family_artifact_register.UI.ArtifactComment.ArtifactCommentAc
 import com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapDisplayFragment;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.MarkerHelper;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,31 +51,18 @@ import static com.unimelb.family_artifact_register.Util.ScreenUnitHelper.convert
 public class ArtifactDetailActivity extends AppCompatActivity {
 
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
-
-    private RecyclerView recyclerView;
-
-    private DetailImageAdapter detailImageAdapter;
-
-    private DetailViewModel viewModel;
-
-    private MarkerHelper mHelper;
-
-    private ArtifactItem artifactItem;
-
-    private String PostID;
-
-    private TextView desc, user, time; //, storeLocation;
-
-    private ImageView avatar;
-
-    public MaterialButton timeline;//, viewComment;
-
-    private FrameLayout postImage;
-
-    private FragmentManager fm = getSupportFragmentManager();
-
     public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
-
+    public MaterialButton timeline;//, viewComment;
+    private RecyclerView recyclerView;
+    private DetailImageAdapter detailImageAdapter;
+    private DetailViewModel viewModel;
+    private MarkerHelper mHelper;
+    private ArtifactItem artifactItem;
+    private String PostID;
+    private TextView desc, user, time; //, storeLocation;
+    private ImageView avatar;
+    private FrameLayout postImage;
+    private FragmentManager fm = getSupportFragmentManager();
     private MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(Collections.emptyList());
 
     private MapDisplayFragment storedMap = MapDisplayFragment.newInstance(Collections.emptyList());
@@ -136,7 +123,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                     public void onChanged(UserInfoWrapper userInfoWrapper) {
                         String url = userInfoWrapper.getPhotoUrl();
                         user.setText(userInfoWrapper.getDisplayName());
-                        if(url != null) {
+                        if (url != null) {
                             avatar.setImageURI(Uri.parse(url));
                         }
                     }
@@ -173,11 +160,11 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                         if (likeButton.getTag() == "liked") {
                             likeButton.setImageResource(R.drawable.ic_like);
                             likeButton.setTag("unlike");
-                            likesNumber.setText(String.valueOf(likes_before-1));
+                            likesNumber.setText(String.valueOf(likes_before - 1));
                         } else {
                             likeButton.setImageResource(R.drawable.ic_liked);
                             likeButton.setTag("liked");
-                            likesNumber.setText(String.valueOf(likes_before+1));
+                            likesNumber.setText(String.valueOf(likes_before + 1));
                         }
                         viewModel.getLikeChange(likeButton.getTag().toString(), artifactItemWrapper.getPostId());
                     }
@@ -191,7 +178,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 if (UserInfoManager.getInstance().getCurrentUid().equals(artifactItemWrapperMapLocationPair.getFst().getUid())) {
                     RelativeLayout.LayoutParams frameParam = new RelativeLayout.LayoutParams(
                             FrameLayout.LayoutParams.MATCH_PARENT,
-                            (int)convertDpToPixel(200, getApplicationContext()));
+                            (int) convertDpToPixel(200, getApplicationContext()));
                     frameParam.addRule(RelativeLayout.BELOW, R.id.activity_artifact_detail_stored_location_map_title);
                     storedLocationMap.setLayoutParams(frameParam);
                     storedLocationMap.setVisibility(View.VISIBLE);
@@ -213,7 +200,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
                 happenedMap.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
 
                 List<Uri> mediaList = new ArrayList<>();
-                for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
+                for (String mediaUrl : artifactItemWrapper.getLocalMediaDataUrls()) {
                     Log.d(TAG, "media uri" + mediaUrl);
                     mediaList.add(Uri.parse(mediaUrl));
                 }

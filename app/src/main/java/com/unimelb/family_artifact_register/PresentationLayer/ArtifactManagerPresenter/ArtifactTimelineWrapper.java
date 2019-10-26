@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ArtifactTimelineWrapper {
 
-//    private ArtifactTimeline artifactTimeline;
+    //    private ArtifactTimeline artifactTimeline;
     private String postID;
     private String title;
     private String uploadDateTime;
@@ -32,7 +32,9 @@ public class ArtifactTimelineWrapper {
         };
     }
 
-    public List<ArtifactItemWrapper> getArtifacts() { return artifacts; }
+    public List<ArtifactItemWrapper> getArtifacts() {
+        return artifacts;
+    }
 
     public String getPostID() {
         return postID;

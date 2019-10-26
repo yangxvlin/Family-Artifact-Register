@@ -34,10 +34,9 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
         super(application);
 
         // set the display mode for list item
-        if(query.indexOf('@') >= 0) {
+        if (query.indexOf('@') >= 0) {
             displayMode = "email";
-        }
-        else {
+        } else {
             displayMode = "displayname";
         }
         Log.d(TAG, "query entered: " + query);
@@ -47,15 +46,14 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
             @Override
             public void onChanged(List<UserInfo> userInfos) {
                 ArrayList<UserInfoWrapper> resultList = new ArrayList<>();
-                for(UserInfo i: userInfos) {
+                for (UserInfo i : userInfos) {
                     UserInfoWrapper wrapper = new UserInfoWrapper(i);
                     String url = wrapper.getPhotoUrl();
-                    if(url == null) {
+                    if (url == null) {
                         wrapper.setPhotoUrl(null);
                         resultList.add(wrapper);
                         result.postValue(resultList);
-                    }
-                    else {
+                    } else {
                         helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                             @Override
                             public void onChanged(Uri uri) {
@@ -76,9 +74,13 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
 //        });
     }
 
-    public LiveData<List<UserInfoWrapper>> getUsers() { return result; }
+    public LiveData<List<UserInfoWrapper>> getUsers() {
+        return result;
+    }
 
-    public UserInfo getCurrentUser() { return currentUser; }
+    public UserInfo getCurrentUser() {
+        return currentUser;
+    }
 
     public String getDisplayMode() {
         return displayMode;

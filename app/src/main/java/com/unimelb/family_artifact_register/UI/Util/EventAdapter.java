@@ -10,14 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.FoundationLayer.EventModel.Event;
-import com.unimelb.family_artifact_register.FoundationLayer.EventModel.EventListener;
-import com.unimelb.family_artifact_register.R;
 import com.flyco.animation.BounceEnter.BounceTopEnter;
 import com.flyco.animation.SlideExit.SlideBottomExit;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.google.android.material.button.MaterialButton;
+import com.unimelb.family_artifact_register.FoundationLayer.EventModel.Event;
+import com.unimelb.family_artifact_register.FoundationLayer.EventModel.EventListener;
+import com.unimelb.family_artifact_register.R;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
         return new ViewHolder(view);
     }
 

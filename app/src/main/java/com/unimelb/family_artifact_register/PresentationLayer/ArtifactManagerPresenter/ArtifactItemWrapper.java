@@ -37,7 +37,9 @@ public class ArtifactItemWrapper {
         return localMediaList;
     }
 
-    public void setLocalMediaDataUrls(List<String> userDeviceMediaUris) { this.localMediaList = userDeviceMediaUris; }
+    public void setLocalMediaDataUrls(List<String> userDeviceMediaUris) {
+        this.localMediaList = userDeviceMediaUris;
+    }
 
     public String getDescription() {
         return this.artifactItem.getDescription();
@@ -51,7 +53,9 @@ public class ArtifactItemWrapper {
         return this.artifactItem.getHappenedDateTime();
     }
 
-    public Map<String, Boolean> getLikes() {return this.artifactItem.getlikes();}
+    public Map<String, Boolean> getLikes() {
+        return this.artifactItem.getlikes();
+    }
 
     public String getLastUpdateDateTime() {
         return this.artifactItem.getLastUpdateDateTime();

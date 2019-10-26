@@ -2,6 +2,7 @@ package com.unimelb.family_artifact_register.UI.Util;
 
 import android.content.Context;
 import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 

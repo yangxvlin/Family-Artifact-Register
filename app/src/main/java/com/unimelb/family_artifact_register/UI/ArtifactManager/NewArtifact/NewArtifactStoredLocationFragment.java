@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.MapServiceFragment.MapSearchDisplayFragment;
 import com.unimelb.family_artifact_register.UI.Util.StoredLocationListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import es.dmoral.toasty.Toasty;
 
@@ -30,6 +30,10 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
 
     public NewArtifactStoredLocationFragment() {
         // required empty constructor
+    }
+
+    public static NewArtifactStoredLocationFragment newInstance() {
+        return new NewArtifactStoredLocationFragment();
     }
 
     @Override
@@ -55,7 +59,7 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
             MapLocation selectedLocation = mapSearchDisplayFragment.getSelectedLocation();
             if (selectedLocation != null) {
                 // store location in NewArtifactActivity
-                ((StoredLocationListener)getActivity()).setStoredLocation(selectedLocation);
+                ((StoredLocationListener) getActivity()).setStoredLocation(selectedLocation);
 
                 // to next fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -68,6 +72,4 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
             }
         });
     }
-
-    public static NewArtifactStoredLocationFragment newInstance() { return new NewArtifactStoredLocationFragment(); }
 }

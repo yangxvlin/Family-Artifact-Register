@@ -32,10 +32,10 @@ public class MediaProcessHelper {
     public static final int TYPE_VIDEO = 2;
     private static final String TAG = MediaProcessHelper.class.getSimpleName();
 
-    public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) {
+    public static Uri compressUriImage(Context context, Uri image, boolean deleteSource) {
 //        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         // store in app cache directory
-        File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/") ;
+        File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/");
         return Uri.parse(SiliCompressor.with(context).compress(image.getPath(), storageDir, deleteSource));
     }
 
@@ -61,9 +61,9 @@ public class MediaProcessHelper {
         return resizedBitmap;
     }
 
-    public static Uri compreUriVideo(Context context,Uri video) throws URISyntaxException {
+    public static Uri compreUriVideo(Context context, Uri video) throws URISyntaxException {
         String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
-                                        .getPath();
+                .getPath();
         return Uri.parse(SiliCompressor.with(context).compressVideo(video.getPath(), storageDir));
     }
 
@@ -116,7 +116,7 @@ public class MediaProcessHelper {
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File videoFile = null;
         try {
-            videoFile = File.createTempFile("Compressed_"+videoFileName, ".mp4", storageDir);
+            videoFile = File.createTempFile("Compressed_" + videoFileName, ".mp4", storageDir);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,16 +126,16 @@ public class MediaProcessHelper {
 
     private static int calculateInSampleSize(BitmapFactory.Options options) {
         int height = options.outHeight;
-        int width= options.outWidth;
+        int width = options.outWidth;
         // default pixel percentage ，change to original's 1/2
         int inSampleSize = 2;
         // original's min length
         int minLen = Math.min(height, width);
         // if original's min length > 100dp Note: unit should be dp not px
-        if(minLen > 100) {
+        if (minLen > 100) {
             // calculate ratio to be compressed
-            float ratio = (float)minLen / 100.0f;
-            inSampleSize = (int)ratio;
+            float ratio = (float) minLen / 100.0f;
+            inSampleSize = (int) ratio;
         }
 
         return inSampleSize;
@@ -163,7 +163,7 @@ public class MediaProcessHelper {
      * @return
      * @throws FileNotFoundException
      */
-    public static BitmapFactory.Options getCompressImageOption(Context context,Uri imageUri) throws FileNotFoundException {
+    public static BitmapFactory.Options getCompressImageOption(Context context, Uri imageUri) throws FileNotFoundException {
         InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
 
         BitmapFactory.Options options = new BitmapFactory.Options();

@@ -10,10 +10,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
-import com.unimelb.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -23,6 +19,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
+import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
+import com.unimelb.family_artifact_register.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,13 +65,14 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     /**
      * Required empty public constructor
      */
-    public MapDisplayFragment() { }
+    public MapDisplayFragment() {
+    }
 
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters. The map is by default interactive.
-     * @param locations The locations to be displayed on the google map
      *
+     * @param locations The locations to be displayed on the google map
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(List<MapLocation> locations) {
@@ -83,8 +84,8 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters. The points to be displayed is by default empty
-     * @param staticMap If the map is static (limited interaction)
      *
+     * @param staticMap If the map is static (limited interaction)
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(boolean staticMap) {
@@ -94,9 +95,9 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     /**
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
+     *
      * @param locations The locations to be displayed on the google map
      * @param staticMap If the map displayed should be static (limited interaction)
-     *
      * @return A new instance of fragment MapDisplayFragment.
      */
     public static MapDisplayFragment newInstance(List<MapLocation> locations, boolean staticMap) {
@@ -141,7 +142,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     }
 
     @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         // TODO Make it possbile to use lite map view, google map
@@ -155,7 +156,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
     @Deprecated
     public void setDisplayLocations(List<MapLocation> locations) {
         this.locations = locations;
-        for (MapLocation mapLocation :locations) {
+        for (MapLocation mapLocation : locations) {
             Log.i(TAG, mapLocation.toString());
         }
         displayLocations();
@@ -193,7 +194,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
 
     public void displayArtifactItemsPairs(List<Pair<ArtifactItemWrapper, MapLocation>> artifactItems) {
         if (artifactItems != null) {
-            for (Pair<ArtifactItemWrapper, MapLocation> pair: artifactItems) {
+            for (Pair<ArtifactItemWrapper, MapLocation> pair : artifactItems) {
                 setDisplayArtifactItems(pair);
             }
         }
@@ -314,6 +315,7 @@ public class MapDisplayFragment extends BasePlacesFragment implements OnMapReady
 
         /**
          * not used
+         *
          * @param marker
          * @return
          */

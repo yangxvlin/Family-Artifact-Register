@@ -5,10 +5,10 @@ import android.content.Context;
 
 import androidx.fragment.app.Fragment;
 
-import com.unimelb.family_artifact_register.IFragment;
-import com.unimelb.family_artifact_register.R;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.unimelb.family_artifact_register.IFragment;
+import com.unimelb.family_artifact_register.R;
 
 abstract class BasePlacesFragment extends Fragment implements IFragment {
     // Add tag for logging
@@ -23,7 +23,7 @@ abstract class BasePlacesFragment extends Fragment implements IFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof Activity){
+        if (context instanceof Activity) {
             // To do: Might use in the future
             // this.listener = (FragmentActivity) context;
 

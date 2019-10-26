@@ -12,27 +12,29 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.unimelb.family_artifact_register.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+    LinearLayoutManager layoutManager;
+    DividerItemDecoration divider;
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private List<Post> postList;
-    LinearLayoutManager layoutManager;
-    DividerItemDecoration divider;
-
     private List<String> friendList;
 
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
 
     @Nullable
     @Override
@@ -69,10 +71,10 @@ public class HomeFragment extends Fragment {
         recyclerView.addItemDecoration(divider);
     }
 
-    private void checkFriend(){
+    private void checkFriend() {
         friendList = new ArrayList<>();
 
-        DatabaseReference reference = FirebaseDatabase .getInstance().getReference("friends")
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("friends")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("friends");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -99,7 +101,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 postList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Post post = snapshot.getValue(Post.class);
                     for (String id : friendList) {
                         if (post.getPublisher().equals(id)) {
@@ -116,7 +118,5 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-    public static HomeFragment newInstance() { return new HomeFragment(); }
 
 }

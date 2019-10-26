@@ -41,7 +41,7 @@ public class FriendActivity extends BaseActionBarActivity {
         ArrayList<String> dataSet = new ArrayList<>();
 
         // fake data for testing use only
-        String[] friends = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
+        String[] friends = new String[]{"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
         Collections.addAll(dataSet, friends);
 
         // retrieve user's friend data from DB
@@ -76,7 +76,7 @@ public class FriendActivity extends BaseActionBarActivity {
 
     private void setupRecyclerView(ArrayList<String> dataSet) {
         // get the view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -92,15 +92,42 @@ public class FriendActivity extends BaseActionBarActivity {
         recyclerView.addItemDecoration(divider);
     }
 
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_friend;
+    }
+
     // probably become a separate class in the future
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+        private final int[] avatars = new int[]{R.drawable.my_logo};
         private ArrayList<String> dataSet;
-        private final int[] avatars = new int[] {R.drawable.my_logo};
+
+        public MyAdapter(ArrayList<String> dataSet) {
+            this.dataSet = dataSet;
+        }
+
+        @NonNull
+        @Override
+        public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
+            return new MyAdapter.MyViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
+            holder.textView.setText(dataSet.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataSet.size();
+        }
 
         // probably become a separate class in the future
         public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             public TextView textView;
             public ImageView imageView;
+
             public MyViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
@@ -119,31 +146,5 @@ public class FriendActivity extends BaseActionBarActivity {
                 startActivity(i);
             }
         }
-
-        public MyAdapter(ArrayList<String> dataSet) {
-            this.dataSet = dataSet;
-        }
-
-        @NonNull
-        @Override
-        public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
-            return new MyAdapter.MyViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
-            holder.textView.setText(dataSet.get(position));
-        }
-
-        @Override
-        public int getItemCount () {
-            return dataSet.size();
-        }
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_friend;
     }
 }

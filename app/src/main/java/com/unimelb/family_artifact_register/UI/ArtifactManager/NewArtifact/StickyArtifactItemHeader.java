@@ -9,12 +9,12 @@ public class StickyArtifactItemHeader extends DataBean {
 
     private String prefix;
 
-    public String getPrefix() {
-        return prefix;
-    }
-
     public StickyArtifactItemHeader(String prefix) {
         this.prefix = prefix;
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 
     @Override

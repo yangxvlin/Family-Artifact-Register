@@ -50,7 +50,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     @NonNull
     @Override
     public MyArtifactsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact, parent, false);
         return new MyArtifactsRecyclerViewHolder(view);
     }
 
@@ -62,7 +62,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         holder.description.setText(artifactItemWrapper.getDescription());
 
         mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
+        for (String mediaUrl : artifactItemWrapper.getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri: " + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }
@@ -94,7 +94,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
 //            holder.frame.addView(imagesViewPager);
 
 //            holder.frame.setLayoutParams(layoutParam);
-        // video view
+            // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             ImageView iv = getVideoThumbnail(mediaList.get(0), context);
 

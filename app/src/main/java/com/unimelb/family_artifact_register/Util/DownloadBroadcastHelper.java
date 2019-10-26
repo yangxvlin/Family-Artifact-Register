@@ -21,17 +21,8 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
     private static final String TAG = DownloadBroadcastHelper.class.getSimpleName();
 
     private static DownloadBroadcastHelper ourInstance = null;
-
-    public static DownloadBroadcastHelper getInstance() {
-        if (ourInstance == null) {
-            ourInstance = new DownloadBroadcastHelper();
-        }
-        return ourInstance;
-    }
-
     List<DownloadCallback> callbackList;
     DownloadManager downloadManager;
-
     private DownloadBroadcastHelper() {
         callbackList = new ArrayList<>();
         downloadManager = (DownloadManager) MyApplication
@@ -42,6 +33,13 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
                 new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
+    public static DownloadBroadcastHelper getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new DownloadBroadcastHelper();
+        }
+        return ourInstance;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -50,7 +48,7 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "Download id: " + id);
             // Invoke all callbacks
-            for (DownloadCallback downloadCallback: callbackList) {
+            for (DownloadCallback downloadCallback : callbackList) {
                 downloadCallback.callback(id);
             }
         }

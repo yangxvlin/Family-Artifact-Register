@@ -1,6 +1,7 @@
 package com.unimelb.family_artifact_register.UI.ArtifactHub;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,9 +34,10 @@ public class HubActivity extends AppCompatActivity {
 
     /**
      * Get a list of models of card view
+     *
      * @return a list of models
      */
-    private ArrayList<Model> getMyList(){
+    private ArrayList<Model> getMyList() {
         ArrayList<Model> models = new ArrayList<Model>();
         Model m = new Model();
         m.setUsername("Dudu");

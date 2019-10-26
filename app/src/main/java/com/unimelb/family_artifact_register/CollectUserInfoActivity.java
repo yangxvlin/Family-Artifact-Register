@@ -10,11 +10,11 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -144,10 +144,12 @@ public class CollectUserInfoActivity extends AppCompatActivity {
         userNameInput.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start,

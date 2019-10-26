@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.unimelb.family_artifact_register.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPresenter.ArtifactTimelineWrapper;
@@ -27,14 +28,12 @@ import com.unimelb.family_artifact_register.PresentationLayer.ArtifactManagerPre
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.ArtifactTimeline.TimelineActivity;
 
-import com.google.android.material.card.MaterialCardView;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Set;
 
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
@@ -54,6 +53,13 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
     public MyArtifactTimelinesFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * @return created MyArtifactTimelinesFragment
+     */
+    public static MyArtifactTimelinesFragment newInstance() {
+        return new MyArtifactTimelinesFragment();
     }
 
     @Override
@@ -82,42 +88,12 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
         });
     }
 
-    /**
-     * @return created MyArtifactTimelinesFragment
-     */
-    public static MyArtifactTimelinesFragment newInstance() { return new MyArtifactTimelinesFragment(); }
-
     public class MyTimelineAdapter extends RecyclerView.Adapter<MyTimelineAdapter.MyTimelineViewHolder> {
 
-        public class MyTimelineViewHolder extends RecyclerView.ViewHolder {
-
-            public MaterialCardView cardView;
-            public TextView title;
-            public TextView uploadtime;
-            public TextView duration;
-            public ImageView image1;
-            public ImageView image2;
-            public ImageView image3;
-            public String itemID;
-
-            public MyTimelineViewHolder(@NonNull View itemView) {
-                super(itemView);
-                cardView = itemView.findViewById(R.id.cardview);
-                title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
-                uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
-                duration = itemView.findViewById(R.id.my_timeline_recyclerview_item_duration);
-                image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
-                image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
-                image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
-            }
-        }
-
         private Context context;
-
         private Set<ArtifactTimelineWrapper> dataSet;
         private Comparator<ArtifactTimelineWrapper> comparator;
         private Iterator<ArtifactTimelineWrapper> dataSetIterator;
-
         public MyTimelineAdapter(Context context) {
             this.context = context;
             comparator = new Comparator<ArtifactTimelineWrapper>() {
@@ -154,8 +130,8 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 //                }
 //            };
 //            timer.scheduleAtFixedRate(task, 1, 200);
-            if(dataSet != null) {
-                if(dataSetIterator.hasNext()) {
+            if (dataSet != null) {
+                if (dataSetIterator.hasNext()) {
                     ArtifactTimelineWrapper currentItem = dataSetIterator.next();
                     // number of images that has been set
                     int imagesCount = 0;
@@ -165,9 +141,9 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                     holder.uploadtime.setText(currentItem.getUploadDateTime());
                     List<ArtifactItemWrapper> items = currentItem.getArtifacts();
                     String timelineDuration = null;
-                    if(items.size() == 1) {
+                    if (items.size() == 1) {
                         timelineDuration = currentItem.getUploadDateTime().substring(0, 7);
-                    } else if(items.size() > 1) {
+                    } else if (items.size() > 1) {
                         items.sort(currentItem.getWrapperComparator());
                         String oldestTime = items.get(0).getHappenedDateTime().substring(0, 7);
                         String newestTime = items.get(items.size() - 1).getHappenedDateTime().substring(0, 7);
@@ -182,34 +158,31 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
                             holder.duration.setSelected(true);
                         }
                     }, 500, 1000);
-                    for(ArtifactItemWrapper item: currentItem.getArtifacts()) {
+                    for (ArtifactItemWrapper item : currentItem.getArtifacts()) {
                         // all views have been set
-                        if(imagesCount == 3) {
+                        if (imagesCount == 3) {
                             break;
                         }
-                        for(String url: item.getLocalMediaDataUrls()) {
+                        for (String url : item.getLocalMediaDataUrls()) {
                             // all views have been set
-                            if(imagesCount == 3) {
+                            if (imagesCount == 3) {
                                 break;
                             }
-                            if(url != null) {
-                                if(imagesCount == 0) {
+                            if (url != null) {
+                                if (imagesCount == 0) {
                                     setImage(holder.image1, Uri.parse(url), item.getMediaType());
                                     imagesCount++;
-                                }
-                                else if(imagesCount == 1) {
+                                } else if (imagesCount == 1) {
                                     setImage(holder.image2, Uri.parse(url), item.getMediaType());
                                     imagesCount++;
-                                }
-                                else if(imagesCount == 2) {
+                                } else if (imagesCount == 2) {
                                     setImage(holder.image3, Uri.parse(url), item.getMediaType());
                                     imagesCount++;
                                 }
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     Log.e(TAG, "error iterating data", new Throwable());
                 }
 
@@ -228,7 +201,7 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
 
         @Override
         public int getItemCount() {
-            if(dataSet != null) {
+            if (dataSet != null) {
                 return dataSet.size();
             }
             return 0;
@@ -238,6 +211,29 @@ public class MyArtifactTimelinesFragment extends Fragment implements IFragment {
             dataSet = newData;
             dataSetIterator = dataSet.iterator();
             notifyDataSetChanged();
+        }
+
+        public class MyTimelineViewHolder extends RecyclerView.ViewHolder {
+
+            public MaterialCardView cardView;
+            public TextView title;
+            public TextView uploadtime;
+            public TextView duration;
+            public ImageView image1;
+            public ImageView image2;
+            public ImageView image3;
+            public String itemID;
+
+            public MyTimelineViewHolder(@NonNull View itemView) {
+                super(itemView);
+                cardView = itemView.findViewById(R.id.cardview);
+                title = itemView.findViewById(R.id.my_timeline_recyclerview_item_title);
+                uploadtime = itemView.findViewById(R.id.my_timeline_recyclerview_item_uploadTime);
+                duration = itemView.findViewById(R.id.my_timeline_recyclerview_item_duration);
+                image1 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image1);
+                image2 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image2);
+                image3 = itemView.findViewById(R.id.my_timeline_recyclerview_item_image3);
+            }
         }
     }
 }

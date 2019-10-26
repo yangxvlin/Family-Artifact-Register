@@ -21,20 +21,8 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVi
 public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdapter.TimelineImageViewHolder> {
 
     public static final String TAG = TimelineImageAdapter.class.getSimpleName();
-
-    public class TimelineImageViewHolder extends RecyclerView.ViewHolder {
-
-        public ImageView image;
-
-        public TimelineImageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.image = itemView.findViewById(R.id.timeline_item_image);
-        }
-    }
-
     private List<String> dataSet;
     private int mediaType;
-
     public TimelineImageAdapter(ArtifactItemWrapper wrapper) {
         Log.d(TAG, "new recyclerview adapter");
         this.dataSet = wrapper.getLocalMediaDataUrls();
@@ -44,7 +32,7 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
     @NonNull
     @Override
     public TimelineImageAdapter.TimelineImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG,"creating each item view");
+        Log.d(TAG, "creating each item view");
         View view = View.inflate(parent.getContext(), R.layout.timeline_item_image, null);
         return new TimelineImageAdapter.TimelineImageViewHolder(view);
     }
@@ -66,5 +54,15 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
     @Override
     public int getItemCount() {
         return dataSet.size();
+    }
+
+    public class TimelineImageViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView image;
+
+        public TimelineImageViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.image = itemView.findViewById(R.id.timeline_item_image);
+        }
     }
 }

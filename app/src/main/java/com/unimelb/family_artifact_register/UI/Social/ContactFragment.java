@@ -19,12 +19,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,6 +47,10 @@ public class ContactFragment extends Fragment implements IFragment {
         // Required empty public constructor
     }
 
+    public static ContactFragment newInstance() {
+        return new ContactFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -59,7 +63,7 @@ public class ContactFragment extends Fragment implements IFragment {
 
         setupRecyclerView(view);
 
-        ImageView userProfile = (ImageView) view.findViewById(R.id.user_profile);
+        ImageView userProfile = view.findViewById(R.id.user_profile);
         userProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +73,7 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
-        TextView requests = (TextView) view.findViewById(R.id.friend_request);
+        TextView requests = view.findViewById(R.id.friend_request);
         requests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,10 +92,9 @@ public class ContactFragment extends Fragment implements IFragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if(dy > 0) {
+                if (dy > 0) {
                     fab.hide();
-                }
-                else if(dy < 0) {
+                } else if (dy < 0) {
                     fab.show();
                 }
             }
@@ -101,7 +104,7 @@ public class ContactFragment extends Fragment implements IFragment {
             @Override
             public void onChanged(UserInfoWrapper wrapper) {
                 String url = wrapper.getPhotoUrl();
-                if(url != null) {
+                if (url != null) {
                     userProfile.setImageURI(Uri.parse(url));
                 }
             }
@@ -119,11 +122,9 @@ public class ContactFragment extends Fragment implements IFragment {
         return view;
     }
 
-    public static ContactFragment newInstance() { return new ContactFragment(); }
-
     private void setupRecyclerView(View view) {
         // get the view
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -140,39 +141,19 @@ public class ContactFragment extends Fragment implements IFragment {
     }
 
     @Override
-    public String getFragmentTag() { return TAG; }
+    public String getFragmentTag() {
+        return TAG;
+    }
 
     public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListViewHolder> {
-
-        public class FriendListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            public TextView textView;
-            public ImageView imageView;
-            public String itemId;
-            public FriendListViewHolder(View itemView) {
-                super(itemView);
-                itemView.setOnClickListener(this);
-                this.textView = itemView.findViewById(R.id.username);
-                this.imageView = itemView.findViewById(R.id.avatar);
-            }
-
-            @Override
-            public void onClick(View view) {
-                String selectedUserName= textView.getText().toString();
-                Intent i = new Intent(view.getContext(), ContactDetailActivity.class);
-//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
-                i.putExtra("selectedUid", itemId);
-                startActivity(i);
-            }
-        }
-
-        public FriendListAdapter(ContactViewModel viewModel) {
-            this.viewModel = viewModel;
-        }
 
         private ContactViewModel viewModel;
         private Set<UserInfoWrapper> dataSet;
         private Iterator<UserInfoWrapper> dataSetIterator;
+
+        public FriendListAdapter(ContactViewModel viewModel) {
+            this.viewModel = viewModel;
+        }
 
         @NonNull
         @Override
@@ -184,18 +165,18 @@ public class ContactFragment extends Fragment implements IFragment {
         @Override
         public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewHolder holder, int position) {
             // data is ready to be displayed
-            if(dataSet != null) {
+            if (dataSet != null) {
                 UserInfoWrapper currentItem = null;
-                if(dataSetIterator.hasNext()) {
+                if (dataSetIterator.hasNext()) {
                     currentItem = dataSetIterator.next();
                     holder.textView.setText(currentItem.getDisplayName());
                     holder.itemId = currentItem.getUid();
                     String url = currentItem.getPhotoUrl();
-                    if(url != null) {
+                    if (url != null) {
                         holder.imageView.setImageURI(Uri.parse(url));
                     }
                 } else {
-                    Log.e(TAG ,"error iterating data", new Throwable());
+                    Log.e(TAG, "error iterating data", new Throwable());
                 }
             }
             // data is not ready yet
@@ -206,7 +187,7 @@ public class ContactFragment extends Fragment implements IFragment {
 
         @Override
         public int getItemCount() {
-            if(dataSet != null)
+            if (dataSet != null)
                 return dataSet.size();
             // initially, dataSet is null
             return 0;
@@ -226,6 +207,29 @@ public class ContactFragment extends Fragment implements IFragment {
 //            diffResult.dispatchUpdatesTo(this);
         }
 
+        public class FriendListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            public TextView textView;
+            public ImageView imageView;
+            public String itemId;
+
+            public FriendListViewHolder(View itemView) {
+                super(itemView);
+                itemView.setOnClickListener(this);
+                this.textView = itemView.findViewById(R.id.username);
+                this.imageView = itemView.findViewById(R.id.avatar);
+            }
+
+            @Override
+            public void onClick(View view) {
+                String selectedUserName = textView.getText().toString();
+                Intent i = new Intent(view.getContext(), ContactDetailActivity.class);
+//                i.putExtra("selectedUid", viewModel.getUidByName(selectedUserName));
+                i.putExtra("selectedUid", itemId);
+                startActivity(i);
+            }
+        }
+
         // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview
         class StringDiffCallBack extends DiffUtil.Callback {
 
@@ -233,8 +237,8 @@ public class ContactFragment extends Fragment implements IFragment {
             private ArrayList<String> oldList;
 
             public StringDiffCallBack(ArrayList<String> oldList, ArrayList<String> newList) {
-                this.oldList= oldList;
-                this.newList= newList;
+                this.oldList = oldList;
+                this.newList = newList;
             }
 
             @Override

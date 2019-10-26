@@ -9,7 +9,7 @@ import com.unimelb.family_artifact_register.R;
 
 public class DetailImageViewHolder extends RecyclerView.ViewHolder {
 
-//    TextView  mDescTv, mUserTv, mPublisher;
+    //    TextView  mDescTv, mUserTv, mPublisher;
 //    ImageView mAvatarIv;
     public FrameLayout postImage;
 

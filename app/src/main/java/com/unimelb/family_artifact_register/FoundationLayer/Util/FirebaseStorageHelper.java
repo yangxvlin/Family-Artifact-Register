@@ -8,8 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.unimelb.family_artifact_register.Util.CacheDirectoryHelper;
-import com.unimelb.family_artifact_register.Util.FileHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -20,11 +18,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.unimelb.family_artifact_register.Util.CacheDirectoryHelper;
+import com.unimelb.family_artifact_register.Util.FileHelper;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * Manager helps store and get file from firebase storage.
+ */
 public class FirebaseStorageHelper {
     private static final String TAG = FirebaseStorageHelper.class.getSimpleName();
 
@@ -39,7 +42,6 @@ public class FirebaseStorageHelper {
     private FirebaseStorageHelper() {
         if (mCacheDirectoryHelper.getCacheDirectory() == null) {
             Log.w(TAG, "Failed to find Cache directory from cache helper! (null)");
-            // TODO ... check null
         }
     }
 
@@ -47,6 +49,12 @@ public class FirebaseStorageHelper {
         return ourInstance;
     }
 
+    /**
+     * Check and add scheme to filee
+     *
+     * @param uri uri
+     * @return uri with scheme
+     */
     private static Uri checkAddUriScheme(Uri uri) {
         if (uri.getScheme() == null) {
             uri = uri.buildUpon().scheme("file").build();
@@ -54,6 +62,12 @@ public class FirebaseStorageHelper {
         return uri;
     }
 
+    /**
+     * Convert local uri to remote path
+     *
+     * @param localUri uri to convert
+     * @return string version of remote path
+     */
     private String extractLocalUri(Uri localUri) {
         Path localFilePath = new File(localUri.getPath()).toPath();
         Path localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
@@ -65,11 +79,20 @@ public class FirebaseStorageHelper {
         return remotePath.toString();
     }
 
+    /**
+     * If True, already in cache, that means this is stored in database already
+     */
     private boolean uriStored(Uri uri) {
         // If True, already in cache, that means this is stored in database already
         return remoteLocalBiMap.containsKey(uri.toString()) || remoteLocalBiMap.inverse().containsKey(uri);
     }
 
+    /**
+     * revert local uri from remote path
+     *
+     * @param remoteUrl url to revert
+     * @return local uri path
+     */
     private Uri parseRemoteUrl(String remoteUrl) {
         Path remoteFilePath = new File(remoteUrl).toPath();
         Path localStoragePath = mCacheDirectoryHelper.getCacheDirectory().toPath();
@@ -77,6 +100,12 @@ public class FirebaseStorageHelper {
         return Uri.parse(remotePath.toString());
     }
 
+    /**
+     * Upload a file by the uri
+     *
+     * @param uri local uri
+     * @return task object to monitor upload
+     */
     public Task<UploadTask.TaskSnapshot> uploadByUri(Uri uri) {
         if (uriStored(uri)) {
             Log.d(TAG, "Found in BiMap");
