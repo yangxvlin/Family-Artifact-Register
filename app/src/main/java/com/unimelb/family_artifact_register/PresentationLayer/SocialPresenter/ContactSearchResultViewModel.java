@@ -17,6 +17,10 @@ import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapp
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this class is responsible for communicating with DB (retrieving data or posting updates)
+ * and prepares data for {@link com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchResultActivity} to display
+ */
 public class ContactSearchResultViewModel extends AndroidViewModel {
     /**
      * class tag
@@ -26,11 +30,20 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
     private UserInfoManager manager = UserInfoManager.getInstance();
     private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
+    // search result to be displayed
     private MutableLiveData<List<UserInfoWrapper>> result = new MutableLiveData<>();
+
+    // the current user
     private UserInfo currentUser;
 
+    // the display mode used for action bar
     private String displayMode;
 
+    /**
+     * public constructor for instantiating a new {@link ContactSearchResultViewModel}
+     * @param application the application
+     * @param query the search query
+     */
     public ContactSearchResultViewModel(Application application, String query) {
         super(application);
 
@@ -70,17 +83,24 @@ public class ContactSearchResultViewModel extends AndroidViewModel {
             }
         });
         currentUser = manager.getCurrentUserInfo();
-//        result.observeForever(userInfos -> {
-//            for (UserInfo userInfo: userInfos) {
-//                Log.i(TAG, userInfo.toString());
-//            }
-//        });
     }
 
+    /**
+     * get the search result as a list of users
+     * @return a list of users representing the search result
+     */
     public LiveData<List<UserInfoWrapper>> getUsers() { return result; }
 
+    /**
+     * get the current user
+     * @return the current user
+     */
     public UserInfo getCurrentUser() { return currentUser; }
 
+    /**
+     * get the display mode
+     * @return the display mode to be used
+     */
     public String getDisplayMode() {
         return displayMode;
     }

@@ -21,13 +21,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * this class is responsible for communicating with DB (retrieving data or posting updates)
+ * and prepares data for {@link com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity} to display
+ */
 public class ContactRequestViewModel extends AndroidViewModel {
 
     private UserInfoManager userInfoManager = UserInfoManager.getInstance();
     private FirebaseStorageHelper helper = FirebaseStorageHelper.getInstance();
 
+    // requests to be displayed
     private MutableLiveData<Set<Request>> requests = new MutableLiveData<>();
 
+    /**
+     * public constructor for instantiating a new {@link ContactRequestViewModel}
+     * @param application the application
+     */
     public ContactRequestViewModel(@NonNull Application application) {
         super(application);
 
@@ -75,15 +84,31 @@ public class ContactRequestViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * get a list of requests to be displayed
+     * @return a list of requests to be displayed
+     */
     public LiveData<Set<Request>> getRequests() {
         return requests;
     }
 
+    /**
+     * accept an invitation
+     * @param uid the uid of the user whose invitaiton is being accepted
+     */
     public void accept(String uid) {
         userInfoManager.acceptFriendInvitation(uid);
     }
 
+    /**
+     * get the uid of current user
+     * @return the uid of current user
+     */
     public String getCurrentUid() { return userInfoManager.getCurrentUid(); }
 
+    /**
+     * get the current user
+     * @return the current user
+     */
     public UserInfo getCurrentUser() { return userInfoManager.getCurrentUserInfo(); }
 }
