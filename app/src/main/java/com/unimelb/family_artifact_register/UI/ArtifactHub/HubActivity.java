@@ -12,7 +12,8 @@ import java.util.ArrayList;
 /**
  * @author Haichao Song 854035,
  * @time 2019-9-18 12:15:48
- * @description activity for artifact hub.
+ * @description activity for artifact hub. Test class for manually typed input.
+ * Deprecated now because already get data from backend.
  */
 @Deprecated
 public class HubActivity extends AppCompatActivity {
