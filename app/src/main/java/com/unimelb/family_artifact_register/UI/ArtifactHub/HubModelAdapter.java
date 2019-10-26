@@ -43,8 +43,6 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
     private static final String TAG = HubModelAdapter.class.getSimpleName();
     private List<ArtifactPostWrapper> artifactItemWrapperList;
 
-//    private FragmentManager fm;
-
     private Context context;
 
     private List<Uri> mediaList;
@@ -55,7 +53,6 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         this.artifactItemWrapperList = new ArrayList<>();
         this.context = context;
         this.viewModel = hubViewModel;
-//        this.fm = fm;
     }
 
     @NonNull
@@ -74,9 +71,13 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         holder.description.setText(artifactItemWrapper.getArtifactItemWrapper().getDescription());
         holder.username.setText(artifactItemWrapper.getUserInfoWrapper().getDisplayName());
         String url = artifactItemWrapper.getUserInfoWrapper().getPhotoUrl();
+
+        // set poster avatar in post item
         if (url != null) {
             holder.avatar.setImageURI(Uri.parse(url));
         }
+
+        // set like image in post item
         holder.likes.setText(Integer.toString(artifactItemWrapper.getArtifactItemWrapper().getLikes().size()));
         Log.d(TAG, "likes: " + artifactItemWrapper.getArtifactItemWrapper().getLikes());
         if ((artifactItemWrapper.getArtifactItemWrapper().getLikes().size() != 0) &&
@@ -94,7 +95,9 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             mediaList.add(Uri.parse(mediaUrl));
         }
 
+        // render images or video in post frame layout
         holder.clearFrame();
+
         // set frame layout param
         LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -127,6 +130,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             Log.e(TAG, "unknown media type !!!");
         }
 
+        // go to detail page when user click detail button
         holder.viewDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +141,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             }
         });
 
+        // go to timeline page when user click timeline page
         holder.timeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,6 +152,8 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             }
         });
 
+        // change like image and set local likes number when user click like image
+        // send likes map change to backend
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,6 +172,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
             }
         });
 
+        // go to comment page when user press comment button
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,6 +193,10 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         return artifactItemWrapperList.size();
     }
 
+    /**
+     * sort and replace post item list with new data
+     * @param newData new changed list of post items
+     */
     public void setData(List<ArtifactPostWrapper> newData) {
         artifactItemWrapperList.clear();
 
