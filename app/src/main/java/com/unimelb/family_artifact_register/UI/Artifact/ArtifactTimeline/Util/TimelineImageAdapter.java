@@ -57,7 +57,7 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
 
     /**
      * public constructor for instantiating a new {@link TimelineImageAdapter}
-     * @param wrapper
+     * @param wrapper the artifact item wrapper used as data source
      */
     public TimelineImageAdapter(ArtifactItemWrapper wrapper) {
         Log.d(TAG, "new recyclerview adapter");
