@@ -10,6 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unimelb.family_artifact_register.R;
 import com.google.android.material.button.MaterialButton;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-18 14:08:21
+ * @description View holder to pair variables with item in xml
+ */
 public class HubModelViewHolder extends RecyclerView.ViewHolder {
 
             public TextView username, time, description, likes;
