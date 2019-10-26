@@ -18,23 +18,47 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TY
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.getVideoThumbNail;
 
+/**
+ * This is the Adapter class for the recyclerView in {@link TimelineRecyclerViewHelper}
+ */
 public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdapter.TimelineImageViewHolder> {
 
+    /**
+     * classs tag
+     */
     public static final String TAG = TimelineImageAdapter.class.getSimpleName();
 
+    /**
+     * This is the Adapter class for the recyclerView in {@link TimelineRecyclerViewHelper}
+     */
     public class TimelineImageViewHolder extends RecyclerView.ViewHolder {
 
+        /**
+         * the {@link ImageView} in the item
+         */
         public ImageView image;
 
+
+        /**
+         * public constructor for instantiating a new {@link TimelineImageViewHolder}
+         * @param itemView the inflated view for the item
+         */
         public TimelineImageViewHolder(@NonNull View itemView) {
             super(itemView);
             this.image = itemView.findViewById(R.id.timeline_item_image);
         }
     }
 
+    // data to be used
     private List<String> dataSet;
+
+    // type of media to be displayed
     private int mediaType;
 
+    /**
+     * public constructor for instantiating a new {@link TimelineImageAdapter}
+     * @param wrapper
+     */
     public TimelineImageAdapter(ArtifactItemWrapper wrapper) {
         Log.d(TAG, "new recyclerview adapter");
         this.dataSet = wrapper.getLocalMediaDataUrls();
