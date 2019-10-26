@@ -31,212 +31,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//public class HubFragment extends Fragment implements IFragment {
-//
-//    /**
-//     * class tag
-//     */
-//    public static final String TAG = HubFragment.class.getSimpleName();
-//
-//    private RecyclerView mRecyclerView;
-//    private LinearLayoutManager layoutManager;
-//    private HubModelAdapter adapter;
-//    private DividerItemDecoration divider;
-//
-//    private HubViewModel hubViewModel;
-//
-//    public HubFragment() {
-//        // Required empty public constructor
-//    }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View view = inflater.inflate(R.layout.fragment_hub, container, false);
-//
-//        hubViewModel = ViewModelProviders.of(this, new HubViewModelFactory(getActivity().getApplication())).get(HubViewModel.class);
-//
-//        setupRecyclerView(view);
-//
-//        FloatingActionButton fab = view.findViewById(R.id.hub_fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(view.getContext(), PostActivity.class));
-//            }
-//        });
-//
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                if(dy > 0) {
-//                    fab.hide();
-//                }
-//                else if(dy < 0) {
-//                    fab.show();
-//                }
-//            }
-//        });
-//
-//        Observer<List<ArtifactItem>> postObserver = new Observer<List<ArtifactItem>>() {
-//            @Override
-//            public void onChanged(List<ArtifactItem> artifactItems) {
-//                adapter.setData(artifactItems);
-//            }
-//        };
-//
-//        hubViewModel.getPosts().observe(this, postObserver);
-//
-//        return view;
-//    }
-//
-//    public static HubFragment newInstance() { return new HubFragment(); }
-//
-//    private void setupRecyclerView(View view) {
-//        // get the view
-//        mRecyclerView = view.findViewById(R.id.recycler_view);
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        // set layout manager for the view
-//        layoutManager = new LinearLayoutManager(view.getContext());
-//        mRecyclerView.setLayoutManager(layoutManager);
-//
-//        // set the adapter for the view
-//        adapter = new HubModelAdapter(hubViewModel);
-//        mRecyclerView.setAdapter(adapter);
-//
-//        // set the divider between list item
-//        divider = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
-//        mRecyclerView.addItemDecoration(divider);
-//    }
-//
-//    @Override
-//    public String getFragmentTag() { return TAG; }
-//
-//    public class HubModelAdapter extends RecyclerView.Adapter<HubModelAdapter.HubModelViewHolder> {
-//
-//        public class HubModelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//
-//            public TextView username, publisher, description;
-//            public ImageView avatar;
-//
-//            public FrameLayout postImage;
-//
-//            public String itemId;
-//
-//            public HubModelViewHolder(View itemView) {
-//                super(itemView);
-//                itemView.setOnClickListener(this);
-//                this.username = itemView.findViewById(R.id.username);
-//                this.publisher = itemView.findViewById(R.id.publisher);
-//                this.description = itemView.findViewById(R.id.description);
-//                this.avatar = itemView.findViewById(R.id.avatar);
-//                this.postImage = itemView.findViewById(R.id.post_image);
-//            }
-//
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(view.getContext(), ArtifactDetailActivity.class);
-//                i.putExtra("selectedPid", itemId);
-//                startActivity(i);
-//            }
-//        }
-//
-//        public HubModelAdapter(HubViewModel viewModel) {
-//            this.viewModel = viewModel;
-//        }
-//
-//        private HubViewModel viewModel;
-//        private List<ArtifactItem> dataSet;
-//        private Iterator<ArtifactItem> dataSetIterator;
-//
-//        @NonNull
-//        @Override
-//        public HubModelAdapter.HubModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
-//
-//            return new HubModelViewHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(@NonNull HubModelAdapter.HubModelViewHolder holder, int position) {
-//            // data is ready to be displayed
-//            if(dataSet != null) {
-//                ArtifactItem currentItem = null;
-//                if(dataSetIterator.hasNext()) {
-//                    currentItem = dataSetIterator.next();
-//                    holder.username.setText(dataSet.get(position).getUid());
-//                    holder.publisher.setText(dataSet.get(position).getUid());
-//                    holder.description.setText(dataSet.get(position).getDescription());
-//                    holder.itemId = dataSet.get(position).getPostId();
-//                } else {
-//                    Log.e(TAG ,"error iterating data", new Throwable());
-//                }
-//            }
-//            // data is not ready yet
-//            else {
-//                // TODO what to display when data is not ready
-//                holder.username.setText("Loading data");
-//            }
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            if(dataSet != null)
-//                return dataSet.size();
-//            // initially, dataSet is null
-//            return 0;
-//        }
-//
-//        public void setData(List<ArtifactItem> newData) {
-//            // solution from codelab
-//            dataSet = newData;
-//            dataSetIterator = dataSet.iterator();
-//            notifyDataSetChanged();
-//
-////            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
-////            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
-////
-////            dataSet.clear();
-////            dataSet.addAll(newData);
-////            diffResult.dispatchUpdatesTo(this);
-//        }
-//
-//        // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview
-//        class StringDiffCallBack extends DiffUtil.Callback {
-//
-//            private ArrayList<String> newList;
-//            private ArrayList<String> oldList;
-//
-//            public StringDiffCallBack(ArrayList<String> oldList, ArrayList<String> newList) {
-//                this.oldList= oldList;
-//                this.newList= newList;
-//            }
-//
-//            @Override
-//            public int getOldListSize() {
-//                return oldList.size();
-//            }
-//
-//            @Override
-//            public int getNewListSize() {
-//                return newList.size();
-//            }
-//
-//            @Override
-//            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-//                return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
-//            }
-//        }
-//    }
-//}
-
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-18 22:42:34
+ * @description fragment to display a recycler view of artifact post item with floating buttons
+ */
 public class HubFragment extends Fragment implements HubFragmentPresenter.IView, IFragment {
     /**
      * class tag
@@ -320,6 +119,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
+        // get post information from view model
         viewModel.getPosts().observe(this, new Observer<List<ArtifactPostWrapper>>() {
             @Override
             public void onChanged(List<ArtifactPostWrapper> artifactPostWrappers) {
@@ -327,6 +127,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
+        // get friend information from view model
         viewModel.getFriends().observe(this, new Observer<List<UserInfoWrapper>>() {
             @Override
             public void onChanged(List<UserInfoWrapper> userInfoWrappers) {
@@ -334,6 +135,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
             }
         });
 
+        // auto refresh when user come to hub page
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
