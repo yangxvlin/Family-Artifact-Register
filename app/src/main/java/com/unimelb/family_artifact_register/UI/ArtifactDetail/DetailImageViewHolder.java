@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
 
+@Deprecated
 public class DetailImageViewHolder extends RecyclerView.ViewHolder {
 
 //    TextView  mDescTv, mUserTv, mPublisher;
