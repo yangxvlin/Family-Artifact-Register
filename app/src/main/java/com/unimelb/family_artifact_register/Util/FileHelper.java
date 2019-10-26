@@ -6,8 +6,7 @@ import android.util.Log;
 import java.io.File;
 
 /**
- * pure fabricate logic of manipulating files in android
- * singleton to provide global access
+ * pure fabricate logic of manipulating files in android singleton to provide global access
  */
 public class FileHelper {
     /**
@@ -21,16 +20,16 @@ public class FileHelper {
     private static final FileHelper ourInstance = new FileHelper();
 
     /**
+     * empty class constructor
+     */
+    private FileHelper() {
+    }
+
+    /**
      * @return singleton instance
      */
     public static FileHelper getInstance() {
         return ourInstance;
-    }
-
-    /**
-     * empty class constructor
-     */
-    private FileHelper() {
     }
 
     /**
@@ -68,6 +67,7 @@ public class FileHelper {
 
     /**
      * Wrapper for make dir (hide away the check exist)
+     *
      * @param file The directory to make
      * @return if the mkdirs is successful
      */

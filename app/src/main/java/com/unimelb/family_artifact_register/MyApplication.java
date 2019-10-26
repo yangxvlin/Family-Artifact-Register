@@ -32,6 +32,7 @@ public class MyApplication extends Application {
 
     /**
      * provide a global access to context
+     *
      * @return context
      */
     public static Context getContext() {

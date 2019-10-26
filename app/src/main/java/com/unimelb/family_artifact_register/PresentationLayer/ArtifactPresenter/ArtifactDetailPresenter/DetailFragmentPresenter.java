@@ -6,8 +6,8 @@ import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 /**
  * @author Haichao Song 854035,
  * @time 2019-10-01 23:14:43
- * @description present detail fragment for detail fragment class
- * Deprecate because change detail fragment to activity.
+ * @description present detail fragment for detail fragment class Deprecate because change detail
+ * fragment to activity.
  */
 @Deprecated
 public class DetailFragmentPresenter {

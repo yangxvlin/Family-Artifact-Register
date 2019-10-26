@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.SearchLocationMap.MapSearchDisplayFragment;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.StoredLocationListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import es.dmoral.toasty.Toasty;
 
@@ -38,6 +38,10 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
      * required empty constructor
      */
     public NewArtifactStoredLocationFragment() {
+    }
+
+    public static NewArtifactStoredLocationFragment newInstance() {
+        return new NewArtifactStoredLocationFragment();
     }
 
     @Override
@@ -63,7 +67,7 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
             MapLocation selectedLocation = mapSearchDisplayFragment.getSelectedLocation();
             if (selectedLocation != null) {
                 // store location in NewArtifactActivity
-                ((StoredLocationListener)getActivity()).setStoredLocation(selectedLocation);
+                ((StoredLocationListener) getActivity()).setStoredLocation(selectedLocation);
 
                 // to next fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -76,6 +80,4 @@ public class NewArtifactStoredLocationFragment extends Fragment implements IFrag
             }
         });
     }
-
-    public static NewArtifactStoredLocationFragment newInstance() { return new NewArtifactStoredLocationFragment(); }
 }

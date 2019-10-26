@@ -22,12 +22,12 @@ import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.Activit
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.HappenedLocationListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.HappenedTimeListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.MediaListener;
-import com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.NewTimelineListener;
-import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.StartUploadListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.StoredLocationListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.UploadLocationListener;
+import com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper;
+import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
 
 import java.util.ArrayList;
 import java.util.List;

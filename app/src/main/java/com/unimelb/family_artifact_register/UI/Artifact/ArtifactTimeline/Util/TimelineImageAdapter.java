@@ -27,36 +27,14 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
      * classs tag
      */
     public static final String TAG = TimelineImageAdapter.class.getSimpleName();
-
-    /**
-     * This is the ViewHolder class for the recyclerView in {@link TimelineRecyclerViewHelper}
-     */
-    public class TimelineImageViewHolder extends RecyclerView.ViewHolder {
-
-        /**
-         * the {@link ImageView} in the item
-         */
-        public ImageView image;
-
-
-        /**
-         * public constructor for instantiating a new {@link TimelineImageViewHolder}
-         * @param itemView the inflated view for the item
-         */
-        public TimelineImageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.image = itemView.findViewById(R.id.timeline_item_image);
-        }
-    }
-
     // data to be used
     private List<String> dataSet;
-
     // type of media to be displayed
     private int mediaType;
 
     /**
      * public constructor for instantiating a new {@link TimelineImageAdapter}
+     *
      * @param wrapper the artifact item wrapper used as data source
      */
     public TimelineImageAdapter(ArtifactItemWrapper wrapper) {
@@ -68,7 +46,7 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
     @NonNull
     @Override
     public TimelineImageAdapter.TimelineImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG,"creating each item view");
+        Log.d(TAG, "creating each item view");
         View view = View.inflate(parent.getContext(), R.layout.timeline_item_image, null);
         return new TimelineImageAdapter.TimelineImageViewHolder(view);
     }
@@ -90,5 +68,27 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
     @Override
     public int getItemCount() {
         return dataSet.size();
+    }
+
+    /**
+     * This is the ViewHolder class for the recyclerView in {@link TimelineRecyclerViewHelper}
+     */
+    public class TimelineImageViewHolder extends RecyclerView.ViewHolder {
+
+        /**
+         * the {@link ImageView} in the item
+         */
+        public ImageView image;
+
+
+        /**
+         * public constructor for instantiating a new {@link TimelineImageViewHolder}
+         *
+         * @param itemView the inflated view for the item
+         */
+        public TimelineImageViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.image = itemView.findViewById(R.id.timeline_item_image);
+        }
     }
 }

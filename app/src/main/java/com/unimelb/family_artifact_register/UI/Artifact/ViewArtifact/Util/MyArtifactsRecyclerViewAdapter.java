@@ -28,8 +28,7 @@ import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.setIm
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 15:57:25
- * @description recycler view for artifact item
- * Deprecated because no longer use ViewMediaFragment
+ * @description recycler view for artifact item Deprecated because no longer use ViewMediaFragment
  * Not deleted because open-close principle
  */
 @Deprecated
@@ -51,7 +50,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
     @NonNull
     @Override
     public MyArtifactsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact, parent, false);
         return new MyArtifactsRecyclerViewHolder(view);
     }
 
@@ -63,7 +62,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
         holder.description.setText(artifactItemWrapper.getDescription());
 
         mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
+        for (String mediaUrl : artifactItemWrapper.getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri: " + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
         }
@@ -75,7 +74,7 @@ public class MyArtifactsRecyclerViewAdapter extends RecyclerView.Adapter<MyArtif
             setImagesViewPager(mediaList, context, holder.ultraViewPager, true);
             holder.frame.setVisibility(View.GONE);
             holder.ultraViewPager.setVisibility(View.VISIBLE);
-        // video view
+            // video view
         } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
             ImageView iv = getVideoThumbnail(mediaList.get(0), context);
 

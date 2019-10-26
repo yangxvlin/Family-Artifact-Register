@@ -10,7 +10,6 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactManager;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfo;
@@ -19,6 +18,7 @@ import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorage
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactPostWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -68,7 +68,7 @@ public class HubViewModel extends AndroidViewModel {
                 Log.d(TAG, "size of friend list: " + friendList.size());
 
                 // for every friends id, get their user information
-                for(LiveData<UserInfo> friend: friendList) {
+                for (LiveData<UserInfo> friend : friendList) {
                     friends.removeSource(friend);
                     friends.addSource(friend, new Observer<UserInfo>() {
                         @Override
@@ -81,13 +81,12 @@ public class HubViewModel extends AndroidViewModel {
                             String url = userWrapper.getPhotoUrl();
 
                             // get friends avatar in order to show in post item
-                            if(url == null) {
+                            if (url == null) {
                                 userWrapper.setPhotoUrl(null);
                                 friends.getValue().add(userWrapper);
                                 friends.setValue(friends.getValue());
                                 getFriendArtifactItem(userWrapper, postWrappers);
-                            }
-                            else {
+                            } else {
                                 fSHelper.loadByRemoteUri(url).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
@@ -107,6 +106,7 @@ public class HubViewModel extends AndroidViewModel {
 
     /**
      * get all friends artifact item information and store all of them in an array
+     *
      * @param userInfo the friends user information
      * @param wrappers the artifact information post by friends
      */
@@ -116,40 +116,39 @@ public class HubViewModel extends AndroidViewModel {
         // now processing this user's artifact info
         artifactManager.listenArtifactItemByUid(userInfo.getUid(), "HubViewModel1")
                 .observeForever(new Observer<List<ArtifactItem>>() {
-            @Override
-            public void onChanged(List<ArtifactItem> artifactItems) {
-                Log.d(TAG, "retrieved artifact item data about user with uid: " +
-                        userInfo.getUid());
-                latestArtifactWrapperList.setValue(wrappers);
-                for(ArtifactItem artifactItem: artifactItems) {
-                    ArtifactPostWrapper wrapper = new ArtifactPostWrapper(
-                            new ArtifactItemWrapper(artifactItem), userInfo);
-                    Log.d(TAG, wrapper.getArtifactItemWrapper().getDescription() +
-                            "get likes size: " + wrapper.getArtifactItemWrapper()
-                            .getLikes().size());
-                    List<String> urls = artifactItem.getMediaDataUrls();
-                    if(urls.size() > 0) {
-                        fSHelper.loadByRemoteUri(urls).observeForever(new Observer<List<Uri>>() {
-                            @Override
-                            public void onChanged(List<Uri> uris) {
-                                wrapper.getArtifactItemWrapper().setLocalMediaDataUrls(
-                                        uris.stream()
-                                                .map(Objects::toString)
-                                                .collect(Collectors.toList()));
-                                if(wrappers.contains(wrapper)) {
-                                    wrappers.remove(wrapper);
-                                    wrappers.add(wrapper);
-                                }
-                                else  {
-                                    wrappers.add(wrapper);
-                                }
-                                latestArtifactWrapperList.setValue(wrappers);
+                    @Override
+                    public void onChanged(List<ArtifactItem> artifactItems) {
+                        Log.d(TAG, "retrieved artifact item data about user with uid: " +
+                                userInfo.getUid());
+                        latestArtifactWrapperList.setValue(wrappers);
+                        for (ArtifactItem artifactItem : artifactItems) {
+                            ArtifactPostWrapper wrapper = new ArtifactPostWrapper(
+                                    new ArtifactItemWrapper(artifactItem), userInfo);
+                            Log.d(TAG, wrapper.getArtifactItemWrapper().getDescription() +
+                                    "get likes size: " + wrapper.getArtifactItemWrapper()
+                                    .getLikes().size());
+                            List<String> urls = artifactItem.getMediaDataUrls();
+                            if (urls.size() > 0) {
+                                fSHelper.loadByRemoteUri(urls).observeForever(new Observer<List<Uri>>() {
+                                    @Override
+                                    public void onChanged(List<Uri> uris) {
+                                        wrapper.getArtifactItemWrapper().setLocalMediaDataUrls(
+                                                uris.stream()
+                                                        .map(Objects::toString)
+                                                        .collect(Collectors.toList()));
+                                        if (wrappers.contains(wrapper)) {
+                                            wrappers.remove(wrapper);
+                                            wrappers.add(wrapper);
+                                        } else {
+                                            wrappers.add(wrapper);
+                                        }
+                                        latestArtifactWrapperList.setValue(wrappers);
+                                    }
+                                });
                             }
-                        });
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     public void getPostsChange() {
@@ -166,7 +165,8 @@ public class HubViewModel extends AndroidViewModel {
 
     /**
      * send likes number change when user press like image
-     * @param tag the image tag of like image to distinguish user likes or unlikes the post
+     *
+     * @param tag    the image tag of like image to distinguish user likes or unlikes the post
      * @param PostId the post id user presses the like image
      */
     public void getLikeChange(String tag, String PostId) {

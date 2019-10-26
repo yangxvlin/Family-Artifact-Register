@@ -6,13 +6,13 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
 import com.unimelb.family_artifact_register.R;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 
@@ -32,8 +32,8 @@ public class MarkerHelper {
     public static final String TAG = MarkerHelper.class.getSimpleName();
 
     /**
-     * @param pair pair of ArtifactItemWrapper and MapLocation
-     * @param title title of marker
+     * @param pair    pair of ArtifactItemWrapper and MapLocation
+     * @param title   title of marker
      * @param snippet snippet of marker
      * @return marker to be displayed
      */
@@ -49,11 +49,11 @@ public class MarkerHelper {
     }
 
     /**
-     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param pair    pair of ArtifactItemWrapper and MapLocation
      * @param context context
-     * @param width width of icon
-     * @param height height of icon
-     * @param title title of marker
+     * @param width   width of icon
+     * @param height  height of icon
+     * @param title   title of marker
      * @param snippet snippet of marker
      * @return marker to be displayed
      */
@@ -98,7 +98,7 @@ public class MarkerHelper {
     }
 
     /**
-     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param pair    pair of ArtifactItemWrapper and MapLocation
      * @param context context
      * @return turn required data to a single string separated by new line
      */
@@ -113,7 +113,7 @@ public class MarkerHelper {
     }
 
     /**
-     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param pair    pair of ArtifactItemWrapper and MapLocation
      * @param context context
      * @return formatted string of creation time
      */
@@ -122,9 +122,9 @@ public class MarkerHelper {
     }
 
     /**
-     * @param pair pair of ArtifactItemWrapper and MapLocation
+     * @param pair    pair of ArtifactItemWrapper and MapLocation
      * @param context context
-     * @param hint string about the output
+     * @param hint    string about the output
      * @return formatted string of address if no specific address use lat and lon as address
      */
     public static String getAddress(Pair<ArtifactItemWrapper, MapLocation> pair, Context context, String hint) {

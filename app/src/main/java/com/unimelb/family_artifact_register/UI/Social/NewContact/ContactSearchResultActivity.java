@@ -86,8 +86,8 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<UserInfoWrapper> newData) {
                 // search result back from database
-                Log.d(TAG, "search observer invoked, result: "+ newData.size() +" comes back");
-                if(newData.size() > 0) {
+                Log.d(TAG, "search observer invoked, result: " + newData.size() + " comes back");
+                if (newData.size() > 0) {
                     try {
                         layout.removeView(textView);
                     } catch (Exception e) {
@@ -110,7 +110,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
     // setup recyclerView
     private void setupRecyclerView() {
         // get the view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -130,6 +130,70 @@ public class ContactSearchResultActivity extends AppCompatActivity {
      * This is the Adapter class for recyclerView in {@link ContactSearchResultActivity}
      */
     public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
+
+        // the view model from the recyclerView's owner
+        private ContactSearchResultViewModel viewModel;
+        // data to be used
+        private List<UserInfoWrapper> dataSet;
+
+        /**
+         * public constructor for instantiating a new {@link SearchResultAdapter}
+         *
+         * @param viewModel the view model of the {@link ContactSearchResultActivity}
+         */
+        public SearchResultAdapter(ContactSearchResultViewModel viewModel) {
+            this.viewModel = viewModel;
+        }
+
+        @NonNull
+        @Override
+        public SearchResultAdapter.SearchResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
+            return new SearchResultViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
+            if (dataSet != null) {
+                String s;
+                if (viewModel.getDisplayMode().equals(DISPLAY_EMAIL)) {
+                    Log.d(TAG, "email, mode chosen by view model: " + viewModel.getDisplayMode());
+                    s = dataSet.get(position).getEmail();
+                    if (s != null && s.length() > 0) {
+                        holder.textView.setText(s);
+                    }
+                } else if (viewModel.getDisplayMode().equals(DISPLAY_NAME)) {
+                    Log.d(TAG, "displayname, mode chosen by view model: " + viewModel.getDisplayMode());
+                    s = dataSet.get(position).getDisplayName();
+                    if (s != null && s.length() > 0) {
+                        holder.textView.setText(s);
+                    }
+                }
+                holder.itemId = dataSet.get(position).getUid();
+                String url = dataSet.get(position).getPhotoUrl();
+                if (url != null) {
+                    holder.imageView.setImageURI(Uri.parse(url));
+                }
+            } else
+                holder.textView.setText("");
+        }
+
+        @Override
+        public int getItemCount() {
+            if (dataSet != null)
+                return dataSet.size();
+            return 0;
+        }
+
+        /**
+         * set new data for adapter
+         *
+         * @param newData the new data to be set
+         */
+        public void setData(List<UserInfoWrapper> newData) {
+            dataSet = newData;
+            notifyDataSetChanged();
+        }
 
         /**
          * This is the ViewHolder class for recyclerView in {@link ContactSearchResultActivity}
@@ -153,6 +217,7 @@ public class ContactSearchResultActivity extends AppCompatActivity {
 
             /**
              * public constructor for instantiating a new {@link SearchResultViewHolder}
+             *
              * @param itemView the inflated view for the item
              */
             public SearchResultViewHolder(View itemView) {
@@ -165,82 +230,16 @@ public class ContactSearchResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent;
-                if(itemId.equals(viewModel.getCurrentUser().getUid()) || viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
+                if (itemId.equals(viewModel.getCurrentUser().getUid()) || viewModel.getCurrentUser().getFriendUids().containsKey(itemId)) {
                     // searching an existing friend or the current user
                     intent = new Intent(view.getContext(), ContactDetailActivity.class);
-                }
-                else {
+                } else {
                     // searching a new friend
                     intent = new Intent(view.getContext(), NewContactDetailActivity.class);
                 }
                 intent.putExtra("selectedUid", itemId);
                 startActivity(intent);
             }
-        }
-
-        /**
-         * public constructor for instantiating a new {@link SearchResultAdapter}
-         * @param viewModel the view model of the {@link ContactSearchResultActivity}
-         */
-        public SearchResultAdapter(ContactSearchResultViewModel viewModel) {
-            this.viewModel = viewModel;
-        }
-
-        // the view model from the recyclerView's owner
-        private ContactSearchResultViewModel viewModel;
-
-        // data to be used
-        private List<UserInfoWrapper> dataSet;
-
-        @NonNull
-        @Override
-        public SearchResultAdapter.SearchResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
-            return new SearchResultViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
-            if(dataSet != null) {
-                String s;
-                if(viewModel.getDisplayMode().equals(DISPLAY_EMAIL)) {
-                    Log.d(TAG, "email, mode chosen by view model: " + viewModel.getDisplayMode());
-                    s = dataSet.get(position).getEmail();
-                    if(s != null && s.length() > 0) {
-                        holder.textView.setText(s);
-                    }
-                }
-                else if(viewModel.getDisplayMode().equals(DISPLAY_NAME)) {
-                    Log.d(TAG, "displayname, mode chosen by view model: " + viewModel.getDisplayMode());
-                    s = dataSet.get(position).getDisplayName();
-                    if(s != null && s.length() > 0) {
-                        holder.textView.setText(s);
-                    }
-                }
-                holder.itemId = dataSet.get(position).getUid();
-                String url = dataSet.get(position).getPhotoUrl();
-                if(url != null) {
-                    holder.imageView.setImageURI(Uri.parse(url));
-                }
-            }
-            else
-                holder.textView.setText("");
-        }
-
-        @Override
-        public int getItemCount() {
-            if(dataSet != null)
-                return dataSet.size();
-            return 0;
-        }
-
-        /**
-         * set new data for adapter
-         * @param newData the new data to be set
-         */
-        public void setData(List<UserInfoWrapper> newData) {
-            dataSet = newData;
-            notifyDataSetChanged();
         }
     }
 }

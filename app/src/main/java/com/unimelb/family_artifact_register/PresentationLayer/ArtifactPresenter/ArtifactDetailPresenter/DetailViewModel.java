@@ -17,8 +17,8 @@ import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -49,6 +49,7 @@ public class DetailViewModel extends AndroidViewModel {
 
     /**
      * get artifact detail information from friends with poster and map location information
+     *
      * @param itemID the post id of artifact user clicked
      * @return pair of a artifact item with associated happened map location
      */
@@ -97,6 +98,7 @@ public class DetailViewModel extends AndroidViewModel {
 
     /**
      * get poster information from backend in order to show poster avatar and display name
+     *
      * @param posterId
      * @return
      */
@@ -127,8 +129,8 @@ public class DetailViewModel extends AndroidViewModel {
     }
 
     /**
-     * get happened location from backend
-     * deprecate and move into get artifact item method
+     * get happened location from backend deprecate and move into get artifact item method
+     *
      * @param PostId the post id user clicked
      * @return map location of happened location in live data
      */
@@ -152,6 +154,7 @@ public class DetailViewModel extends AndroidViewModel {
 
     /**
      * get upload location from backend
+     *
      * @param itemID the post id user clicked
      * @return map location of upload artifact in live data
      */
@@ -178,6 +181,7 @@ public class DetailViewModel extends AndroidViewModel {
 
     /**
      * get stored location from backend
+     *
      * @param itemID the post id user clicked
      * @return map location of artifact stored in live data
      */
@@ -185,29 +189,30 @@ public class DetailViewModel extends AndroidViewModel {
         MutableLiveData<MapLocation> storedLocation = new MutableLiveData<>();
         artifactManager.getArtifactItemByPostId(itemID).observeForever(
                 new Observer<ArtifactItem>() {
-            @Override
-            public void onChanged(ArtifactItem artifactItem) {
-                String storedLocationId = artifactItem.getLocationStoredId();
-                Log.d(TAG, "Get stored location id: " + storedLocationId);
-                mapLocationManager.getMapLocationById(storedLocationId).observeForever(
-                        new Observer<MapLocation>() {
                     @Override
-                    public void onChanged(MapLocation mapLocation) {
-                        Log.d(TAG, "get map location");
-                        storedLocation.setValue(mapLocation);
-                        Log.d(TAG, "return upload location: " + storedLocation.getValue()
-                                .toString());
+                    public void onChanged(ArtifactItem artifactItem) {
+                        String storedLocationId = artifactItem.getLocationStoredId();
+                        Log.d(TAG, "Get stored location id: " + storedLocationId);
+                        mapLocationManager.getMapLocationById(storedLocationId).observeForever(
+                                new Observer<MapLocation>() {
+                                    @Override
+                                    public void onChanged(MapLocation mapLocation) {
+                                        Log.d(TAG, "get map location");
+                                        storedLocation.setValue(mapLocation);
+                                        Log.d(TAG, "return upload location: " + storedLocation.getValue()
+                                                .toString());
+                                    }
+                                });
+
                     }
                 });
-
-            }
-        });
         return storedLocation;
     }
 
     /**
      * send likes number change information to backend to change likes map
-     * @param tag the like image tag to distinguish user likes or unlikes an artifact
+     *
+     * @param tag    the like image tag to distinguish user likes or unlikes an artifact
      * @param PostId the post id user pressed the like image
      */
     public void getLikeChange(String tag, String PostId) {

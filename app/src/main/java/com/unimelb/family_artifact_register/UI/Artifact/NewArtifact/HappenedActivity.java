@@ -14,9 +14,8 @@ import static com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-14 14:05:49
- * @description activity for the user choose the place where the artifact happened
- * Deprecated because change to activity-fragment design
- * not deleted by the open-close principle
+ * @description activity for the user choose the place where the artifact happened Deprecated
+ * because change to activity-fragment design not deleted by the open-close principle
  */
 @Deprecated
 public class HappenedActivity extends BaseCancelToolBarActivity {

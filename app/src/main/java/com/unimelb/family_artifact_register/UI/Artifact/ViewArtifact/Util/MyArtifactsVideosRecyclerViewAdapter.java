@@ -16,9 +16,8 @@ import java.util.List;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 19:03:05
- * @description adapter for videos recycler view
- * Deprecated because only one video need to be displayed
- * not deleted for the open-close principle
+ * @description adapter for videos recycler view Deprecated because only one video need to be
+ * displayed not deleted for the open-close principle
  */
 @Deprecated
 public class MyArtifactsVideosRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsVideosViewHolder> {

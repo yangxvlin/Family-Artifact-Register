@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.MediaListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.NewArtifactPreviewImageGridViewAdapter;
 import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import es.dmoral.toasty.Toasty;
 import pl.aprilapps.easyphotopicker.ChooserType;
@@ -51,6 +51,10 @@ public class NewArtifactPreviewImagesFragment extends Fragment implements IFragm
      * required empty constructor
      */
     public NewArtifactPreviewImagesFragment() {
+    }
+
+    public static NewArtifactPreviewImagesFragment newInstance() {
+        return new NewArtifactPreviewImagesFragment();
     }
 
     @Override
@@ -106,12 +110,10 @@ public class NewArtifactPreviewImagesFragment extends Fragment implements IFragm
             easyImage.openGallery(this);
         });
 
-        GridView gridView = (GridView) view.findViewById(R.id.fragment_new_artifact_preview_images_grid_view);
-        imageAdapter = new NewArtifactPreviewImageGridViewAdapter(getContext(), ((MediaListener)getActivity()).getData());
+        GridView gridView = view.findViewById(R.id.fragment_new_artifact_preview_images_grid_view);
+        imageAdapter = new NewArtifactPreviewImageGridViewAdapter(getContext(), ((MediaListener) getActivity()).getData());
         gridView.setAdapter(imageAdapter);
     }
-
-    public static NewArtifactPreviewImagesFragment newInstance() { return new NewArtifactPreviewImagesFragment(); }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -123,9 +125,9 @@ public class NewArtifactPreviewImagesFragment extends Fragment implements IFragm
                 if (source == MediaSource.DOCUMENTS || source == MediaSource.CAMERA_IMAGE) {
                     // call back to parent activity
                     for (MediaFile imageFile : mediaFiles) {
-                        Log.d(TAG+"/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
+                        Log.d(TAG + "/EasyImage", "Image file returned: " + imageFile.getFile().toURI().toString());
                         Uri image = Uri.fromFile(imageFile.getFile());
-                        ((MediaListener)getActivity()).addData(image, TYPE_IMAGE);
+                        ((MediaListener) getActivity()).addData(image, TYPE_IMAGE);
                         imageAdapter.notifyDataSetChanged();
                     }
                 }
@@ -148,6 +150,6 @@ public class NewArtifactPreviewImagesFragment extends Fragment implements IFragm
     // ************************************ implement interface ***********************************
     @Override
     public void onBackPressed() {
-        ((MediaListener)getActivity()).clearData();
+        ((MediaListener) getActivity()).clearData();
     }
 }

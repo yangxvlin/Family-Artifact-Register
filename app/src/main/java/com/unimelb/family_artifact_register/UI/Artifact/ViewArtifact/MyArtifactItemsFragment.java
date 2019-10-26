@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ViewArtifactPresenter.MyArtifactItemsViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ViewArtifactPresenter.MyArtifactItemsViewModel;
+import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ViewArtifactPresenter.MyArtifactItemsViewModelFactory;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.Util.ArtifactItemHeaderViewBinder;
 import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.Util.ArtifactItemViewBinder;
 import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.Util.StickyArtifactItemHeader;
 import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.Util.StickyArtifactItemItem;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,17 +40,14 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
      * class tag
      */
     public static final String TAG = MyArtifactItemsFragment.class.getSimpleName();
-
-    /**
-     * sticky header recycler view
-     */
-    private StickyHeaderViewAdapter adapter;
-
     /**
      * recycler view
      */
     RecyclerView mRecyclerView;
-
+    /**
+     * sticky header recycler view
+     */
+    private StickyHeaderViewAdapter adapter;
     /**
      * view model
      */
@@ -60,6 +57,13 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
      * Required empty public constructor
      */
     public MyArtifactItemsFragment() {
+    }
+
+    /**
+     * @return created MyArtifactItemsFragment
+     */
+    public static MyArtifactItemsFragment newInstance() {
+        return new MyArtifactItemsFragment();
     }
 
     @Override
@@ -103,7 +107,7 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
                 String currentPrefix = artifactItemWrappers.get(0).getUploadDateTime().substring(0, 7);
                 artifactItemList.add(new StickyArtifactItemHeader(currentPrefix));
 
-                for (ArtifactItemWrapper wrapper: artifactItemWrappers) {
+                for (ArtifactItemWrapper wrapper : artifactItemWrappers) {
                     Log.d(TAG, "size = " + artifactItemList.size());
                     String wrapperPrefix = wrapper.getUploadDateTime().substring(0, 7);
                     if (wrapperPrefix.equals(currentPrefix)) {
@@ -124,9 +128,4 @@ public class MyArtifactItemsFragment extends Fragment implements IFragment {
             }
         });
     }
-
-    /**
-     * @return created MyArtifactItemsFragment
-     */
-    public static MyArtifactItemsFragment newInstance() { return new MyArtifactItemsFragment(); }
 }

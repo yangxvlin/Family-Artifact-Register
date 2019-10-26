@@ -19,15 +19,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
-import com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity;
-import com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity;
-import com.unimelb.family_artifact_register.Util.IFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
+import com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity;
+import com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -61,6 +61,15 @@ public class ContactFragment extends Fragment implements IFragment {
         // Required empty public constructor
     }
 
+    /**
+     * get a new instance of {@link ContactFragment}
+     *
+     * @return a new instance of {@link ContactFragment}
+     */
+    public static ContactFragment newInstance() {
+        return new ContactFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -71,7 +80,7 @@ public class ContactFragment extends Fragment implements IFragment {
 
         setupRecyclerView(view);
 
-        ImageView userProfile = (ImageView) view.findViewById(R.id.user_profile);
+        ImageView userProfile = view.findViewById(R.id.user_profile);
         // clickl listener for the user's own profile button
         userProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +91,7 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         });
 
-        TextView requests = (TextView) view.findViewById(R.id.friend_request);
+        TextView requests = view.findViewById(R.id.friend_request);
         // click listener for request list button
         requests.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,10 +113,9 @@ public class ContactFragment extends Fragment implements IFragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if(dy > 0) {
+                if (dy > 0) {
                     fab.hide();
-                }
-                else if(dy < 0) {
+                } else if (dy < 0) {
                     fab.show();
                 }
             }
@@ -118,7 +126,7 @@ public class ContactFragment extends Fragment implements IFragment {
             @Override
             public void onChanged(UserInfoWrapper wrapper) {
                 String url = wrapper.getPhotoUrl();
-                if(url != null) {
+                if (url != null) {
                     userProfile.setImageURI(Uri.parse(url));
                 }
             }
@@ -137,16 +145,10 @@ public class ContactFragment extends Fragment implements IFragment {
         return view;
     }
 
-    /**
-     * get a new instance of {@link ContactFragment}
-     * @return a new instance of {@link ContactFragment}
-     */
-    public static ContactFragment newInstance() { return new ContactFragment(); }
-
     // setup recyclerView
     private void setupRecyclerView(View view) {
         // get the view
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -163,12 +165,88 @@ public class ContactFragment extends Fragment implements IFragment {
     }
 
     @Override
-    public String getFragmentTag() { return TAG; }
+    public String getFragmentTag() {
+        return TAG;
+    }
 
     /**
      * This is the Adapter class for the recyclerView in {@link ContactFragment}
      */
     public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendListViewHolder> {
+
+        // the view model from the recyclerView's owner
+        private ContactViewModel viewModel;
+        // data to be used
+        private Set<UserInfoWrapper> dataSet;
+        // an iterator for iterating data list
+        private Iterator<UserInfoWrapper> dataSetIterator;
+
+        /**
+         * public constructor for instantiating a new {@link FriendListAdapter}
+         *
+         * @param viewModel the view model of the {@link ContactFragment}
+         */
+        public FriendListAdapter(ContactViewModel viewModel) {
+            this.viewModel = viewModel;
+        }
+
+        @NonNull
+        @Override
+        public FriendListAdapter.FriendListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
+            return new FriendListViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewHolder holder, int position) {
+            // data is ready to be displayed
+            if (dataSet != null) {
+                UserInfoWrapper currentItem = null;
+                if (dataSetIterator.hasNext()) {
+                    currentItem = dataSetIterator.next();
+                    holder.textView.setText(currentItem.getDisplayName());
+                    holder.itemId = currentItem.getUid();
+                    String url = currentItem.getPhotoUrl();
+                    if (url != null) {
+                        holder.imageView.setImageURI(Uri.parse(url));
+                    }
+                } else {
+                    Log.e(TAG, "error iterating data", new Throwable());
+                }
+            }
+            // data is not ready yet
+            else {
+                holder.textView.setText("");
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            if (dataSet != null)
+                return dataSet.size();
+            // initially, dataSet is null
+            return 0;
+        }
+
+        /**
+         * set new data for adapter
+         *
+         * @param newData the new data to be set
+         */
+        public void setData(Set<UserInfoWrapper> newData) {
+            // solution from codelab
+            dataSet = newData;
+            dataSetIterator = dataSet.iterator();
+            notifyDataSetChanged();
+
+            // alternative
+//            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
+//            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
+//
+//            dataSet.clear();
+//            dataSet.addAll(newData);
+//            diffResult.dispatchUpdatesTo(this);
+        }
 
         /**
          * This is the ViewHolder class for the recyclerView in {@link ContactFragment}
@@ -192,6 +270,7 @@ public class ContactFragment extends Fragment implements IFragment {
 
             /**
              * public constructor for instantiating a new {@link FriendListViewHolder}
+             *
              * @param itemView the inflated view for the item
              */
             public FriendListViewHolder(View itemView) {
@@ -209,81 +288,8 @@ public class ContactFragment extends Fragment implements IFragment {
             }
         }
 
-        /**
-         * public constructor for instantiating a new {@link FriendListAdapter}
-         * @param viewModel the view model of the {@link ContactFragment}
-         */
-        public FriendListAdapter(ContactViewModel viewModel) {
-            this.viewModel = viewModel;
-        }
-
-        // the view model from the recyclerView's owner
-        private ContactViewModel viewModel;
-
-        // data to be used
-        private Set<UserInfoWrapper> dataSet;
-
-        // an iterator for iterating data list
-        private Iterator<UserInfoWrapper> dataSetIterator;
-
-        @NonNull
-        @Override
-        public FriendListAdapter.FriendListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
-            return new FriendListViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull FriendListAdapter.FriendListViewHolder holder, int position) {
-            // data is ready to be displayed
-            if(dataSet != null) {
-                UserInfoWrapper currentItem = null;
-                if(dataSetIterator.hasNext()) {
-                    currentItem = dataSetIterator.next();
-                    holder.textView.setText(currentItem.getDisplayName());
-                    holder.itemId = currentItem.getUid();
-                    String url = currentItem.getPhotoUrl();
-                    if(url != null) {
-                        holder.imageView.setImageURI(Uri.parse(url));
-                    }
-                } else {
-                    Log.e(TAG ,"error iterating data", new Throwable());
-                }
-            }
-            // data is not ready yet
-            else {
-                holder.textView.setText("");
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            if(dataSet != null)
-                return dataSet.size();
-            // initially, dataSet is null
-            return 0;
-        }
-
-        /**
-         * set new data for adapter
-         * @param newData the new data to be set
-         */
-        public void setData(Set<UserInfoWrapper> newData) {
-            // solution from codelab
-            dataSet = newData;
-            dataSetIterator = dataSet.iterator();
-            notifyDataSetChanged();
-
-            // alternative
-//            StringDiffCallBack stringDiffCallback = new StringDiffCallBack(dataSet, newData);
-//            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(stringDiffCallback);
-//
-//            dataSet.clear();
-//            dataSet.addAll(newData);
-//            diffResult.dispatchUpdatesTo(this);
-        }
-
         // https://github.com/guenodz/livedata-recyclerview-sample/tree/master/app/src/main/java/me/guendouz/livedata_recyclerview
+
         /**
          * class used to update data in recyclerView, when new data is retrieved from live data
          */
@@ -293,8 +299,8 @@ public class ContactFragment extends Fragment implements IFragment {
             private ArrayList<String> oldList;
 
             public StringDiffCallBack(ArrayList<String> oldList, ArrayList<String> newList) {
-                this.oldList= oldList;
-                this.newList= newList;
+                this.oldList = oldList;
+                this.newList = newList;
             }
 
             @Override

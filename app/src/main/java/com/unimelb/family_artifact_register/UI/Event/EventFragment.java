@@ -11,11 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
-import com.unimelb.family_artifact_register.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 /**
  * UI fragment to display two event tab
@@ -31,6 +31,13 @@ public class EventFragment extends Fragment implements IFragment {
      */
     public EventFragment() {
 
+    }
+
+    /**
+     * @return created me fragment
+     */
+    public static EventFragment newInstance() {
+        return new EventFragment();
     }
 
     @Override
@@ -49,15 +56,10 @@ public class EventFragment extends Fragment implements IFragment {
                 .add(getString(R.string.event_my_title), MyEventFragment.class)
                 .create());
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_event_view_pager);
+        ViewPager viewPager = view.findViewById(R.id.fragment_event_view_pager);
         viewPager.setAdapter(adapter);
 
-        SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.fragment_event_view_pager_tab);
+        SmartTabLayout viewPagerTab = view.findViewById(R.id.fragment_event_view_pager_tab);
         viewPagerTab.setViewPager(viewPager);
     }
-
-    /**
-     * @return created me fragment
-     */
-    public static EventFragment newInstance() { return new EventFragment(); }
 }

@@ -11,11 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
-import com.unimelb.family_artifact_register.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 /**
  * fragment with two map fragment: happened map and stored map
@@ -28,6 +28,13 @@ public class TabbedMapFragment extends Fragment implements IFragment {
 
     public TabbedMapFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * @return created tabbed map fragment
+     */
+    public static TabbedMapFragment newInstance() {
+        return new TabbedMapFragment();
     }
 
     @Override
@@ -48,15 +55,10 @@ public class TabbedMapFragment extends Fragment implements IFragment {
                 .add(getString(R.string.artifact_items_map_stored_title), AllArtifactStoredMapFragment.class)
                 .create());
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_tabbed_map_view_pager);
+        ViewPager viewPager = view.findViewById(R.id.fragment_tabbed_map_view_pager);
         viewPager.setAdapter(adapter);
 
-        SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.fragment_tabbed_map_view_pager_tab);
+        SmartTabLayout viewPagerTab = view.findViewById(R.id.fragment_tabbed_map_view_pager_tab);
         viewPagerTab.setViewPager(viewPager);
     }
-
-    /**
-     * @return created tabbed map fragment
-     */
-    public static TabbedMapFragment newInstance() { return new TabbedMapFragment(); }
 }

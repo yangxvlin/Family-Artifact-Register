@@ -7,10 +7,9 @@ import com.unimelb.family_artifact_register.R;
  * @author XuLin Yang 904904,
  * @time 2019-9-14 14:05:49
  * @description activity with predefined app bar with one cancel label at top left corner of the
- * page and direct back to ArtifactManageActivity
- * polymorphism to provide a base activity with an action bar with cancel icon
- * Deprecated because we adapt to fragment-activity design not activity-only design
- * not deleted by open-close principle
+ * page and direct back to ArtifactManageActivity polymorphism to provide a base activity with an
+ * action bar with cancel icon Deprecated because we adapt to fragment-activity design not
+ * activity-only design not deleted by open-close principle
  */
 @Deprecated
 public abstract class BaseCancelToolBarActivity extends BaseActionBarActivity {

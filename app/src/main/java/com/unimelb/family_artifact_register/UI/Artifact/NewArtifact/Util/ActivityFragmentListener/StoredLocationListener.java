@@ -7,13 +7,13 @@ import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation
  */
 public interface StoredLocationListener {
     /**
-     * @param storedLocation artifact item's stored location
-     */
-    void setStoredLocation(MapLocation storedLocation);
-
-    /**
      * @return artifact item's stored location
      */
     MapLocation getStoredLocation();
+
+    /**
+     * @param storedLocation artifact item's stored location
+     */
+    void setStoredLocation(MapLocation storedLocation);
 }
 

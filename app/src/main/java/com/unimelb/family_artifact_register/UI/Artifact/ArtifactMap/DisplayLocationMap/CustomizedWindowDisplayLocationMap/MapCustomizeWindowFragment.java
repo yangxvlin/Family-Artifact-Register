@@ -11,18 +11,18 @@ import androidx.fragment.app.Fragment;
 import com.appolica.interactiveinfowindow.InfoWindow;
 import com.appolica.interactiveinfowindow.InfoWindowManager;
 import com.appolica.interactiveinfowindow.customview.TouchInterceptFrameLayout;
-import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.Util.MarkerStrategy.MarkerZoomStrategyFactory;
-import com.unimelb.family_artifact_register.Util.IFragment;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
-import com.unimelb.family_artifact_register.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
+import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.Util.MarkerStrategy.MarkerZoomStrategyFactory;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,45 +42,47 @@ public class MapCustomizeWindowFragment extends Fragment implements
      * class tag
      */
     public static final String TAG = MapCustomizeWindowFragment.class.getSimpleName();
-
     /**
-     * info window manager
+     * default icon width
      */
-    private InfoWindowManager infoWindowManager;
-
+    public static final int IMAGE_DEFAULT_WIDTH = 200;
     /**
-     * interactive info window
+     * default icon height
      */
-    private InfoWindow infoWindow;
-
+    public static final int IMAGE_DEFAULT_HEIGHT = 200;
     /**
      * google map
      */
     GoogleMap mMap;
-
+    /**
+     * info window manager
+     */
+    private InfoWindowManager infoWindowManager;
+    /**
+     * interactive info window
+     */
+    private InfoWindow infoWindow;
     /**
      * map view
      */
     private MapView mapView;
 
     /**
-     * default icon width
-     */
-    public static final int IMAGE_DEFAULT_WIDTH = 200;
-
-    /**
-     * default icon height
-     */
-    public static final int IMAGE_DEFAULT_HEIGHT = 200;
-
-    /**
      * Required empty public constructor
      */
-    public MapCustomizeWindowFragment() { }
+    public MapCustomizeWindowFragment() {
+    }
+
+    /**
+     *
+     */
+    public static MapCustomizeWindowFragment newInstance() {
+        return new MapCustomizeWindowFragment();
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_map_customize_window, container, false);
         return view;
     }
@@ -176,12 +178,5 @@ public class MapCustomizeWindowFragment extends Fragment implements
                     .makeCameraUpdate(markers);
             mMap.animateCamera(cu);
         }
-    }
-
-    /**
-     *
-     */
-    public static MapCustomizeWindowFragment newInstance() {
-        return new MapCustomizeWindowFragment();
     }
 }

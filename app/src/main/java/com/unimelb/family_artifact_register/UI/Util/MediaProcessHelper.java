@@ -25,8 +25,7 @@ import java.util.Date;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-18 23:06:53
- * @description methods used when process images in android
- * pure fabricated
+ * @description methods used when process images in android pure fabricated
  */
 public class MediaProcessHelper {
     /**
@@ -45,14 +44,14 @@ public class MediaProcessHelper {
     private static final String TAG = MediaProcessHelper.class.getSimpleName();
 
     /**
-     * @param context context
-     * @param image image address
+     * @param context      context
+     * @param image        image address
      * @param deleteSource delete original or not
      * @return compressed image address
      */
-    public static Uri compressUriImage(Context context,Uri image, boolean deleteSource) {
+    public static Uri compressUriImage(Context context, Uri image, boolean deleteSource) {
         // store in app cache directory
-        File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/") ;
+        File storageDir = new File(context.getCacheDir().getPath() + "/EasyImage/");
         return Uri.parse(SiliCompressor.with(context).compress(image.getPath(), storageDir, deleteSource));
     }
 
@@ -66,8 +65,8 @@ public class MediaProcessHelper {
     }
 
     /**
-     * @param bm bitmap original
-     * @param newWidth new width
+     * @param bm        bitmap original
+     * @param newWidth  new width
      * @param newHeight new height
      * @return bitmap resized
      */
@@ -90,13 +89,13 @@ public class MediaProcessHelper {
 
     /**
      * @param context context
-     * @param video video original
+     * @param video   video original
      * @return video compressed
      * @throws URISyntaxException
      */
-    public static Uri compreUriVideo(Context context,Uri video) throws URISyntaxException {
+    public static Uri compreUriVideo(Context context, Uri video) throws URISyntaxException {
         String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
-                                        .getPath();
+                .getPath();
         return Uri.parse(SiliCompressor.with(context).compressVideo(video.getPath(), storageDir));
     }
 
@@ -115,7 +114,7 @@ public class MediaProcessHelper {
     }
 
     /**
-     * @param inputPath from
+     * @param inputPath  from
      * @param outputPath to
      */
     public static void copyFile(String inputPath, String outputPath) {
@@ -155,7 +154,7 @@ public class MediaProcessHelper {
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File videoFile = null;
         try {
-            videoFile = File.createTempFile("Compressed_"+videoFileName, ".mp4", storageDir);
+            videoFile = File.createTempFile("Compressed_" + videoFileName, ".mp4", storageDir);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,16 +167,16 @@ public class MediaProcessHelper {
      */
     private static int calculateInSampleSize(BitmapFactory.Options options) {
         int height = options.outHeight;
-        int width= options.outWidth;
+        int width = options.outWidth;
         // default pixel percentage ，change to original's 1/2
         int inSampleSize = 2;
         // original's min length
         int minLen = Math.min(height, width);
         // if original's min length > 100dp Note: unit should be dp not px
-        if(minLen > 100) {
+        if (minLen > 100) {
             // calculate ratio to be compressed
-            float ratio = (float)minLen / 100.0f;
-            inSampleSize = (int)ratio;
+            float ratio = (float) minLen / 100.0f;
+            inSampleSize = (int) ratio;
         }
 
         return inSampleSize;
@@ -204,12 +203,12 @@ public class MediaProcessHelper {
      * compress String path is easy. But compress from InputStream is tricky.
      * https://stackoverflow.com/questions/39316069/bitmapfactory-decodestream-from-assets-returns-null-on-android-7
      *
-     * @param context context
+     * @param context  context
      * @param imageUri image
      * @return image option
      * @throws FileNotFoundException
      */
-    public static BitmapFactory.Options getCompressImageOption(Context context,Uri imageUri) throws FileNotFoundException {
+    public static BitmapFactory.Options getCompressImageOption(Context context, Uri imageUri) throws FileNotFoundException {
         InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
 
         BitmapFactory.Options options = new BitmapFactory.Options();

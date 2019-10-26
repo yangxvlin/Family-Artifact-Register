@@ -31,6 +31,11 @@ public class UserInfoWrapper {
         artifactTimelineIds = user.getArtifactTimelineIds();
     }
 
+    @Deprecated
+    public static UserInfo toUserInfo(UserInfoWrapper wrapper) {
+        return null;
+    }
+
     public String getUid() {
         return user.getUid();
     }
@@ -116,11 +121,6 @@ public class UserInfoWrapper {
     public boolean removeArtifactTimelineId(String artifactId) {
         artifactTimelineIds.remove(artifactId);
         return true;
-    }
-
-    @Deprecated
-    public static UserInfo toUserInfo(UserInfoWrapper wrapper) {
-        return null;
     }
 
     @Override

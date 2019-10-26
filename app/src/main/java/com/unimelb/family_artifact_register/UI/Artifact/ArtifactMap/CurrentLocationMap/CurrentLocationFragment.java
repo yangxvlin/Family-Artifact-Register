@@ -43,17 +43,14 @@ public class CurrentLocationFragment extends BasePlacesFragment {
      * Success code for location access permission
      */
     private static final int PERMISSIONS_REQUEST_LOCATION = 1;
-
-    /**
-     * Records the permission status
-     */
-    private boolean mLocationPermissionGranted = false;
-
     /**
      * Used for selecting the current place.
      */
     private static final int M_MAX_ENTRIES = 5;
-
+    /**
+     * Records the permission status
+     */
+    private boolean mLocationPermissionGranted = false;
     /**
      * Stores location information related to the placed detected by GPS
      */
@@ -122,7 +119,7 @@ public class CurrentLocationFragment extends BasePlacesFragment {
             // This is an async task that need a listener to execute actions when completed
             placeResult.addOnCompleteListener
                     (task -> {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             FindCurrentPlaceResponse response = task.getResult();
                             mLikelyPlace.clear();
                             for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
@@ -138,7 +135,7 @@ public class CurrentLocationFragment extends BasePlacesFragment {
                                 Log.e(TAG, "Place not found: " + apiException.getStatusCode());
                             }
                         }
-                        if (mLikelyPlace.size() !=  0) {
+                        if (mLikelyPlace.size() != 0) {
                             currentPlace = mLikelyPlace.get(0);
                         }
                         updateLocationField();
@@ -157,7 +154,7 @@ public class CurrentLocationFragment extends BasePlacesFragment {
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
         switch (requestCode) {
@@ -185,7 +182,7 @@ public class CurrentLocationFragment extends BasePlacesFragment {
         Log.i(TAG, String.valueOf(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)));
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-           // Asking user if explanation is needed
+            // Asking user if explanation is needed
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 //Prompt the user once explanation has been shown
@@ -213,7 +210,6 @@ public class CurrentLocationFragment extends BasePlacesFragment {
                 currentPlace = mLikelyPlace.get(which);
                 updateLocationField();
             };
-            ;
             // Display the dialog for location selection.
             AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.pick_place)

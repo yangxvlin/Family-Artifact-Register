@@ -12,8 +12,8 @@ import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.Artifa
 /**
  * @author Haichao Song 854035,
  * @time 2019-09-24 22:45:55
- * @description view model to get information from backend to post item
- * Deprecated because it is for post activity and it has been substituted
+ * @description view model to get information from backend to post item Deprecated because it is for
+ * post activity and it has been substituted
  */
 @Deprecated
 public class PostDetailViewModel extends AndroidViewModel {

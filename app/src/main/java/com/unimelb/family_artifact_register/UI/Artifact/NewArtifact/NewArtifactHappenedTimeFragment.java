@@ -11,10 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.HappenedTimeListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,6 +39,10 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
      * required empty constructor
      */
     public NewArtifactHappenedTimeFragment() {
+    }
+
+    public static NewArtifactHappenedTimeFragment newInstance() {
+        return new NewArtifactHappenedTimeFragment();
     }
 
     @Override
@@ -69,13 +73,11 @@ public class NewArtifactHappenedTimeFragment extends Fragment implements IFragme
                 Toasty.error(getContext(), R.string.happened_time_not_chosen_warning).show();
                 return;
             }
-            ((HappenedTimeListener)getActivity()).setHappenedTime(happenedTime);
+            ((HappenedTimeListener) getActivity()).setHappenedTime(happenedTime);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.addToBackStack("next");
             fragmentTransaction.replace(R.id.activity_new_artifact_main_view, NewArtifactHappenedLocationFragment.newInstance());
             fragmentTransaction.commit();
         });
     }
-
-    public static NewArtifactHappenedTimeFragment newInstance() { return new NewArtifactHappenedTimeFragment(); }
 }

@@ -47,10 +47,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     private Context context;
 
     /**
-     * @param eventList list of events
-     * @param isAttend whether user attend the event
+     * @param eventList     list of events
+     * @param isAttend      whether user attend the event
      * @param eventListener event listener
-     * @param context context
+     * @param context       context
      */
     public EventAdapter(List<Event> eventList, boolean isAttend, EventListener eventListener, Context context) {
         this.eventList = eventList;

@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * This was the original Activity that displays a list of contacts the user has.
- * Since the design has moved to bottom navigation bar, the responsibility of this Activity is now
- * replaced by {@link com.unimelb.family_artifact_register.UI.Social.ContactFragment}
+ * This was the original Activity that displays a list of contacts the user has. Since the design
+ * has moved to bottom navigation bar, the responsibility of this Activity is now replaced by {@link
+ * com.unimelb.family_artifact_register.UI.Social.ContactFragment}
  */
 @Deprecated
 public class FriendActivity extends BaseActionBarActivity {
@@ -48,7 +48,7 @@ public class FriendActivity extends BaseActionBarActivity {
         ArrayList<String> dataSet = new ArrayList<>();
 
         // fake data for testing use only
-        String[] friends = new String[] {"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
+        String[] friends = new String[]{"Tim", "Matt", "Leon", "coffee", "xulin", "zhuoqun", "haichao", "1", "2", "3", "4"};
         Collections.addAll(dataSet, friends);
 
         // retrieve user's friend data from DB
@@ -83,7 +83,7 @@ public class FriendActivity extends BaseActionBarActivity {
 
     private void setupRecyclerView(ArrayList<String> dataSet) {
         // get the view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -101,20 +101,51 @@ public class FriendActivity extends BaseActionBarActivity {
 
     // probably become a separate class in the future
 
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_friend;
+    }
+
     /**
-     * This is the Adapter class for the recyclerView in {@link FriendActivity}
-     * this class has been deprecated because {@link FriendActivity} has been deprecated
+     * This is the Adapter class for the recyclerView in {@link FriendActivity} this class has been
+     * deprecated because {@link FriendActivity} has been deprecated
      */
     @Deprecated
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
+        private final int[] avatars = new int[]{R.drawable.my_logo};
         // data to be displayed
         private ArrayList<String> dataSet;
-        private final int[] avatars = new int[] {R.drawable.my_logo};
 
         /**
-         * This is the ViewHolder class for the recyclerView in {@link FriendActivity}
-         * this class has been deprecated because {@link FriendActivity} has been deprecated
+         * public constructor for instantiating a new {@link MyAdapter}
+         *
+         * @param dataSet data to be displayed
+         */
+        public MyAdapter(ArrayList<String> dataSet) {
+            this.dataSet = dataSet;
+        }
+
+        @NonNull
+        @Override
+        public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
+            return new MyAdapter.MyViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
+            holder.textView.setText(dataSet.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataSet.size();
+        }
+
+        /**
+         * This is the ViewHolder class for the recyclerView in {@link FriendActivity} this class
+         * has been deprecated because {@link FriendActivity} has been deprecated
          */
         @Deprecated
         public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -131,6 +162,7 @@ public class FriendActivity extends BaseActionBarActivity {
 
             /**
              * public constructor for instantiating a new {@link MyViewHolder}
+             *
              * @param itemView the inflated view for the item
              */
             public MyViewHolder(View itemView) {
@@ -151,35 +183,5 @@ public class FriendActivity extends BaseActionBarActivity {
                 startActivity(i);
             }
         }
-
-        /**
-         * public constructor for instantiating a new {@link MyAdapter}
-         * @param dataSet data to be displayed
-         */
-        public MyAdapter(ArrayList<String> dataSet) {
-            this.dataSet = dataSet;
-        }
-
-        @NonNull
-        @Override
-        public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_item, parent, false);
-            return new MyAdapter.MyViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
-            holder.textView.setText(dataSet.get(position));
-        }
-
-        @Override
-        public int getItemCount () {
-            return dataSet.size();
-        }
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_friend;
     }
 }

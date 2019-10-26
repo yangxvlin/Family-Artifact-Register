@@ -22,14 +22,14 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactTimeline;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactTimelinePresenter.TimelineViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactTimelinePresenter.TimelineViewModelFactory;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.ArtifactDetailActivity;
 import com.unimelb.family_artifact_register.Util.TimeToString;
-import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -77,7 +77,7 @@ public class TimelineActivity extends AppCompatActivity {
         Intent intent = getIntent();
         timelineID = intent.getStringExtra(TIMELINE_ID_KEY);
 
-        recyclerView = (RecyclerView) findViewById(R.id.timeline_recycler2);
+        recyclerView = findViewById(R.id.timeline_recycler2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -129,6 +129,124 @@ public class TimelineActivity extends AppCompatActivity {
      */
     public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
+        // max length of gap
+        private final int maxGap = 1500;
+        // min length of gap
+        private final int minGap = 800;
+        // the data to be used
+        private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
+        //        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
+        // the comparator used for sorting elements in the data list
+        private Comparator<ArtifactItemWrapper> comparator;
+        // two attributes used for setting dynamic gap between adjacent items
+        private long maxInterval, minInterval;
+        // the context
+        private Context context;
+
+        /**
+         * public constructor for instantiating a new {@link TimelineAdapter}
+         *
+         * @param context the context
+         */
+        public TimelineAdapter(Context context) {
+            this.context = context;
+            // order elements in ascending order of happened time
+            comparator = new Comparator<ArtifactItemWrapper>() {
+                @Override
+                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
+                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
+                }
+            };
+        }
+
+        @NonNull
+        @Override
+        public TimelineAdapter.TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = View.inflate(parent.getContext(), R.layout.timeline_item2, null);
+            return new TimelineViewHolder(view, viewType);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull TimelineViewHolder holder, int position) {
+            ArtifactItemWrapper wrapper = dataSet.get(position);
+            holder.time.setText(wrapper.getHappenedDateTime());
+            holder.description.setText(wrapper.getDescription());
+            holder.itemId = wrapper.getPostId();
+            holder.timelineHeader.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ArtifactDetailActivity.class);
+                    intent.putExtra("artifactItemPostId", holder.itemId);
+                    startActivity(intent);
+                }
+            });
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
+                    holder.timelineView.getLayoutParams();
+            if (dataSet.size() > 2 && position != dataSet.size() - 1) {
+                long diff = getTimeDiff(dataSet.get(position).getHappenedDateTime(),
+                        dataSet.get(position + 1).getHappenedDateTime());
+//                float ratio = (maxInterval - diff) / (maxInterval - minInterval);
+                double ratio = (double) (diff - minInterval) / (double) (maxInterval - minInterval);
+                Log.d(TAG, "pos: " + position + ", maxgap: " + maxInterval + ", mingap: " + minInterval);
+                Log.d(TAG, "pos: " + position + ", diff: " + diff + ", ratio:" + ratio);
+                int setHeight = minGap + (int) (ratio * (maxGap - minGap));
+                Log.d(TAG, "height value set for layout param: " + setHeight);
+                params.height = setHeight;
+                holder.timelineView.setLayoutParams(params);
+            }
+            holder.clearFrame();
+            holder.frame.addView(getRecyclerView(dataSet.get(position), context));
+        }
+
+        @Override
+        public int getItemCount() {
+            if (dataSet != null) {
+                return dataSet.size();
+            }
+            return 0;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return TimelineView.getTimeLineViewType(position, getItemCount());
+        }
+
+        /**
+         * set new data for adapter
+         *
+         * @param newData the new data to be set
+         */
+        public void setData(List<ArtifactItemWrapper> newData) {
+            dataSet = newData;
+            dataSet.sort(comparator);
+            maxInterval = Long.MIN_VALUE;
+            minInterval = Long.MAX_VALUE;
+            long diff;
+            for (int i = 0; i < dataSet.size() - 1; i++) {
+                diff = getTimeDiff(dataSet.get(i).getHappenedDateTime(),
+                        dataSet.get(i + 1).getHappenedDateTime());
+                if (maxInterval < diff) {
+                    maxInterval = diff;
+                }
+                if (minInterval > diff) {
+                    minInterval = diff;
+                }
+            }
+            notifyDataSetChanged();
+        }
+
+        // get the difference of two dateTimes represented as strings
+        private long getTimeDiff(String s1, String s2) {
+            try {
+                long time1 = TimeToString.standardDateFormat.parse(s1).toInstant().toEpochMilli();
+                long time2 = TimeToString.standardDateFormat.parse(s2).toInstant().toEpochMilli();
+                return time2 - time1;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+        }
+
         /**
          * This is the ViewHolder class for the recyclerView in {@link TimelineActivity}
          */
@@ -166,6 +284,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             /**
              * the public constructor for instantiating a new {@link TimelineViewHolder}
+             *
              * @param itemView the the inflated view for the item
              * @param viewType the type of the inflated view
              */
@@ -178,11 +297,11 @@ public class TimelineActivity extends AppCompatActivity {
                 this.timelineView = itemView.findViewById(R.id.timeline2);
                 // END = 2
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineView.getLayoutParams();
-                if(viewType == 2) {
+                if (viewType == 2) {
                     params.height = 1290;
                 }
                 // ONLYONE = 3
-                else if(viewType == 3) {
+                else if (viewType == 3) {
                     params.height = 2095;
                 }
                 timelineView.setLayoutParams(params);
@@ -194,127 +313,6 @@ public class TimelineActivity extends AppCompatActivity {
              */
             public void clearFrame() {
                 frame.removeAllViews();
-            }
-        }
-
-        // the data to be used
-        private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
-
-        // the comparator used for sorting elements in the data list
-        private Comparator<ArtifactItemWrapper> comparator;
-//        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
-
-        // two attributes used for setting dynamic gap between adjacent items
-        private long maxInterval, minInterval;
-
-        // max length of gap
-        private final int maxGap = 1500;
-
-        // min length of gap
-        private final int minGap = 800;
-
-        // the context
-        private Context context;
-
-        /**
-         * public constructor for instantiating a new {@link TimelineAdapter}
-         * @param context the context
-         */
-        public TimelineAdapter(Context context) {
-            this.context = context;
-            // order elements in ascending order of happened time
-            comparator = new Comparator<ArtifactItemWrapper>() {
-                @Override
-                public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
-                    return artifactItemWrapper.getHappenedDateTime().compareTo(t1.getHappenedDateTime());
-                }
-            };
-        }
-
-        @NonNull
-        @Override
-        public TimelineAdapter.TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = View.inflate(parent.getContext(), R.layout.timeline_item2, null);
-            return new TimelineViewHolder(view, viewType);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull TimelineViewHolder holder, int position) {
-            ArtifactItemWrapper wrapper = dataSet.get(position);
-            holder.time.setText(wrapper.getHappenedDateTime());
-            holder.description.setText(wrapper.getDescription());
-            holder.itemId = wrapper.getPostId();
-            holder.timelineHeader.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, ArtifactDetailActivity.class);
-                    intent.putExtra("artifactItemPostId", holder.itemId);
-                    startActivity(intent);
-                }
-            });
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
-                    holder.timelineView.getLayoutParams();
-            if(dataSet.size() > 2 && position != dataSet.size() - 1) {
-                long diff = getTimeDiff(dataSet.get(position).getHappenedDateTime(),
-                        dataSet.get(position + 1).getHappenedDateTime());
-//                float ratio = (maxInterval - diff) / (maxInterval - minInterval);
-                double ratio = (double) (diff - minInterval) / (double) (maxInterval - minInterval);
-                Log.d(TAG, "pos: " + position + ", maxgap: " + maxInterval + ", mingap: " + minInterval);
-                Log.d(TAG, "pos: " + position + ", diff: " + diff + ", ratio:" + ratio);
-                int setHeight = minGap + (int) (ratio * (maxGap - minGap));
-                Log.d(TAG, "height value set for layout param: " + setHeight);
-                params.height = setHeight;
-                holder.timelineView.setLayoutParams(params);
-            }
-            holder.clearFrame();
-            holder.frame.addView(getRecyclerView(dataSet.get(position), context));
-        }
-
-        @Override
-        public int getItemCount() {
-            if(dataSet != null) {
-                return dataSet.size();
-            }
-            return 0;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return TimelineView.getTimeLineViewType(position, getItemCount());
-        }
-
-        /**
-         * set new data for adapter
-         * @param newData the new data to be set
-         */
-        public void setData(List<ArtifactItemWrapper> newData) {
-            dataSet = newData;
-            dataSet.sort(comparator);
-            maxInterval = Long.MIN_VALUE;
-            minInterval = Long.MAX_VALUE;
-            long diff;
-            for (int i = 0; i < dataSet.size() - 1; i++) {
-                diff = getTimeDiff(dataSet.get(i).getHappenedDateTime(),
-                        dataSet.get(i + 1).getHappenedDateTime());
-                if(maxInterval < diff) {
-                    maxInterval = diff;
-                }
-                if(minInterval > diff) {
-                    minInterval = diff;
-                }
-            }
-            notifyDataSetChanged();
-        }
-
-        // get the difference of two dateTimes represented as strings
-        private long getTimeDiff(String s1, String s2) {
-            try {
-                long time1 = TimeToString.standardDateFormat.parse(s1).toInstant().toEpochMilli();
-                long time2 = TimeToString.standardDateFormat.parse(s2).toInstant().toEpochMilli();
-                return time2 - time1;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return 0;
             }
         }
     }

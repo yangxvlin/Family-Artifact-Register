@@ -135,7 +135,10 @@ public class FirebaseAuthHelper {
 
             Uri uri = Uri.fromFile(CacheDirectoryHelper
                     .getInstance()
-                    .createNewFile(imgExtension));
+                    .createNewFile(imgExtension))
+                    .buildUpon()
+                    .scheme("file")
+                    .build();
 
             // Create request
             DownloadManager.Request request = new DownloadManager.Request(photoUri);

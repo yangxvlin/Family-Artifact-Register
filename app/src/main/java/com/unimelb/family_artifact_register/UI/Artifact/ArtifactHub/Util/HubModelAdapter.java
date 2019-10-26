@@ -19,8 +19,8 @@ import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubVi
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactPostWrapper;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactComment.ArtifactCommentActivity;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.TimelineActivity;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.ArtifactDetailActivity;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.TimelineActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +58,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
     @NonNull
     @Override
     public HubModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item,
                 parent, false);
         return new HubModelViewHolder(view);
     }
@@ -93,7 +93,7 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
         }
 
         mediaList = new ArrayList<>();
-        for (String mediaUrl: artifactItemWrapper.getArtifactItemWrapper()
+        for (String mediaUrl : artifactItemWrapper.getArtifactItemWrapper()
                 .getLocalMediaDataUrls()) {
             Log.d(TAG, "media uri" + mediaUrl);
             mediaList.add(Uri.parse(mediaUrl));
@@ -168,11 +168,11 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
                 if (holder.like.getTag() == "liked") {
                     holder.like.setImageResource(R.drawable.ic_like);
                     holder.like.setTag("unlike");
-                    holder.likes.setText(String.valueOf(likes_before-1));
+                    holder.likes.setText(String.valueOf(likes_before - 1));
                 } else {
                     holder.like.setImageResource(R.drawable.ic_liked);
                     holder.like.setTag("liked");
-                    holder.likes.setText(String.valueOf(likes_before+1));
+                    holder.likes.setText(String.valueOf(likes_before + 1));
                 }
                 viewModel.getLikeChange(holder.like.getTag().toString(), artifactItemWrapper
                         .getArtifactItemWrapper().getPostId());
@@ -202,12 +202,13 @@ public class HubModelAdapter extends RecyclerView.Adapter<HubModelViewHolder> {
 
     /**
      * sort and replace post item list with new data
+     *
      * @param newData new changed list of post items
      */
     public void setData(List<ArtifactPostWrapper> newData) {
         artifactItemWrapperList.clear();
 
-        if(newData != null) {
+        if (newData != null) {
             Collections.sort(newData, new Comparator<ArtifactPostWrapper>() {
                 @Override
                 public int compare(ArtifactPostWrapper artifactItemWrapper,

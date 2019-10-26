@@ -44,10 +44,10 @@ public class MediaViewHelper {
     public static final String TAG = MediaViewHelper.class.getSimpleName();
 
     /**
-     * @param images list of images
-     * @param context context
+     * @param images         list of images
+     * @param context        context
      * @param ultraViewPager ultraViewPager
-     * @param infiniteLoop can go back to begin if at the end
+     * @param infiniteLoop   can go back to begin if at the end
      */
     public static void setImagesViewPager(List<Uri> images, Context context, UltraViewPager ultraViewPager, Boolean infiniteLoop) {
         ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
@@ -79,10 +79,10 @@ public class MediaViewHelper {
     }
 
     /**
-     * @param imageWidth image item width
+     * @param imageWidth  image item width
      * @param imageHeight image item height
-     * @param images list of images
-     * @param context context
+     * @param images      list of images
+     * @param context     context
      * @return dynamically created recycler view
      */
     public static RecyclerView getImageRecyclerView(int imageWidth, int imageHeight, List<Uri> images, Context context) {
@@ -141,7 +141,7 @@ public class MediaViewHelper {
     }
 
     /**
-     * @param video video address
+     * @param video   video address
      * @param context context
      * @return dynamically created thumbnail image view of video
      */
@@ -203,10 +203,10 @@ public class MediaViewHelper {
     }
 
     /**
-     * @param thumbnailWidth image width
+     * @param thumbnailWidth  image width
      * @param thumbnailHeight image height
-     * @param video video address
-     * @param context context context
+     * @param video           video address
+     * @param context         context context
      * @return dynamically created thumbnail image view of video
      */
     public static ImageView getVideoThumbnail(int thumbnailWidth, int thumbnailHeight, Uri video, Context context) {
@@ -286,9 +286,10 @@ public class MediaViewHelper {
 
     /**
      * click image and open a dialog to see whole image
+     *
      * @param imageView image view
-     * @param image image address
-     * @param context context
+     * @param image     image address
+     * @param context   context
      */
     public static void setImageOnClickOpenDialogListener(View imageView, Uri image, Context context) {
         imageView.setOnClickListener(view -> {
@@ -320,9 +321,10 @@ public class MediaViewHelper {
 
     /**
      * when image clicked start a dialog with images of view pager and start at selected index
-     * @param imageView image view
-     * @param images list of images
-     * @param context context
+     *
+     * @param imageView     image view
+     * @param images        list of images
+     * @param context       context
      * @param selectedIndex index of selected image
      */
     public static void setImageOnClickOpenDialogSliderListener(View imageView, List<Uri> images, Context context, int selectedIndex) {

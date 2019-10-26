@@ -64,8 +64,9 @@
         <activity
             android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchResultActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity" />
-        <activity android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity"
-            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity"/>
+        <activity
+            android:name="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactRequestActivity"
+            android:parentActivityName="com.unimelb.family_artifact_register.UI.Social.NewContact.ContactSearchActivity" />
         <activity
             android:name=".UI.Artifact.NewArtifact.ArtifactManageActivity"
             android:parentActivityName="com.unimelb.family_artifact_register.MainActivity" />
@@ -85,9 +86,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

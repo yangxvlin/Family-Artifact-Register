@@ -16,18 +16,18 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactPostWrapper;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactHub.Util.HubModelAdapter;
-import com.unimelb.family_artifact_register.Util.IFragment;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubFragmentPresenter;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.HubPresenter.HubViewModelFactory;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactPostWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
-import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.NewArtifactActivity2;
 import com.unimelb.family_artifact_register.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactHub.Util.HubModelAdapter;
+import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.NewArtifactActivity2;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.util.List;
 import java.util.Timer;
@@ -43,24 +43,29 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
      * class tag
      */
     public static final String TAG = HubFragment.class.getSimpleName();
-    private List<ArtifactItemWrapper> artifactItemWrapperList;
+    RecyclerView mRecyclerView;
 
     // *********************************** recycler view *****************************************
+    private List<ArtifactItemWrapper> artifactItemWrapperList;
     /**
      * recycler view adapter
      */
     private HubModelAdapter hubModelAdapter;
 
-    RecyclerView mRecyclerView;
-
     // *******************************************************************************************
-
     private HubFragmentPresenter hfp;
 
     private HubViewModel viewModel;
 
     public HubFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * @return created me fragment
+     */
+    public static HubFragment newInstance() {
+        return new HubFragment();
     }
 
     @Override
@@ -150,11 +155,6 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
         }, 1000);
     }
 
-    /**
-     * @return created me fragment
-     */
-    public static HubFragment newInstance() { return new HubFragment(); }
-
     // ********************************** implement presenter ************************************
     @Override
     public void addData(ArtifactItem artifactItem) {
@@ -162,5 +162,7 @@ public class HubFragment extends Fragment implements HubFragmentPresenter.IView,
     }
 
     @Override
-    public String getFragmentTag() { return TAG; }
+    public String getFragmentTag() {
+        return TAG;
+    }
 }
