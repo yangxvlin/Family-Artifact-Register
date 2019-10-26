@@ -176,9 +176,29 @@ dependencies {
 ## Screen shoots
 <table border="0">
      <tr>
-        <td><img src="./docs/sign_in_cn.gif"></td>
-        <td><img src="./docs/sign_up_cn.gif"></td>
-        <td><img src="./docs/sign_out_cn.gif"></td>
+        <td><img src="./docs/screen_shoot/hub.jpg"></td>
+        <td><img src="./docs/screen_shoot/contact_list.png"></td>
+        <td><img src="./docs/add_friend.gif"></td>
+        <td><img src="./docs/accept_friend.gif"></td>
+        <td><img src="./docs/screen_shoot/user_detail.jpg"></td>
+        <td><img src="./docs/screen_shoot/view_item_1.png"></td>
+        <td><img src="./docs/screen_shoot/view_timeline_1.jpg"></td>
+        <td><img src="./docs/testing/timeline-detail.gif"></td>
+     </tr>
+     <tr>
+        <td><img src="./docs/testing/enter-description.gif"></td>
+        <td><img src="./docs/testing/choose_images.gif"></td>
+        <td><img src="./docs/testing/des-to-time.gif"></td>
+        <td><img src="./docs/testing/choose-time.gif"></td>
+        <td><img src="./docs/testing/choose-happen.gif"></td>
+        <td><img src="./docs/testing/choose-store.gif"></td>
+        <td><img src="./docs/testing/store-to-timeline.gif"></td>
+        <td><img src="./docs/testing/done-upload.gif"></td>
+     </tr>
+     <tr>
+        <td><img src="./docs/testing/attend-event.gif"></td>
+        <td><img src="./docs/testing/map-to-timeline-detial.gif"></td>
+        <td><img src="./docs/testing/post-comment.gif"></td>
      </tr>
 </table>
 
@@ -200,12 +220,28 @@ dependencies {
     <tr>
         <td>Title</td>
         <td>Diagram</td>
-        <td>Description</td>
      </tr>
      <tr>
-        <td>HIgh-level Stack</td>
-        <td><img src="./docs/arch_design/Firebase.jpg"></td>
-        <td></td>
+        <td>Class diagram</td>
+        <td><img src="./docs/arch_design/ClassDiagram2.jpg"></td>
+     </tr>
+     <tr>
+        <td>Package diagram</td>
+        <td><img src="./docs/arch_design/Package Diagram.jpg"></td>
+     </tr>
+     <tr>
+        <td>Component diagram</td>
+        <td><img src="./docs/arch_design/ComponentDiagram.jpg"></td>
+     </tr>
+     <tr>
+        <td>Use Case Diagram</td>
+        <td><img src="./docs/arch_design/Use Case Diagram.jpg"></td>
+     </tr>
+     <tr>
+        <td>Motovitional Model Diagram</td>
+        <td><img src="./docs/arch_design/Motovitional Model Diagram.png"></td>
      </tr>
 
 </table>
+
+[All diagrams](./docs/arch_design)
