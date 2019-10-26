@@ -11,6 +11,11 @@ public class ArtifactPostWrapper {
 
     private UserInfoWrapper userInfoWrapper;
 
+    /**
+     * Construct wrapper
+     * @param artifactItemWrapper the artifact information for post item
+     * @param userInfoWrapper the poster information for post item
+     */
     public ArtifactPostWrapper(ArtifactItemWrapper artifactItemWrapper, UserInfoWrapper userInfoWrapper) {
         this.artifactItemWrapper = artifactItemWrapper;
         this.userInfoWrapper = userInfoWrapper;

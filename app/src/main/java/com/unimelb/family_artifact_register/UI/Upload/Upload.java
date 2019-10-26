@@ -1,5 +1,14 @@
 package com.unimelb.family_artifact_register.UI.Upload;
 
+<<<<<<< HEAD
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 23:25:09
+ * @description view holder for post activity
+ * Deprecate and integrate with new artifact activity view holder now.
+ */
+=======
+>>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
 @Deprecated
 public class Upload {
     private String mName;

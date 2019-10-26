@@ -1,5 +1,14 @@
 package com.unimelb.family_artifact_register.UI.Post;
 
+<<<<<<< HEAD
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 22:44:12
+ * @description post item model before navigation bar.
+ * Deprecate and replace by hub model now.
+ */
+=======
+>>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
 @Deprecated
 public class Post {
 

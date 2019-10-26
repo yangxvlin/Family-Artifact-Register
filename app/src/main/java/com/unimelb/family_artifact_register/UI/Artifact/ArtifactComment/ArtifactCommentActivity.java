@@ -28,6 +28,11 @@ import com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.ArtifactD
 
 import java.util.List;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-10-13 14:33:40
+ * @description activity for editing and showing comments to user.
+ */
 public class ArtifactCommentActivity extends AppCompatActivity {
 
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
@@ -38,11 +43,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
 
     private CommentViewModel viewModel;
 
-    private ArtifactItem artifactItem;
-
     private String PostID;
-
-    private LifecycleOwner owner;
 
     private ImageView avatar;
 
@@ -52,7 +53,6 @@ public class ArtifactCommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artifact_comment);
-        owner = this;
         Intent intent = getIntent();
         PostID = intent.getStringExtra("artifactItemPostId");
 
@@ -74,6 +74,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
 //            }
 //        });
 
+        // get current user information and its avatar
         viewModel.getCurrentUserInfo().observe(this, new Observer<UserInfoWrapper>() {
             @Override
             public void onChanged(UserInfoWrapper wrapper) {
@@ -84,6 +85,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             }
         });
 
+        // set action bar
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
@@ -92,6 +94,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
 
+        // get comments from backend database by adapter and view model
         viewModel.getComments().observe(this, new Observer<List<CommentWrapper>>() {
             @Override
             public void onChanged(List<CommentWrapper> commentWrappers) {
@@ -99,6 +102,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             }
         });
 
+        // post user's comment if it is not null when user click post button
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +116,6 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -33,6 +33,15 @@ import com.unimelb.family_artifact_register.R;
 
 import java.util.HashMap;
 
+<<<<<<< HEAD
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 23:22:48
+ * @description activity for user to post new artifact and upload to backend
+ * Deprecate and integrate with new artifact activity now.
+ */
+=======
+>>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
 @Deprecated
 public class PostActivity extends AppCompatActivity {
 

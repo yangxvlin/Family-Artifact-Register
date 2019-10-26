@@ -1,7 +1,14 @@
-package com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter;
+package com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.
+        ArtifactDetailPresenter;
 
 import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-10-01 23:14:43
+ * @description present detail fragment for detail fragment class
+ * Deprecate because change detail fragment to activity.
+ */
 @Deprecated
 public class DetailFragmentPresenter {
 
