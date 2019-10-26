@@ -28,7 +28,7 @@ import java.util.Collections;
 
 /**
  * This was the original Activity that displays a list of contacts the user has.
- * Since the design has moved to bottom navigation bar, the responsibity of this Activity is now
+ * Since the design has moved to bottom navigation bar, the responsibility of this Activity is now
  * replaced by {@link com.unimelb.family_artifact_register.UI.Social.ContactFragment}
  */
 @Deprecated
