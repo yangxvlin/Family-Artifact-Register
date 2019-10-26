@@ -1,5 +1,11 @@
 package com.unimelb.family_artifact_register.UI.Post;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 22:44:12
+ * @description post item model before navigation bar.
+ * Deprecate and replace by hub model now.
+ */
 public class Post {
 
     public String postid;
