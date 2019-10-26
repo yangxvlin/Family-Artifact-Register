@@ -6,6 +6,7 @@ package com.unimelb.family_artifact_register.UI.Post;
  * @description post item model before navigation bar.
  * Deprecate and replace by hub model now.
  */
+@Deprecated
 public class Post {
 
     public String postid;

@@ -25,6 +25,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-9-20 22:48:54
+ * @description adapter for post in home fragment.
+ * Deprecate and replace by hub model adapter now.
+ */
+@Deprecated
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     public Context mContext;
