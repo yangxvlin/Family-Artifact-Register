@@ -3,8 +3,10 @@ package com.unimelb.family_artifact_register.UI.ArtifactHub;
 /**
  * @author Haichao Song 854035,
  * @time 2019-9-18 14:24:56
- * @description Model for each card in artifact hub
+ * @description Model for each card in artifact hub. Test class for manually typed input.
+ * Deprecated now because already get data from backend.
  */
+@Deprecated
 public class Model {
 
     public String postid, description, publisher, username;
