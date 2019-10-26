@@ -29,7 +29,7 @@ public class TimelineImageAdapter extends RecyclerView.Adapter<TimelineImageAdap
     public static final String TAG = TimelineImageAdapter.class.getSimpleName();
 
     /**
-     * This is the Adapter class for the recyclerView in {@link TimelineRecyclerViewHelper}
+     * This is the ViewHolder class for the recyclerView in {@link TimelineRecyclerViewHelper}
      */
     public class TimelineImageViewHolder extends RecyclerView.ViewHolder {
 

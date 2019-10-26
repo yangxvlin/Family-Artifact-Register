@@ -37,21 +37,34 @@ import java.util.List;
 
 import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.Util.TimelineRecyclerViewHelper.getRecyclerView;
 
+/**
+ * UI class for displaying a list of artifacts in a timeline
+ */
 public class TimelineActivity extends AppCompatActivity {
 
+    /**
+     * class tag
+     */
     public static final String TAG = TimelineActivity.class.getSimpleName();
 
+    /**
+     * key value used for {@link Intent#putExtra(String, String)}
+     */
     public static final String TIMELINE_ID_KEY = "timelineID";
 
+    // reference to the recyclerView used for displaying a list of artifacts in a timeline
     private RecyclerView recyclerView;
+
+    // adapter for recyclerView
     private TimelineAdapter adapter;
 
+    // view model for this activity
     private TimelineViewModel viewModel;
 
-    private List<ArtifactItemWrapper> artifacts;
-
+    // the unique id of the timeline to be displayed
     private String timelineID;
 
+    // the lifeCycle owner of the recyclerView
     private LifecycleOwner owner;
 
     @Override
@@ -59,6 +72,8 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline2);
         owner = this;
+
+        // get the id of the timeline to be displayed
         Intent intent = getIntent();
         timelineID = intent.getStringExtra(TIMELINE_ID_KEY);
 
@@ -67,10 +82,10 @@ public class TimelineActivity extends AppCompatActivity {
         adapter = new TimelineAdapter(this);
         recyclerView.setAdapter(adapter);
 
-//        ((TimelineView) findViewById(R.id.long_line)).initLine(0);
-
+        // get view model
         viewModel = ViewModelProviders.of(this, new TimelineViewModelFactory(getApplication(), timelineID)).get(TimelineViewModel.class);
 
+        // retrieve data from DB
         viewModel.getTimeline(timelineID).observe(owner, new Observer<ArtifactTimeline>() {
             @Override
             public void onChanged(ArtifactTimeline artifactTimeline) {
@@ -93,6 +108,7 @@ public class TimelineActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
+            // set gradient color for action bar
             actionBar.setBackgroundDrawable(this.getDrawable(R.drawable.gradient_background));
         }
 
@@ -108,18 +124,51 @@ public class TimelineActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This is the Adapter class for the recyclerView in {@link TimelineActivity}
+     */
     public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
+        /**
+         * This is the ViewHolder class for the recyclerView in {@link TimelineActivity}
+         */
         public class TimelineViewHolder extends RecyclerView.ViewHolder {
 
+            /**
+             * the {@link TimelineView} in the item
+             */
             public TimelineView timelineView;
 
+            /**
+             * the {@link LinearLayout} in the item
+             */
             public LinearLayout timelineHeader;
+
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView time;
+
+            /**
+             * the {@link TextView} in the item
+             */
             public TextView description;
+
+            /**
+             * the {@link FrameLayout} in the item
+             */
             public FrameLayout frame;
+
+            /**
+             * the unique id of the item
+             */
             public String itemId;
 
+            /**
+             * the public constructor for instantiating a new {@link TimelineViewHolder}
+             * @param itemView the the inflated view for the item
+             * @param viewType the type of the inflated view
+             */
             public TimelineViewHolder(@NonNull View itemView, int viewType) {
                 super(itemView);
                 this.timelineHeader = itemView.findViewById(R.id.header);
@@ -140,23 +189,40 @@ public class TimelineActivity extends AppCompatActivity {
                 timelineView.initLine(0);
             }
 
+            /**
+             * clear the view in the frame layout
+             */
             public void clearFrame() {
                 frame.removeAllViews();
             }
         }
 
+        // the data to be used
         private List<ArtifactItemWrapper> dataSet = new ArrayList<>();
+
+        // the comparator used for sorting elements in the data list
         private Comparator<ArtifactItemWrapper> comparator;
 //        private List<TimelineItemAdapter> itemAdapters = new ArrayList<>();
 
+        // two attributes used for setting dynamic gap between adjacent items
         private long maxInterval, minInterval;
 
+        // max length of gap
         private final int maxGap = 1500;
+
+        // min length of gap
         private final int minGap = 800;
+
+        // the context
         private Context context;
 
+        /**
+         * public constructor for instantiating a new {@link TimelineAdapter}
+         * @param context the context
+         */
         public TimelineAdapter(Context context) {
             this.context = context;
+            // order elements in ascending order of happened time
             comparator = new Comparator<ArtifactItemWrapper>() {
                 @Override
                 public int compare(ArtifactItemWrapper artifactItemWrapper, ArtifactItemWrapper t1) {
@@ -217,6 +283,10 @@ public class TimelineActivity extends AppCompatActivity {
             return TimelineView.getTimeLineViewType(position, getItemCount());
         }
 
+        /**
+         * set new data for adapter
+         * @param newData the new data to be set
+         */
         public void setData(List<ArtifactItemWrapper> newData) {
             dataSet = newData;
             dataSet.sort(comparator);
@@ -236,6 +306,7 @@ public class TimelineActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
+        // get the difference of two dateTimes represented as strings
         private long getTimeDiff(String s1, String s2) {
             try {
                 long time1 = TimeToString.standardDateFormat.parse(s1).toInstant().toEpochMilli();
