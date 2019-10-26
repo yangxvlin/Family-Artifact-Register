@@ -9,6 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.R;
 
+/**
+ * @author Haichao Song 854035,
+ * @time 2019-10-13 13:54:47
+ * @description view holder to pair variable with view in xml
+ */
 public class CommentViewHolder extends RecyclerView.ViewHolder {
 
     ImageView avatar;
