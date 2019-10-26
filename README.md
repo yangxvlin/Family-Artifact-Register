@@ -15,6 +15,21 @@
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+## Repository Structure
+```
+| /app 
+      - application code
+  /docs 
+      - documentations
+  .all-contributorsrc 
+      - all contributers infomation
+  .travis.yml 
+      - continuous integration
+  build.gradle 
+      - android building script
+
+```
+
 ## Tools:
 - Google Material Design: https://material.io/develop/android/docs/getting-started/
 - Firebase:
