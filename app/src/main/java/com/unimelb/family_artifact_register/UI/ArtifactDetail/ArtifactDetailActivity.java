@@ -57,8 +57,7 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     // get class tag
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
-
-    private DetailImageAdapter detailImageAdapter;
+    
     private DetailViewModel viewModel;
 
     private String PostID;
@@ -90,9 +89,6 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_artifact_detail);
         Intent intent = getIntent();
         PostID = intent.getStringExtra(ARTIFACT_ITEM_ID_KEY);
-
-
-        detailImageAdapter = new DetailImageAdapter(this);
 
         desc = findViewById(R.id.desc);
         user = findViewById(R.id.user);
