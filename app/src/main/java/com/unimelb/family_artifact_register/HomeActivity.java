@@ -11,21 +11,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactHub.HubFragment;
-import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.MeFragment;
-import com.unimelb.family_artifact_register.UI.Event.EventFragment;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.ArtifactLocationMap.TabbedMapFragment;
-import com.unimelb.family_artifact_register.UI.Social.ContactFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactHub.HubFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.ArtifactLocationMap.TabbedMapFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
+import com.unimelb.family_artifact_register.UI.Artifact.ViewArtifact.MeFragment;
+import com.unimelb.family_artifact_register.UI.Event.EventFragment;
+import com.unimelb.family_artifact_register.UI.Social.ContactFragment;
 import com.unimelb.family_artifact_register.Util.IFragment;
 
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 13:33:24
- * @description main activity let the user use the app with various bottom navigation
- * contains the logic to transit between different fragments and sign out
+ * @description main activity let the user use the app with various bottom navigation contains the
+ * logic to transit between different fragments and sign out
  */
 public class HomeActivity extends AppCompatActivity {
     /**
@@ -47,32 +47,26 @@ public class HomeActivity extends AppCompatActivity {
      * Artifact hub page
      */
     private HubFragment hubFragment = HubFragment.newInstance();
-
-    /**
-     * Social contact page
-     */
-    private ContactFragment contactFragment = ContactFragment.newInstance();
-
-    /**
-     * Map Artifact page
-     */
-    private TabbedMapFragment mapFragment = TabbedMapFragment.newInstance();
-
-    /**
-     * Me page
-     */
-    private MeFragment meFragment = MeFragment.newInstance();
-
-    /**
-     * Event page
-     */
-    private EventFragment eventFragment = EventFragment.newInstance();
-
     /**
      * the fragment is active
      */
     Fragment active = hubFragment;
-
+    /**
+     * Social contact page
+     */
+    private ContactFragment contactFragment = ContactFragment.newInstance();
+    /**
+     * Map Artifact page
+     */
+    private TabbedMapFragment mapFragment = TabbedMapFragment.newInstance();
+    /**
+     * Me page
+     */
+    private MeFragment meFragment = MeFragment.newInstance();
+    /**
+     * Event page
+     */
+    private EventFragment eventFragment = EventFragment.newInstance();
     /**
      * firebase authentication
      */
@@ -85,40 +79,40 @@ public class HomeActivity extends AppCompatActivity {
      */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
-                switch (item.getItemId()) {
-                    case R.id.item_hub:
-                        setTitle(R.string.artifact_hub_title);
-                        getSupportActionBar().setElevation(defaultActionBarElevation);
-                        fm.beginTransaction().hide(active).show(hubFragment).commit();
-                        active = hubFragment;
-                        return true;
-                    case R.id.item_contacts:
-                        setTitle(R.string.bottom_bar_contacts);
-                        getSupportActionBar().setElevation(defaultActionBarElevation);
-                        fm.beginTransaction().hide(active).show(contactFragment).commit();
-                        active = contactFragment;
-                        return true;
-                    case R.id.item_map:
-                        setTitle(R.string.artifact_map_title);
-                        getSupportActionBar().setElevation(0);
-                        fm.beginTransaction().hide(active).show(mapFragment).commit();
-                        active = mapFragment;
-                        return true;
-                    case R.id.item_me:
-                        setTitle(R.string.bottom_bar_profile);
-                        getSupportActionBar().setElevation(0);
-                        fm.beginTransaction().hide(active).show(meFragment).commit();
-                        active = meFragment;
-                        return true;
-                    case R.id.item_event:
-                        setTitle(R.string.artifact_event);
-                        getSupportActionBar().setElevation(0);
-                        fm.beginTransaction().hide(active).show(eventFragment).commit();
-                        active = eventFragment;
-                        return true;
-                }
-                return false;
-            };
+        switch (item.getItemId()) {
+            case R.id.item_hub:
+                setTitle(R.string.artifact_hub_title);
+                getSupportActionBar().setElevation(defaultActionBarElevation);
+                fm.beginTransaction().hide(active).show(hubFragment).commit();
+                active = hubFragment;
+                return true;
+            case R.id.item_contacts:
+                setTitle(R.string.bottom_bar_contacts);
+                getSupportActionBar().setElevation(defaultActionBarElevation);
+                fm.beginTransaction().hide(active).show(contactFragment).commit();
+                active = contactFragment;
+                return true;
+            case R.id.item_map:
+                setTitle(R.string.artifact_map_title);
+                getSupportActionBar().setElevation(0);
+                fm.beginTransaction().hide(active).show(mapFragment).commit();
+                active = mapFragment;
+                return true;
+            case R.id.item_me:
+                setTitle(R.string.bottom_bar_profile);
+                getSupportActionBar().setElevation(0);
+                fm.beginTransaction().hide(active).show(meFragment).commit();
+                active = meFragment;
+                return true;
+            case R.id.item_event:
+                setTitle(R.string.artifact_event);
+                getSupportActionBar().setElevation(0);
+                fm.beginTransaction().hide(active).show(eventFragment).commit();
+                active = eventFragment;
+                return true;
+        }
+        return false;
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
         defaultActionBarElevation = getSupportActionBar().getElevation();
 
         // setup bottom navigation bar
-        navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
+        navigation = findViewById(R.id.bottom_navigation_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         fm.beginTransaction().add(R.id.main_view, meFragment).hide(meFragment).commit();
@@ -144,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // avoid initial not updated bug
-        String tag = ((IFragment)active).getFragmentTag();
+        String tag = ((IFragment) active).getFragmentTag();
 
         if (tag.equals(HubFragment.TAG)) {
             setTitle(R.string.artifact_hub_title);

@@ -9,9 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unimelb.family_artifact_register.R;
 
 /**
- * view holder for images recycler view
- * Deprecated because use view pager for images
- * not deleted by the open-close principle
+ * view holder for images recycler view Deprecated because use view pager for images not deleted by
+ * the open-close principle
  */
 @Deprecated
 public class MyArtifactsImagesViewHolder extends RecyclerView.ViewHolder {

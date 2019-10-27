@@ -10,19 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.material.button.MaterialButton;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.ArtifactDetailActivity;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.TimelineActivity;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.material.button.MaterialButton;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.ArtifactDetailActivity.ARTIFACT_ITEM_ID_KEY;
 import static com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.TimelineActivity.TIMELINE_ID_KEY;
 
 /**
- * customized interactive info window for google map marker
- * adapter pattern
+ * customized interactive info window for google map marker adapter pattern
  */
 public class MyInfoWindow extends Fragment implements IFragment {
 
@@ -42,6 +41,16 @@ public class MyInfoWindow extends Fragment implements IFragment {
     public MyInfoWindow() {
     }
 
+    /**
+     * @param marker marker
+     * @return created interactive info window
+     */
+    public static MyInfoWindow newInstance(Marker marker) {
+        MyInfoWindow myInfoWindow = new MyInfoWindow();
+        myInfoWindow.marker = marker;
+        return myInfoWindow;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,17 +65,8 @@ public class MyInfoWindow extends Fragment implements IFragment {
     }
 
     /**
-     * @param marker marker
-     * @return created interactive info window
-     */
-    public static MyInfoWindow newInstance(Marker marker) {
-        MyInfoWindow myInfoWindow = new MyInfoWindow();
-        myInfoWindow.marker = marker;
-        return myInfoWindow;
-    }
-
-    /**
      * inflate data on view
+     *
      * @param view view
      */
     private void render(View view) {

@@ -7,12 +7,12 @@ import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation
  */
 public interface HappenedLocationListener {
     /**
-     * @param happenedLocation artifact item happened location
-     */
-    void setHappenedLocation(MapLocation happenedLocation);
-
-    /**
      * @return artifact item happened location
      */
     MapLocation getHappenedLocation();
+
+    /**
+     * @param happenedLocation artifact item happened location
+     */
+    void setHappenedLocation(MapLocation happenedLocation);
 }

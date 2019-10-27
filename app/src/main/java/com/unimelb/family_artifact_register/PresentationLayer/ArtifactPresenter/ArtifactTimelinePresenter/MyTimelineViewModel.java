@@ -52,12 +52,12 @@ public class MyTimelineViewModel extends AndroidViewModel {
             @Override
             public void onChanged(List<ArtifactTimeline> artifactTimelines) {
                 Log.d(TAG, "get timelines from DB");
-                for(ArtifactTimeline timeline: artifactTimelines) {
+                for (ArtifactTimeline timeline : artifactTimelines) {
 
                     List<ArtifactItemWrapper> wrappers = new ArrayList<>();
                     ArtifactTimelineWrapper timelineWrapper = new ArtifactTimelineWrapper(timeline);
 
-                    for(String postID: timeline.getArtifactItemPostIds()) {
+                    for (String postID : timeline.getArtifactItemPostIds()) {
                         artifactManager.listenArtifactItemByPostId(postID, "MyTimelineViewModel2").observeForever(new Observer<ArtifactItem>() {
                             @Override
                             public void onChanged(ArtifactItem artifactItem) {
@@ -71,7 +71,7 @@ public class MyTimelineViewModel extends AndroidViewModel {
                                                         .map(Objects::toString)
                                                         .collect(Collectors.toList())
                                         );
-                                        if(!timelineWrapper.getArtifacts().contains(wrapper)) {
+                                        if (!timelineWrapper.getArtifacts().contains(wrapper)) {
                                             timelineWrapper.getArtifacts().add(wrapper);
                                             timelineList.add(timelineWrapper);
                                             timelines.postValue(timelineList);

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:background="@color/wechat_white"/>
+            android:background="@color/wechat_white"
+            android:orientation="vertical" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -30,6 +29,6 @@
         android:layout_alignParentBottom="true"
         android:background="@color/wechat_grey"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_bar_menu"/>
+        app:menu="@menu/bottom_bar_menu" />
 
 </RelativeLayout>

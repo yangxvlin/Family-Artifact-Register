@@ -19,6 +19,16 @@ import java.util.UUID;
  */
 public class MapLocation extends Location implements Parcelable, Serializable,
         Comparable<MapLocation> {
+    public static final Parcelable.Creator<MapLocation> CREATOR
+            = new Parcelable.Creator<MapLocation>() {
+        public MapLocation createFromParcel(Parcel in) {
+            return new MapLocation(in);
+        }
+
+        public MapLocation[] newArray(int size) {
+            return new MapLocation[size];
+        }
+    };
     private String mapLocationId;
     private String placeId;
     private String name;
@@ -36,14 +46,14 @@ public class MapLocation extends Location implements Parcelable, Serializable,
 
     /**
      * @param mapLocationId Id stored in database
-     * @param provider provider of this location
-     * @param latitude longitude of the place
-     * @param longitude latitude of the place
-     * @param placeId placeId of the place if searched by google place api
-     * @param name name of the place
-     * @param description description of the place
-     * @param address address of the place
-     * @param imageUrls set of iamge urls (can be street view in the future)
+     * @param provider      provider of this location
+     * @param latitude      longitude of the place
+     * @param longitude     latitude of the place
+     * @param placeId       placeId of the place if searched by google place api
+     * @param name          name of the place
+     * @param description   description of the place
+     * @param address       address of the place
+     * @param imageUrls     set of iamge urls (can be street view in the future)
      */
     public MapLocation(String mapLocationId, String provider, double latitude, double longitude,
                        String placeId, String name, String description, String address,
@@ -63,6 +73,27 @@ public class MapLocation extends Location implements Parcelable, Serializable,
             imageUrls = new ArrayList<>();
         }
         this.imageUrls = imageUrls;
+    }
+
+    /**
+     * Constructor used for parcelable
+     *
+     * @param in The parcel with information
+     */
+    private MapLocation(Parcel in) {
+        this(
+                in.readString(),
+                in.readString(),
+                in.readDouble(),
+                in.readDouble(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                null
+        );
+        this.imageUrls = new ArrayList<>();
+        in.readStringList(imageUrls);
     }
 
     public static MapLocation newInstance(LatLng latLng) {
@@ -176,38 +207,6 @@ public class MapLocation extends Location implements Parcelable, Serializable,
         out.writeStringList(imageUrls);
     }
 
-    public static final Parcelable.Creator<MapLocation> CREATOR
-            = new Parcelable.Creator<MapLocation>() {
-        public MapLocation createFromParcel(Parcel in) {
-            return new MapLocation(in);
-        }
-
-        public MapLocation[] newArray(int size) {
-            return new MapLocation[size];
-        }
-    };
-
-    /**
-     * Constructor used for parcelable
-     *
-     * @param in The parcel with information
-     */
-    private MapLocation(Parcel in) {
-        this(
-                in.readString(),
-                in.readString(),
-                in.readDouble(),
-                in.readDouble(),
-                in.readString(),
-                in.readString(),
-                in.readString(),
-                in.readString(),
-                null
-        );
-        this.imageUrls = new ArrayList<>();
-        in.readStringList(imageUrls);
-    }
-
     @NotNull
     @Override
     public String toString() {
@@ -220,6 +219,7 @@ public class MapLocation extends Location implements Parcelable, Serializable,
 
     /**
      * Override Compare to to have an ordering of things (May be easier for frontend to manage)
+     *
      * @param o The other to compare to
      * @return Save order as the comparison between displayed name
      */

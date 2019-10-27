@@ -26,10 +26,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.unimelb.family_artifact_register.R;
-import com.unimelb.family_artifact_register.Util.FileHelper;
 import com.kodmap.app.library.PopopDialogBuilder;
 import com.tmall.ultraviewpager.UltraViewPager;
+import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.Util.FileHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +44,10 @@ public class MediaViewHelper {
     public static final String TAG = MediaViewHelper.class.getSimpleName();
 
     /**
-     * @param images list of images
-     * @param context context
+     * @param images         list of images
+     * @param context        context
      * @param ultraViewPager ultraViewPager
-     * @param infiniteLoop can go back to begin if at the end
+     * @param infiniteLoop   can go back to begin if at the end
      */
     public static void setImagesViewPager(List<Uri> images, Context context, UltraViewPager ultraViewPager, Boolean infiniteLoop) {
         ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
@@ -79,10 +79,10 @@ public class MediaViewHelper {
     }
 
     /**
-     * @param imageWidth image item width
+     * @param imageWidth  image item width
      * @param imageHeight image item height
-     * @param images list of images
-     * @param context context
+     * @param images      list of images
+     * @param context     context
      * @return dynamically created recycler view
      */
     public static RecyclerView getImageRecyclerView(int imageWidth, int imageHeight, List<Uri> images, Context context) {
@@ -121,7 +121,7 @@ public class MediaViewHelper {
                 imageWidth,
                 context
         );
-        for (Uri image: images) {
+        for (Uri image : images) {
             imagesRecyclerViewAdapter.addData(image);
         }
         imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
@@ -141,7 +141,7 @@ public class MediaViewHelper {
     }
 
     /**
-     * @param video video address
+     * @param video   video address
      * @param context context
      * @return dynamically created thumbnail image view of video
      */
@@ -203,10 +203,10 @@ public class MediaViewHelper {
     }
 
     /**
-     * @param thumbnailWidth image width
+     * @param thumbnailWidth  image width
      * @param thumbnailHeight image height
-     * @param video video address
-     * @param context context context
+     * @param video           video address
+     * @param context         context context
      * @return dynamically created thumbnail image view of video
      */
     public static ImageView getVideoThumbnail(int thumbnailWidth, int thumbnailHeight, Uri video, Context context) {
@@ -286,9 +286,10 @@ public class MediaViewHelper {
 
     /**
      * click image and open a dialog to see whole image
+     *
      * @param imageView image view
-     * @param image image address
-     * @param context context
+     * @param image     image address
+     * @param context   context
      */
     public static void setImageOnClickOpenDialogListener(View imageView, Uri image, Context context) {
         imageView.setOnClickListener(view -> {
@@ -320,14 +321,15 @@ public class MediaViewHelper {
 
     /**
      * when image clicked start a dialog with images of view pager and start at selected index
-     * @param imageView image view
-     * @param images list of images
-     * @param context context
+     *
+     * @param imageView     image view
+     * @param images        list of images
+     * @param context       context
      * @param selectedIndex index of selected image
      */
     public static void setImageOnClickOpenDialogSliderListener(View imageView, List<Uri> images, Context context, int selectedIndex) {
         List<String> imagesUriString = new ArrayList<>();
-        for (Uri image: images) {
+        for (Uri image : images) {
             imagesUriString.add("file:/" + image.toString());
         }
 
@@ -352,7 +354,7 @@ public class MediaViewHelper {
                     // Set image scale type for slider image
                     .setSliderImageScaleType(ImageView.ScaleType.FIT_CENTER)
                     // Set indicator drawable
-                     .setSelectorIndicator(R.drawable.sample_indicator_selector)
+                    .setSelectorIndicator(R.drawable.sample_indicator_selector)
                     // Enable or disable zoomable
                     .setIsZoomable(true)
                     // Build Km Slider Popup Dialog

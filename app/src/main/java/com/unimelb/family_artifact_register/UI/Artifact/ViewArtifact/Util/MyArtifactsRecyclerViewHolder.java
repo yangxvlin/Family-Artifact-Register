@@ -11,9 +11,8 @@ import com.tmall.ultraviewpager.UltraViewPager;
 import com.unimelb.family_artifact_register.R;
 
 /**
- * view holder for recycler view for artifact item
- * Deprecated because no longer use ViewMediaFragment
- * Not deleted because open-close principle
+ * view holder for recycler view for artifact item Deprecated because no longer use
+ * ViewMediaFragment Not deleted because open-close principle
  */
 @Deprecated
 public class MyArtifactsRecyclerViewHolder extends RecyclerView.ViewHolder {

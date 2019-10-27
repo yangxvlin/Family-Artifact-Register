@@ -6,31 +6,21 @@ import java.io.File;
 import java.util.UUID;
 
 /**
- * pure fabricate logic of getting phone's cache directory
- * singleton to provide global access
+ * pure fabricate logic of getting phone's cache directory singleton to provide global access
  */
 public class CacheDirectoryHelper {
     /**
      * class tag
      */
     private static final String TAG = CacheDirectoryHelper.class.getSimpleName();
-
-    /**
-     * phone's internal cache directory
-     */
-    private File cacheDirectory = null;
-
     /**
      * singleton object
      */
     private static final CacheDirectoryHelper ourInstance = new CacheDirectoryHelper();
-
     /**
-     * @return singleton instance
+     * phone's internal cache directory
      */
-    public static CacheDirectoryHelper getInstance() {
-        return ourInstance;
-    }
+    private File cacheDirectory = null;
 
     /**
      * empty constructor
@@ -39,10 +29,10 @@ public class CacheDirectoryHelper {
     }
 
     /**
-     * @param cacheDirectory the app internal cache directory
+     * @return singleton instance
      */
-    public void setCacheDirectory(File cacheDirectory) {
-        this.cacheDirectory = cacheDirectory;
+    public static CacheDirectoryHelper getInstance() {
+        return ourInstance;
     }
 
     /**
@@ -53,6 +43,13 @@ public class CacheDirectoryHelper {
     }
 
     /**
+     * @param cacheDirectory the app internal cache directory
+     */
+    public void setCacheDirectory(File cacheDirectory) {
+        this.cacheDirectory = cacheDirectory;
+    }
+
+    /**
      * @param postFix file suffix
      * @return created new file or existing file
      */
@@ -60,13 +57,13 @@ public class CacheDirectoryHelper {
         String timeStamp = TimeToString.getCurrentTimeFormattedStringForFileName();
         File newFile = getCacheDirectory()
                 .toPath()
-                .resolve(timeStamp+UUID.randomUUID().toString()+postFix)
+                .resolve(timeStamp + UUID.randomUUID().toString() + postFix)
                 .toFile();
         Log.d(TAG, "Creating newFile Uri: " + newFile.toString());
         while (newFile.exists()) {
             newFile = getCacheDirectory()
                     .toPath()
-                    .resolve(timeStamp+UUID.randomUUID().toString())
+                    .resolve(timeStamp + UUID.randomUUID().toString())
                     .toFile();
         }
         return newFile;

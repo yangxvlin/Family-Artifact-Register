@@ -5,15 +5,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfo;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.unimelb.family_artifact_register.MyApplication;
 import com.unimelb.family_artifact_register.Util.CacheDirectoryHelper;
 import com.unimelb.family_artifact_register.Util.Callback;
 import com.unimelb.family_artifact_register.Util.DownloadBroadcastHelper;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class FirebaseAuthHelper {
@@ -34,6 +34,7 @@ public class FirebaseAuthHelper {
 
     /**
      * Construct a new user based on a FirebaseUser object.
+     *
      * @param firebaseUser The FirebaseUser to convert from
      * @return The new user object constructed from FirebaseUser
      */
@@ -46,11 +47,20 @@ public class FirebaseAuthHelper {
     }
 
 
+    /**
+     * Check if user is registered in database, if not register. Then use callback to pass
+     * information
+     *
+     * @param firebaseUser The user object to check for
+     * @param callback     callback to use after process finished
+     * @param requestCode  request code
+     */
     public void checkRegisterUser(FirebaseUser firebaseUser, Callback<Void> callback,
                                   int requestCode) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String uid = firebaseUser.getUid();
         Uri photoUri = firebaseUser.getPhotoUrl();
+        // standard collect check for database
         db.collection(DBConstant.USER_INFO)
                 .document(uid)
                 .get()
@@ -75,22 +85,23 @@ public class FirebaseAuthHelper {
                                             .getInstance()
                                             .storeUserInfo(userInfo, 0,
                                                     (requestCode1, resultCode, data) -> {
-                                                switch (resultCode) {
-                                                    case (UserInfoManager.RESULT_OK): {
-                                                        if (photoUri != null) {
-                                                            retrieveSetPhoto(photoUri, userInfo);
+                                                        switch (resultCode) {
+                                                            case (UserInfoManager.RESULT_OK): {
+                                                                // download photo from onlne
+                                                                if (photoUri != null) {
+                                                                    retrieveSetPhoto(photoUri, userInfo);
+                                                                }
+                                                                callback.callback(requestCode,
+                                                                        RESULT_NEW_USER, null);
+                                                                break;
+                                                            }
+                                                            case (UserInfoManager.RESULT_CANCELLED):
+                                                            case (UserInfoManager.RESULT_FAILURE):
+                                                                callback.callback(requestCode,
+                                                                        RESULT_FAILURE, null);
+                                                                break;
                                                         }
-                                                        callback.callback(requestCode,
-                                                                RESULT_NEW_USER, null);
-                                                        break;
-                                                    }
-                                                    case (UserInfoManager.RESULT_CANCELLED):
-                                                    case (UserInfoManager.RESULT_FAILURE):
-                                                        callback.callback(requestCode,
-                                                                RESULT_FAILURE, null);
-                                                        break;
-                                                }
-                                            });
+                                                    });
                                 }
                             } else {
                                 Log.d(TAG, "get failed with ", task.getException());
@@ -101,6 +112,7 @@ public class FirebaseAuthHelper {
 
     /**
      * Retrieve and set Photo uri of a given FirebaseUser
+     *
      * @param photoUri The photoUri to retrieve and set
      */
     @Deprecated()
@@ -122,8 +134,11 @@ public class FirebaseAuthHelper {
                     .getSystemService(Context.DOWNLOAD_SERVICE);
 
             Uri uri = Uri.fromFile(CacheDirectoryHelper
-                            .getInstance()
-                            .createNewFile(imgExtension));
+                    .getInstance()
+                    .createNewFile(imgExtension))
+                    .buildUpon()
+                    .scheme("file")
+                    .build();
 
             // Create request
             DownloadManager.Request request = new DownloadManager.Request(photoUri);

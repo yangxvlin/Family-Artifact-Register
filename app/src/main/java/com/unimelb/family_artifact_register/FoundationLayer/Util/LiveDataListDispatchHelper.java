@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO this class could be made more generic
- * Helper Class designed to help dispatch live data which requires multiple async update
- * For instance the search in UserInfoManager
+ * TODO this class could be made more generic Helper Class designed to help dispatch live data which
+ * requires multiple async update For instance the search in UserInfoManager
  */
 public class LiveDataListDispatchHelper<T> {
     private static final String TAG = LiveDataListDispatchHelper.class.getSimpleName();
@@ -29,6 +28,7 @@ public class LiveDataListDispatchHelper<T> {
 
     /**
      * Timed of mutable live data
+     *
      * @param mutableLiveData The mutableLiveData to dispatch
      */
     public LiveDataListDispatchHelper(MutableLiveData<List<T>> mutableLiveData) {
@@ -38,8 +38,9 @@ public class LiveDataListDispatchHelper<T> {
 
     /**
      * Timed version of mutable live data
+     *
      * @param mutableLiveData The mutableLiveData to dispatch
-     * @param timeout max time before dispatching (in seconds)
+     * @param timeout         max time before dispatching (in seconds)
      */
     public LiveDataListDispatchHelper(MutableLiveData<List<T>> mutableLiveData, int timeout) {
         this(mutableLiveData);
@@ -59,6 +60,7 @@ public class LiveDataListDispatchHelper<T> {
 
     /**
      * If the task queue is empty?
+     *
      * @return true if empty task queue
      */
     public boolean shouldDispatch() {
@@ -92,13 +94,14 @@ public class LiveDataListDispatchHelper<T> {
 
     public void completeWaitingTaskAndDispatch() {
         total -= 1;
-        if(shouldDispatch()) {
+        if (shouldDispatch()) {
             dispatch();
         }
     }
 
     /**
      * add new result to the result list
+     *
      * @param newResult the new result to add
      */
     public void addResult(T newResult) {
@@ -107,6 +110,7 @@ public class LiveDataListDispatchHelper<T> {
 
     /**
      * add new result to the results list
+     *
      * @param newResults the new list of results to add
      */
     public void addResult(List<T> newResults) {
@@ -116,7 +120,9 @@ public class LiveDataListDispatchHelper<T> {
     }
 
     /**
-     * add new result to the result list and decrease the counter, will dispatch result if counter hits zero
+     * add new result to the result list and decrease the counter, will dispatch result if counter
+     * hits zero
+     *
      * @param newResult the new result to add
      */
     public void addResultAfterTaskCompletion(T newResult) {
@@ -129,7 +135,9 @@ public class LiveDataListDispatchHelper<T> {
     }
 
     /**
-     * add new results to the result list and decrease the counter, will dispatch result if counter hits zero
+     * add new results to the result list and decrease the counter, will dispatch result if counter
+     * hits zero
+     *
      * @param newResults the new list of results to add
      */
     public void addResultAfterTaskCompletion(List<T> newResults) {

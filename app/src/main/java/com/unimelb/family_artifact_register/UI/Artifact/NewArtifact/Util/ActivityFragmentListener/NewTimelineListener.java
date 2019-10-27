@@ -16,7 +16,7 @@ public interface NewTimelineListener {
     int EXISTING_ARTIFACT_TIMELINE = 1;
 
     /**
-     * @param type new or existing timeline
+     * @param type          new or existing timeline
      * @param timelineTitle timeline's title
      */
     void setTimeline(int type, String timelineTitle);

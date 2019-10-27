@@ -47,7 +47,7 @@ public class NewArtifactViewModel extends AndroidViewModel {
                        int timelineStrategy,
                        String timelineTitle,
                        ArtifactTimeline selectedArtifactTimeline) {
-        MapLocationManager mlm =  MapLocationManager.getInstance();
+        MapLocationManager mlm = MapLocationManager.getInstance();
         mlm.storeMapLocation(uploadLocation);
         String uploadLocationId = uploadLocation.getMapLocationId();
 
@@ -68,7 +68,7 @@ public class NewArtifactViewModel extends AndroidViewModel {
 
         // convert uri to String
         List<String> mediaDataString = new ArrayList<>();
-        for (Uri uri: mediaData) {
+        for (Uri uri : mediaData) {
 //            File externalStoredFile = MediaProcessHelper.copyFileToExternal(uri);
             mediaDataString.add(uri.toString());
 //            Uri externalStoredUri = Uri.fromFile(externalStoredFile);

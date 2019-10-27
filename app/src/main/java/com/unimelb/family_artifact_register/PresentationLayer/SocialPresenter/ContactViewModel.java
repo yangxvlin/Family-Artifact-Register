@@ -22,8 +22,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * this class is responsible for communicating with DB (retrieving data or posting updates)
- * and prepares data for {@link com.unimelb.family_artifact_register.UI.Social.ContactFragment} to display
+ * this class is responsible for communicating with DB (retrieving data or posting updates) and
+ * prepares data for {@link com.unimelb.family_artifact_register.UI.Social.ContactFragment} to
+ * display
  */
 public class ContactViewModel extends AndroidViewModel {
 
@@ -49,6 +50,7 @@ public class ContactViewModel extends AndroidViewModel {
 
     /**
      * public constructor for instantiating a new {@link ContactViewModel}
+     *
      * @param application the application
      */
     public ContactViewModel(Application application) {
@@ -69,7 +71,7 @@ public class ContactViewModel extends AndroidViewModel {
                 List<LiveData<UserInfo>> friendList = manager.listenUserInfo(friendUids);
 
                 Log.d(TAG, "friend list size: " + friendList.size());
-                for(LiveData<UserInfo> i: friendList) {
+                for (LiveData<UserInfo> i : friendList) {
                     friends.removeSource(i);
                     friends.addSource(i, new Observer<UserInfo>() {
                         @Override
@@ -77,16 +79,15 @@ public class ContactViewModel extends AndroidViewModel {
                             Log.d(TAG, "friend info: " + userInfo.toString());
                             UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
                             String url = wrapper.getPhotoUrl();
-                            if(url == null && !wrapper.getUid().equals(manager.getCurrentUid())) {
+                            if (url == null && !wrapper.getUid().equals(manager.getCurrentUid())) {
                                 wrapper.setPhotoUrl(null);
                                 friends.getValue().add(wrapper);
                                 friends.postValue(friends.getValue());
-                            }
-                            else {
+                            } else {
                                 helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                                     @Override
                                     public void onChanged(Uri uri) {
-                                        if(!wrapper.getUid().equals(manager.getCurrentUid())) {
+                                        if (!wrapper.getUid().equals(manager.getCurrentUid())) {
                                             wrapper.setPhotoUrl(uri.toString());
                                             friends.getValue().add(wrapper);
                                             friends.postValue(friends.getValue());
@@ -103,6 +104,7 @@ public class ContactViewModel extends AndroidViewModel {
 
     /**
      * get data of all the contacts the current user has
+     *
      * @return a list of contacts the current user has
      */
     public LiveData<Set<UserInfoWrapper>> getContacts() {
@@ -111,6 +113,7 @@ public class ContactViewModel extends AndroidViewModel {
 
     /**
      * get the information of current user
+     *
      * @return the current user
      */
     public LiveData<UserInfoWrapper> getPersonalProfile() {
@@ -118,11 +121,10 @@ public class ContactViewModel extends AndroidViewModel {
             @Override
             public void onChanged(UserInfo userInfo) {
                 UserInfoWrapper wrapper = new UserInfoWrapper(userInfo);
-                if(wrapper.getPhotoUrl() == null) {
+                if (wrapper.getPhotoUrl() == null) {
                     wrapper.setPhotoUrl(null);
                     me.postValue(wrapper);
-                }
-                else {
+                } else {
                     helper.loadByRemoteUri(wrapper.getPhotoUrl()).observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(Uri uri) {
@@ -139,7 +141,10 @@ public class ContactViewModel extends AndroidViewModel {
 
     /**
      * get the uid of current user
+     *
      * @return the uid of current user
      */
-    public String getCurrentUid() { return manager.getCurrentUid(); }
+    public String getCurrentUid() {
+        return manager.getCurrentUid();
+    }
 }

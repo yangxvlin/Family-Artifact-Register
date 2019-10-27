@@ -18,29 +18,28 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Util.ImagesRecyclerViewAdapter;
 import com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.unimelb.family_artifact_register.UI.Util.MediaConstant.MEDIA_URL_LIST;
 import static com.unimelb.family_artifact_register.UI.Util.MediaConstant.MEDIA_TYPE;
+import static com.unimelb.family_artifact_register.UI.Util.MediaConstant.MEDIA_URL_LIST;
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_IMAGE;
 import static com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper.TYPE_VIDEO;
 
 /**
- * 1. display two media source: Image and Video both passed in through
- * List<String> by Key: MEDIA_URL_LIST and
- * media type is passed through int by key: MEDIA_TYPE. value detail see {@link MediaProcessHelper}
- * see {@link MyArtifactsRecyclerViewAdapter onBindViewHolder()} for unimelb usage
- *
+ * 1. display two media source: Image and Video both passed in through List<String> by Key:
+ * MEDIA_URL_LIST and media type is passed through int by key: MEDIA_TYPE. value detail see {@link
+ * MediaProcessHelper} see {@link MyArtifactsRecyclerViewAdapter onBindViewHolder()} for unimelb
+ * usage
+ * <p>
  * 2. set media layout param by call setSingleMediaHeight() and setSingleMediaWidth()
- *
- * Deprecated because can't use fragment in recycler view
- * not deleted for the open-close principle
+ * <p>
+ * Deprecated because can't use fragment in recycler view not deleted for the open-close principle
  */
 @Deprecated
 public class ViewMediaFragment extends Fragment implements IFragment {
@@ -86,6 +85,13 @@ public class ViewMediaFragment extends Fragment implements IFragment {
         // Required empty public constructor
     }
 
+    /**
+     * @return created view media fragment
+     */
+    public static ViewMediaFragment newInstance() {
+        return new ViewMediaFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -101,7 +107,7 @@ public class ViewMediaFragment extends Fragment implements IFragment {
 
         Bundle bundle = this.getArguments();
 
-        if(bundle != null){
+        if (bundle != null) {
             // get media type and media list
             mediaType = bundle.getInt(MEDIA_TYPE);
             initializeMediaParam();
@@ -109,7 +115,7 @@ public class ViewMediaFragment extends Fragment implements IFragment {
             // convert single media's String Url to Uri
             List<String> mediaUrlsList = (List<String>) bundle.getSerializable(MEDIA_URL_LIST);
             mediaList = new ArrayList<>();
-            for (String mediaUrl: mediaUrlsList) {
+            for (String mediaUrl : mediaUrlsList) {
                 Log.d(TAG, "media uri" + mediaUrl);
                 mediaList.add(Uri.parse(mediaUrl));
             }
@@ -147,7 +153,7 @@ public class ViewMediaFragment extends Fragment implements IFragment {
                     this.getSingleMediaWidth(),
                     getContext()
             );
-            for (Uri image: mediaList) {
+            for (Uri image : mediaList) {
                 imagesRecyclerViewAdapter.addData(image);
             }
             imageRecyclerView.setAdapter(imagesRecyclerViewAdapter);
@@ -186,11 +192,6 @@ public class ViewMediaFragment extends Fragment implements IFragment {
         }
     }
 
-    /**
-     * @return created view media fragment
-     */
-    public static ViewMediaFragment newInstance() { return new ViewMediaFragment(); }
-
     private void initializeMediaParam() {
         if (mediaType == TYPE_IMAGE) {
             this.setSingleMediaHeight(DEFAULT_IMAGE_HEIGHT);
@@ -203,6 +204,10 @@ public class ViewMediaFragment extends Fragment implements IFragment {
         }
     }
 
+    public int getFrameHeight() {
+        return this.frameHeight;
+    }
+
     // ********************************** getter & setter *****************************************
     @Deprecated
     public void setFrameHeight(int height) {
@@ -210,16 +215,20 @@ public class ViewMediaFragment extends Fragment implements IFragment {
         this.singleMediaHeight = this.frameHeight;
     }
 
-    public int getFrameHeight() { return this.frameHeight; }
-
-    public int getSingleMediaHeight() { return singleMediaHeight; }
+    public int getSingleMediaHeight() {
+        return singleMediaHeight;
+    }
 
     public void setSingleMediaHeight(int singleMediaHeight) {
         this.singleMediaHeight = singleMediaHeight;
         this.frameHeight = this.singleMediaHeight;
     }
 
-    public int getSingleMediaWidth() { return singleMediaWidth; }
+    public int getSingleMediaWidth() {
+        return singleMediaWidth;
+    }
 
-    public void setSingleMediaWidth(int singleMediaWidth) { this.singleMediaWidth = singleMediaWidth; }
+    public void setSingleMediaWidth(int singleMediaWidth) {
+        this.singleMediaWidth = singleMediaWidth;
+    }
 }

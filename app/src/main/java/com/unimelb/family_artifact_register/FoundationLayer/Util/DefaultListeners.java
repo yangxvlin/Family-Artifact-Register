@@ -11,15 +11,28 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class DefaultListeners {
     private static DefaultListeners ourInstance = new DefaultListeners();
 
+    private DefaultListeners() {
+    }
+
     public static DefaultListeners getInstance() {
         return ourInstance;
     }
 
-    private DefaultListeners() {
+    public <T> DefaultOnSuccessListener<T> getOnSuccessListener(String TAG) {
+        return new DefaultOnSuccessListener<>(TAG);
+    }
+
+    public DefaultOnFailureListener getOnFailureListener(String TAG) {
+        return new DefaultOnFailureListener(TAG);
+    }
+
+    public DefaultOnCanceledListener getOnCanceledListener(String TAG) {
+        return new DefaultOnCanceledListener(TAG);
     }
 
     private class DefaultOnSuccessListener<T> implements OnSuccessListener<T> {
         private String tag;
+
         private DefaultOnSuccessListener(String tag) {
             this.tag = tag;
         }
@@ -36,6 +49,7 @@ public class DefaultListeners {
 
     private class DefaultOnFailureListener implements OnFailureListener {
         private String tag;
+
         private DefaultOnFailureListener(String tag) {
             this.tag = tag;
         }
@@ -49,6 +63,7 @@ public class DefaultListeners {
     private class DefaultOnCanceledListener implements OnCanceledListener {
 
         private String tag;
+
         private DefaultOnCanceledListener(String tag) {
             this.tag = tag;
         }
@@ -57,18 +72,5 @@ public class DefaultListeners {
         public void onCanceled() {
             Log.d(tag, "Task cancelled");
         }
-    }
-
-    public <T> DefaultOnSuccessListener<T> getOnSuccessListener(String TAG) {
-        return new DefaultOnSuccessListener<>(TAG);
-    }
-
-
-    public DefaultOnFailureListener getOnFailureListener(String TAG) {
-        return new DefaultOnFailureListener(TAG);
-    }
-
-    public DefaultOnCanceledListener getOnCanceledListener(String TAG) {
-        return new DefaultOnCanceledListener(TAG);
     }
 }

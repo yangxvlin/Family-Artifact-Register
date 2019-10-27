@@ -15,6 +15,7 @@ public class Request {
 
     /**
      * public constructor for instantiating a new {@link Request}
+     *
      * @param user the sending user
      * @param time request sending time
      */
@@ -25,6 +26,7 @@ public class Request {
 
     /**
      * get the request sending time
+     *
      * @return the request sending time
      */
     public String getTime() {
@@ -33,6 +35,7 @@ public class Request {
 
     /**
      * the sending user
+     *
      * @return sending user
      */
     public UserInfoWrapper getUser() {

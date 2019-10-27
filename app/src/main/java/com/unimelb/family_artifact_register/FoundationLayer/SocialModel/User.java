@@ -5,8 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 /**
- * Data class for user
- * This class is deprecated because local database is not used
+ * Data class for user This class is deprecated because local database is not used
  */
 @Deprecated
 @Entity(tableName = "user_table")
@@ -25,7 +24,7 @@ public class User {
     public String area;
 
     public User(String username, String nickname, String area) {
-        this.username =username;
+        this.username = username;
         this.nickname = nickname;
         this.area = area;
     }

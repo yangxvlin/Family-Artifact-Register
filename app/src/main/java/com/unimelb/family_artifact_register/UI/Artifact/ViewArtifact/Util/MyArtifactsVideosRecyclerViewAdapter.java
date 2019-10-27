@@ -16,9 +16,8 @@ import java.util.List;
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 19:03:05
- * @description adapter for videos recycler view
- * Deprecated because only one video need to be displayed
- * not deleted for the open-close principle
+ * @description adapter for videos recycler view Deprecated because only one video need to be
+ * displayed not deleted for the open-close principle
  */
 @Deprecated
 public class MyArtifactsVideosRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsVideosViewHolder> {
@@ -31,7 +30,7 @@ public class MyArtifactsVideosRecyclerViewAdapter extends RecyclerView.Adapter<M
     @NonNull
     @Override
     public MyArtifactsVideosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact_image, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact_image, parent, false);
         return new MyArtifactsVideosViewHolder(view);
     }
 
@@ -39,12 +38,14 @@ public class MyArtifactsVideosRecyclerViewAdapter extends RecyclerView.Adapter<M
     public void onBindViewHolder(@NonNull MyArtifactsVideosViewHolder holder, int position) {
         holder.video.setVideoURI(videos.get(position));
         holder.video.setOnClickListener(view -> {
-            System.out.println("#"+position+" clicked!!!!");
+            System.out.println("#" + position + " clicked!!!!");
         });
     }
 
     @Override
-    public int getItemCount() { return videos.size(); }
+    public int getItemCount() {
+        return videos.size();
+    }
 
     public void addData(Uri video) {
         this.videos.add(video);

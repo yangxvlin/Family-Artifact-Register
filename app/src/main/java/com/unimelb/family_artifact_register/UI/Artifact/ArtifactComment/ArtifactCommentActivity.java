@@ -1,13 +1,5 @@
 package com.unimelb.family_artifact_register.UI.Artifact.ArtifactComment;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter.CommentViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter.CommentViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactCommentPresenter.CommentWrapper;
@@ -79,7 +77,7 @@ public class ArtifactCommentActivity extends AppCompatActivity {
             @Override
             public void onChanged(UserInfoWrapper wrapper) {
                 String url = wrapper.getPhotoUrl();
-                if(url != null) {
+                if (url != null) {
                     avatar.setImageURI(Uri.parse(url));
                 }
             }

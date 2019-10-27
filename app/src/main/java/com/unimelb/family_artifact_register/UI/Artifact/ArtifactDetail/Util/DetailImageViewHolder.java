@@ -12,15 +12,15 @@ import com.unimelb.family_artifact_register.R;
 /**
  * @author Haichao Song 854035,
  * @time 2019-10-3 12:32:28
- * @description view holder for artifact fragment.
- * Deprecated because now detail page is an activity.
+ * @description view holder for artifact fragment. Deprecated because now detail page is an
+ * activity.
  */
 @Deprecated
 public class DetailImageViewHolder extends RecyclerView.ViewHolder {
 
+    public FrameLayout postImage;
     TextView mDescTv, mUserTv, mPublisher;
     ImageView mAvatarIv;
-    public FrameLayout postImage;
 
     public DetailImageViewHolder(View itemView) {
         super(itemView);

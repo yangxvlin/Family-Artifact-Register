@@ -22,12 +22,12 @@ import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.Activit
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.HappenedLocationListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.HappenedTimeListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.MediaListener;
-import com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.NewTimelineListener;
-import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.StartUploadListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.StoredLocationListener;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.UploadLocationListener;
+import com.unimelb.family_artifact_register.UI.Util.MediaProcessHelper;
+import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,54 +197,84 @@ public class NewArtifactActivity2 extends AppCompatActivity implements MediaList
                 mediaData.add(data);
                 break;
         }
-        Log.i(TAG, "added data: "+data.getPath() + " with cur size = " + mediaData.size());
+        Log.i(TAG, "added data: " + data.getPath() + " with cur size = " + mediaData.size());
     }
 
 
     @Override
-    public List<Uri> getData() { return mediaData; }
+    public List<Uri> getData() {
+        return mediaData;
+    }
 
     @Override
-    public void clearData() { mediaData.clear(); }
+    public void clearData() {
+        mediaData.clear();
+    }
 
     @Override
-    public void setMediaType(int type) { mediaType = type; }
+    public int getMediaType() {
+        return mediaType;
+    }
 
     @Override
-    public int getMediaType() { return mediaType; }
+    public void setMediaType(int type) {
+        mediaType = type;
+    }
 
     @Override
-    public void setDescription(String description) { this.description = description; }
+    public String getDescription() {
+        return this.description;
+    }
 
     @Override
-    public String getDescription() { return this.description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
-    public void clearDescription() { description = ""; }
+    public void clearDescription() {
+        description = "";
+    }
 
     @Override
-    public String getHappenedTime() { return this.happenedTime; }
+    public String getHappenedTime() {
+        return this.happenedTime;
+    }
 
     @Override
-    public void setHappenedTime(String time) { this.happenedTime = time; }
+    public void setHappenedTime(String time) {
+        this.happenedTime = time;
+    }
 
     @Override
-    public void setHappenedLocation(MapLocation happenedLocation) { this.happenedLocation = happenedLocation; }
+    public MapLocation getHappenedLocation() {
+        return this.happenedLocation;
+    }
 
     @Override
-    public MapLocation getHappenedLocation() { return this.happenedLocation; }
+    public void setHappenedLocation(MapLocation happenedLocation) {
+        this.happenedLocation = happenedLocation;
+    }
 
     @Override
-    public void setStoredLocation(MapLocation storedLocation) { this.storedLocation = storedLocation; }
+    public MapLocation getStoredLocation() {
+        return this.storedLocation;
+    }
 
     @Override
-    public MapLocation getStoredLocation() { return this.storedLocation; }
+    public void setStoredLocation(MapLocation storedLocation) {
+        this.storedLocation = storedLocation;
+    }
 
     @Override
-    public MapLocation getUploadLocation() { return this.uploadLocation; }
+    public MapLocation getUploadLocation() {
+        return this.uploadLocation;
+    }
 
     @Override
-    public void setUploadLocation(MapLocation uploadLocation) { this.uploadLocation = uploadLocation; }
+    public void setUploadLocation(MapLocation uploadLocation) {
+        this.uploadLocation = uploadLocation;
+    }
 
     @Override
     public void setTimeline(int type, String timelineTitle) {

@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Transformation T -> W -> V
+ *
  * @param <T> The initial type
  * @param <W> The intermediate type
  * @param <V> The final type
@@ -16,42 +17,16 @@ import java.util.List;
 @Deprecated
 public class NestedLiveDataAsyncHelper<T, W, V> {
 
-    /**
-     * Interface required to instantiate an instance of NestedLiveDataAsyncHelper
-     * @param <T> The initial type
-     * @param <W> The intermediate type
-     * @param <V> The final type
-     */
-    public interface InfoGetter<T, W, V> {
-        /**
-         * This method retrieves a list of items
-         * @param t Input parameter used to retrieve desire data
-         * @return A list of items
-         */
-        List<W> getInfoList(T t);
-
-        /**
-         * This method retrieves an item wrapped in LiveData object
-         * @param w Input parameter used to retrieve desire data
-         * @return A list of items held in LiveData object
-         */
-        LiveData<V> getListInfoLiveData(W w);
-
-        /**
-         * This method retrieves a list of items wrapped in LiveData object
-         * @param w Input parameter used to retrieve desire data
-         * @return A list of items held in LiveData object
-         */
-        List<LiveData<V>> getListLiveDataInfo(List<W> w);
-    }
-
     private MediatorLiveData<List<V>> result = new MediatorLiveData<>();
     private InfoGetter infoGetter;
 
-    public NestedLiveDataAsyncHelper(InfoGetter infoGetter) { this.infoGetter = infoGetter; }
+    public NestedLiveDataAsyncHelper(InfoGetter infoGetter) {
+        this.infoGetter = infoGetter;
+    }
 
     /**
      * The main method implemented in this class
+     *
      * @param t The initial type
      * @return A list of data wrapped in a LiveData object
      */
@@ -78,5 +53,38 @@ public class NestedLiveDataAsyncHelper<T, W, V> {
         });
         // t.removeObserver();
         return result;
+    }
+
+    /**
+     * Interface required to instantiate an instance of NestedLiveDataAsyncHelper
+     *
+     * @param <T> The initial type
+     * @param <W> The intermediate type
+     * @param <V> The final type
+     */
+    public interface InfoGetter<T, W, V> {
+        /**
+         * This method retrieves a list of items
+         *
+         * @param t Input parameter used to retrieve desire data
+         * @return A list of items
+         */
+        List<W> getInfoList(T t);
+
+        /**
+         * This method retrieves an item wrapped in LiveData object
+         *
+         * @param w Input parameter used to retrieve desire data
+         * @return A list of items held in LiveData object
+         */
+        LiveData<V> getListInfoLiveData(W w);
+
+        /**
+         * This method retrieves a list of items wrapped in LiveData object
+         *
+         * @param w Input parameter used to retrieve desire data
+         * @return A list of items held in LiveData object
+         */
+        List<LiveData<V>> getListLiveDataInfo(List<W> w);
     }
 }

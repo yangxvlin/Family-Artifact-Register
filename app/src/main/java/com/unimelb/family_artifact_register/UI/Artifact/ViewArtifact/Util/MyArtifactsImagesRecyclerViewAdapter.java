@@ -15,10 +15,8 @@ import java.util.List;
 
 /**
  * @author XuLin Yang 904904,
- * @time 2019-9-21 19:03:05
- * adapter for images recycler view
- * Deprecated because use view pager for images
- * not deleted by the open-close principle
+ * @time 2019-9-21 19:03:05 adapter for images recycler view Deprecated because use view pager for
+ * images not deleted by the open-close principle
  */
 @Deprecated
 public class MyArtifactsImagesRecyclerViewAdapter extends RecyclerView.Adapter<MyArtifactsImagesViewHolder> {
@@ -31,7 +29,7 @@ public class MyArtifactsImagesRecyclerViewAdapter extends RecyclerView.Adapter<M
     @NonNull
     @Override
     public MyArtifactsImagesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact_image, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_artifact_image, parent, false);
         return new MyArtifactsImagesViewHolder(view);
     }
 
@@ -39,12 +37,14 @@ public class MyArtifactsImagesRecyclerViewAdapter extends RecyclerView.Adapter<M
     public void onBindViewHolder(@NonNull MyArtifactsImagesViewHolder holder, int position) {
         holder.image.setImageURI(images.get(position));
         holder.image.setOnClickListener(view -> {
-            System.out.println("#"+position+" clicked!!!!");
+            System.out.println("#" + position + " clicked!!!!");
         });
     }
 
     @Override
-    public int getItemCount() { return images.size(); }
+    public int getItemCount() {
+        return images.size();
+    }
 
     public void addData(Uri image) {
         this.images.add(image);

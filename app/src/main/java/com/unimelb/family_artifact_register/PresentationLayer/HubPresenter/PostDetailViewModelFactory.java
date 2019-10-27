@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProvider;
 /**
  * @author Haichao Song 854035,
  * @time 2019-09-24 22:45:55
- * @description view model factory use to create post view model
- * Deprecated because it is for post activity and it has been substituted
+ * @description view model factory use to create post view model Deprecated because it is for post
+ * activity and it has been substituted
  */
 @Deprecated
-public class PostDetailViewModelFactory implements ViewModelProvider.Factory{
+public class PostDetailViewModelFactory implements ViewModelProvider.Factory {
 
     private Application application;
     private String param;

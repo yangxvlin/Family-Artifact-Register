@@ -59,7 +59,7 @@ public class MapStoredViewModel extends AndroidViewModel {
                 List<TimelineMapWrapper> wrappers = new ArrayList<>();
                 timelineWrappers.postValue(wrappers);
 
-                for(ArtifactTimeline timeline: artifactTimelines) {
+                for (ArtifactTimeline timeline : artifactTimelines) {
 //                    List<ArtifactItemWrapper> itemWrappers = new ArrayList<>();
 //                    List<MapLocation> mapLocations = new ArrayList<>();
 //                    TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, itemWrappers, mapLocations);
@@ -69,7 +69,7 @@ public class MapStoredViewModel extends AndroidViewModel {
                     TimelineMapWrapper timelineWrapper = new TimelineMapWrapper(timeline, pairs);
 
                     List<String> itemIDs = timeline.getArtifactItemPostIds();
-                    for(String id: itemIDs) {
+                    for (String id : itemIDs) {
 
                         artifactManager.listenArtifactItemByPostId(id, "MapStoredViewModel2").observeForever(new Observer<ArtifactItem>() {
                             @Override

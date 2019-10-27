@@ -1,6 +1,7 @@
 package com.unimelb.family_artifact_register.UI.Artifact.ArtifactHub;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 /**
  * @author Haichao Song 854035,
  * @time 2019-9-18 12:15:48
- * @description activity for artifact hub. Test class for manually typed input.
- * Deprecated now because already get data from backend.
+ * @description activity for artifact hub. Test class for manually typed input. Deprecated now
+ * because already get data from backend.
  */
 @Deprecated
 public class HubActivity extends AppCompatActivity {
@@ -36,9 +37,10 @@ public class HubActivity extends AppCompatActivity {
 
     /**
      * Get a list of models of card view
+     *
      * @return a list of models
      */
-    private ArrayList<Model> getMyList(){
+    private ArrayList<Model> getMyList() {
         ArrayList<Model> models = new ArrayList<Model>();
         Model m = new Model();
         m.setUsername("Dudu");

@@ -2,10 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape
+            android:color="@color/black"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thickness="4dp"
-            android:color="@color/black"
             android:useLevel="false">
             <solid android:color="@color/wechat_grey" />
         </shape>

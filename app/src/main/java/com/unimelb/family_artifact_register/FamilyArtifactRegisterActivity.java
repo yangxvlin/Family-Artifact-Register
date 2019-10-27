@@ -7,12 +7,12 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
-import com.unimelb.family_artifact_register.Util.Callback;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseAuthHelper;
+import com.unimelb.family_artifact_register.Util.Callback;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,31 +20,22 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 /**
- * @description activity let the user authenticate
- * contains the logic to save FirebaseAuth user information to FirebaseDatabase and direct to
- * collect user info or home activity by Callback
+ * @description activity let the user authenticate contains the logic to save FirebaseAuth user
+ * information to FirebaseDatabase and direct to collect user info or home activity by Callback
  */
 public class FamilyArtifactRegisterActivity extends AppCompatActivity implements Callback<Void> {
-    /**
-     * class tag
-     */
-    private final String TAG = getClass().getSimpleName();
-
     /**
      * firebase request code
      */
     public static final int RC_SIGN_IN = 1;
-
     /**
      * firebase request code
      */
     public static final int CHECK_USER_DB = 2;
-
     /**
-     * control firebase state info
+     * class tag
      */
-    private FirebaseAuth.AuthStateListener mAuthStateListner;
-
+    private final String TAG = getClass().getSimpleName();
     /**
      * Available sign-in providers
      */
@@ -53,6 +44,10 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
             new AuthUI.IdpConfig.PhoneBuilder().build(),
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.FacebookBuilder().build());
+    /**
+     * control firebase state info
+     */
+    private FirebaseAuth.AuthStateListener mAuthStateListner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +113,7 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                 }
                 // Successfully signed in, get user and start home activity
                 FirebaseAuthHelper.getInstance().checkRegisterUser(firebaseUser,
-                        this , CHECK_USER_DB);
+                        this, CHECK_USER_DB);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -138,7 +133,7 @@ public class FamilyArtifactRegisterActivity extends AppCompatActivity implements
                 case (FirebaseAuthHelper.RESULT_USER_EXIST):
                     Toasty.info(this, R.string.user_signed_in, Toasty.LENGTH_LONG)
                             .show();
-                     startHomeActivity();
+                    startHomeActivity();
                     break;
                 case (FirebaseAuthHelper.RESULT_NEW_USER):
                     Toasty.success(this, R.string.registration_successful, Toasty.LENGTH_LONG)

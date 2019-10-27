@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/app_bar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
+    <!--    <com.google.android.material.appbar.AppBarLayout-->
+    <!--        android:id="@+id/app_bar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/tool_bar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            app:title="Friends"-->
-<!--            app:menu="@menu/toolbar_menu"-->
-<!--            app:navigationIcon="@drawable/arrow_back"-->
-<!--            app:titleTextColor="#FFFFFF"/>-->
+    <!--        <androidx.appcompat.widget.Toolbar-->
+    <!--            android:id="@+id/tool_bar"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="?attr/actionBarSize"-->
+    <!--            app:title="Friends"-->
+    <!--            app:menu="@menu/toolbar_menu"-->
+    <!--            app:navigationIcon="@drawable/arrow_back"-->
+    <!--            app:titleTextColor="#FFFFFF"/>-->
 
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
-    <include layout="@layout/recycler_view"/>
+    <include layout="@layout/recycler_view" />
 
 </LinearLayout>

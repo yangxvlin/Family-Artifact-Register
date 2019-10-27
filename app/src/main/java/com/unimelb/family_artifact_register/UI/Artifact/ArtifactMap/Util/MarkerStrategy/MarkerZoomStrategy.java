@@ -10,11 +10,14 @@ import java.util.List;
  * the length of markers.
  */
 public abstract class MarkerZoomStrategy {
-    /** The default Zoom level to use if there are not enough markers to generate a proper zoom. */
+    /**
+     * The default Zoom level to use if there are not enough markers to generate a proper zoom.
+     */
     public static final float DEFAULT_ZOOM = 9;
 
     /**
      * Returns a CameraUpdate object that can be used my GoogleMap to update the camera location
+     *
      * @param markers The Markers to be displayed
      * @return A CameraUpdate object used to update the location of camera view.
      */

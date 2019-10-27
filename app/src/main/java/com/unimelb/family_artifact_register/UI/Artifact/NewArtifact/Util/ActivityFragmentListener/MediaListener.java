@@ -27,18 +27,16 @@ public interface MediaListener {
     void addData(Uri data, int type);
 
     /**
-     * 1: image
-     * 2: video
-     *
-     * @param type the type of the media data stored
-     */
-    void setMediaType(int type);
-
-    /**
-     * 1: image
-     * 2: video
+     * 1: image 2: video
      *
      * @return the type of the media data stored
      */
     int getMediaType();
+
+    /**
+     * 1: image 2: video
+     *
+     * @param type the type of the media data stored
+     */
+    void setMediaType(int type);
 }

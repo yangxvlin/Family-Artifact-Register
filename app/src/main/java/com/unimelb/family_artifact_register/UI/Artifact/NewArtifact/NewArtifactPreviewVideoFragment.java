@@ -14,11 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.MediaListener;
 import com.unimelb.family_artifact_register.UI.Util.OnBackPressedListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import java.util.List;
 
@@ -37,6 +37,10 @@ public class NewArtifactPreviewVideoFragment extends Fragment implements IFragme
     public NewArtifactPreviewVideoFragment() {
     }
 
+    public static NewArtifactPreviewVideoFragment newInstance() {
+        return new NewArtifactPreviewVideoFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -47,7 +51,7 @@ public class NewArtifactPreviewVideoFragment extends Fragment implements IFragme
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         VideoView video = view.findViewById(R.id.fragment_new_artifact_preview_video_view);
-        List<Uri> medias = ((MediaListener)getActivity()).getData();
+        List<Uri> medias = ((MediaListener) getActivity()).getData();
         if (!medias.isEmpty()) {
             // only one video uri in the list
             video.setVideoURI(medias.get(0));
@@ -76,11 +80,9 @@ public class NewArtifactPreviewVideoFragment extends Fragment implements IFragme
         });
     }
 
-    public static NewArtifactPreviewVideoFragment newInstance() { return new NewArtifactPreviewVideoFragment(); }
-
     // ************************************ implement interface ***********************************
     @Override
     public void onBackPressed() {
-        ((MediaListener)getActivity()).clearData();
+        ((MediaListener) getActivity()).clearData();
     }
 }

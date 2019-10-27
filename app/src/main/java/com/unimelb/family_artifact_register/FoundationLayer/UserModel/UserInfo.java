@@ -26,13 +26,21 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
     public static final String FRIEND_INVITATIONS = "friendInvitations";
     public static final String ARTIFACT_ITEM_IDS = "artifactItemIds";
     public static final String ARTIFACT_TIMELINE_IDS = "artifactTimelineIds";
+    public static final Parcelable.Creator<UserInfo> CREATOR
+            = new Parcelable.Creator<UserInfo>() {
+        public UserInfo createFromParcel(Parcel in) {
+            return new UserInfo(in);
+        }
 
+        public UserInfo[] newArray(int size) {
+            return new UserInfo[size];
+        }
+    };
     private String uid;
     private String displayName;
     private String email;
     private String phoneNumber;
     private String photoUrl;
-
     // Hacky solution to keep both list unique
     private Map<String, String> friendInvitations = new HashMap<>();
     private Map<String, Boolean> friendUids = new HashMap<>();
@@ -83,6 +91,26 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
             artifactTimelineIds = new HashMap<>();
         }
         this.artifactTimelineIds = artifactTimelineIds;
+    }
+
+    /**
+     * Constructor used for parcelable
+     *
+     * @param in The parcel with information
+     */
+    private UserInfo(Parcel in) {
+        this(
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readHashMap(HashMap.class.getClassLoader()),
+                in.readHashMap(HashMap.class.getClassLoader()),
+                in.readHashMap(HashMap.class.getClassLoader()),
+                in.readHashMap(HashMap.class.getClassLoader())
+        );
+        // Set friend list and artifact list
     }
 
     public static UserInfo newInstance(String uid, String displayName) {
@@ -214,7 +242,6 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         return 0;
     }
 
-
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(uid);
         out.writeString(displayName);
@@ -225,37 +252,6 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
         out.writeMap(friendInvitations);
         out.writeMap(artifactItemIds);
         out.writeMap(artifactTimelineIds);
-    }
-
-    public static final Parcelable.Creator<UserInfo> CREATOR
-            = new Parcelable.Creator<UserInfo>() {
-        public UserInfo createFromParcel(Parcel in) {
-            return new UserInfo(in);
-        }
-
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
-        }
-    };
-
-    /**
-     * Constructor used for parcelable
-     *
-     * @param in The parcel with information
-     */
-    private UserInfo(Parcel in) {
-        this(
-                in.readString(),
-                in.readString(),
-                in.readString(),
-                in.readString(),
-                in.readString(),
-                in.readHashMap(HashMap.class.getClassLoader()),
-                in.readHashMap(HashMap.class.getClassLoader()),
-                in.readHashMap(HashMap.class.getClassLoader()),
-                in.readHashMap(HashMap.class.getClassLoader())
-        );
-        // Set friend list and artifact list
     }
 
     @NotNull
@@ -272,6 +268,7 @@ public class UserInfo implements Parcelable, Serializable, Comparable<UserInfo> 
 
     /**
      * Override Compare to to have an ordering of things (May be easier for frontend to manage)
+     *
      * @param o The other to compare to
      * @return Save order as the comparison between displayed name
      */

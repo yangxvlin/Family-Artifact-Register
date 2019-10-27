@@ -20,21 +20,18 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unimelb.family_artifact_register.FoundationLayer.ArtifactModel.ArtifactItem;
+import com.google.android.material.button.MaterialButton;
 import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.FoundationLayer.UserModel.UserInfoManager;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.PresentationLayer.Util.Pair;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.UserInfoWrapper;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactComment.ArtifactCommentActivity;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactDetail.Util.DetailImageAdapter;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.TimelineActivity;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.DisplayLocationMap.MapDisplayFragment;
-import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.Util.MarkerHelper;
-import com.google.android.material.button.MaterialButton;
+import com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.TimelineActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,19 +55,14 @@ public class ArtifactDetailActivity extends AppCompatActivity {
 
     // get class tag
     public static final String TAG = ArtifactDetailActivity.class.getSimpleName();
-    
+    public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
+    public MaterialButton timeline;
     private DetailViewModel viewModel;
-
     private String PostID;
     private TextView desc, user, time;
     private ImageView avatar;
-    public MaterialButton timeline;
     private FrameLayout postImage;
-
     private FragmentManager fm = getSupportFragmentManager();
-
-    public static final String ARTIFACT_ITEM_ID_KEY = "artifactItemPostId";
-
     private MapDisplayFragment happenedMap = MapDisplayFragment.newInstance(
             Collections.emptyList());
     private MapDisplayFragment storedMap = MapDisplayFragment.newInstance(Collections.emptyList());
@@ -114,227 +106,229 @@ public class ArtifactDetailActivity extends AppCompatActivity {
         viewModel.getArtifactItem(PostID).observe(this,
                 new Observer<Pair<ArtifactItemWrapper, MapLocation>>() {
 
-            /**
-             * when data get from view model changes, means live data arrives
-             * set artifact item and map location in activity
-             * @param artifactItemWrapperMapLocationPair Pair an artifact item with map location
-             */
-            @Override
-            public void onChanged(Pair<ArtifactItemWrapper, MapLocation>
-                                          artifactItemWrapperMapLocationPair) {
-                ArtifactItemWrapper artifactItemWrapper =
-                        artifactItemWrapperMapLocationPair.getFst();
-                MapLocation mapLocation = artifactItemWrapperMapLocationPair.getSnd();
-
-                Log.d(TAG, "Some changes happen");
-
-                // get artifact poster information from view model
-                viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(
-                        artifactDetailActivity, new Observer<UserInfoWrapper>() {
                     /**
                      * when data get from view model changes, means live data arrives
-                     * set poster display name and avatar in the activity
-                     * @param userInfoWrapper the poster information
+                     * set artifact item and map location in activity
+                     *
+                     * @param artifactItemWrapperMapLocationPair Pair an artifact item
+                     *                                           with map location
                      */
                     @Override
-                    public void onChanged(UserInfoWrapper userInfoWrapper) {
-                        String url = userInfoWrapper.getPhotoUrl();
-                        user.setText(userInfoWrapper.getDisplayName());
-                        if(url != null) {
-                            avatar.setImageURI(Uri.parse(url));
-                        }
-                    }
-                });
+                    public void onChanged(Pair<ArtifactItemWrapper, MapLocation>
+                                                  artifactItemWrapperMapLocationPair) {
+                        ArtifactItemWrapper artifactItemWrapper =
+                                artifactItemWrapperMapLocationPair.getFst();
+                        MapLocation mapLocation = artifactItemWrapperMapLocationPair.getSnd();
 
-                // distinguish if crrent user already likes the post
-                // and set like image according to it
-                likesNumber.setText(Integer.toString(artifactItemWrapperMapLocationPair.getFst()
-                        .getLikes().size()));
-                if ((artifactItemWrapper.getLikes().size() != 0) &&
-                        (artifactItemWrapper.getLikes().containsKey(viewModel.getCurrentUid()))) {
-                    likeButton.setImageResource(R.drawable.ic_liked);
-                    likeButton.setTag("liked");
-                } else {
-                    likeButton.setImageResource(R.drawable.ic_like);
-                    likeButton.setTag("unliked");
-                }
+                        Log.d(TAG, "Some changes happen");
 
-                // go to comment activity when user press comment button
-                commentButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String pid = artifactItemWrapperMapLocationPair.getFst().getPostId();
-                        Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
-                        i.putExtra("artifactItemPostId", pid);
-                        startActivity(i);
-                    }
-                });
+                        // get artifact poster information from view model
+                        viewModel.getPosterInfo(artifactItemWrapper.getUid()).observe(
+                                artifactDetailActivity, new Observer<UserInfoWrapper>() {
+                                    /**
+                                     * when data get from view model changes, means live data arrives
+                                     * set poster display name and avatar in the activity
+                                     * @param userInfoWrapper the poster information
+                                     */
+                                    @Override
+                                    public void onChanged(UserInfoWrapper userInfoWrapper) {
+                                        String url = userInfoWrapper.getPhotoUrl();
+                                        user.setText(userInfoWrapper.getDisplayName());
+                                        if (url != null) {
+                                            avatar.setImageURI(Uri.parse(url));
+                                        }
+                                    }
+                                });
 
-                // like or unlike post when user press like image
-                // set local likes number change and also pass change to backend
-                likeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int likes_before = Integer.valueOf(likesNumber.getText().toString());
-                        Log.d(TAG, "number of likes before:" + likes_before);
-                        if (likeButton.getTag() == "liked") {
-                            likeButton.setImageResource(R.drawable.ic_like);
-                            likeButton.setTag("unlike");
-                            likesNumber.setText(String.valueOf(likes_before-1));
-                        } else {
+                        // distinguish if crrent user already likes the post
+                        // and set like image according to it
+                        likesNumber.setText(Integer.toString(artifactItemWrapperMapLocationPair.getFst()
+                                .getLikes().size()));
+                        if ((artifactItemWrapper.getLikes().size() != 0) &&
+                                (artifactItemWrapper.getLikes().containsKey(viewModel.getCurrentUid()))) {
                             likeButton.setImageResource(R.drawable.ic_liked);
                             likeButton.setTag("liked");
-                            likesNumber.setText(String.valueOf(likes_before+1));
+                        } else {
+                            likeButton.setImageResource(R.drawable.ic_like);
+                            likeButton.setTag("unliked");
                         }
-                        viewModel.getLikeChange(likeButton.getTag().toString(),
-                                artifactItemWrapper.getPostId());
-                    }
-                });
 
-                // Set artifact information the same as activity hub
-                desc.setText(artifactItemWrapper.getDescription());
-                time.setText(getCreateAt(new Pair<>(artifactItemWrapper, null),
-                        getApplicationContext()));
-
-                // current user is the owner
-                if (UserInfoManager.getInstance().getCurrentUid().equals(
-                        artifactItemWrapperMapLocationPair.getFst().getUid())) {
-                    RelativeLayout.LayoutParams frameParam = new RelativeLayout.LayoutParams(
-                            FrameLayout.LayoutParams.MATCH_PARENT,
-                            (int)convertDpToPixel(200, getApplicationContext()));
-                    frameParam.addRule(RelativeLayout.BELOW,
-                            R.id.activity_artifact_detail_stored_location_map_title);
-                    storedLocationMap.setLayoutParams(frameParam);
-                    storedLocationMap.setVisibility(View.VISIBLE);
-                    storeLocationHint.setVisibility(View.VISIBLE);
-
-                    viewModel.getStoredLocation(PostID).observe(artifactDetailActivity,
-                            new Observer<MapLocation>() {
-                        /**
-                         * when data get from view model changes, means live data arrives
-                         * get map location and display on the map
-                         * @param mapLocation stored location of artifact item
-                         */
-                        @Override
-                        public void onChanged(MapLocation mapLocation) {
-                            fm.beginTransaction().replace(
-                                    R.id.activity_artifact_detail_stored_location_map,
-                                    storedMap).commit();
-                            storedMap.addDisplayArtifactItems(new Pair<>(artifactItemWrapper,
-                                    mapLocation));
-                        }
-                    });
-                }
-
-                fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
-                happenedMap.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
-
-                List<Uri> mediaList = new ArrayList<>();
-                for (String mediaUrl: artifactItemWrapper.getLocalMediaDataUrls()) {
-                    Log.d(TAG, "media uri" + mediaUrl);
-                    mediaList.add(Uri.parse(mediaUrl));
-                }
-
-                // set images format according to number of images pass to activity
-                if (mediaList.size() > 0) {
-                    postImage.removeAllViews();
-                    int width = postImage.getWidth();
-                    int span = Math.min((int) Math.ceil(
-                            Math.sqrt(
-                                    (double) artifactItemWrapper
-                                            .getLocalMediaDataUrls().size()
-                            )
-                    ), 3);
-                    int imageLength = (width / span);
-                    GridLayoutManager layoutManager = new GridLayoutManager(artifactDetailActivity,
-                            span);
-                    if (layoutManager.getSpanSizeLookup() != null) {
-                        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        // go to comment activity when user press comment button
+                        commentButton.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public int getSpanSize(int position) {
-                                return 1;
+                            public void onClick(View view) {
+                                String pid = artifactItemWrapperMapLocationPair.getFst().getPostId();
+                                Intent i = new Intent(view.getContext(), ArtifactCommentActivity.class);
+                                i.putExtra("artifactItemPostId", pid);
+                                startActivity(i);
                             }
                         });
-                    }
 
-                    View mediaView;
-
-                    // render images or video on the view
-                    if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
-
-                        mediaView = getImageRecyclerView(imageLength, imageLength,
-                                mediaList, artifactDetailActivity);
-                        ((RecyclerView) mediaView).setLayoutManager(layoutManager);
-                        ((RecyclerView) mediaView).addItemDecoration(new RecyclerView.ItemDecoration() {
+                        // like or unlike post when user press like image
+                        // set local likes number change and also pass change to backend
+                        likeButton.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                                       RecyclerView.State state) {
-                                int position = parent.getChildAdapterPosition(view);
-                                // item position
-                                int spanCount = 2;
-                                int spacing = 10;//spacing between views in grid
-
-                                if (position >= 0) {
-                                    int column = position % spanCount; // item column
-
-                                    outRect.left = spacing - column * spacing / spanCount;
-                                    // spacing - column * ((1f / spanCount) * spacing)
-                                    outRect.right = (column + 1) * spacing / spanCount;
-                                    // (column + 1) * ((1f / spanCount) * spacing)
-
-                                    if (position < spanCount) { // top edge
-                                        outRect.top = spacing;
-                                    }
-                                    outRect.bottom = spacing; // item bottom
+                            public void onClick(View view) {
+                                int likes_before = Integer.valueOf(likesNumber.getText().toString());
+                                Log.d(TAG, "number of likes before:" + likes_before);
+                                if (likeButton.getTag() == "liked") {
+                                    likeButton.setImageResource(R.drawable.ic_like);
+                                    likeButton.setTag("unlike");
+                                    likesNumber.setText(String.valueOf(likes_before - 1));
                                 } else {
-                                    outRect.left = 0;
-                                    outRect.right = 0;
-                                    outRect.top = 0;
-                                    outRect.bottom = 0;
+                                    likeButton.setImageResource(R.drawable.ic_liked);
+                                    likeButton.setTag("liked");
+                                    likesNumber.setText(String.valueOf(likes_before + 1));
                                 }
+                                viewModel.getLikeChange(likeButton.getTag().toString(),
+                                        artifactItemWrapper.getPostId());
                             }
                         });
-                        postImage.addView(mediaView);
-                    } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
-                        // video view
-                        mediaView = getVideoThumbnail(postImage.getWidth(), postImage.getWidth(),
-                                mediaList.get(0), artifactDetailActivity);
 
-                        ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
-                        postImage.addView(mediaView);
-                        postImage.addView(playIcon);
-                    } else {
-                        Log.e(TAG, "unknown media type !!!");
-                    }
-                }
-                Log.d(TAG, "Set Data");
+                        // Set artifact information the same as activity hub
+                        desc.setText(artifactItemWrapper.getDescription());
+                        time.setText(getCreateAt(new Pair<>(artifactItemWrapper, null),
+                                getApplicationContext()));
 
-                // set sored location on the button
-                Log.d(TAG, "Ready to run get store pair");
-                viewModel.getUploadLocation(PostID).observeForever(new Observer<MapLocation>() {
-                    @Override
-                    public void onChanged(MapLocation mapLocation) {
-                        Log.d(TAG, "upload location: " + mapLocation.toString());
-                        Pair<ArtifactItemWrapper, MapLocation> pair = new Pair<>(artifactItemWrapper
-                                , mapLocation);
-                        createLocationText.setText(getAddress(pair, artifactDetailActivity,
-                                getString(R.string.upload_at)));
+                        // current user is the owner
+                        if (UserInfoManager.getInstance().getCurrentUid().equals(
+                                artifactItemWrapperMapLocationPair.getFst().getUid())) {
+                            RelativeLayout.LayoutParams frameParam = new RelativeLayout.LayoutParams(
+                                    FrameLayout.LayoutParams.MATCH_PARENT,
+                                    (int) convertDpToPixel(200, getApplicationContext()));
+                            frameParam.addRule(RelativeLayout.BELOW,
+                                    R.id.activity_artifact_detail_stored_location_map_title);
+                            storedLocationMap.setLayoutParams(frameParam);
+                            storedLocationMap.setVisibility(View.VISIBLE);
+                            storeLocationHint.setVisibility(View.VISIBLE);
+
+                            viewModel.getStoredLocation(PostID).observe(artifactDetailActivity,
+                                    new Observer<MapLocation>() {
+                                        /**
+                                         * when data get from view model changes, means live data arrives
+                                         * get map location and display on the map
+                                         * @param mapLocation stored location of artifact item
+                                         */
+                                        @Override
+                                        public void onChanged(MapLocation mapLocation) {
+                                            fm.beginTransaction().replace(
+                                                    R.id.activity_artifact_detail_stored_location_map,
+                                                    storedMap).commit();
+                                            storedMap.addDisplayArtifactItems(new Pair<>(artifactItemWrapper,
+                                                    mapLocation));
+                                        }
+                                    });
+                        }
+
+                        fm.beginTransaction().replace(R.id.map_happened, happenedMap).commit();
+                        happenedMap.addDisplayArtifactItems(artifactItemWrapperMapLocationPair);
+
+                        List<Uri> mediaList = new ArrayList<>();
+                        for (String mediaUrl : artifactItemWrapper.getLocalMediaDataUrls()) {
+                            Log.d(TAG, "media uri" + mediaUrl);
+                            mediaList.add(Uri.parse(mediaUrl));
+                        }
+
+                        // set images format according to number of images pass to activity
+                        if (mediaList.size() > 0) {
+                            postImage.removeAllViews();
+                            int width = postImage.getWidth();
+                            int span = Math.min((int) Math.ceil(
+                                    Math.sqrt(
+                                            (double) artifactItemWrapper
+                                                    .getLocalMediaDataUrls().size()
+                                    )
+                            ), 3);
+                            int imageLength = (width / span);
+                            GridLayoutManager layoutManager = new GridLayoutManager(artifactDetailActivity,
+                                    span);
+                            if (layoutManager.getSpanSizeLookup() != null) {
+                                layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                                    @Override
+                                    public int getSpanSize(int position) {
+                                        return 1;
+                                    }
+                                });
+                            }
+
+                            View mediaView;
+
+                            // render images or video on the view
+                            if (artifactItemWrapper.getMediaType() == TYPE_IMAGE) {
+
+                                mediaView = getImageRecyclerView(imageLength, imageLength,
+                                        mediaList, artifactDetailActivity);
+                                ((RecyclerView) mediaView).setLayoutManager(layoutManager);
+                                ((RecyclerView) mediaView).addItemDecoration(new RecyclerView.ItemDecoration() {
+                                    @Override
+                                    public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                                               RecyclerView.State state) {
+                                        int position = parent.getChildAdapterPosition(view);
+                                        // item position
+                                        int spanCount = 2;
+                                        int spacing = 10;//spacing between views in grid
+
+                                        if (position >= 0) {
+                                            int column = position % spanCount; // item column
+
+                                            outRect.left = spacing - column * spacing / spanCount;
+                                            // spacing - column * ((1f / spanCount) * spacing)
+                                            outRect.right = (column + 1) * spacing / spanCount;
+                                            // (column + 1) * ((1f / spanCount) * spacing)
+
+                                            if (position < spanCount) { // top edge
+                                                outRect.top = spacing;
+                                            }
+                                            outRect.bottom = spacing; // item bottom
+                                        } else {
+                                            outRect.left = 0;
+                                            outRect.right = 0;
+                                            outRect.top = 0;
+                                            outRect.bottom = 0;
+                                        }
+                                    }
+                                });
+                                postImage.addView(mediaView);
+                            } else if (artifactItemWrapper.getMediaType() == TYPE_VIDEO) {
+                                // video view
+                                mediaView = getVideoThumbnail(postImage.getWidth(), postImage.getWidth(),
+                                        mediaList.get(0), artifactDetailActivity);
+
+                                ImageView playIcon = getVideoPlayIcon(artifactDetailActivity);
+                                postImage.addView(mediaView);
+                                postImage.addView(playIcon);
+                            } else {
+                                Log.e(TAG, "unknown media type !!!");
+                            }
+                        }
+                        Log.d(TAG, "Set Data");
+
+                        // set sored location on the button
+                        Log.d(TAG, "Ready to run get store pair");
+                        viewModel.getUploadLocation(PostID).observeForever(new Observer<MapLocation>() {
+                            @Override
+                            public void onChanged(MapLocation mapLocation) {
+                                Log.d(TAG, "upload location: " + mapLocation.toString());
+                                Pair<ArtifactItemWrapper, MapLocation> pair = new Pair<>(artifactItemWrapper
+                                        , mapLocation);
+                                createLocationText.setText(getAddress(pair, artifactDetailActivity,
+                                        getString(R.string.upload_at)));
+                            }
+                        });
+
+                        // go to timeline activity when user press timeline button
+                        timeline.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String tid = artifactItemWrapper.getArtifactTimelineId();
+                                Intent i = new Intent(view.getContext(), TimelineActivity.class);
+                                i.putExtra("timelineID", tid);
+                                startActivity(i);
+                            }
+                        });
+
                     }
                 });
-
-                // go to timeline activity when user press timeline button
-                timeline.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String tid = artifactItemWrapper.getArtifactTimelineId();
-                        Intent i = new Intent(view.getContext(), TimelineActivity.class);
-                        i.putExtra("timelineID", tid);
-                        startActivity(i);
-                    }
-                });
-
-            }
-        });
 
     }
 

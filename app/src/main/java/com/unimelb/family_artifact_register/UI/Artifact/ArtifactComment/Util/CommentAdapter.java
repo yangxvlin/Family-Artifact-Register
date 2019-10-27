@@ -38,23 +38,25 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     /**
      * create comment view holder to find view in comment item
-     * @param parent parent context for view holder
+     *
+     * @param parent   parent context for view holder
      * @param viewType view type to create
      * @return comment view holder
      */
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment,
                 parent, false);
         return new CommentViewHolder(view);
     }
 
     /**
      * set comment item with data get from view model
-     * @param holder comment view holder constructed
-     * @param position the position comment item is in an array of comments showing
-     *                 in comment activity
+     *
+     * @param holder   comment view holder constructed
+     * @param position the position comment item is in an array of comments showing in comment
+     *                 activity
      */
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
@@ -72,11 +74,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     /**
      * count number of comments will be shown in comment activity
+     *
      * @return number of comments if adapter get data from view model
      */
     @Override
     public int getItemCount() {
-        if(artifactComments != null) {
+        if (artifactComments != null) {
             return artifactComments.size();
         }
         return 0;
@@ -84,6 +87,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     /**
      * set comments array with new data
+     *
      * @param newData an array of comments
      */
     public void setData(List<CommentWrapper> newData) {

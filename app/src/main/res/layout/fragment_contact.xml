@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,60 +8,64 @@
         android:id="@+id/friend_request"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:text="@string/fragment_contact_friend_request"
-        android:textSize="20sp"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:background="?attr/selectableItemBackground"/>
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="@string/fragment_contact_friend_request"
+        android:textSize="20sp" />
 
-    <include layout="@layout/line_divider"
+    <include
+        layout="@layout/line_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="55dp"/>
+        android:layout_marginTop="55dp" />
 
-    <include layout="@layout/small_divider"
+    <include
+        layout="@layout/small_divider"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_marginTop="56dp"/>
+        android:layout_marginTop="56dp" />
 
-    <include layout="@layout/line_divider"
+    <include
+        layout="@layout/line_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="66dp"/>
+        android:layout_marginTop="66dp" />
 
-    <include layout="@layout/recycler_view"
+    <include
+        layout="@layout/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="67dp"/>
+        android:layout_marginTop="67dp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="35dp" >
+        android:layout_marginBottom="35dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/default_avatar_list"
-            android:clickable="true"
             android:layout_margin="5dp"
-            android:elevation="5dp"/>
+            android:clickable="true"
+            android:elevation="5dp"
+            android:src="@drawable/default_avatar_list" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/friend_list_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/add_friend_icon"
-            app:backgroundTint="@android:color/white"
-            app:tint="@color/primaryColor"
-            app:rippleColor="@color/primaryColor"
             android:layout_below="@+id/user_profile"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            app:backgroundTint="@android:color/white"
+            app:rippleColor="@color/primaryColor"
+            app:srcCompat="@drawable/add_friend_icon"
+            app:tint="@color/primaryColor" />
 
     </RelativeLayout>
 

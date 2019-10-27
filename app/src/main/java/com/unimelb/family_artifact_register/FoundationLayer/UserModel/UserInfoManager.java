@@ -8,11 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.unimelb.family_artifact_register.FoundationLayer.Util.DBConstant;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.DefaultListeners;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
-import com.unimelb.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
-import com.unimelb.family_artifact_register.Util.Callback;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +17,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.UploadTask;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.DBConstant;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.DefaultListeners;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.FirebaseStorageHelper;
+import com.unimelb.family_artifact_register.FoundationLayer.Util.LiveDataListDispatchHelper;
+import com.unimelb.family_artifact_register.Util.Callback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,40 +42,26 @@ public class UserInfoManager {
 
     private static final String TAG = UserInfoManager.class.getSimpleName();
     private static UserInfoManager instance;
-
-    public static UserInfoManager getInstance() {
-        if (instance == null) {
-            instance = new UserInfoManager();
-        }
-        return instance;
-    }
-
     /**
      * A map storing all retrieved user information
      */
     private Map<String, MutableLiveData<UserInfo>> mUserInfoMap = new HashMap<>();
-
     /**
      * Active listeners used (this should be cleared if not used)
      */
     private Map<String, Pair<ListenerRegistration, Integer>> mListenerRegistrationMap;
-
-
     /**
      * The particular user that's using the app
      */
     private String mCurrentUid;
-
     /**
      * The particular user that's using the app
      */
     private MutableLiveData<UserInfo> mCurrentUserInfoLiveData = new MutableLiveData<>();
-
     /**
      * The database reference used.
      */
     private CollectionReference mUserCollection;
-
 
     private UserInfoManager() {
         setupOrUpdateUserDatabase(FirebaseAuth.getInstance());
@@ -85,13 +71,20 @@ public class UserInfoManager {
         );
     }
 
+    public static UserInfoManager getInstance() {
+        if (instance == null) {
+            instance = new UserInfoManager();
+        }
+        return instance;
+    }
+
     private void setupOrUpdateUserDatabase(FirebaseAuth firebaseAuth) {
         // Set up the user collection for firebase
         mUserCollection = FirebaseFirestore.getInstance()
                 .collection(DBConstant.USER_INFO);
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user!=null) {
+        if (user != null) {
             Log.i(TAG, "firebase auth: " + user.getUid());
             // Already logged in
             mCurrentUid = user.getUid();
@@ -111,7 +104,7 @@ public class UserInfoManager {
                             mCurrentUserInfoLiveData.setValue(documentSnapshot
                                     .toObject(UserInfo.class));
                         } else {
-                            Log.w(TAG,"Listen currentUid failed: current user does not exist: "
+                            Log.w(TAG, "Listen currentUid failed: current user does not exist: "
                                     + mCurrentUid);
                         }
                     });
@@ -120,7 +113,7 @@ public class UserInfoManager {
         } else {
             Log.i(TAG, "firebase auth: no user");
             // Cleanup the listeners
-            for (Pair<ListenerRegistration, Integer> listenerRegistrationIntegerPair:
+            for (Pair<ListenerRegistration, Integer> listenerRegistrationIntegerPair :
                     mListenerRegistrationMap.values()) {
                 // clean the listener
                 listenerRegistrationIntegerPair.first.remove();
@@ -132,6 +125,7 @@ public class UserInfoManager {
 
     /**
      * Get Uid of current user
+     *
      * @return uid of current user
      */
     public String getCurrentUid() {
@@ -140,6 +134,7 @@ public class UserInfoManager {
 
     /**
      * Get current user
+     *
      * @return current user, UserInfo object
      */
     public UserInfo getCurrentUserInfo() {
@@ -166,9 +161,9 @@ public class UserInfoManager {
 
     /**
      * Get Detailed user information of some users
+     *
      * @param uid one user id
      * @return A LiveData object containing user information, that will be updated in real time!
-     *
      */
     public LiveData<UserInfo> listenUserInfo(String uid) {
         if (uid.equals(mCurrentUid)) {
@@ -184,43 +179,44 @@ public class UserInfoManager {
             ListenerRegistration snapshotListener = mUserCollection
                     .document(uid)
                     .addSnapshotListener((documentSnapshot, e) -> {
-                // Catch and log the error
-                if (e != null) {
-                    Log.w(TAG, "listen:error", e);
-                    return;
-                }
-                // Successfully fetched data
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    mUserInfoMap.get(uid).setValue(documentSnapshot.toObject(UserInfo.class));
-                } else {
-                    Log.d(TAG,"get failed: user not exists " + uid);
-                }
-            });
+                        // Catch and log the error
+                        if (e != null) {
+                            Log.w(TAG, "listen:error", e);
+                            return;
+                        }
+                        // Successfully fetched data
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            mUserInfoMap.get(uid).setValue(documentSnapshot.toObject(UserInfo.class));
+                        } else {
+                            Log.d(TAG, "get failed: user not exists " + uid);
+                        }
+                    });
             // Register the listener with the number of users
             if (!mListenerRegistrationMap.containsKey(uid)) {
                 mListenerRegistrationMap.put(uid, new Pair<>(snapshotListener, 1));
             } else {
                 mListenerRegistrationMap.put(uid,
                         new Pair<>(mListenerRegistrationMap.get(uid).first,
-                                mListenerRegistrationMap.get(uid).second+1));
+                                mListenerRegistrationMap.get(uid).second + 1));
             }
         } else {
             mListenerRegistrationMap.put(uid,
                     new Pair<>(mListenerRegistrationMap.get(uid).first,
-                            mListenerRegistrationMap.get(uid).second+1));
+                            mListenerRegistrationMap.get(uid).second + 1));
         }
         return mUserInfoMap.get(uid);
     }
 
     /**
      * Get Detailed user information of some users
-     * @param uids list of user id (duplication will be removed)
-     * @return A List LiveData object containing user information, that will be updated in real time!
      *
+     * @param uids list of user id (duplication will be removed)
+     * @return A List LiveData object containing user information, that will be updated in real
+     * time!
      */
     public List<LiveData<UserInfo>> listenUserInfo(List<String> uids) {
         ArrayList<LiveData<UserInfo>> liveDataList = new ArrayList<>();
-        for (String uid: new HashSet<>(uids)) {
+        for (String uid : new HashSet<>(uids)) {
             liveDataList.add(listenUserInfo(uid));
         }
         return liveDataList;
@@ -228,10 +224,11 @@ public class UserInfoManager {
 
     /**
      * Preload the Cache with a list of user id and their info
+     *
      * @param uids The list of uid the user is loading
      */
     public void warmCache(ArrayList<String> uids) {
-        for (String uid: uids) {
+        for (String uid : uids) {
             mUserCollection.document(uid).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
@@ -242,7 +239,7 @@ public class UserInfoManager {
                         }
                         mUserInfoMap.get(uid).setValue(documentSnapshot.toObject(UserInfo.class));
                     } else {
-                        Log.d(TAG,"get failed: user not exists " + uid);
+                        Log.d(TAG, "get failed: user not exists " + uid);
                     }
                 } else {
                     Log.d(TAG, task.getException() + " get failed with ");
@@ -258,7 +255,7 @@ public class UserInfoManager {
         if (mListenerRegistrationMap.containsKey(uid)) {
             mListenerRegistrationMap.put(uid,
                     new Pair<>(mListenerRegistrationMap.get(uid).first,
-                            mListenerRegistrationMap.get(uid).second-1));
+                            mListenerRegistrationMap.get(uid).second - 1));
             if (mListenerRegistrationMap.get(uid).second == 0) {
                 mListenerRegistrationMap.get(uid).first.remove();
                 mListenerRegistrationMap.remove(uid);
@@ -270,17 +267,19 @@ public class UserInfoManager {
 
     /**
      * Store the given userInfo into database without callback
+     *
      * @param userInfo The userInfo to store
      */
     public void storeUserInfo(UserInfo userInfo) {
         String uid = userInfo.getUid();
-        storeUserInfo(userInfo, 0,null);
+        storeUserInfo(userInfo, 0, null);
     }
 
     /**
      * Store the given userInfo into database with callback
-     * @param userInfo The userInfo to store
-     * @param requestCode specifier for the db request
+     *
+     * @param userInfo         The userInfo to store
+     * @param requestCode      specifier for the db request
      * @param userInfoCallback function to invoke after completion
      */
     // FIXME very very bad database practice!
@@ -319,7 +318,6 @@ public class UserInfoManager {
      *
      * @param userInfo1 The first user to connect
      * @param userInfo2 The second user to connect
-     *
      */
     private void addFriend(UserInfo userInfo1, UserInfo userInfo2) {
         // Make them friend
@@ -343,7 +341,7 @@ public class UserInfoManager {
             mUserCollection
                     .document(userInfo2.getUid())
                     .update(UserInfo.FRIEND_UIDS,
-                    userInfo2.getFriendUids()).addOnSuccessListener(aVoid ->
+                            userInfo2.getFriendUids()).addOnSuccessListener(aVoid ->
                     Log.d(TAG, "User friend list"
                             + userInfo2.toString()
                             + "successfully written!"))
@@ -357,7 +355,6 @@ public class UserInfoManager {
      * Send an invitation from Current User to the other User
      *
      * @param otherUid The other userId to send invitation to
-     *
      */
     public void sendFriendInvitation(String otherUid) {
         String currentUid = getCurrentUid();
@@ -393,7 +390,6 @@ public class UserInfoManager {
      * Accept an invitation from Current User to the other User
      *
      * @param otherUid The other userId to send invitation to
-     *
      */
     public void acceptFriendInvitation(String otherUid) {
         UserInfo currentUserInfo = getCurrentUserInfo();
@@ -429,6 +425,7 @@ public class UserInfoManager {
 
     /**
      * Search user by a specific query word.
+     *
      * @param query displayName / email / phone number / uid to search for
      * @return List of LiveData of UserInfo that matched the query
      */
@@ -436,7 +433,7 @@ public class UserInfoManager {
         MutableLiveData<List<UserInfo>> mutableLiveData = new MutableLiveData<>();
         LiveDataListDispatchHelper<UserInfo> liveDataListDispatchHelper =
                 new LiveDataListDispatchHelper<>(mutableLiveData);
-        for (String field: new String[]{UserInfo.DISPLAY_NAME, UserInfo.EMAIL,
+        for (String field : new String[]{UserInfo.DISPLAY_NAME, UserInfo.EMAIL,
                 UserInfo.PHONE_NUMBER, UserInfo.UID}) {
             // increase the counter
             liveDataListDispatchHelper.addWaitingTask();
@@ -446,13 +443,13 @@ public class UserInfoManager {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
                             if (querySnapshot == null || querySnapshot.isEmpty()) {
-                                Log.i(TAG, "failed to find (" + field +") " +
+                                Log.i(TAG, "failed to find (" + field + ") " +
                                         "equal to (" + query + ")");
                             } else {
-                                for (DocumentSnapshot documentSnapshot: querySnapshot.getDocuments()) {
+                                for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
                                     UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                                    Log.i(TAG, "found (" + field +") equal to (" + query + ")"
-                                            + "user: "+ userInfo.toString());
+                                    Log.i(TAG, "found (" + field + ") equal to (" + query + ")"
+                                            + "user: " + userInfo.toString());
 
                                     // Add info to the dispatcher
                                     liveDataListDispatchHelper.addResult(userInfo);
@@ -472,6 +469,7 @@ public class UserInfoManager {
 
     /**
      * Change user name using this function
+     *
      * @param displayName The new display name to be changed to
      */
     public void setDisplayName(String displayName) {
@@ -487,7 +485,7 @@ public class UserInfoManager {
             mUserCollection
                     .document(mCurrentUid)
                     .update(UserInfo.DISPLAY_NAME,
-                    displayName).addOnSuccessListener(aVoid ->
+                            displayName).addOnSuccessListener(aVoid ->
                     Log.d(TAG, "User information"
                             + currentUserInfo.toString()
                             + "successfully written!"))
@@ -535,6 +533,7 @@ public class UserInfoManager {
 
     /**
      * Set the Photo Uri for current user
+     *
      * @param photoUri The photo uri to set with
      */
     public void setPhoto(Uri photoUri) {
@@ -548,6 +547,7 @@ public class UserInfoManager {
 
     /**
      * Add an ArtifactId to current user and push to database
+     *
      * @param artifactId String ArtifactId to add
      */
     public void addArtifactItemId(String artifactId) {
@@ -565,6 +565,7 @@ public class UserInfoManager {
 
     /**
      * Add an ArtifactId to current user and push to database
+     *
      * @param artifactId String ArtifactId to add
      */
     public void addArtifactTimelineId(String artifactId) {

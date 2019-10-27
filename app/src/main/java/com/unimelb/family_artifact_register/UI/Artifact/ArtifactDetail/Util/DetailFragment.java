@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailFragmentPresenter;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.ArtifactPresenter.ArtifactDetailPresenter.DetailViewModelFactory;
@@ -32,20 +33,16 @@ public class DetailFragment extends Fragment implements IFragment {
     public static final String TAG = DetailFragment.class.getSimpleName();
 
     // *********************************** recycler view *****************************************
+    RecyclerView mRecyclerView;
+    String Pid;
+
+    // *******************************************************************************************
     /**
      * recycler view adapter
      */
     private DetailImageAdapter detailImageAdapter;
-
-    RecyclerView mRecyclerView;
-
-    // *******************************************************************************************
-
     private DetailFragmentPresenter dfp;
-
     private DetailViewModel viewModel;
-
-    String Pid;
 
     public DetailFragment(String Pid) {
         // Required empty public constructor
@@ -90,7 +87,8 @@ public class DetailFragment extends Fragment implements IFragment {
 //    public static DetailFragment newInstance() { return new DetailFragment(); }
 
     // ********************************** implement presenter ************************************
-
     @Override
-    public String getFragmentTag() { return TAG; }
+    public String getFragmentTag() {
+        return TAG;
+    }
 }

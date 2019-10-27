@@ -21,9 +21,8 @@ import java.util.List;
 import static com.unimelb.family_artifact_register.UI.Util.MediaViewHelper.setImageOnClickOpenDialogListener;
 
 /**
- * a recycler view adapter for displaying multiple images with customized image size;
- * required by android recycler view
- * pure fabricate with image width and length setter to reuse
+ * a recycler view adapter for displaying multiple images with customized image size; required by
+ * android recycler view pure fabricate with image width and length setter to reuse
  */
 public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecyclerViewHolder> {
     /**
@@ -47,8 +46,8 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
     private Context context;
 
     /**
-     * @param height image height
-     * @param width image width
+     * @param height  image height
+     * @param width   image width
      * @param context contect object
      */
     public ImagesRecyclerViewAdapter(int height, int width, Context context) {
@@ -61,10 +60,10 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
     @NonNull
     @Override
     public ImagesRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = (View) LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.item_my_artifact_image,
-                                                    parent,
-                                                    false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_my_artifact_image,
+                        parent,
+                        false);
         return new ImagesRecyclerViewHolder(view);
     }
 
@@ -85,7 +84,9 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
     }
 
     @Override
-    public int getItemCount() { return images.size(); }
+    public int getItemCount() {
+        return images.size();
+    }
 
     /**
      * @param image new image
@@ -98,10 +99,14 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
     /**
      * @return get image item width
      */
-    public int getImageWidth() { return imageWidth; }
+    public int getImageWidth() {
+        return imageWidth;
+    }
 
     /**
      * @return get image item height
      */
-    public int getImageHeight() { return imageHeight; }
+    public int getImageHeight() {
+        return imageHeight;
+    }
 }

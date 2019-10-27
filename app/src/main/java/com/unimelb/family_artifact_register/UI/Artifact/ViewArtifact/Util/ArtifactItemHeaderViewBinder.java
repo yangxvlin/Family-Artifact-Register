@@ -40,7 +40,7 @@ public class ArtifactItemHeaderViewBinder extends ViewBinder<StickyArtifactItemH
 
         public ViewHolder(View rootView) {
             super(rootView);
-            this.tvPrefix = (TextView) rootView.findViewById(R.id.tv_prefix);
+            this.tvPrefix = rootView.findViewById(R.id.tv_prefix);
         }
     }
 }

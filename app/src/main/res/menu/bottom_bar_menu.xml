@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/item_hub"
-        android:title="@string/artifact_hub"
+        android:icon="@drawable/bottom_bar_discovery_icon"
 
-        android:icon="@drawable/bottom_bar_discovery_icon"/>
+        android:title="@string/artifact_hub" />
     <!--    app:showAsAction="withText"-->
 
     <item
         android:id="@+id/item_contacts"
-        android:title="@string/bottom_bar_contacts"
+        android:icon="@drawable/bottom_bar_contact_icon"
 
-        android:icon="@drawable/bottom_bar_contact_icon"/>
+        android:title="@string/bottom_bar_contacts" />
 
     <item
         android:id="@+id/item_map"
-        android:title="@string/artifact_map"
+        android:icon="@drawable/bottom_bar_map_icon"
 
-        android:icon="@drawable/bottom_bar_map_icon"/>
+        android:title="@string/artifact_map" />
 
     <item
         android:id="@+id/item_event"
-        android:title="@string/artifact_event"
+        android:icon="@drawable/ic_event_available_white"
 
-        android:icon="@drawable/ic_event_available_white"/>
+        android:title="@string/artifact_event" />
 
     <item
         android:id="@+id/item_me"
-        android:title="@string/bottom_bar_profile"
+        android:icon="@drawable/bottom_bar_me_icon"
 
-        android:icon="@drawable/bottom_bar_me_icon"/>
+        android:title="@string/bottom_bar_profile" />
 
 </menu>

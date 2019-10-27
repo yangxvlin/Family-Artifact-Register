@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.R;
 import com.unimelb.family_artifact_register.UI.Artifact.ArtifactMap.SearchLocationMap.MapSearchDisplayFragment;
-import com.unimelb.family_artifact_register.FoundationLayer.MapModel.MapLocation;
 import com.unimelb.family_artifact_register.UI.Artifact.NewArtifact.Util.ActivityFragmentListener.HappenedLocationListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 import es.dmoral.toasty.Toasty;
 
@@ -38,6 +38,10 @@ public class NewArtifactHappenedLocationFragment extends Fragment implements IFr
      * required empty constructor
      */
     public NewArtifactHappenedLocationFragment() {
+    }
+
+    public static NewArtifactHappenedLocationFragment newInstance() {
+        return new NewArtifactHappenedLocationFragment();
     }
 
     @Override
@@ -63,7 +67,7 @@ public class NewArtifactHappenedLocationFragment extends Fragment implements IFr
             MapLocation selectedLocation = mapSearchDisplayFragment.getSelectedLocation();
             if (selectedLocation != null) {
                 // store location in NewArtifactActivity
-                ((HappenedLocationListener)getActivity()).setHappenedLocation(selectedLocation);
+                ((HappenedLocationListener) getActivity()).setHappenedLocation(selectedLocation);
 
                 // to next fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -76,6 +80,4 @@ public class NewArtifactHappenedLocationFragment extends Fragment implements IFr
             }
         });
     }
-
-    public static NewArtifactHappenedLocationFragment newInstance() { return new NewArtifactHappenedLocationFragment(); }
 }

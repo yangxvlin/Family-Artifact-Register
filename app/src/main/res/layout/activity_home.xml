@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/drawer_layout">
+    android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/app_bar">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="@string/bottom_bar_chat"
                 app:menu="@menu/toolbar_menu"
-                app:navigationIcon="@drawable/nav_icon"/>
+                app:navigationIcon="@drawable/nav_icon"
+                app:title="@string/bottom_bar_chat" />
 
             <!--        another way to do, works when I tested it, decide which one to use later -->
 
@@ -40,9 +38,9 @@
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@menu/bottom_bar_menu"
             android:layout_gravity="bottom"
-            app:labelVisibilityMode="labeled"/>
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_bar_menu" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -51,8 +49,8 @@
         android:id="@+id/nav_drawer"
         android:layout_width="350dp"
         android:layout_height="match_parent"
-        app:menu="@menu/draw_menu"
+        android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
-        android:layout_gravity="start"/>
+        app:menu="@menu/draw_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

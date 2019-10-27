@@ -20,11 +20,11 @@ public class EventManager {
      */
     private static final EventManager ourInstance = new EventManager();
 
-    public static EventManager getInstance() {
-        return ourInstance;
+    private EventManager() {
     }
 
-    private EventManager() {
+    public static EventManager getInstance() {
+        return ourInstance;
     }
 
     public List<Event> getEventByUid(String uid) {
@@ -34,7 +34,7 @@ public class EventManager {
         events.add(Event.newInstance("0", MyApplication.getContext().getString(R.string.melbourne_museum_address),
                 R.drawable.melbourne_museum, null, MyApplication.getContext().getString(R.string.melbourne_museum),
                 MyApplication.getContext().getString(R.string.melbourne_museum_description)));
-        events.add(Event.newInstance("1", MyApplication.getContext().getString(R.string.seven_seeds_address), 
+        events.add(Event.newInstance("1", MyApplication.getContext().getString(R.string.seven_seeds_address),
                 R.drawable.seven_seeds, null, MyApplication.getContext().getString(R.string.seven_seeds_name),
                 MyApplication.getContext().getString(R.string.seven_seeds_description)));
         events.add(Event.newInstance("2", MyApplication.getContext().getString(R.string.uyuni_address),

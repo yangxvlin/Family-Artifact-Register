@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="15dp"
-    >
+    android:layout_marginHorizontal="15dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="fill_parent"
@@ -32,52 +30,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fragment_new_artifact_media_floating_button_camera"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                android:src="@drawable/camera_button"
                 android:layout_margin="16dp"
+                android:src="@drawable/camera_button"
                 app:backgroundTint="@android:color/white"
-                app:tint="@color/primaryColor"
                 app:rippleColor="@color/primaryColor"
-                />
+                app:tint="@color/primaryColor" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fragment_new_artifact_media_floating_button_video"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                android:src="@drawable/video_button"
                 android:layout_margin="16dp"
+                android:src="@drawable/video_button"
                 app:backgroundTint="@android:color/white"
-                app:tint="@color/primaryColor"
                 app:rippleColor="@color/primaryColor"
-                />
+                app:tint="@color/primaryColor" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fragment_new_artifact_media_floating_button_album"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                android:src="@drawable/image_button"
                 android:layout_margin="16dp"
+                android:src="@drawable/image_button"
                 app:backgroundTint="@android:color/white"
-                app:tint="@color/primaryColor"
                 app:rippleColor="@color/primaryColor"
-                />
+                app:tint="@color/primaryColor" />
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/fragment_new_artifact_media_upload_location"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

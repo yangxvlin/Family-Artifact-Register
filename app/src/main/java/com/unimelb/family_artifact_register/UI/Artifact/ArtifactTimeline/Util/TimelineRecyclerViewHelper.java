@@ -2,6 +2,7 @@ package com.unimelb.family_artifact_register.UI.Artifact.ArtifactTimeline.Util;
 
 import android.content.Context;
 import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ public class TimelineRecyclerViewHelper {
 
     /**
      * get a recyclerView that is fully setup
+     *
      * @param wrapper data to be put into the recyclerView
      * @param context the context
      * @return a fully setup recyclerView

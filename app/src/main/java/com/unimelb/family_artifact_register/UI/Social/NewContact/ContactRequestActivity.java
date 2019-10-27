@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactRequestViewModel;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.ContactRequestViewModelFactory;
 import com.unimelb.family_artifact_register.PresentationLayer.SocialPresenter.Request;
 import com.unimelb.family_artifact_register.R;
-import com.google.android.material.button.MaterialButton;
 import com.unimelb.family_artifact_register.UI.Social.Contact.ContactDetailActivity;
 
 import java.util.Iterator;
@@ -83,7 +83,7 @@ public class ContactRequestActivity extends AppCompatActivity {
     // setup recyclerView
     private void setupRecyclerView() {
         // get the view
-        recyclerView = (RecyclerView) findViewById(R.id.friend_request_recycler_view);
+        recyclerView = findViewById(R.id.friend_request_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         // set layout manager for the view
@@ -103,6 +103,80 @@ public class ContactRequestActivity extends AppCompatActivity {
      * This is the Adapter class for recyclerView in {@link ContactRequestActivity}
      */
     public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
+
+        // data to be used
+        private Set<Request> requests;
+        // an iterator for iterating data list
+        private Iterator<Request> dataSetIterator;
+
+        @NonNull
+        @Override
+        public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_request_list_item, parent, false);
+            return new RequestViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
+            if (requests != null) {
+                Request request;
+                if (dataSetIterator.hasNext()) {
+                    request = dataSetIterator.next();
+                    holder.itemID = request.getUser().getUid();
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent;
+                            if (holder.itemID.equals(viewModel.getCurrentUid()) ||
+                                    viewModel.getCurrentUser().getFriendUids().containsKey(holder.itemID)) {
+                                intent = new Intent(view.getContext(), ContactDetailActivity.class);
+                            } else {
+                                intent = new Intent(view.getContext(), NewContactDetailActivity.class);
+                            }
+                            intent.putExtra("selectedUid", holder.itemID);
+                            startActivity(intent);
+                        }
+                    });
+                    String s = request.getUser().getDisplayName();
+                    if (s != null && s.length() > 0) {
+                        holder.username.setText(s);
+                    }
+                    s = request.getUser().getPhotoUrl();
+                    if (s != null) {
+                        Log.d(TAG, "url set to image view: " + s);
+                        holder.avatar.setImageURI(Uri.parse(s));
+                    }
+                    holder.accept.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.d(TAG, "accept button has been clicked");
+                            viewModel.accept(holder.itemID);
+                            holder.accept.setEnabled(false);
+                            holder.accept.setBackgroundColor(getResources().getColor(R.color.wechat_grey));
+                        }
+                    });
+                }
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            if (requests != null) {
+                return requests.size();
+            }
+            return 0;
+        }
+
+        /**
+         * set new data for adapter
+         *
+         * @param newData the new data to be set
+         */
+        public void setData(Set<Request> newData) {
+            requests = newData;
+            dataSetIterator = requests.iterator();
+            notifyDataSetChanged();
+        }
 
         /**
          * This is the ViewHolder class for recyclerView in {@link ContactRequestActivity}
@@ -131,6 +205,7 @@ public class ContactRequestActivity extends AppCompatActivity {
 
             /**
              * public constructor for instantiating a new {@link RequestViewHolder}
+             *
              * @param itemView the inflated view for the item
              */
             public RequestViewHolder(@NonNull View itemView) {
@@ -139,81 +214,6 @@ public class ContactRequestActivity extends AppCompatActivity {
                 username = itemView.findViewById(R.id.request_username);
                 accept = itemView.findViewById(R.id.request_accept_button);
             }
-        }
-
-        // data to be used
-        private Set<Request> requests;
-
-        // an iterator for iterating data list
-        private Iterator<Request> dataSetIterator;
-
-        @NonNull
-        @Override
-        public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_request_list_item, parent, false);
-            return new RequestViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
-            if(requests != null) {
-                Request request;
-                if(dataSetIterator.hasNext()) {
-                    request = dataSetIterator.next();
-                    holder.itemID = request.getUser().getUid();
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent;
-                            if(holder.itemID.equals(viewModel.getCurrentUid()) ||
-                                    viewModel.getCurrentUser().getFriendUids().containsKey(holder.itemID)) {
-                                intent = new Intent(view.getContext(), ContactDetailActivity.class);
-                            }
-                            else {
-                                intent = new Intent(view.getContext(), NewContactDetailActivity.class);
-                            }
-                            intent.putExtra("selectedUid", holder.itemID);
-                            startActivity(intent);
-                        }
-                    });
-                    String s = request.getUser().getDisplayName();
-                    if(s != null && s.length() > 0) {
-                        holder.username.setText(s);
-                    }
-                    s = request.getUser().getPhotoUrl();
-                    if(s != null) {
-                        Log.d(TAG, "url set to image view: " + s);
-                        holder.avatar.setImageURI(Uri.parse(s));
-                    }
-                    holder.accept.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Log.d(TAG, "accept button has been clicked");
-                            viewModel.accept(holder.itemID);
-                            holder.accept.setEnabled(false);
-                            holder.accept.setBackgroundColor(getResources().getColor(R.color.wechat_grey));
-                        }
-                    });
-                }
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            if(requests != null) {
-                return requests.size();
-            }
-            return 0;
-        }
-
-        /**
-         * set new data for adapter
-         * @param newData the new data to be set
-         */
-        public void setData(Set<Request> newData) {
-            requests = newData;
-            dataSetIterator = requests.iterator();
-            notifyDataSetChanged();
         }
     }
 }

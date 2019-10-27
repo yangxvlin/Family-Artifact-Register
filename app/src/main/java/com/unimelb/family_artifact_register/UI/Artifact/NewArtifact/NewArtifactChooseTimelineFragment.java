@@ -93,6 +93,10 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
     public NewArtifactChooseTimelineFragment() {
     }
 
+    public static NewArtifactChooseTimelineFragment newInstance() {
+        return new NewArtifactChooseTimelineFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -117,15 +121,15 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
         existingTimelineSpinner = view.findViewById(R.id.existing_timeline_spinner);
 
-        timelines = ((NewTimelineListener)this.getActivity()).getArtifactTimelines();
+        timelines = ((NewTimelineListener) this.getActivity()).getArtifactTimelines();
         timelineTitles = timelines.stream()
-                                    .map(ArtifactTimeline::getTitle)
-                                    .collect(Collectors.toCollection(ArrayList::new));
+                .map(ArtifactTimeline::getTitle)
+                .collect(Collectors.toCollection(ArrayList::new));
 
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-            R.layout.timeline_selection_spinner_item, timelineTitles);
+                R.layout.timeline_selection_spinner_item, timelineTitles);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
@@ -145,9 +149,9 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
                         .show();
             } else {
                 // pass data to activity
-                ((NewTimelineListener)getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, newTimelineTitle);
+                ((NewTimelineListener) getActivity()).setTimeline(NEW_ARTIFACT_TIMELINE, newTimelineTitle);
                 // call NewArtifactActivity method to start upload
-                ((StartUploadListener)getActivity()).uploadNewArtifact();
+                ((StartUploadListener) getActivity()).uploadNewArtifact();
                 // finish the activity
                 getActivity().finish();
             }
@@ -158,7 +162,7 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
             String selectedTimelineTitle = existingTimelineSpinner.getSelectedItem().toString();
             ArtifactTimeline selected = null;
 
-            for (ArtifactTimeline t: timelines) {
+            for (ArtifactTimeline t : timelines) {
                 if (t.getTitle().equals(selectedTimelineTitle)) {
                     selected = t;
                     break;
@@ -170,11 +174,11 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
             }
 
             // pass selected timeline to activity
-            ((NewTimelineListener)getActivity()).setTimeline(EXISTING_ARTIFACT_TIMELINE, selectedTimelineTitle);
-            ((NewTimelineListener)getActivity()).setSelectedTimeline(selected);
+            ((NewTimelineListener) getActivity()).setTimeline(EXISTING_ARTIFACT_TIMELINE, selectedTimelineTitle);
+            ((NewTimelineListener) getActivity()).setSelectedTimeline(selected);
             // Toast.makeText(getContext(), selectedTimelineTitle, Toast.LENGTH_SHORT).show();
             // call NewArtifactActivity method to start upload
-            ((StartUploadListener)getActivity()).uploadNewArtifact();
+            ((StartUploadListener) getActivity()).uploadNewArtifact();
             // finish the activity
             getActivity().finish();
         });
@@ -183,8 +187,6 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
         // one method (one radio button is selected)
         disableVisibility();
     }
-
-    public static NewArtifactChooseTimelineFragment newInstance() { return new NewArtifactChooseTimelineFragment(); }
 
     /**
      * disable all required UI component
@@ -198,12 +200,13 @@ public class NewArtifactChooseTimelineFragment extends Fragment implements IFrag
 
     /**
      * update UI based on user's choice of timeline strategy
+     *
      * @param view view
      */
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.new_artifact_new_timeline_radio_button:
                 if (checked) {
                     newTimelineConfirmButton.setVisibility(View.VISIBLE);

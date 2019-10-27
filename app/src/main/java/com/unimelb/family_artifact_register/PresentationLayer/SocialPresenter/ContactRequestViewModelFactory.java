@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 /**
  * this class is only used to provide additional param to instantiate view model object
  */
-public class ContactRequestViewModelFactory implements ViewModelProvider.Factory{
+public class ContactRequestViewModelFactory implements ViewModelProvider.Factory {
 
     private Application application;
 

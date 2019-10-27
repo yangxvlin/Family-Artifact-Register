@@ -12,17 +12,19 @@ import com.unimelb.family_artifact_register.R;
 import java.util.ArrayList;
 
 /**
- * This was the original Adapter class for the recyclerView in
- * {@link com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity}.
- * Since {@link com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity} has been
- * deprecated, this class is now deprecated as well.
+ * This was the original Adapter class for the recyclerView in {@link
+ * com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity}. Since {@link
+ * com.unimelb.family_artifact_register.UI.Social.Friend.FriendActivity} has been deprecated, this
+ * class is now deprecated as well.
  */
 @Deprecated
 public class FriendListAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> dataSet;
 
-    public FriendListAdapter(ArrayList<String> dataSet) { this.dataSet = dataSet; }
+    public FriendListAdapter(ArrayList<String> dataSet) {
+        this.dataSet = dataSet;
+    }
 
     @NonNull
     @Override

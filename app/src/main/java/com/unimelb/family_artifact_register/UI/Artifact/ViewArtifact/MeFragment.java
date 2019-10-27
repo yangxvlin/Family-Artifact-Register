@@ -11,16 +11,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.unimelb.family_artifact_register.Util.IFragment;
-import com.unimelb.family_artifact_register.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 /**
  * @author XuLin Yang 904904,
  * @time 2019-9-21 14:15:48
- * @description fragment for user to manage own artifacts with two tabbed fragments: all items and all timelines
+ * @description fragment for user to manage own artifacts with two tabbed fragments: all items and
+ * all timelines
  */
 public class MeFragment extends Fragment implements IFragment {
     /**
@@ -32,6 +33,13 @@ public class MeFragment extends Fragment implements IFragment {
      * Required empty public constructor
      */
     public MeFragment() {
+    }
+
+    /**
+     * @return created me fragment
+     */
+    public static MeFragment newInstance() {
+        return new MeFragment();
     }
 
     @Override
@@ -52,15 +60,10 @@ public class MeFragment extends Fragment implements IFragment {
                 // .add(getString(R.string.me_my_title), MyEventFragment.class)
                 .create());
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_me_view_pager);
+        ViewPager viewPager = view.findViewById(R.id.fragment_me_view_pager);
         viewPager.setAdapter(adapter);
 
-        SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.fragment_me_view_pager_tab);
+        SmartTabLayout viewPagerTab = view.findViewById(R.id.fragment_me_view_pager_tab);
         viewPagerTab.setViewPager(viewPager);
     }
-
-    /**
-     * @return created me fragment
-     */
-    public static MeFragment newInstance() { return new MeFragment(); }
 }

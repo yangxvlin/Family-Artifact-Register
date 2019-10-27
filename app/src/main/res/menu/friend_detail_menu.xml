@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/add_to_black_list_friend"
         android:title="@string/friend_detail_menu_black_list"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/delete_friend"
         android:title="@string/friend_detail_menu_delete"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>

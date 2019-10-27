@@ -9,7 +9,7 @@ public class NewArtifactActivityPresenter {
 
     private View view;
 
-    public interface View{
+    public interface View {
 
     }
 }

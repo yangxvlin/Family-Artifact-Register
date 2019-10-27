@@ -33,15 +33,12 @@ import com.unimelb.family_artifact_register.R;
 
 import java.util.HashMap;
 
-<<<<<<< HEAD
 /**
  * @author Haichao Song 854035,
  * @time 2019-9-20 23:22:48
- * @description activity for user to post new artifact and upload to backend
- * Deprecate and integrate with new artifact activity now.
+ * @description activity for user to post new artifact and upload to backend Deprecate and integrate
+ * with new artifact activity now.
  */
-=======
->>>>>>> 12a0d8a99d0a528d8d45489bdec557da828300a3
 @Deprecated
 public class PostActivity extends AppCompatActivity {
 
@@ -85,7 +82,7 @@ public class PostActivity extends AppCompatActivity {
         });
 
         CropImage.activity()
-                .setAspectRatio(1,1)
+                .setAspectRatio(1, 1)
                 .start(PostActivity.this);
     }
 
@@ -100,9 +97,9 @@ public class PostActivity extends AppCompatActivity {
         progressDialog.setMessage("POSTING");
         progressDialog.show();
 
-        if(imageUri != null) {
+        if (imageUri != null) {
             final StorageReference filereference = storageReference.child(System.currentTimeMillis()
-            + "." + getFileExtension(imageUri));
+                    + "." + getFileExtension(imageUri));
 
             uploadTask = filereference.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation() {
@@ -146,7 +143,7 @@ public class PostActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(PostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -154,7 +151,6 @@ public class PostActivity extends AppCompatActivity {
             Toast.makeText(PostActivity.this, "No Image Selected!", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     @Override

@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unimelb.family_artifact_register.FoundationLayer.EventModel.EventListener;
-import com.unimelb.family_artifact_register.UI.Event.Util.EventAdapter;
-import com.unimelb.family_artifact_register.Util.IFragment;
 import com.unimelb.family_artifact_register.PresentationLayer.EventPreseneter.EventViewModel;
 import com.unimelb.family_artifact_register.R;
+import com.unimelb.family_artifact_register.UI.Event.Util.EventAdapter;
+import com.unimelb.family_artifact_register.Util.IFragment;
 
 /**
  * UI fragment to display user attending events
@@ -43,6 +43,13 @@ public class MyEventFragment extends Fragment implements IFragment, EventListene
     public MyEventFragment() {
     }
 
+    /**
+     * @return created me fragment
+     */
+    public static MyEventFragment newInstance() {
+        return new MyEventFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -63,11 +70,6 @@ public class MyEventFragment extends Fragment implements IFragment, EventListene
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(eventAdapter);
     }
-
-    /**
-     * @return created me fragment
-     */
-    public static MyEventFragment newInstance() { return new MyEventFragment(); }
 
     @Override
     public void notifyEventsChange() {

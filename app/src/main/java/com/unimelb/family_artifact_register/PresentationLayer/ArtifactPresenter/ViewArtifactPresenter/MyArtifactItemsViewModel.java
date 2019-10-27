@@ -46,7 +46,7 @@ public class MyArtifactItemsViewModel extends AndroidViewModel {
         artifactList.observeForever(new Observer<List<ArtifactItem>>() {
             @Override
             public void onChanged(List<ArtifactItem> artifactItems) {
-                for(ArtifactItem item: artifactItems) {
+                for (ArtifactItem item : artifactItems) {
                     List<String> mediaDataRemoteUrls = item.getMediaDataUrls();
                     ArtifactItemWrapper wrapper = new ArtifactItemWrapper(item);
 
@@ -58,8 +58,8 @@ public class MyArtifactItemsViewModel extends AndroidViewModel {
                             // load data to wrapper
                             wrapper.setLocalMediaDataUrls(
                                     uris.stream()
-                                        .map(Objects::toString)
-                                        .collect(Collectors.toList())
+                                            .map(Objects::toString)
+                                            .collect(Collectors.toList())
                             );
 
                             wrappers.add(wrapper);

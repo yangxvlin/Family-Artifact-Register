@@ -19,29 +19,17 @@ import java.util.List;
 public class DownloadBroadcastHelper extends BroadcastReceiver {
     /**
      * Add tag for logging
-     * */
+     */
     private static final String TAG = DownloadBroadcastHelper.class.getSimpleName();
 
     /**
      * singleton object
      */
     private static DownloadBroadcastHelper ourInstance = null;
-
-    /**
-     * @return singleton object
-     */
-    public static DownloadBroadcastHelper getInstance() {
-        if (ourInstance == null) {
-            ourInstance = new DownloadBroadcastHelper();
-        }
-        return ourInstance;
-    }
-
     /**
      * list of callback task
      */
     List<DownloadCallback> callbackList;
-
     /**
      * down load manager
      */
@@ -60,6 +48,16 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
                 new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
+    /**
+     * @return singleton object
+     */
+    public static DownloadBroadcastHelper getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new DownloadBroadcastHelper();
+        }
+        return ourInstance;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -68,7 +66,7 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "Download id: " + id);
             // Invoke all callbacks
-            for (DownloadCallback downloadCallback: callbackList) {
+            for (DownloadCallback downloadCallback : callbackList) {
                 downloadCallback.callback(id);
             }
         }
@@ -76,6 +74,7 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
 
     /**
      * register callback task
+     *
      * @param callback callback task
      */
     public void addCallback(DownloadCallback callback) {
@@ -84,6 +83,7 @@ public class DownloadBroadcastHelper extends BroadcastReceiver {
 
     /**
      * cancel callback task
+     *
      * @param callback callback task
      */
     public void removeCallback(DownloadCallback callback) {

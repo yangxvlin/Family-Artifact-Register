@@ -4,14 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
-import com.unimelb.family_artifact_register.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.unimelb.family_artifact_register.PresentationLayer.Util.ArtifactItemWrapper;
+import com.unimelb.family_artifact_register.R;
 
 /**
- * Deprecated because can be used to customize marker's layout bu we don't need it
- * not deleted by the open-close principle
+ * Deprecated because can be used to customize marker's layout bu we don't need it not deleted by
+ * the open-close principle
  */
 @Deprecated
 public class ArtifactItemInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {

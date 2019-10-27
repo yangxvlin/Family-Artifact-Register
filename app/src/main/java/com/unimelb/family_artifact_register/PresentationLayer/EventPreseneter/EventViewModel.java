@@ -10,30 +10,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * event view model to collect data from DB and process it to UI
- * singleton pattern to provide a global access
- * observer pattern to observer on view model
+ * event view model to collect data from DB and process it to UI singleton pattern to provide a
+ * global access observer pattern to observer on view model
  */
 public class EventViewModel {
     /**
      * class tag
      */
     public static final String TAG = EventViewModel.class.getSimpleName();
-
-    /**
-     * list of user attending events
-     */
-    private List<String> attendEvent;
-
-    /**
-     * fragments
-     */
-    private List<EventListener> fragments;
-
     /**
      * singleton view model
      */
     private static EventViewModel eventViewModel;
+    /**
+     * list of user attending events
+     */
+    private List<String> attendEvent;
+    /**
+     * fragments
+     */
+    private List<EventListener> fragments;
 
     private EventViewModel() {
         attendEvent = new ArrayList<>();

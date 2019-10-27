@@ -1,9 +1,8 @@
 package com.unimelb.family_artifact_register.UI.Util;
 
 /**
- * constant for process media
- * Deprecated because no longer use media fragment
- * not deleted by the open-close principle
+ * constant for process media Deprecated because no longer use media fragment not deleted by the
+ * open-close principle
  */
 @Deprecated
 public class MediaConstant {
