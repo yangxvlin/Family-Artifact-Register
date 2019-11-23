@@ -43,6 +43,9 @@ This in an app targets for:
 
 ```
 
+## Presentation
+- [![](./docs/presentation/thumbnail.png)](https://youtu.be/nkstuK1l3W4)
+
 ## Technologies & Tools:
 - ![](./docs/arch_design/Firebase.jpg)
 ```
